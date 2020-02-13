@@ -963,7 +963,7 @@ public class MapleItemInformationProvider {
 
     public boolean canUseCleanSlate(Equip nEquip) {
         Map<String, Integer> eqstats = this.getEquipStats(nEquip.getItemId());
-        return  nEquip.getUpgradeSlots() >  (eqstats.get("tuc"));  // issue with clean slate found thanks to Masterrulax, vicious added in the check thanks to Crypter (CrypterDEV)
+        return  nEquip.getUpgradeSlots() >=  (eqstats.get("tuc"));  // issue with clean slate found thanks to Masterrulax, vicious added in the check thanks to Crypter (CrypterDEV)
         /* YamlConfig.config.server.USE_ENHANCED_CLNSLATE  || */
     }
 
