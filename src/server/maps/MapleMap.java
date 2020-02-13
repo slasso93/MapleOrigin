@@ -3624,24 +3624,25 @@ public class MapleMap {
     }
 
     public void instanceMapRespawn() {
-        if (!allowSummons) {
-            return;
+        List<SpawnPoint> randomSpawns = getMonsterSpawn();
+        int max = Randomizer.Max(randomSpawns.size() * 8, 50), currentSpawn = 0, spawnAttempts = 0;
+        max = MapleMiniDungeonInfo.isDungeonMap(this.getId()) ? max * 2 : max;
+        if (this.getId() >= 90000 && this.getId() < 90020) {
+            max = randomSpawns.size() * 4;
         }
-        
-        final int numShouldSpawn = (short) ((monsterSpawn.size() - spawnedMonstersOnMap.get()));//Fking lol'd
-        if (numShouldSpawn > 0) {
-            List<SpawnPoint> randomSpawn = getMonsterSpawn();
-            Collections.shuffle(randomSpawn);
-            int spawned = 0;
-            for (SpawnPoint spawnPoint : randomSpawn) {
-                if(spawnPoint.shouldSpawn()) {
-                    spawnMonster(spawnPoint.getMonster());
-                    spawned++;
-                    if (spawned >= numShouldSpawn) {
-                        break;
-                    }
+        Collections.shuffle(randomSpawns)
+        while (this.spawnedMonstersOnMap.get() < max) {
+            if (randomSpawns.get(currentSpawn).shouldSpawn()) {
+                spawnMonsterWithEffect(randomSpawns.get(currentSpawn).getMonster(), 15, randomSpawns.get(currentSpawn).getPosition());
+                spawnAttempts = 0;
+            } else {
+                spawnAttempts++;
+                if (spawnAttempts >= randomSpawns.size()) {
+                    break;
                 }
             }
+            currentSpawn++;
+            currentSpawn %= randomSpawns.size();
         }
     }
     
@@ -3729,38 +3730,28 @@ public class MapleMap {
         int maxNumShouldSpawn = (int) Math.ceil(getCurrentSpawnRate(numPlayers) * monsterSpawn.size());
         return maxNumShouldSpawn - spawnedMonstersOnMap.get();
     }
-    
+
     public void respawn() {
-        if (!allowSummons) {
-            return;
-        }
-        
-        int numPlayers;
-        chrRLock.lock();
-        try {
-            numPlayers = characters.size();
-            
-            if(numPlayers == 0) {
-                return;
+        if (!getMonsterSpawn().isEmpty()) {
+            List<SpawnPoint> randomSpawns = getMonsterSpawn();
+            int max = Randomizer.Max(randomSpawns.size() * 8, 50), currentSpawn = 0, spawnAttempts = 0;
+            max = MapleMiniDungeonInfo.isDungeonMap(this.getId()) ? max * 2 : max;
+            if (this.getId() >= 90000 && this.getId() < 90020) {
+                max = randomSpawns.size() * 4;
             }
-        } finally {
-            chrRLock.unlock();
-        }
-        
-        int numShouldSpawn = getNumShouldSpawn(numPlayers);
-        if(numShouldSpawn > 0) {
-            List<SpawnPoint> randomSpawn = new ArrayList<>(getMonsterSpawn());
-            Collections.shuffle(randomSpawn);
-            short spawned = 0;
-            for(SpawnPoint spawnPoint : randomSpawn) {
-                if(spawnPoint.shouldSpawn()) {
-                    spawnMonster(spawnPoint.getMonster());
-                    spawned++;
-                    
-                    if(spawned >= numShouldSpawn) {
+            Collections.shuffle(randomSpawns);
+            while (this.spawnedMonstersOnMap.get() < max) {
+                if (randomSpawns.get(currentSpawn).shouldSpawn()) {
+                    spawnMonsterWithEffect(randomSpawns.get(currentSpawn).getMonster(), 15, randomSpawns.get(currentSpawn).getPosition());
+                    spawnAttempts = 0;
+                } else {
+                    spawnAttempts++;
+                    if (spawnAttempts >= randomSpawns.size()) {
                         break;
                     }
                 }
+                currentSpawn++;
+                currentSpawn %= randomSpawns.size();
             }
         }
     }
