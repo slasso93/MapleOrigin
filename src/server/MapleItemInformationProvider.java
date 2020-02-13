@@ -963,10 +963,12 @@ public class MapleItemInformationProvider {
 
     public boolean canUseCleanSlate(Equip nEquip) {
         Map<String, Integer> eqstats = this.getEquipStats(nEquip.getItemId());
-        return  nEquip.getUpgradeSlots() <  (eqstats.get("tuc"));  // issue with clean slate found thanks to Masterrulax, vicious added in the check thanks to Crypter (CrypterDEV)
-        /* YamlConfig.config.server.USE_ENHANCED_CLNSLATE  || */
+        if (nEquip.getVicious() < 1) {
+            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqstats.get("tuc"));
+        } else {
+            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqstats.get("tuc")) + nEquip.getVicious();
+        }
     }
-
     public Item scrollEquipWithId(Item equip, int scrollId, boolean usingWhiteScroll, int vegaItemId, boolean isGM) {
         boolean assertGM = (isGM && YamlConfig.config.server.USE_PERFECT_GM_SCROLL);
 
