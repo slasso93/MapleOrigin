@@ -962,11 +962,11 @@ public class MapleItemInformationProvider {
     }
 
     public boolean canUseCleanSlate(Equip nEquip) {
-        Map<String, Integer> eqstats = this.getEquipStats(nEquip.getItemId());
+        Map<String, Integer> eqStats = this.getEquipStats(nEquip.getItemId());
         if (nEquip.getVicious() < 1) {
-            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqstats.get("tuc"));
+            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqStats.get("tuc"));
         } else {
-            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqstats.get("tuc")) + nEquip.getVicious();
+            return (nEquip.getLevel() + nEquip.getUpgradeSlots()) < (eqStats.get("tuc")) + nEquip.getVicious();
         }
     }
     public Item scrollEquipWithId(Item equip, int scrollId, boolean usingWhiteScroll, int vegaItemId, boolean isGM) {
