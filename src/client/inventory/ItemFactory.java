@@ -205,22 +205,29 @@ public enum ItemFactory {
     }
 
     private void saveItemsCommon(List<Pair<Item, MapleInventoryType>> items, int id, Connection con) throws SQLException {
-        PreparedStatement psNew = null;
-        PreparedStatement psUpdate = null;
-        PreparedStatement pse = null;
         ResultSet newItemKeys = null;
 
         Lock lock = locks[id % lockCount];
         lock.lock();
-        try {
+        final String insertItemsQuery = "INSERT INTO inventoryitems VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        final String updateItemsQuery = "UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
+                "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
+                "WHERE inventoryitemid=?";
+        final String insertEquipsQuery = "INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement psNew = con.prepareStatement(insertItemsQuery, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
+             PreparedStatement pse = con.prepareStatement(insertEquipsQuery)) {
             if (!items.isEmpty()) {
-                List<Pair<Item, MapleInventoryType>> equips = new ArrayList<>();
+                List<Pair<Item, Integer>> equips = new ArrayList<>(); // keep equips and position in the inserts so we can advance generated keys later
+                boolean hasNewItems = false;
+                boolean hasUpdatedItems = false;
+                int pos = 1;
                 for (Pair<Item, MapleInventoryType> pair : items) {
                     Item item = pair.getLeft();
                     MapleInventoryType mit = pair.getRight();
                     if (item.getInventoryItemId() < 1) { // inserts
-                        if (psNew == null)
-                            psNew = con.prepareStatement("INSERT INTO inventoryitems VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                        hasNewItems = true;
 
                         psNew.setInt(1, value);
                         psNew.setString(2, account ? null : String.valueOf(id));
@@ -236,10 +243,7 @@ public enum ItemFactory {
                         psNew.setString(12, item.getGiftFrom());
                         psNew.addBatch();
                     } else { // updates
-                        if (psUpdate == null)
-                            psUpdate = con.prepareStatement("UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
-                                    "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
-                                    "WHERE inventoryitemid=?");
+                        hasUpdatedItems = true;
 
                         psUpdate.setInt(1, value);
                         psUpdate.setString(2, account ? null : String.valueOf(id));
@@ -257,29 +261,31 @@ public enum ItemFactory {
                         psUpdate.addBatch();
                     }
 
-                    if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED))
-                        equips.add(pair);
+                    if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED)) {
+                        equips.add(new Pair<>(item, pos));
+                    }
+                    pos++;
                 }
 
-                if (psUpdate != null) {
-                    psUpdate.executeBatch();
-                    psUpdate.close();
-                }
-                if (psNew != null) {
+                if (hasNewItems) {
                     psNew.executeBatch();
                     newItemKeys = psNew.getGeneratedKeys();
-                    psNew.close();
                 }
+                if (hasUpdatedItems)
+                    psUpdate.executeBatch();
 
-                for (Pair<Item, MapleInventoryType> pair : equips) {
-                    pse = con.prepareStatement("INSERT INTO `inventoryequipment` VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+                int cursor = 0;
+                for (Pair<Item, Integer> pair : equips) {
                     Equip equip = (Equip) pair.getLeft();
+                    int insertPos = pair.getRight();
 
                     int inventoryItemId = equip.getInventoryItemId();
-                    if (equip.getInventoryItemId() < 1) {// advance generated keys cursor for new items only
-                        if (newItemKeys == null || !newItemKeys.next()) {
-                            throw new RuntimeException("Inserting items failed.");
+                    if (equip.getInventoryItemId() < 1) { // advance generated keys cursor for new items only
+                        while (insertPos - cursor > 0) { // we need to advance multiple positions because some new items are not equips
+                            if (newItemKeys == null || !newItemKeys.next()) {
+                                throw new RuntimeException("Inserting some item failed."); // if the cursor reaches the end and we still have new equips, it will throw this
+                            }
+                            cursor++;
                         }
                         inventoryItemId = newItemKeys.getInt(1);
                     }
@@ -309,24 +315,13 @@ public enum ItemFactory {
                     pse.addBatch();
                 }
 
+                if (!equips.isEmpty())
+                    pse.executeBatch();
+
                 if (newItemKeys != null)
                     newItemKeys.close();
-
-                if (pse != null) {
-                    pse.executeBatch();
-                    pse.close();
-                }
             }
         } finally {
-            if (psNew != null && !psNew.isClosed()) {
-                psNew.close();
-            }
-            if (psUpdate != null && !psUpdate.isClosed()) {
-                psUpdate.close();
-            }
-            if (pse != null && !pse.isClosed()) {
-                pse.close();
-            }
             if (newItemKeys != null && !newItemKeys.isClosed()) {
                 newItemKeys.close();
             }
