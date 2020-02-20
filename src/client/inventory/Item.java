@@ -32,7 +32,8 @@ import server.MapleItemInformationProvider;
 public class Item implements Comparable<Item> {
 
     private static AtomicInteger runningCashId = new AtomicInteger(777000000);  // pets & rings shares cashid values
-    
+
+    private int inventoryItemId; // the primary key for inventoryitems
     private int id, cashId, sn;
     private short position;
     private short quantity;
@@ -67,6 +68,16 @@ public class Item implements Comparable<Item> {
         this.log = new LinkedList<>();
     }
 
+    public Item(int inventoryItemId, int id, short position, short quantity, int petid) {
+        this(id, position, quantity, petid);
+        this.inventoryItemId = inventoryItemId;
+    }
+
+    public Item(int inventoryItemId, int id, short position, short quantity) {
+        this(id, position, quantity);
+        this.inventoryItemId = inventoryItemId;
+    }
+
     public Item copy() {
         Item ret = new Item(id, position, quantity, petid);
         ret.flag = flag;
@@ -74,6 +85,10 @@ public class Item implements Comparable<Item> {
         ret.expiration = expiration;
         ret.log = new LinkedList<>(log);
         return ret;
+    }
+
+    public int getInventoryItemId() {
+        return inventoryItemId;
     }
 
     public void setPosition(short position) {

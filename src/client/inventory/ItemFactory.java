@@ -86,7 +86,7 @@ public enum ItemFactory {
     }
     
     private static Equip loadEquipFromResultSet(ResultSet rs) throws SQLException {
-        Equip equip = new Equip(rs.getInt("itemid"), (short) rs.getInt("position"));
+        Equip equip = new Equip(rs.getInt("inventoryitemid"), rs.getInt("itemid"), (short) rs.getInt("position"), 0);
         equip.setOwner(rs.getString("owner"));
         equip.setQuantity((short) rs.getInt("quantity"));
         equip.setAcc((short) rs.getInt("acc"));
@@ -178,7 +178,7 @@ public enum ItemFactory {
                         petid = -1;
                     }
                     
-                    Item item = new Item(rs.getInt("itemid"), (byte) rs.getInt("position"), (short) rs.getInt("quantity"), petid);
+                    Item item = new Item(rs.getInt("inventoryitemid"), rs.getInt("itemid"), (byte) rs.getInt("position"), (short) rs.getInt("quantity"), petid);
                     item.setOwner(rs.getString("owner"));
                     item.setExpiration(rs.getLong("expiration"));
                     item.setGiftFrom(rs.getString("giftFrom"));
@@ -205,99 +205,136 @@ public enum ItemFactory {
     }
 
     private void saveItemsCommon(List<Pair<Item, MapleInventoryType>> items, int id, Connection con) throws SQLException {
-        PreparedStatement ps = null;
+        PreparedStatement psNew = null;
+        PreparedStatement psUpdate = null;
         PreparedStatement pse = null;
-        ResultSet rs = null;
+        ResultSet newItemKeys = null;
 
         Lock lock = locks[id % lockCount];
         lock.lock();
         try {
-            StringBuilder query = new StringBuilder();
-            query.append("DELETE `inventoryitems`, `inventoryequipment` FROM `inventoryitems` LEFT JOIN `inventoryequipment` USING(`inventoryitemid`) WHERE `type` = ? AND `");
-            query.append(account ? "accountid" : "characterid").append("` = ?");
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, value);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-            ps.close();
-            ps = con.prepareStatement("INSERT INTO `inventoryitems` VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-
             if (!items.isEmpty()) {
+                List<Pair<Item, MapleInventoryType>> equips = new ArrayList<>();
                 for (Pair<Item, MapleInventoryType> pair : items) {
                     Item item = pair.getLeft();
                     MapleInventoryType mit = pair.getRight();
-                    ps.setInt(1, value);
-                    ps.setString(2, account ? null : String.valueOf(id));
-                    ps.setString(3, account ? String.valueOf(id) : null);
-                    ps.setInt(4, item.getItemId());
-                    ps.setInt(5, mit.getType());
-                    ps.setInt(6, item.getPosition());
-                    ps.setInt(7, item.getQuantity());
-                    ps.setString(8, item.getOwner());
-                    ps.setInt(9, item.getPetId());      // thanks Daddy Egg for alerting a case of unique petid constraint breach getting raised
-                    ps.setInt(10, item.getFlag());
-                    ps.setLong(11, item.getExpiration());
-                    ps.setString(12, item.getGiftFrom());
-                    ps.executeUpdate();
+                    if (item.getInventoryItemId() < 1) { // inserts
+                        if (psNew == null)
+                            psNew = con.prepareStatement("INSERT INTO inventoryitems VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
+                        psNew.setInt(1, value);
+                        psNew.setString(2, account ? null : String.valueOf(id));
+                        psNew.setString(3, account ? String.valueOf(id) : null);
+                        psNew.setInt(4, item.getItemId());
+                        psNew.setInt(5, mit.getType());
+                        psNew.setInt(6, item.getPosition());
+                        psNew.setInt(7, item.getQuantity());
+                        psNew.setString(8, item.getOwner());
+                        psNew.setInt(9, item.getPetId());      // thanks Daddy Egg for alerting a case of unique petid constraint breach getting raised
+                        psNew.setInt(10, item.getFlag());
+                        psNew.setLong(11, item.getExpiration());
+                        psNew.setString(12, item.getGiftFrom());
+                        psNew.addBatch();
+                    } else { // updates
+                        if (psUpdate == null)
+                            psUpdate = con.prepareStatement("UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
+                                    "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
+                                    "WHERE inventoryitemid=?");
+
+                        psUpdate.setInt(1, value);
+                        psUpdate.setString(2, account ? null : String.valueOf(id));
+                        psUpdate.setString(3, account ? String.valueOf(id) : null);
+                        psUpdate.setInt(4, item.getItemId());
+                        psUpdate.setInt(5, mit.getType());
+                        psUpdate.setInt(6, item.getPosition());
+                        psUpdate.setInt(7, item.getQuantity());
+                        psUpdate.setString(8, item.getOwner());
+                        psUpdate.setInt(9, item.getPetId());
+                        psUpdate.setInt(10, item.getFlag());
+                        psUpdate.setLong(11, item.getExpiration());
+                        psUpdate.setString(12, item.getGiftFrom());
+                        psUpdate.setInt(13, item.getInventoryItemId());
+                        psUpdate.addBatch();
+                    }
+
+                    if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED))
+                        equips.add(pair);
+                }
+
+                if (psUpdate != null) {
+                    psUpdate.executeBatch();
+                    psUpdate.close();
+                }
+                if (psNew != null) {
+                    psNew.executeBatch();
+                    newItemKeys = psNew.getGeneratedKeys();
+                    psNew.close();
+                }
+
+                for (Pair<Item, MapleInventoryType> pair : equips) {
                     pse = con.prepareStatement("INSERT INTO `inventoryequipment` VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                    if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED)) {
-                        rs = ps.getGeneratedKeys();
+                    Equip equip = (Equip) pair.getLeft();
 
-			if (!rs.next()) {
-                            throw new RuntimeException("Inserting item failed.");
+                    int inventoryItemId = equip.getInventoryItemId();
+                    if (equip.getInventoryItemId() < 1) {// advance generated keys cursor for new items only
+                        if (newItemKeys == null || !newItemKeys.next()) {
+                            throw new RuntimeException("Inserting items failed.");
                         }
-
-                        pse.setInt(1, rs.getInt(1));			
-			rs.close();
-						
-                        Equip equip = (Equip) item;
-                        pse.setInt(2, equip.getUpgradeSlots());
-                        pse.setInt(3, equip.getLevel());
-                        pse.setInt(4, equip.getStr());
-                        pse.setInt(5, equip.getDex());
-                        pse.setInt(6, equip.getInt());
-                        pse.setInt(7, equip.getLuk());
-                        pse.setInt(8, equip.getHp());
-                        pse.setInt(9, equip.getMp());
-                        pse.setInt(10, equip.getWatk());
-                        pse.setInt(11, equip.getMatk());
-                        pse.setInt(12, equip.getWdef());
-                        pse.setInt(13, equip.getMdef());
-                        pse.setInt(14, equip.getAcc());
-                        pse.setInt(15, equip.getAvoid());
-                        pse.setInt(16, equip.getHands());
-                        pse.setInt(17, equip.getSpeed());
-                        pse.setInt(18, equip.getJump());
-                        pse.setInt(19, 0);
-                        pse.setInt(20, equip.getVicious());
-                        pse.setInt(21, equip.getItemLevel());
-                        pse.setInt(22, equip.getItemExp());
-                        pse.setInt(23, equip.getRingId());
-                        pse.executeUpdate();
+                        inventoryItemId = newItemKeys.getInt(1);
                     }
-                    
+                    pse.setInt(1, inventoryItemId);
+                    pse.setInt(2, equip.getUpgradeSlots());
+                    pse.setInt(3, equip.getLevel());
+                    pse.setInt(4, equip.getStr());
+                    pse.setInt(5, equip.getDex());
+                    pse.setInt(6, equip.getInt());
+                    pse.setInt(7, equip.getLuk());
+                    pse.setInt(8, equip.getHp());
+                    pse.setInt(9, equip.getMp());
+                    pse.setInt(10, equip.getWatk());
+                    pse.setInt(11, equip.getMatk());
+                    pse.setInt(12, equip.getWdef());
+                    pse.setInt(13, equip.getMdef());
+                    pse.setInt(14, equip.getAcc());
+                    pse.setInt(15, equip.getAvoid());
+                    pse.setInt(16, equip.getHands());
+                    pse.setInt(17, equip.getSpeed());
+                    pse.setInt(18, equip.getJump());
+                    pse.setInt(19, 0);
+                    pse.setInt(20, equip.getVicious());
+                    pse.setInt(21, equip.getItemLevel());
+                    pse.setInt(22, equip.getItemExp());
+                    pse.setInt(23, equip.getRingId());
+                    pse.addBatch();
+                }
+
+                if (newItemKeys != null)
+                    newItemKeys.close();
+
+                if (pse != null) {
+                    pse.executeBatch();
                     pse.close();
                 }
             }
-			
-            ps.close();
         } finally {
-            if (ps != null && !ps.isClosed()) {
-                ps.close();
+            if (psNew != null && !psNew.isClosed()) {
+                psNew.close();
+            }
+            if (psUpdate != null && !psUpdate.isClosed()) {
+                psUpdate.close();
             }
             if (pse != null && !pse.isClosed()) {
                 pse.close();
             }
-            if(rs != null && !rs.isClosed()) {
-		rs.close();
+            if (newItemKeys != null && !newItemKeys.isClosed()) {
+                newItemKeys.close();
             }
 			
             lock.unlock();
         }
     }
-    
+
     private List<Pair<Item, MapleInventoryType>> loadItemsMerchant(int id, boolean login) throws SQLException {
         List<Pair<Item, MapleInventoryType>> items = new ArrayList<>();
 		
@@ -339,7 +376,7 @@ public enum ItemFactory {
                             petid = -1;
                         }
                         
-                        Item item = new Item(rs.getInt("itemid"), (byte) rs.getInt("position"), (short)(bundles * rs.getInt("quantity")), petid);
+                        Item item = new Item(rs.getInt("inventoryitemid"), rs.getInt("itemid"), (byte) rs.getInt("position"), (short)(bundles * rs.getInt("quantity")), petid);
                         item.setOwner(rs.getString("owner"));
                         item.setExpiration(rs.getLong("expiration"));
                         item.setGiftFrom(rs.getString("giftFrom"));

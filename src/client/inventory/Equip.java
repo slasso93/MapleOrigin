@@ -85,6 +85,15 @@ public class Equip extends Item {
         this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
     }
 
+    public Equip(int inventoryItemId, int id, short position, int slots) {
+        super(inventoryItemId, id, position, (short) 1);
+        this.upgradeSlots = (byte) slots;
+        this.itemExp = 0;
+        this.itemLevel = 1;
+
+        this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
+    }
+
     @Override
     public Item copy() {
         Equip ret = new Equip(getItemId(), getPosition(), getUpgradeSlots());
