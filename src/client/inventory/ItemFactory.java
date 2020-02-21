@@ -272,18 +272,18 @@ public enum ItemFactory {
                 if (hasUpdatedItems)
                     psUpdate.executeBatch();
 
-                int size = inventoryItemIds.size();
-                if (size > 0) {
-                    try (PreparedStatement psDelete = con.prepareStatement(
-                            String.format("DELETE FROM inventoryitems WHERE %s = ? AND inventoryitemid NOT IN %s", account ? "accountid" : "characterid", buildListPlaceholders(size)))) {
+                int size = inventoryItemIds.size(); // existing items size
+                final String deleteItemsQuery = String.format("DELETE FROM inventoryitems WHERE %s = ? %s", account
+                        ? "accountid" : "characterid", size > 0 ? "AND inventoryitemid NOT IN " + buildListPlaceholders(size) : "");
 
-                        psDelete.setInt(1, id);
-                        for (int i = 1; i <= size; i++)
-                            psDelete.setInt(i + 1, inventoryItemIds.get(i - 1));
+                try (PreparedStatement psDelete = con.prepareStatement(deleteItemsQuery)) {
+                    psDelete.setInt(1, id);
+                    for (int i = 1; i <= size; i++)
+                        psDelete.setInt(i + 1, inventoryItemIds.get(i - 1));
 
-                        psDelete.execute();
-                    }
+                    psDelete.execute();
                 }
+
 
                 if (hasNewItems) {
                     psNew.executeBatch();
@@ -376,20 +376,20 @@ public enum ItemFactory {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                ps2 = con.prepareStatement("SELECT `bundles` FROM `inventorymerchant` WHERE `inventoryitemid` = ?");
-                ps2.setInt(1, rs.getInt("inventoryitemid"));
-                rs2 = ps2.executeQuery();
-                
-                short bundles = 0;
-                if(rs2.next()) {
-                    bundles = rs2.getShort("bundles");
-                }
-                
+
                 MapleInventoryType mit = MapleInventoryType.getByType(rs.getByte("inventorytype"));
 
                 if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED)) {
                     items.add(new Pair<Item, MapleInventoryType>(loadEquipFromResultSet(rs), mit));
                 } else {
+                    ps2 = con.prepareStatement("SELECT `bundles` FROM `inventorymerchant` WHERE `inventoryitemid` = ?");
+                    ps2.setInt(1, rs.getInt("inventoryitemid"));
+                    rs2 = ps2.executeQuery();
+
+                    short bundles = 0;
+                    if(rs2.next()) {
+                        bundles = rs2.getShort("bundles");
+                    }
                     if(bundles > 0) {
                         int petid = rs.getInt("petid");
                         if (rs.wasNull()) {
@@ -403,10 +403,10 @@ public enum ItemFactory {
                         item.setFlag((short) rs.getInt("flag"));
                         items.add(new Pair<>(item, mit));
                     }
+
+                    rs2.close();
+                    ps2.close();
                 }
-                
-                rs2.close();
-                ps2.close();
             }
 
             rs.close();
