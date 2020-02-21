@@ -87,6 +87,10 @@ public class Item implements Comparable<Item> {
         return ret;
     }
 
+    public void setInventoryItemId(int id) {
+        this.inventoryItemId = id;
+    }
+
     public int getInventoryItemId() {
         return inventoryItemId;
     }
@@ -205,4 +209,5 @@ public class Item implements Comparable<Item> {
     public boolean isUntradeable() {
         return ((this.getFlag() & ItemConstants.UNTRADEABLE) == ItemConstants.UNTRADEABLE) || (MapleItemInformationProvider.getInstance().isDropRestricted(this.getItemId()) && !MapleKarmaManipulator.hasKarmaFlag(this));
     }
+
 }

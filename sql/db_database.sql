@@ -12951,7 +12951,9 @@ CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `itemexp` int(11) unsigned NOT NULL DEFAULT '0',
   `ringid` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`inventoryequipmentid`),
-  KEY `INVENTORYITEMID` (`inventoryitemid`)
+  FOREIGN KEY (inventoryitemid)
+          REFERENCES inventoryitems (inventoryitemid)
+          ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `inventoryitems` (

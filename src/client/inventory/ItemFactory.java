@@ -219,15 +219,17 @@ public enum ItemFactory {
              PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
              PreparedStatement pse = con.prepareStatement(insertEquipsQuery)) {
             if (!items.isEmpty()) {
+                List<Integer> inventoryItemIds = new ArrayList<>();
                 List<Pair<Item, Integer>> equips = new ArrayList<>(); // keep equips and position in the inserts so we can advance generated keys later
                 boolean hasNewItems = false;
                 boolean hasUpdatedItems = false;
-                int pos = 1;
+                int pos = 0; // keep track of insert position
                 for (Pair<Item, MapleInventoryType> pair : items) {
                     Item item = pair.getLeft();
                     MapleInventoryType mit = pair.getRight();
                     if (item.getInventoryItemId() < 1) { // inserts
                         hasNewItems = true;
+                        pos++;
 
                         psNew.setInt(1, value);
                         psNew.setString(2, account ? null : String.valueOf(id));
@@ -244,6 +246,7 @@ public enum ItemFactory {
                         psNew.addBatch();
                     } else { // updates
                         hasUpdatedItems = true;
+                        inventoryItemIds.add(item.getInventoryItemId());
 
                         psUpdate.setInt(1, value);
                         psUpdate.setString(2, account ? null : String.valueOf(id));
@@ -264,15 +267,28 @@ public enum ItemFactory {
                     if (mit.equals(MapleInventoryType.EQUIP) || mit.equals(MapleInventoryType.EQUIPPED)) {
                         equips.add(new Pair<>(item, pos));
                     }
-                    pos++;
+                }
+
+                if (hasUpdatedItems)
+                    psUpdate.executeBatch();
+
+                int size = inventoryItemIds.size();
+                if (size > 0) {
+                    try (PreparedStatement psDelete = con.prepareStatement(
+                            String.format("DELETE FROM inventoryitems WHERE %s = ? AND inventoryitemid NOT IN %s", account ? "accountid" : "characterid", buildListPlaceholders(size)))) {
+
+                        psDelete.setInt(1, id);
+                        for (int i = 1; i <= size; i++)
+                            psDelete.setInt(i + 1, inventoryItemIds.get(i - 1));
+
+                        psDelete.execute();
+                    }
                 }
 
                 if (hasNewItems) {
                     psNew.executeBatch();
                     newItemKeys = psNew.getGeneratedKeys();
                 }
-                if (hasUpdatedItems)
-                    psUpdate.executeBatch();
 
                 int cursor = 0;
                 for (Pair<Item, Integer> pair : equips) {
@@ -328,6 +344,15 @@ public enum ItemFactory {
 			
             lock.unlock();
         }
+    }
+
+    private String buildListPlaceholders(int size) {
+        StringBuilder params = new StringBuilder("(");
+        for (int i = 0 ; i < size; i++)
+            params.append("?, ");
+        params.setLength(params.length() - 2);
+        params.append(")");
+        return params.toString();
     }
 
     private List<Pair<Item, MapleInventoryType>> loadItemsMerchant(int id, boolean login) throws SQLException {
