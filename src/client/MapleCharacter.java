@@ -5919,30 +5919,24 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
     }
     
-    public void closeHiredMerchant(boolean closeMerchant) {
+    public void closeHiredMerchant(boolean shutdownMerchant) {
         MapleHiredMerchant merchant = this.getHiredMerchant();
         if (merchant == null) {
             return;
         }
         
-        if (closeMerchant) {
+        if (shutdownMerchant) { // store is closing
             if (merchant.isOwner(this) && merchant.getItems().isEmpty()) {
                 merchant.forceClose();
             } else {
                 merchant.removeVisitor(this);
                 this.setHiredMerchant(null);
             }
-        } else {
+        } else { // player left the store
             if (merchant.isOwner(this)) {
                 merchant.setOpen(true);
             } else {
                 merchant.removeVisitor(this);
-            }
-            try {
-                merchant.saveItems(false);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, "Error while saving " + name + "'s Hired Merchant items.");
             }
         }
     }
