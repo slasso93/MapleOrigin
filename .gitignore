@@ -139,6 +139,10 @@
 /tools/SpiderDropFetcher/dist/
 /tools/SpiderDropFetcher/nbproject/
 
+/glowroot/tmp/
+/glowroot/data/
+/glowroot/logs/
+
 /out
 *.onetoc2
 *.iml
