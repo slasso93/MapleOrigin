@@ -213,11 +213,11 @@ public enum ItemFactory {
         final String updateItemsQuery = "UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
                 "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
                 "WHERE inventoryitemid=?";
-        final String insertEquipsQuery = "INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement psNew = con.prepareStatement(insertItemsQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
-             PreparedStatement pse = con.prepareStatement(insertEquipsQuery)) {
+             PreparedStatement pse = con.prepareStatement(replaceEquipsQuery)) {
             if (!items.isEmpty()) {
                 List<Integer> inventoryItemIds = new ArrayList<>();
                 List<Pair<Item, Integer>> equips = new ArrayList<>(); // keep equips and position in the inserts so we can advance generated keys later
