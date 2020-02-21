@@ -1,150 +1,96 @@
-/*
-    This file is part of the HeavenMS MapleStory Server
-    Copyleft (L) 2016 - 2018 RonanLana
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/* Coco
-        Refining NPC: 
-	* Chaos scroll SYNTHETIZER (rofl)
-        * 
-        * @author RonanLana
-*/
-
-var status = 0;
-var selectedType = -1;
-var selectedItem = -1;
-var item;
-var mats;
-var matQty;
-var cost;
-var qty;
-var equip;
-var last_use; //last item is a use item
+var status = -1;
+var weapon = [[1702816],[1702530],[1702467, 1702676]];
+var chair = [[3013000, 3010602], [3012011,3012005,3012010], [3010024 , 3010007 ,3010582 ,3010319]];
+var nx = [[1005111, 1051551 ,1004911,1004852,], [1004911,1050438,1051506,1053127] , [1051551 , 1053293 ,1073194 ,1073175 ,1073176]];
+var rand = Math.floor(Math.random()*100);
 
 function start() {
-    cm.getPlayer().setCS(true);
-    status = -1;
     action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1)
-        status++;
-    else {
-        cm.sendOk("Oh, ok... Talk back to us when you want to make business.");
-        cm.dispose();
-        return;
+    if (mode == 1) {
+	status++;
+    } else {
+	cm.dispose();
+	return;
     }
-
     if (status == 0) {
-        if (!Packages.config.YamlConfig.config.server.USE_ENABLE_CUSTOM_NPC_SCRIPT) {
-            cm.sendOk("Hi, I'm #b#p" + cm.getNpc() + "##k.");
-            cm.dispose();
-            return;
-        }
-        
-        var selStr = "Hey traveler! Come, come closer... We offer a #bhuge opportunity of business#k to you. If you want to know what it is, keep listening...";
-        cm.sendNext(selStr);
-    }
-    else if (status == 1) {
-	var selStr = "We've got here the knowledge to synthetize the mighty #b#t2049100##k! Of course, making one is not an easy task... But worry not! Just gather some material to me and a fee of #b1,200,000 mesos#k for our services to #bobtain it#k. You still want to do it?";
-        cm.sendYesNo(selStr);
-    }
-
-    else if (status == 2) {
-        //selectedItem = selection;
-        selectedItem = 0;
-
-        var itemSet = new Array(2049100, 7777777);
-        var matSet = new Array(new Array(4031203,4001356,4000136,4000082,4001126,4080100,4000021,4003005));
-        var matQtySet = new Array(new Array(100,60,40,80,10,8,200,120));
-        var costSet = new Array(1200000, 7777777);
-        item = itemSet[selectedItem];
-        mats = matSet[selectedItem];
-        matQty = matQtySet[selectedItem];
-        cost = costSet[selectedItem];
-                
-        var prompt = "So, you want us to make some #t" + item + "#? In that case, how many do you want us to make?";
-        cm.sendGetNumber(prompt,1,1,100)
-    }
-        
-    else if (status == 3) {
-        qty = (selection > 0) ? selection : (selection < 0 ? -selection : 1);
-        last_use = false;
-                
-        var prompt = "You want us to make ";
-        if (qty == 1)
-            prompt += "a #t" + item + "#?";
-        else
-            prompt += qty + " #t" + item + "#?";
-                        
-        prompt += " In that case, we're going to need specific items from you in order to make it. Make sure you have room in your inventory, though!#b";
-                
-        if (mats instanceof Array){
-            for (var i = 0; i < mats.length; i++) {
-                prompt += "\r\n#i"+mats[i]+"# " + matQty[i] * qty + " #t" + mats[i] + "#";
-            }
-        } else {
-            prompt += "\r\n#i"+mats+"# " + matQty * qty + " #t" + mats + "#";
-        }
-                
-        if (cost > 0) {
-            prompt += "\r\n#i4031138# " + cost * qty + " meso";
-        }
-        cm.sendYesNo(prompt);
-    }
-    
-    else if (status == 4) {
-        var complete = true;
-                
-        if (cm.getMeso() < cost * qty) {
-            cm.sendOk("Come on! We're not here doing you a favor! We all need money to live properly, so bring the cash so we make deal and start the synthesis.");
-        }
-        else if(!cm.canHold(item, qty)) {
-            cm.sendOk("You didn't check if you got a slot to spare on your inventory before our business, no?");
-        }
-        else {
-            if (mats instanceof Array) {
-                for (var i = 0; complete && i < mats.length; i++) {
-                    if (matQty[i] * qty == 1) {
-                        complete = cm.haveItem(mats[i]);
-                    } else {
-                        complete = cm.haveItem(mats[i], matQty[i] * qty);
-                    }
-                }
-            } else {
-                complete = cm.haveItem(mats, matQty * qty);
-            }
-            
-            if (!complete)
-                cm.sendOk("You kidding, right? We won't be able to start the process without all the ingredients at hands. Go get all of them and then talk to us!");
-            else {
-                if (mats instanceof Array) {
-                    for (var i = 0; i < mats.length; i++){
-                        cm.gainItem(mats[i], -matQty[i] * qty);
-                    }
+        cm.sendSimple("Oh, Valentine's Day! The one perfect day of the year for confessing love is here once again!\r\n\r\n #v4140100# - #t4140100#\r\n\r\nFwind us swome heart chwocolates and we'll reward uwu with swome interwesting itwems uwu\r\n#b#L0# Exchange 5 Boxes for a Random Chair #b\r\n#L1# Exchange 10 Boxes for a Random NX Equipment#b\r\n#L2# Exchange 15 boxes for a Random NX Weapon #b\r\n#L3# Exchange 50 boxes for a Spwecial Medal #b\r\n");
+    } else if (status == 1) {
+		if (selection == 0) {
+			if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(2)) {
+                if(cm.haveItem(4140100, 5)) {
+                    (cm.gainItem(4140100, -5));
+					var rand2;
+                    if ((rand >= 1) && (rand <= 15)) {
+                        rand2 = Math.floor(Math.random() * chair[0].length);
+                    } else if ((rand >= 16) && (rand <= 75)) {
+                        rand2 = Math.floor(Math.random() * chair[1].length);
+                    }else{
+                        rand2 = Math.floor(Math.random() * chair[2].length);
+                        }
+                    cm.gainItem([rand >= 1 && rand <= 15 ? chair[0][rand2] : rand >= 16 && rand <= 75 ? chair[1][rand2] : chair[2][rand2]]);
+                    cm.dispose();
                 } else {
-                    cm.gainItem(mats, -matQty * qty);
+                    cm.sendOk("You do not have enough chocolates!");
                 }
-                cm.gainMeso(-cost * qty);
-                cm.gainItem(item, qty);
-                cm.sendOk("Wow... can't believe it worked! To think for a moment that it could f... Ahem. Of course it worked, all work of ours are very efficient! Nice doing business with you.");
-            }
-        }
+			} else {
+				cm.sendOk("Please have atleast 3 spaces in your EQUIP tab");
+			}
+		} else if (selection == 1) {
+			if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
+                if(cm.haveItem(4140100, 10)) {
+                    (cm.gainItem(4140100, -10));
+					var rand2;
+                    if ((rand >= 1) && (rand <= 15)) {
+                        rand2 = Math.floor(Math.random() * nx[0].length);
+                    } else if ((rand >= 16) && (rand <= 75)) {
+                        rand2 = Math.floor(Math.random() * nx[1].length);
+                    }else{
+                        rand2 = Math.floor(Math.random() * nx[2].length);
+                        }
+                    cm.gainItem([rand >= 1 && rand <= 15 ? nx[0][rand2] : rand >= 16 && rand <= 75 ? nx[1][rand2] : nx[2][rand2]]);
+                    cm.dispose();
+                } else {
+                    cm.sendOk("You do not have enough chocolates!");
+                }
+			} else {
+				cm.sendOk("Please have atleast 3 spaces in your EQUIP tab")
+			} 
+		} else if (selection == 2) {
+			if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
+                if(cm.haveItem(4140100, 15)) {
+                    (cm.gainItem(4140100, -15));
+					var rand2;
+                    if ((rand >= 1) && (rand <= 15)) {
+                        rand2 = Math.floor(Math.random() * weapon[0].length);
+                    } else if ((rand >= 16) && (rand <= 75)) {
+                        rand2 = Math.floor(Math.random() * weapon[1].length);
+                    }else{
+                        rand2 = Math.floor(Math.random() * weapon[2].length);
+                        }
+                    cm.gainItem([rand >= 1 && rand <= 15 ? weapon[0][rand2] : rand >= 16 && rand <= 75 ? weapon[1][rand2] : weapon[2][rand2]]);
+                    cm.dispose();
+                } else {
+                    cm.sendOk("You do not have enough chocolates!");
+                }
+			} else {
+				cm.sendOk("Please have atleast 3 spaces in your EQUIP tab")
+			} 
+		}  else if (selection == 3) {
+			if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
+                if(cm.haveItem(4140100, 50)) {
+                    (cm.gainItem(4140100, -50));
+                    (cm.gainItem(1142499, 1));
+                } else {
+                    cm.sendOk("You do not have enough chocolates!");
+                }
+			} else {
+				cm.sendOk("Please have atleast 3 spaces in your EQUIP tab")
+			} 
+		}
+    } else {
         cm.dispose();
     }
 }
