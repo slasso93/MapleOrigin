@@ -3630,7 +3630,7 @@ public class MapleMap {
         if (this.getId() >= 90000 && this.getId() < 90020) {
             max = randomSpawns.size() * 4;
         }
-        Collections.shuffle(randomSpawns)
+        Collections.shuffle(randomSpawns);
         while (this.spawnedMonstersOnMap.get() < max) {
             if (randomSpawns.get(currentSpawn).shouldSpawn()) {
                 spawnMonsterWithEffect(randomSpawns.get(currentSpawn).getMonster(), 15, randomSpawns.get(currentSpawn).getPosition());
