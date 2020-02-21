@@ -12969,7 +12969,8 @@ CREATE TABLE IF NOT EXISTS `inventoryitems` (
   `expiration` bigint(20) NOT NULL DEFAULT '-1',
   `giftFrom` varchar(26) NOT NULL,
   PRIMARY KEY (`inventoryitemid`),
-  KEY `CHARID` (`characterid`)
+  KEY `CHARID` (`characterid`),
+  INDEX `accountid` (`accountid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `inventorymerchant` (
