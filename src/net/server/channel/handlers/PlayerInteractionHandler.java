@@ -647,7 +647,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     }
                     
                     try {
-                        merchant.saveItems(false);   // thanks Masterrulax for realizing yet another dupe with merchants/Fredrick
+                        merchant.saveItem(shopItem, true);   // thanks Masterrulax for realizing yet another dupe with merchants/Fredrick
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
