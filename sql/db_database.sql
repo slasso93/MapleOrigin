@@ -1,4 +1,4 @@
-﻿#EXECUTE THIS FIRST, THEN NEXT SQL: 'db_drops.sql'
+#EXECUTE THIS FIRST, THEN NEXT SQL: 'db_drops.sql'
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -12925,6 +12925,26 @@ CREATE TABLE IF NOT EXISTS `hwidbans` (
   UNIQUE KEY `hwid_2` (`hwid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `inventoryitems` (
+  `inventoryitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` tinyint(3) unsigned NOT NULL,
+  `characterid` int(11) DEFAULT NULL,
+  `accountid` int(11) DEFAULT NULL,
+  `itemid` int(11) NOT NULL DEFAULT '0',
+  `inventorytype` int(11) NOT NULL DEFAULT '0',
+  `position` int(11) NOT NULL DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT '0',
+  `owner` tinytext NOT NULL,
+  `petid` int(11) NOT NULL DEFAULT '-1',
+  `flag` int(11) NOT NULL,
+  `expiration` bigint(20) NOT NULL DEFAULT '-1',
+  `giftFrom` varchar(26) NOT NULL,
+  PRIMARY KEY (`inventoryitemid`),
+  KEY `CHARID` (`characterid`),
+  INDEX `accountid` (`accountid`),
+  INDEX `type_idx` (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `inventoryequipmentid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `inventoryitemid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -12951,25 +12971,10 @@ CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `itemexp` int(11) unsigned NOT NULL DEFAULT '0',
   `ringid` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`inventoryequipmentid`),
-  KEY `INVENTORYITEMID` (`inventoryitemid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `inventoryitems` (
-  `inventoryitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `type` tinyint(3) unsigned NOT NULL,
-  `characterid` int(11) DEFAULT NULL,
-  `accountid` int(11) DEFAULT NULL,
-  `itemid` int(11) NOT NULL DEFAULT '0',
-  `inventorytype` int(11) NOT NULL DEFAULT '0',
-  `position` int(11) NOT NULL DEFAULT '0',
-  `quantity` int(11) NOT NULL DEFAULT '0',
-  `owner` tinytext NOT NULL,
-  `petid` int(11) NOT NULL DEFAULT '-1',
-  `flag` int(11) NOT NULL,
-  `expiration` bigint(20) NOT NULL DEFAULT '-1',
-  `giftFrom` varchar(26) NOT NULL,
-  PRIMARY KEY (`inventoryitemid`),
-  KEY `CHARID` (`characterid`)
+  UNIQUE KEY (`inventoryitemid`),
+  FOREIGN KEY (`inventoryitemid`)
+          REFERENCES inventoryitems (`inventoryitemid`)
+          ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `inventorymerchant` (
@@ -12978,7 +12983,10 @@ CREATE TABLE IF NOT EXISTS `inventorymerchant` (
   `characterid` int(11) DEFAULT NULL,
   `bundles` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`inventorymerchantid`),
-  KEY `INVENTORYITEMID` (`inventoryitemid`)
+  UNIQUE KEY `INVENTORYITEMID` (`inventoryitemid`),
+  FOREIGN KEY (`inventoryitemid`)
+          REFERENCES inventoryitems (`inventoryitemid`)
+          ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `ipbans` (
@@ -15980,7 +15988,8 @@ CREATE TABLE IF NOT EXISTS `medalmaps` (
 CREATE TABLE IF NOT EXISTS `monsterbook` (
   `charid` int(11) unsigned NOT NULL,
   `cardid` int(11) NOT NULL,
-  `level` int(1) DEFAULT '1'
+  `level` int(1) DEFAULT '1',
+  PRIMARY KEY (`charid`, `cardid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `monstercarddata` (
