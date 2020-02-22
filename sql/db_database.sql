@@ -15980,7 +15980,8 @@ CREATE TABLE IF NOT EXISTS `medalmaps` (
 CREATE TABLE IF NOT EXISTS `monsterbook` (
   `charid` int(11) unsigned NOT NULL,
   `cardid` int(11) NOT NULL,
-  `level` int(1) DEFAULT '1'
+  `level` int(1) DEFAULT '1',
+  PRIMARY KEY (`charid`, `cardid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `monstercarddata` (
