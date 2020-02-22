@@ -236,6 +236,7 @@ public enum ItemFactory {
              PreparedStatement psMerch = con.prepareStatement(insertMerchantQuery)) {
             if (!items.isEmpty()) {
                 List<Integer> inventoryItemIds = new ArrayList<>();
+                List<Item> newItems = new ArrayList<>();
                 List<Equip> equips = new ArrayList<>(); // keep equips and position in the inserts so we can advance generated keys later
                 boolean hasNewItems = false;
                 boolean hasUpdatedItems = false;
@@ -245,6 +246,7 @@ public enum ItemFactory {
                     MapleInventoryType mit = pair.getRight();
                     if (item.getInventoryItemId() < 1) { // inserts
                         hasNewItems = true;
+                        newItems.add(item);
 
                         psNew.setInt(1, value);
                         psNew.setString(2, account ? null : String.valueOf(id));
@@ -302,7 +304,7 @@ public enum ItemFactory {
                     int i = 0;
                     while (newItemKeys.next()) {
                         inventoryItemIds.add(newItemKeys.getInt(1)); // add all new item inventoryItemIds so we have every new item's id
-                        items.get(i++).getLeft().setInventoryItemId(newItemKeys.getInt(1)); // set inventoryItemIds in memory on all new items
+                        newItems.get(i++).setInventoryItemId(newItemKeys.getInt(1)); // set inventoryItemIds in memory on all new items
                     }
                 }
 
