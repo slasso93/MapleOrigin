@@ -30,7 +30,7 @@ import client.inventory.MapleInventoryType;
 import client.inventory.manipulator.MapleInventoryManipulator;
 import client.inventory.manipulator.MapleKarmaManipulator;
 import client.processor.npc.FredrickProcessor;
-import com.mysql.jdbc.Statement;
+import java.sql.Statement;
 import config.YamlConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
