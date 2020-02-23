@@ -344,7 +344,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 } else {
                     chr.closePlayerShop();
                     chr.closeMiniGame(false);
-                    chr.closeHiredMerchant(true);
+                    chr.closeHiredMerchant();
                 }
             } else if (mode == Action.OPEN_STORE.getCode() || mode == Action.OPEN_CASH.getCode()) {
                 if (isTradeOpen(chr)) return;
@@ -381,7 +381,6 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     chr.setHasMerchant(true);
                     merchant.setOpen(true);
                     chr.getMap().addMapObject(merchant);
-                    chr.setHiredMerchant(null);
                     chr.getMap().broadcastMessage(MaplePacketCreator.spawnHiredMerchantBox(merchant));
                 }
             } else if (mode == Action.READY.getCode()) {
@@ -641,16 +640,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     }
                     
                     c.announce(MaplePacketCreator.updateHiredMerchant(merchant, chr));
-                    
-                    if (YamlConfig.config.server.USE_ENFORCE_MERCHANT_SAVE) {
-                        chr.saveCharToDB(false);
-                    }
-                    
-                    try {
-                        merchant.saveItem(shopItem, true);   // thanks Masterrulax for realizing yet another dupe with merchants/Fredrick
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
+
                 } else {
                     c.announce(MaplePacketCreator.serverNotice(1, "You can't sell without owning a shop."));
                 }
@@ -756,7 +746,6 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     }
                 }
 
-                chr.setHiredMerchant(null);
                 c.announce(MaplePacketCreator.enableActions());
             } else if (mode == Action.BAN_PLAYER.getCode()) {
                 slea.skip(1);
