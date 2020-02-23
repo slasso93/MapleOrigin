@@ -185,7 +185,7 @@ public final class MonsterBook {
         calculateLevel();
     }
 
-    private static int saveStringConcat(char[] data, int pos, Integer i) {
+/*    private static int saveStringConcat(char[] data, int pos, Integer i) {
         return saveStringConcat(data, pos, i.toString());
     }
     
@@ -196,27 +196,28 @@ public final class MonsterBook {
         }
         
         return pos + len;
-    }
+    }*/
     
     private static String getSaveString(Integer charid, Set<Entry<Integer, Integer>> cardSet) {
         semaphore.acquireUninterruptibly();
         try {
-            char[] save = new char[400000]; // 500 * 10 * 10 * 8
-            int i = 0;
+            StringBuilder sql = new StringBuilder("INSERT INTO monsterbook (charid, cardid, level) VALUES "); // 55 chars
 
-            i = saveStringConcat(save, i, "INSERT INTO monsterbook VALUES ");
-
-            for (Entry<Integer, Integer> all : cardSet) {   // assuming maxsize 500 unique cards
-                i = saveStringConcat(save, i, "(");
-                i = saveStringConcat(save, i, charid);  //10 chars
-                i = saveStringConcat(save, i, ", ");
-                i = saveStringConcat(save, i, all.getKey());  //10 chars
-                i = saveStringConcat(save, i, ", ");
-                i = saveStringConcat(save, i, all.getValue());  //1 char due to being 0 ~ 5
-                i = saveStringConcat(save, i, "),");
+            // assuming max of 500 unique cards, this insert statement is at most 14098 characters = 28196 bytes
+            // 55 + 500 * (1 + 10 + 2 + 10 + 2 + 1 + 2) -1 + 44
+            for (Entry<Integer, Integer> card : cardSet) {
+                sql.append("(") // 1 char
+                        .append(charid) // 10 chars
+                        .append(", ") // 2 chars
+                        .append(card.getKey()) // 10 chars
+                        .append(", ") // 2 chars
+                        .append(card.getValue()) // 1 char due to being 0 ~ 5
+                        .append("),"); // 2 chars
             }
-            
-            return new String(save, 0, i - 1);
+            sql.setLength(sql.length() - 1); // -1 char
+            sql.append(" ON DUPLICATE KEY UPDATE level=VALUES(level)"); // 44 chars; if a record already exists, it will be updated with correct level.
+
+            return sql.toString();
         } finally {
             semaphore.release();
         }
@@ -230,12 +231,7 @@ public final class MonsterBook {
         }
         try {
             Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM monsterbook WHERE charid = ?");
-            ps.setInt(1, charid);
-            ps.execute();
-            ps.close();
-            
-            ps = con.prepareStatement(getSaveString(charid, cardSet));
+            PreparedStatement ps = con.prepareStatement(getSaveString(charid, cardSet)); // save and update
             ps.execute();
             ps.close();
             con.close();
