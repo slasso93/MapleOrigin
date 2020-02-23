@@ -9434,9 +9434,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             statWlock.unlock();
             effLock.unlock();
         }
-        
+
+        // this implementation is buggy and can cause race conditions with the PetAutoPotHandler.handlePacket
         // autopot on HPMP deplete... thanks shavit for finding out D. Roar doesn't trigger autopot request
-        if (hpchange < 0) {
+        /*if (hpchange < 0) {
             MapleKeyBinding autohpPot = this.getKeymap().get(91);
             if (autohpPot != null) {
                 int autohpItemid = autohpPot.getAction();
@@ -9464,7 +9465,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     }
                 }
             }
-        }
+        }*/
         
         return true;
     }
