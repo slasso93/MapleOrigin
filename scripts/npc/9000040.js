@@ -56,7 +56,7 @@ function action(mode, type, selection) {
                 return;
             }
             
-            var levelLimit = !cm.getPlayer().isCygnus() ? 160 : 110;
+            /*var levelLimit = !cm.getPlayer().isCygnus() ? 160 : 110;
             var selStr = "The medal ranking system is currently unavailable... Therefore, I am providing the #bEquipment Merge#k service! ";
             
             if (!YamlConfig.config.server.USE_STARTER_MERGE && (cm.getPlayer().getLevel() < levelLimit || MakerProcessor.getMakerSkillLevel(cm.getPlayer()) < 3)) {
@@ -82,7 +82,7 @@ function action(mode, type, selection) {
                 cm.sendOk("Merging complete! Thanks for using the service and enjoy your new equipment stats.");
             } else {
                 cm.sendOk("There is no #b'" + name + "'#k in your #bEQUIP#k inventory!");
-            }
+            }*/
             
             cm.dispose();
         }
