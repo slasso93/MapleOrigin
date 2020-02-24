@@ -118,10 +118,14 @@ public class GotoCommand extends Command {
         
         if (gotomaps.containsKey(params[0])) {
             MapleMap target = c.getChannelServer().getMapFactory().getMap(gotomaps.get(params[0]));
-            
+
+            if (player.getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999
+                player.saveLocationOnWarp();
+            } else if (player.getMap().getId() != 910000000 && player.getMap().getId() != 76000) {
+                player.saveLocationOnWarp(true);
+            }
             // expedition issue with this command detected thanks to Masterrulax
             MaplePortal targetPortal = target.getRandomPlayerSpawnpoint();
-            player.saveLocationOnWarp();
             player.changeMap(target, targetPortal);
         } else {
             // detailed info on goto available areas suggested thanks to Vcoc

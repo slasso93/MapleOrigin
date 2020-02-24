@@ -20,34 +20,23 @@
 
 /*
    @Author: Arthur L - Refactored command content into modules
+   @ Author: Jay Friestad - Player Teleport Commands lol
+   @Autho: slasso - use old @fm functionality to open mirror
 */
-package client.command.commands.gm3;
 
-import client.command.Command;
+package client.command.commands.gm0;
+
 import client.MapleClient;
-import client.MapleCharacter;
-import server.maps.MapleMap;
+import client.command.Command;
 
-import java.util.Collection;
-
-public class ReloadMapCommand extends Command {
+public class MirrorCommand extends Command {
     {
-        setDescription("");
+        setDescription("Opens up the dimensional mirror");
     }
 
     @Override
-    public void execute(MapleClient c, String[] params) {
-        MapleCharacter player = c.getPlayer();
-        MapleMap newMap = c.getChannelServer().getMapFactory().resetMap(player.getMapId());
-        int callerid = c.getPlayer().getId();
-
-        Collection<MapleCharacter> characters = player.getMap().getAllPlayers();
-        
-        for (MapleCharacter chr : characters) {
-            chr.changeMap(newMap);
-            if (chr.getId() != callerid)
-                chr.dropMessage("You have been relocated due to map reloading. Sorry for the inconvenience.");
-        }
-        newMap.respawn();
+    public void execute(MapleClient client, String[] params) {
+        client.getAbstractPlayerInteraction().openNpc(9010022);
     }
+
 }

@@ -8449,20 +8449,28 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
     }
 
-    public void saveLocationOnWarp() {  // suggestion to remember the map before warp command thanks to Lei
-        MaplePortal closest = map.findClosestPortal(getPosition());
-        int curMapid = getMapId();
+    public void saveLocationOnWarp() {
+        saveLocationOnWarp(false);
+    }
+
+    public void saveLocationOnWarp(boolean forcedReturn) {  // suggestion to remember the map before warp command thanks to Lei
+        int returnId = forcedReturn ? map.getForcedReturnId() : map.getId();
+        MaplePortal closest = forcedReturn ? null : map.findClosestPortal(getPosition());
         
         for (int i = 0; i < savedLocations.length; i++) {
             if (savedLocations[i] == null) {
-                savedLocations[i] = new SavedLocation(curMapid, closest != null ? closest.getId() : 0);
+                savedLocations[i] = new SavedLocation(returnId, closest != null ? closest.getId() : 0);
             }
         }
     }
-    
+
     public void saveLocation(String type) {
+        saveLocation(type, false);
+    }
+
+    public void saveLocation(String type, boolean forcedReturn) {
         MaplePortal closest = map.findClosestPortal(getPosition());
-        savedLocations[SavedLocationType.fromString(type).ordinal()] = new SavedLocation(getMapId(), closest != null ? closest.getId() : 0);
+        savedLocations[SavedLocationType.fromString(type).ordinal()] = new SavedLocation(forcedReturn ? map.getForcedReturnId() : getMapId(), closest != null ? closest.getId() : 0);
     }
     
     public final boolean insertNewChar(CharacterFactoryRecipe recipe) {

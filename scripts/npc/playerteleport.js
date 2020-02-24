@@ -49,6 +49,11 @@ function action(mode, type, selection) {
             }
             
             cm.gainMeso(-mesos);
+            if (selectedMap == 0 && cm.getPlayer().getMap().getForcedReturnId() == 999999999) { // save lost memories return location
+                cm.getPlayer().saveLocation("FREE_MARKET");
+            } else if (cm.getPlayer().getMap().getId() != 910000000 && cm.getPlayer().getMap().getId() != 76000) { // non normal maps and not fm/lost memories. ex: zakum's altar will return to forced location cave of passage
+                cm.getPlayer().saveLocation("FREE_MARKET", true);
+            }
             cm.warp(maps[selectedMap], 0);
             cm.dispose();
         }

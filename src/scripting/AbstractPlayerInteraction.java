@@ -369,11 +369,11 @@ public class AbstractPlayerInteraction {
 	}
 
 	public void openNpc(int npcid, String script) {
-                if (c.getCM() != null) {
-                    return;
-                }
-            
-		c.removeClickedNPC();
+        if (c.getCM() != null) {
+            return;
+        }
+
+        c.removeClickedNPC();
 		NPCScriptManager.getInstance().dispose(c);
 		NPCScriptManager.getInstance().start(c, npcid, script, null);
 	}
