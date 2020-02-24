@@ -231,10 +231,6 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 removeFromSlot(slot);
                 chr.announce(MaplePacketCreator.updateHiredMerchant(this, chr));
             }
-            
-            if (YamlConfig.config.server.USE_ENFORCE_MERCHANT_SAVE) {
-                chr.saveCharToDB(false);
-            }
         }
     }
     
@@ -445,10 +441,6 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
-            if (YamlConfig.config.server.USE_ENFORCE_MERCHANT_SAVE) {
-                c.getPlayer().saveCharToDB(false);
-            }
 
             synchronized (items) {
                 items.clear();
@@ -641,6 +633,10 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
     }
 
     public void saveItems(boolean shutdown) throws SQLException {
+        saveItems(shutdown, null, false);
+    }
+
+    public void saveItems(boolean shutdown, Connection con, boolean keepConnection) throws SQLException {
         List<Pair<Item, MapleInventoryType>> itemsWithType = new ArrayList<>();
         List<Short> bundles = new ArrayList<>();
 
@@ -659,9 +655,10 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             }
         }
 	
-        Connection con = DatabaseConnection.getConnection();
+        con = con == null ? DatabaseConnection.getConnection() : con;
         ItemFactory.MERCHANT.saveMerchantItems(itemsWithType, bundles, this.ownerId, con);
-        con.close();
+        if (!keepConnection)
+            con.close();
         
         FredrickProcessor.insertFredrickLog(this.ownerId);
     }

@@ -5865,7 +5865,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         closePlayerShop();
         closeMiniGame(true);
         closeRPS();
-        closeHiredMerchant(false);
+        closeHiredMerchant();
         closePlayerMessenger();
         
         client.closePlayerScriptInteractions();
@@ -5919,26 +5919,45 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
     }
     
-    public void closeHiredMerchant(boolean shutdownMerchant) {
+    public void closeHiredMerchant() {
         MapleHiredMerchant merchant = this.getHiredMerchant();
         if (merchant == null) {
             return;
         }
-        
-        if (shutdownMerchant) { // store is closing
-            if (merchant.isOwner(this) && merchant.getItems().isEmpty()) {
+
+        if (merchant.isOwner(this)) {
+            if (merchant.getItems().isEmpty()) {
                 merchant.forceClose();
             } else {
-                merchant.removeVisitor(this);
-                this.setHiredMerchant(null);
-            }
-        } else { // player left the store
-            if (merchant.isOwner(this)) {
-                merchant.setOpen(true);
-            } else {
-                merchant.removeVisitor(this);
+                Connection con = null;
+                try { // all one transaction so no dupe/item loss can happen
+                    con = DatabaseConnection.getConnection();
+                    con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+                    con.setAutoCommit(false);
+                    merchant.saveItems(false, con, true); // keep connection so we are in one transaction
+                    this.saveCharToDB(true, con); // this method already handles closing the connection and resetting isolation/auto commit
+                    merchant.setOpen(true);
+                } catch (Exception e) {
+                    FilePrinter.print(FilePrinter.SQL_EXCEPTION, e.getMessage());
+                    try {
+                        if (con != null)
+                            con.rollback(); // incase we failed merchant save, handle rollback here. character rollback happens in saveCharToDB
+                    } catch (SQLException e2) {
+                        FilePrinter.print(FilePrinter.SQL_EXCEPTION, "Error trying to rollback merchant save! " + e2.getMessage());
+                    }
+                } finally {
+                    try {
+                        if (con != null && !con.isClosed())
+                            con.close();
+                    } catch (SQLException e) {
+                        FilePrinter.print(FilePrinter.SQL_EXCEPTION, "Connection failed to close! " + e.getMessage());
+                    }
+                }
             }
         }
+
+        merchant.removeVisitor(this);
+        this.setHiredMerchant(null);
     }
     
     public void closePlayerMessenger() {
@@ -8659,9 +8678,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             saveCharToDB(true);
         }
     }
-    
-    //ItemFactory saveItems and monsterbook.saveCards are the most time consuming here.
     public synchronized void saveCharToDB(boolean notAutosave) {
+        saveCharToDB(notAutosave, null);
+    }
+    //ItemFactory saveItems and monsterbook.saveCards are the most time consuming here.
+    public synchronized void saveCharToDB(boolean notAutosave, Connection con) {
         if (!loggedIn) {
             return;
         }
@@ -8675,12 +8696,15 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
         
         Server.getInstance().updateCharacterEntry(this);
-        
-        Connection con = null;
+
+
         try {
-            con = DatabaseConnection.getConnection();
-            con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-            con.setAutoCommit(false);
+            if (con == null) {
+                con = DatabaseConnection.getConnection();
+                con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+                con.setAutoCommit(false);
+            }
+
             PreparedStatement ps;
             ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, gachaexp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpMpUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness= ?, equipslots = ?, useslots = ?, setupslots = ?, etcslots = ?,  monsterbookcover = ?, vanquisherStage = ?, dojoPoints = ?, lastDojoStage = ?, finishedDojoTutorial = ?, vanquisherKills = ?, matchcardwins = ?, matchcardlosses = ?, matchcardties = ?, omokwins = ?, omoklosses = ?, omokties = ?, dataString = ?, fquest = ?, jailexpire = ?, partnerId = ?, marriageItemId = ?, lastExpGainTime = ?, ariantPoints = ?, partySearch = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, level);    // thanks CanIGetaPR for noticing an unnecessary "level" limitation when persisting DB data
