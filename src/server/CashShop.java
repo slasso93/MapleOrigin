@@ -401,6 +401,7 @@ public class CashShop {
     public void addToInventory(Item item) {
         lock.lock();
         try {
+            item.setInventoryItemId(-1);
             inventory.add(item);
         } finally {
             lock.unlock();
