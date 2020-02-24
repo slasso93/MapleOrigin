@@ -641,7 +641,7 @@ public class AssignAPProcessor {
             if (sLvl > 0)
                 MaxHP += increaseHP.getEffect(sLvl).getY();
 
-            baseGain = 20;
+            baseGain = 22;
         } else if (job.isA(MapleJob.ARAN1)) {
             baseGain = 32;
         } else if (job.isA(MapleJob.MAGICIAN) || job.isA(MapleJob.BLAZEWIZARD1)) {
@@ -684,13 +684,11 @@ public class AssignAPProcessor {
                 MaxMP += 3;
             }
         } else if (job.isA(MapleJob.MAGICIAN) || job.isA(MapleJob.BLAZEWIZARD1)) {
-            if(!usedAPReset) {
-                Skill increaseMP = SkillFactory.getSkill(job.isA(MapleJob.BLAZEWIZARD1) ? BlazeWizard.INCREASING_MAX_MP : Magician.IMPROVED_MAX_MP_INCREASE);
-                int sLvl = player.getSkillLevel(increaseMP);
+            Skill increaseMP = SkillFactory.getSkill(job.isA(MapleJob.BLAZEWIZARD1) ? BlazeWizard.INCREASING_MAX_MP : Magician.IMPROVED_MAX_MP_INCREASE);
+            int sLvl = player.getSkillLevel(increaseMP);
 
-                if(sLvl > 0)
-                    MaxMP += increaseMP.getEffect(sLvl).getY();
-            }
+            if(sLvl > 0)
+                MaxMP += increaseMP.getEffect(sLvl).getY();
             
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
