@@ -536,7 +536,9 @@ public class AssignAPProcessor {
                         canWash = false;
                     } else if ((job.isA(MapleJob.FIGHTER) || job.isA(MapleJob.ARAN1)) && mp < 4 * level + 56) {
                         canWash = false;
-                    } else if (job.isA(MapleJob.THIEF) && job.getId() % 100 > 0 && mp < level * 14 - 4) {
+                    } else if (job.isA(MapleJob.PIRATE) && job.getId() % 100 > 0 && mp < level * 18 + 111) {
+                        canWash = false;
+                    } else if (job.isA(MapleJob.BEGINNER) && mp < 10 * level + 2) {
                         canWash = false;
                     } else if (mp < level * 14 + 148) {
                         canWash = false;
@@ -630,93 +632,40 @@ public class AssignAPProcessor {
     private static int calcHpChange(MapleCharacter player, boolean usedAPReset) {
         MapleJob job = player.getJob();
         int MaxHP = 0;
-        
+        int baseGain = 10; // beginner gain is 8-12
+
         if (job.isA(MapleJob.WARRIOR) || job.isA(MapleJob.DAWNWARRIOR1)) {
-            if(!usedAPReset) {
-                Skill increaseHP = SkillFactory.getSkill(job.isA(MapleJob.DAWNWARRIOR1) ? DawnWarrior.MAX_HP_INCREASE : Warrior.IMPROVED_MAXHP);
-                int sLvl = player.getSkillLevel(increaseHP);
+            Skill increaseHP = SkillFactory.getSkill(job.isA(MapleJob.DAWNWARRIOR1) ? DawnWarrior.MAX_HP_INCREASE : Warrior.IMPROVED_MAXHP);
+            int sLvl = player.getSkillLevel(increaseHP);
 
-                if(sLvl > 0)
-                    MaxHP += increaseHP.getEffect(sLvl).getY();
-            }
-            
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 20;
-                } else {
-                    MaxHP += Randomizer.rand(18, 22);
-                }
-            } else {
-                MaxHP += 20;
-            }
-        } else if(job.isA(MapleJob.ARAN1)) {
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 20;
-                } else {
-                    MaxHP += Randomizer.rand(26, 30);
-                }
-            } else {
-                MaxHP += 28;
-            }
+            if (sLvl > 0)
+                MaxHP += increaseHP.getEffect(sLvl).getY();
+
+            baseGain = 20;
+        } else if (job.isA(MapleJob.ARAN1)) {
+            baseGain = 32;
         } else if (job.isA(MapleJob.MAGICIAN) || job.isA(MapleJob.BLAZEWIZARD1)) {
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 6;
-                } else {
-                    MaxHP += Randomizer.rand(5, 9);
-                }
-            } else {
-                MaxHP += 6;
-            }
+            baseGain = 8;
         } else if (job.isA(MapleJob.THIEF) || job.isA(MapleJob.NIGHTWALKER1)) {
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 16;
-                } else {
-                    MaxHP += Randomizer.rand(14, 18);
-                }
-            } else {
-                MaxHP += 16;
-            }
-        } else if(job.isA(MapleJob.BOWMAN) || job.isA(MapleJob.WINDARCHER1)) {
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 16;
-                } else {
-                    MaxHP += Randomizer.rand(14, 18);
-                }
-            } else {
-                MaxHP += 16;
-            }
+            baseGain = 22;
+        } else if (job.isA(MapleJob.BOWMAN) || job.isA(MapleJob.WINDARCHER1)) {
+            baseGain = 20;
         } else if (job.isA(MapleJob.PIRATE) || job.isA(MapleJob.THUNDERBREAKER1)) {
-            if(!usedAPReset) {
-                Skill increaseHP = SkillFactory.getSkill(job.isA(MapleJob.PIRATE) ? Brawler.IMPROVE_MAX_HP : ThunderBreaker.IMPROVE_MAX_HP);
-                int sLvl = player.getSkillLevel(increaseHP);
+            Skill increaseHP = SkillFactory.getSkill(job.isA(MapleJob.PIRATE) ? Brawler.IMPROVE_MAX_HP : ThunderBreaker.IMPROVE_MAX_HP);
+            int sLvl = player.getSkillLevel(increaseHP);
 
-                if(sLvl > 0)
-                    MaxHP += increaseHP.getEffect(sLvl).getY();
-            }
-            
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                if (usedAPReset) {
-                    MaxHP += 18;
-                } else {
-                    MaxHP += Randomizer.rand(16, 20);
-                }
-            } else {
-                MaxHP += 18;
-            }
-        } else if (usedAPReset) {
-            MaxHP += 8;
-        } else {
-            if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
-                MaxHP += Randomizer.rand(8, 12);
-            } else {
-                MaxHP += 10;
-            }
+            if (sLvl > 0)
+                MaxHP += increaseHP.getEffect(sLvl).getY();
+
+            baseGain = 18;
         }
-        
+
+        if (!YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN || usedAPReset) {
+            MaxHP += baseGain;
+        } else {
+            MaxHP += Randomizer.rand(baseGain - 2, baseGain + 2);
+        }
+
         return MaxHP;
     }
 
@@ -729,7 +678,7 @@ public class AssignAPProcessor {
                 if(!usedAPReset) {
                     MaxMP += (Randomizer.rand(2, 4) + (player.getInt() / 10));
                 } else {
-                    MaxMP += 2;
+                    MaxMP += 3;
                 }
             } else {
                 MaxMP += 3;
@@ -745,7 +694,7 @@ public class AssignAPProcessor {
             
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(12, 16) + (player.getInt() / 20));
+                    MaxMP += (Randomizer.rand(16, 20) + (player.getInt() / 20));
                 } else {
                     MaxMP += 18;
                 }
@@ -755,32 +704,32 @@ public class AssignAPProcessor {
         } else if (job.isA(MapleJob.BOWMAN) || job.isA(MapleJob.WINDARCHER1)) {
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(6, 8) + (player.getInt() / 10));
+                    MaxMP += (Randomizer.rand(10, 12) + (player.getInt() / 10));
                 } else {
-                    MaxMP += 10;
+                    MaxMP += 11;
                 }
             } else {
-                MaxMP += 10;
+                MaxMP += 11;
             }
         } else if(job.isA(MapleJob.THIEF) || job.isA(MapleJob.NIGHTWALKER1)) {
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(6, 8) + (player.getInt() / 10));
+                    MaxMP += (Randomizer.rand(10, 12) + (player.getInt() / 10));
                 } else {
-                    MaxMP += 10;
+                    MaxMP += 11;
                 }
             } else {
-                MaxMP += 10;
+                MaxMP += 11;
             }
         } else if (job.isA(MapleJob.PIRATE) || job.isA(MapleJob.THUNDERBREAKER1)) {
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(7, 9) + (player.getInt() / 10));
+                    MaxMP += (Randomizer.rand(14, 16) + (player.getInt() / 10));
                 } else {
-                    MaxMP += 14;
+                    MaxMP += 15;
                 }
             } else {
-                MaxMP += 14;
+                MaxMP += 15;
             }
         } else {
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
@@ -796,7 +745,7 @@ public class AssignAPProcessor {
         
         return MaxMP;
     }
-    
+
     private static int takeHp(MapleJob job) {
         int MaxHP = 0;
         
