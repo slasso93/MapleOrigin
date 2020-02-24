@@ -26,6 +26,7 @@ package client.command.commands.gm0;
 import client.MapleCharacter;
 import client.command.Command;
 import client.MapleClient;
+import server.events.gm.MapleEvent;
 
 public class LeaveEventCommand extends Command {
     {
@@ -35,25 +36,31 @@ public class LeaveEventCommand extends Command {
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
-        int returnMap = player.getSavedLocation("EVENT");
-        if(returnMap != -1) {
-            if(player.getOla() != null) {
+        MapleEvent event = c.getChannelServer().getEvent();
+        if (event != null) {
+            int returnMap = player.getSavedLocation("EVENT");
+
+            if (player.getOla() != null) {
                 player.getOla().resetTimes();
                 player.setOla(null);
             }
-            if(player.getFitness() != null) {
+            if (player.getFitness() != null) {
                 player.getFitness().resetTimes();
                 player.setFitness(null);
             }
 
-            player.saveLocationOnWarp();
-            player.changeMap(returnMap);
-            if(c.getChannelServer().getEvent() != null) {
-                c.getChannelServer().getEvent().addLimit();
+            if (event.getMapId() != player.getMapId()) {
+                player.dropMessage(5, "You are not on the event map.");
+            } else {
+                if (returnMap != -1) {
+                    player.changeMap(returnMap);
+                } else { // somehow player is in the event map without a return map
+                    player.changeMap(100000000); // put them in Henesys
+                }
+                event.addLimit();
             }
         } else {
-            player.dropMessage(5, "You are not currently in an event.");
+            player.dropMessage(5, "There is no ongoing event to leave from.");
         }
-
     }
 }
