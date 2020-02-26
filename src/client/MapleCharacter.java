@@ -8480,9 +8480,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         MaplePortal closest = forcedReturn ? null : map.findClosestPortal(getPosition());
         
         for (int i = 0; i < savedLocations.length; i++) {
-            if (savedLocations[i] == null) {
-                savedLocations[i] = new SavedLocation(returnId, closest != null ? closest.getId() : 0);
-            }
+            savedLocations[i] = new SavedLocation(returnId, closest != null ? closest.getId() : 0);
         }
     }
 
@@ -11303,7 +11301,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
             if(!rs.next()) return "Account does not exist.";
-            if(rs.getLong("tempban") != 0 && !rs.getString("tempban").equals("2018-06-20 00:00:00.0")) return "Account has been banned.";
+            if(!rs.getString("tempban").startsWith("2018-06-20 00:00")) return "Account has been banned.";
         } catch(SQLException e) {
             e.printStackTrace();
             FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e);
