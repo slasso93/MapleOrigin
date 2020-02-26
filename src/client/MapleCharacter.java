@@ -8477,9 +8477,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         MaplePortal closest = forcedReturn ? null : map.findClosestPortal(getPosition());
         
         for (int i = 0; i < savedLocations.length; i++) {
-            if (savedLocations[i] == null) {
-                savedLocations[i] = new SavedLocation(returnId, closest != null ? closest.getId() : 0);
-            }
+            savedLocations[i] = new SavedLocation(returnId, closest != null ? closest.getId() : 0);
         }
     }
 
