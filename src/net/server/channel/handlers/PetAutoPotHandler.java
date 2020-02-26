@@ -39,6 +39,8 @@ public final class PetAutoPotHandler extends AbstractMaplePacketHandler {
         short slot = slea.readShort();
         int itemId = slea.readInt();
         
+        /*
+        // potential race conditions and buggy auto healing. this will not allow roar to auto heal but leaves all triggering of auto hp/mp client sided
         MapleCharacter chr = c.getPlayer();
         MapleStatEffect stat = MapleItemInformationProvider.getInstance().getItemEffect(itemId);
         if (stat.getHp() > 0 || stat.getHpRate() > 0.0) {
@@ -49,7 +51,7 @@ public final class PetAutoPotHandler extends AbstractMaplePacketHandler {
         if (stat.getMp() > 0 || stat.getMpRate() > 0.0) {
             float estimatedMp = ((float) chr.getMp()) / chr.getMaxMp();
             chr.setAutopotMpAlert(estimatedMp + 0.0f);
-        }
+        }*/
         
         PetAutopotProcessor.runAutopotAction(c, slot, itemId);
     }

@@ -189,6 +189,7 @@ public class CommandsExecutor {
         
        // addCommand(new String[]{"help", "commands"}, HelpCommand.class);
 		addCommand("fm", FMCommand.class);
+		addCommand("mirror", MirrorCommand.class);
         addCommand("haste", HasteCommand.class);
         addCommand("tele", PlayerTeleportCommand.class);
         addCommand("droplimit", DropLimitCommand.class);
