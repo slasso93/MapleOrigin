@@ -29,7 +29,7 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-            cm.sendSimple("Hello#b #h ##k, you currently have #b#c4000038# #v4000038#.#k \r\nWhat would you like to do?\r\n#k#L1# Buy 5,000 NX for 5mil#l\r\n\#L2# Buy 1 random chair for 5 Trophies#l\r\n\#L3# Trade 1 Trophy for 2 random Maple Weapons #l\r\n#L4#Trade 1 Trophy for a 10 day Hired Merchant#l\r\n#L5#Trade 50 Trophies for a #v4001168# #l#l\r\n#L6#Trade 50 Trophies for one #v4001017# #l#l\r\n#L7#Trade 10 Trophies for one #v1472063# for use in the Happyville raid! #l\r\n#L8#Trade  #v4000492# for one #v1002419# #l\r\n#L9#Trade  10 #v5072000# for one #v5076000# #l");
+            cm.sendSimple("Hello#b #h ##k, you currently have #r#c4000038##b #e#z4000038##n.#k \r\nWhat would you like to do?\r\n#k#L1# Buy #r5,000#k #b#eNX#k for #r5mil#k #b#eMesos#n#k #l\r\n#L2# Buy #r1#k random chair for #r5#k #b#e#z4000038##n#k#l\r\n#L3# Trade #r1#k #b#e#z4000038##n#k for #r2 random#k #e#bMaple Weapons#n#k #l\r\n#L4#Trade #r1#k #b#e#z4000038##n#k for a #e#b#z5030001##n#k#l\r\n#L5#Trade #r50#k #e#b#z4000038##n#k for #r50#k #e#b#z4001168##n#k #l#l\r\n#L6#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001017##n#k #l#l\r\n#L7#Trade #r10#k #e#b#z4000038##n#k for #r1#k #b#e#z1472063##n#k for use in the Happyville raid! #l\r\n#L8#Trade #r1#k #b#e#z4000492##n#k for #r1#k #b#e#z1002419##n#k #l\r\n#L9#Trade #r10#k #b#e#z5072000##n#k for #r1#k #b#e#z5076000##n#k #l");
         } else if (status == 1) {
             if (selection == 1) {
                 if(cm.getMeso() >= 5000000) {
