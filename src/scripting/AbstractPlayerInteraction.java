@@ -593,93 +593,88 @@ public class AbstractPlayerInteraction {
 		return gainItem(id, quantity, randomStats, showMessage, -1);
 	}
 
-        public Item gainItem(int id, short quantity, boolean randomStats, boolean showMessage, long expires) {
-            return gainItem(id, quantity, randomStats, showMessage, expires, null);
-        }
-        
-        public Item gainItem(int id, short quantity, boolean randomStats, boolean showMessage, long expires, MaplePet from) {
-		Item item = null;
-                MaplePet evolved;
-                int petId = -1;
-                
-                if (quantity >= 0) {
-                        if (ItemConstants.isPet(id)) {
-                                petId = MaplePet.createPet(id);
+    public Item gainItem(int id, short quantity, boolean randomStats, boolean showMessage, long expires) {
+        return gainItem(id, quantity, randomStats, showMessage, expires, null);
+    }
 
-                                if(from != null) {
-                                        evolved = MaplePet.loadFromDb(id, (short) 0, petId);
+    public Item gainItem(int id, short quantity, boolean randomStats, boolean showMessage, long expires, MaplePet from) {
+        Item item = null;
+        MaplePet evolved;
+        int petId = -1;
 
-                                        Point pos = getPlayer().getPosition();
-                                        pos.y -= 12;
-                                        evolved.setPos(pos);
-                                        evolved.setFh(getPlayer().getMap().getFootholds().findBelow(evolved.getPos()).getId());
-                                        evolved.setStance(0);
-                                        evolved.setSummoned(true);
+        if (quantity >= 0) {
+            if (ItemConstants.isPet(id)) {
+                petId = MaplePet.createPet(id);
 
-                                        evolved.setName(from.getName().compareTo(MapleItemInformationProvider.getInstance().getName(from.getItemId())) != 0 ? from.getName() : MapleItemInformationProvider.getInstance().getName(id));
-                                        evolved.setCloseness(from.getCloseness());
-                                        evolved.setFullness(from.getFullness());
-                                        evolved.setLevel(from.getLevel());
-                                        evolved.setExpiration(System.currentTimeMillis() + expires);
-                                        evolved.saveToDb();
-                                }
+                if (from != null) {
+                    evolved = MaplePet.loadFromDb(id, (short) 0, petId);
 
-                                //MapleInventoryManipulator.addById(c, id, (short) 1, null, petId, expires == -1 ? -1 : System.currentTimeMillis() + expires);
+                    Point pos = getPlayer().getPosition();
+                    pos.y -= 12;
+                    evolved.setPos(pos);
+                    evolved.setFh(getPlayer().getMap().getFootholds().findBelow(evolved.getPos()).getId());
+                    evolved.setStance(0);
+                    evolved.setSummoned(true);
+
+                    evolved.setName(from.getName().compareTo(MapleItemInformationProvider.getInstance().getName(from.getItemId())) != 0 ? from.getName() : MapleItemInformationProvider.getInstance().getName(id));
+                    evolved.setCloseness(from.getCloseness());
+                    evolved.setFullness(from.getFullness());
+                    evolved.setLevel(from.getLevel());
+                    evolved.setExpiration(System.currentTimeMillis() + expires);
+                    evolved.saveToDb();
+                }
+
+                //MapleInventoryManipulator.addById(c, id, (short) 1, null, petId, expires == -1 ? -1 : System.currentTimeMillis() + expires);
+            }
+
+            MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+
+            if (ItemConstants.getInventoryType(id).equals(MapleInventoryType.EQUIP)) {
+                item = ii.getEquipById(id);
+
+                if (item != null) {
+                    if (YamlConfig.config.server.USE_ENHANCED_CRAFTING && c.getPlayer().getCS()) {
+                        Equip eqp = (Equip) item;
+                        if (!(c.getPlayer().isGM())) {
+                            eqp.setUpgradeSlots((byte) (eqp.getUpgradeSlots() + 1));
                         }
-                    
-			MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+                        item = MapleItemInformationProvider.getInstance().scrollEquipWithId(item, 2049100, true, 2049100, c.getPlayer().isGM());
+                    }
+                }
+            } else {
+                item = new Item(id, (short) 0, quantity, petId);
+            }
 
-			if (ItemConstants.getInventoryType(id).equals(MapleInventoryType.EQUIP)) {
-				item = ii.getEquipById(id);
-                                
-                                if(item != null) {
-                                    Equip it = (Equip)item;
-                                    if (ItemConstants.isAccessory(item.getItemId()) && it.getUpgradeSlots() <= 0) {
-                                        it.setUpgradeSlots(3);
-                                    }
-                                
-                                    if(YamlConfig.config.server.USE_ENHANCED_CRAFTING == true && c.getPlayer().getCS() == true) {
-                                        Equip eqp = (Equip)item;
-                                        if(!(c.getPlayer().isGM() && YamlConfig.config.server.USE_PERFECT_GM_SCROLL)) {
-                                            eqp.setUpgradeSlots((byte)(eqp.getUpgradeSlots() + 1));
-                                        }
-                                        item = MapleItemInformationProvider.getInstance().scrollEquipWithId(item, 2049100, true, 2049100, c.getPlayer().isGM());
-                                    }
-                                }
-			} else {
-				item = new Item(id, (short) 0, quantity, petId);
-			}
+            if (expires >= 0) {
+                item.setExpiration(System.currentTimeMillis() + expires);
+            }
 
-			if (expires >= 0) {
-                                item.setExpiration(System.currentTimeMillis() + expires);
-                        }
-
-			if (!MapleInventoryManipulator.checkSpace(c, id, quantity, "")) {
-				c.getPlayer().dropMessage(1, "Your inventory is full. Please remove an item from your " + ItemConstants.getInventoryType(id).name() + " inventory.");
-				return null;
-			}
-			if (ItemConstants.getInventoryType(id) == MapleInventoryType.EQUIP) {
-				if (randomStats) {
-					MapleInventoryManipulator.addFromDrop(c, ii.randomizeStats((Equip) item), false, petId);
-				} else {
-					MapleInventoryManipulator.addFromDrop(c, (Equip) item, false, petId);
-				}
-			} else {
-				MapleInventoryManipulator.addFromDrop(c, item, false, petId);
-			}
-		} else {
-			MapleInventoryManipulator.removeById(c, ItemConstants.getInventoryType(id), id, -quantity, true, false);
-		}
-		if (showMessage) {
-			c.announce(MaplePacketCreator.getShowItemGain(id, quantity, true));
-		}
-
-		return item;
-	}
-        
-        public void gainFame(int delta) {
-                getPlayer().gainFame(delta);
+            if (!MapleInventoryManipulator.checkSpace(c, id, quantity, "")) {
+                c.getPlayer().dropMessage(1, "Your inventory is full. Please remove an item from your " + ItemConstants.getInventoryType(id).name() + " inventory.");
+                return null;
+            }
+            if (ItemConstants.getInventoryType(id) == MapleInventoryType.EQUIP) {
+                if (randomStats) {
+                    MapleInventoryManipulator.addFromDrop(c, ii.randomizeStats((Equip) item), false, petId);
+                } else {
+                    MapleInventoryManipulator.addFromDrop(c, (Equip) item, false, petId);
+                }
+            } else {
+                MapleInventoryManipulator.addFromDrop(c, item, false, petId);
+            }
+        } else {
+            MapleInventoryManipulator.removeById(c, ItemConstants.getInventoryType(id), id, -quantity, true, false);
         }
+        if (showMessage) {
+            c.announce(MaplePacketCreator.getShowItemGain(id, quantity, true));
+        }
+
+        return item;
+    }
+
+    public void gainFame(int delta) {
+        getPlayer().gainFame(delta);
+    }
 
 	public void changeMusic(String songName) {
 		getPlayer().getMap().broadcastMessage(MaplePacketCreator.musicChange(songName));
