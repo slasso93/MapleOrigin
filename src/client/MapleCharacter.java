@@ -2574,7 +2574,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                                             }
                                             
                                             int petid = rs.getInt("petid");
-                                            if(!rs.wasNull()) {
+                                            if(petid > -1) {
                                                     try (PreparedStatement ps2 = con.prepareStatement("DELETE FROM pets WHERE petid = ?")) {
                                                             ps2.setInt(1, petid);
                                                             ps2.executeUpdate();
@@ -7444,13 +7444,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             rs3 = ps3.executeQuery();
             while(rs3.next()) {
                 int petId = rs3.getInt("petid");
+                
 				
-                if(petid > -1) {
-                    try (PreparedStatement ps2 = con.prepareStatement("DELETE FROM pets WHERE petid = ?")) {
-                    ps2.setInt(1, petid);
-                    ps2.executeUpdate();
-                }
-							   }
                 ps2 = con.prepareStatement("SELECT itemid FROM petignores WHERE petid = ?");
                 ps2.setInt(1, petId);
 
