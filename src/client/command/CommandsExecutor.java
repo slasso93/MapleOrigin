@@ -279,6 +279,7 @@ public class CommandsExecutor {
         addCommand("gachalist", GachaListCommand.class);
         addCommand("loot", LootCommand.class);
         addCommand("awardToMap", 2, AwardToMapCommand.class);
+        addCommand("spreset", 2, SPReset.class);
         
         commandsNameDesc.add(levelCommandsCursor);
     }
