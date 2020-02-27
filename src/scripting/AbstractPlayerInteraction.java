@@ -635,7 +635,7 @@ public class AbstractPlayerInteraction {
                                 if(item != null) {
                                     Equip it = (Equip)item;
                                     if (ItemConstants.isAccessory(item.getItemId()) && it.getUpgradeSlots() <= 0) {
-                                        it.setUpgradeSlots(3);
+                                        it.setUpgradeSlots(0);
                                     }
                                 
                                     if(YamlConfig.config.server.USE_ENHANCED_CRAFTING == true && c.getPlayer().getCS() == true) {
