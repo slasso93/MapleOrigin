@@ -25,22 +25,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.Semaphore;
+
+import config.YamlConfig;
 import tools.DatabaseConnection;
 import tools.MaplePacketCreator;
 import net.server.audit.locks.MonitoredLockType;
 import net.server.audit.locks.factory.MonitoredReentrantLockFactory;
+import tools.Pair;
 
 public final class MonsterBook {
     private static final Semaphore semaphore = new Semaphore(10);
-    
+
+    private int[] tierSizes = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private int[] completedCardsByTier = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+
     private int specialCard = 0;
     private int normalCard = 0;
     private int bookLevel = 1;
@@ -63,15 +65,15 @@ public final class MonsterBook {
         lock.lock();
         try {
             qty = cards.get(cardid);
-            
-            if(qty != null) {
-                if(qty < 5) {
+
+            if (qty != null) { // existing card
+                if (qty < 5) {
                     cards.put(cardid, qty + 1);
                 }
-            } else {
+            } else { // new card
                 cards.put(cardid, 1);
                 qty = 0;
-                
+
                 if (cardid / 1000 >= 2388) {
                     specialCard++;
                 } else {
@@ -82,13 +84,48 @@ public final class MonsterBook {
             lock.unlock();
         }
         
-        if(qty < 5) {
+        if (qty < 5) {
             if (qty == 0) {     // leveling system only accounts unique cards
                 calculateLevel();
             }
-            
+
+            if (YamlConfig.config.server.USE_MONSTERBOOK_HP_SYSTEM) {
+                if (qty == 4) { // (now we are level 5)
+                    int tier = cardid / 1000 % 10;
+                    int hpGain = (tier + 2) * 5; // the fourth digit gives you the tier number (0-8)
+
+                    // completed set message
+                    c.getPlayer().dropMessage(6, "T" + (tier + 1) + " monster card set completed! (" + (++completedCardsByTier[tier]) + "/" + tierSizes[tier] + ") +" + hpGain + "HP");
+
+                    if (YamlConfig.config.server.USE_MONSTERBOOK_TIER_BONUS) {
+                        if (completedCardsByTier[tier] == tierSizes[tier]) { // full tier completed
+                            int tierBonus = (tier + 1) * 25; // 25, 50, 75, ... 225 = 1125 total for complete book
+                            c.getPlayer().dropMessage(6, "Congratulations on completing all sets in T" + (tier + 1) + "! +" + tierBonus + "HP");
+                            hpGain += tierBonus;
+                        }
+                    }
+
+                    if (YamlConfig.config.server.USE_MONSTERBOOK_COMPLETE_BOOK_BONUS) {
+                        if (Arrays.equals(completedCardsByTier, tierSizes)) { // full book completed
+                            int completeBonus = YamlConfig.config.server.MONSTERBOOK_COMPLTE_BONUS;
+                            c.getPlayer().dropMessage(6, "Way to go! You've completed the entire Monster Book! +" + completeBonus + "HP");
+                            hpGain += completeBonus;
+                        }
+                    }
+
+                    MapleCharacter player = c.getPlayer();
+                    int maxHpBefore = player.getMaxHp();
+                    player.setMaxHp(maxHpBefore + hpGain);
+
+                    c.announce(MaplePacketCreator.updatePlayerStats(Collections.singletonList(new Pair<>(MapleStat.MAXHP, player.getMaxHp())), true, player));
+
+                    player.updatePartyMemberHP();
+                }
+            }
+
             c.announce(MaplePacketCreator.addCard(false, cardid, qty + 1));
             c.announce(MaplePacketCreator.showGainCard());
+
         } else {
             c.announce(MaplePacketCreator.addCard(true, cardid, 5));
         }
@@ -167,6 +204,9 @@ public final class MonsterBook {
                     while (rs.next()) {
                         cardid = rs.getInt("cardid");
                         level = rs.getInt("level");
+                        tierSizes[cardid / 1000 % 10]++;
+                        if (level == 5)
+                            completedCardsByTier[cardid / 1000 % 10]++;
                         if (cardid / 1000 >= 2388) {
                             specialCard++;
                         } else {
@@ -178,6 +218,7 @@ public final class MonsterBook {
             }
 
             con.close();
+
         } finally {
             lock.unlock();
         }
@@ -239,29 +280,25 @@ public final class MonsterBook {
             e.printStackTrace();
         }
     }
-    
-    public static int[] getCardTierSize() {
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM monstercarddata GROUP BY floor(cardid / 1000);");
+
+    // not used but useful to know
+    private void loadTierSizes() {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM monstercarddata GROUP BY floor(cardid / 1000) ORDER BY floor(cardid / 1000)");) {
+
             ResultSet rs = ps.executeQuery();
-            
             rs.last();
-            int[] tierSizes = new int[rs.getRow()];
+            tierSizes = new int[rs.getRow()];
             rs.beforeFirst();
-            
+
             while (rs.next()) {
                 tierSizes[rs.getRow() - 1] = rs.getInt(1);
             }
-            
+
             rs.close();
-            ps.close();
-            con.close();
-            
-            return tierSizes;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return new int[0];
         }
     }
+
 }

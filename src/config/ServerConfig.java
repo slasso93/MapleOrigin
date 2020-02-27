@@ -301,4 +301,10 @@ public class ServerConfig {
     //Event End Timestamp
     public long EVENT_END_TIMESTAMP;
 
+    // Monster Book HP reward configuration (scales by tier)
+    public boolean USE_MONSTERBOOK_HP_SYSTEM;
+    public boolean USE_MONSTERBOOK_TIER_BONUS;
+    public boolean USE_MONSTERBOOK_COMPLETE_BOOK_BONUS;
+    public int MONSTERBOOK_COMPLTE_BONUS;
+
 }
