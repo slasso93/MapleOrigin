@@ -43,13 +43,19 @@ public class ReachCommand extends Command {
 
         MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
         if (victim != null && victim.isLoggedin()) {
-            if (player.getClient().getChannel() != victim.getClient().getChannel()) {
+           /*if (player.getClient().getChannel() != victim.getClient().getChannel()) {
                 player.dropMessage(5, "Player '" + victim.getName() + "' is at channel " + victim.getClient().getChannel() + ".");
-            } else {
+            }*/ 
+			if (player.getClient().getChannel() != victim.getClient().getChannel()) {
+						player.dropMessage("Changing to target's channel");
+						player.getClient().changeChannel(victim.getClient().getChannel());
+					}
+			else {
                 MapleMap map = victim.getMap();
                 player.saveLocationOnWarp();
                 player.forceChangeMap(map, map.findClosestPortal(victim.getPosition()));
             }
+			
         } else {
             player.dropMessage(6, "Unknown player.");
         }
