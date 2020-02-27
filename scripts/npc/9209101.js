@@ -36,7 +36,7 @@ function action (m,t,s) {
     if (status == 1) {
         sel = s;
         if (s == 0) {
-            var selStr = "#b1 #e#z4000313##n store#k\r\nFun Fact: Mitochondria is not actually the powerhouse of the cell #b";
+            var selStr = "#e#kScroll shop:#n #r1#b #e#z4000313##n#k\r\nFun Fact: Mitochondria is not actually the powerhouse of the cell #b";
             var scrolls = [2049100, 2340000, 2049003].concat(items.slice(95, 113));
             for (var i = 0; i < scrolls.length; i++) {
                 if (scrolls[i] != 2340000)
@@ -44,7 +44,7 @@ function action (m,t,s) {
             }
             cm.sendSimple(selStr);
         } else if (s == 1) {
-            var selStr = "#b3 #e#z4000313##n store#k\r\nFun Fact: Munz Likes Bunz #b";
+            var selStr = "#e#kiTCG shop:#n #r3#b #e#z4000313##n#k\r\nFun Fact: Munz Likes Bunz #b";
             var pageItems = items.slice(1, 17);
             for (var i = 0; i < pageItems.length; i++) {
                 if (pageItems[i] != 2070018)
@@ -52,7 +52,7 @@ function action (m,t,s) {
             }
             cm.sendSimple(selStr);
         } else if (s == 2) {
-            var selStr = "#b15 #e#z4000313##n store#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
+            var selStr = "#e#kVIP Weapon shop:#n #r10#b #e#z4000313##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
             var pageItems = items.slice(79, 95);
             for (var i = 0; i < pageItems.length; i++)
                 selStr += "\r\n#L" + (i + 79) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
@@ -73,7 +73,7 @@ function action (m,t,s) {
             // cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE  #b\r\n#L37# #v1302152#Lionheart Cuttlas #b\r\n#L38# #v1312065#LionHeart Champion Axe #b\r\n#L39# #v1322096#Lionheart Battle Hammer #b\r\n#L40# #v1402095#Lionheart Battle Scimitar #b\r\n#L41# #v1412065#Lionheart Battle Axe #b\r\n#L42# #v1422066#Lionheart Blast Maul #b\r\n#L43# #v1432086#Lionheart Fuscina #b\r\n#L44##v1442116# Lionheart Partisan #b\r\n#L45# #v1452111#Falcon Wing Composite Bow #b\r\n#L46# #v1462099#Falcon Wing Heavy Cross Bow #b\r\n#L47##v1332130# Raven Horn Baselard #b\r\n#L48# #v1472122#Raven Horn Metal Fist #b\r\n#L49# #v1372084#Dragon Tail Arc Wand #b\r\n#L50# #v1382104#Dragon Tail War Staff #b\r\n#L51# #v1482084#Shark Tooth Wild Talon #b\r\n#L52# #v1492085#Shark Tooth Sharpshooter #b\r\n");
         }
 		else if (s == 5) {
-		    var selStr = "#b15 #e#z4000313##n store#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
+		    var selStr = "#e#kSkill Book shop:#n #r15#b #e#z4000313##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
             var pageItems = items.slice(37, 61);
             for (var i = 0; i < pageItems.length; i++)
                 selStr += "\r\n#L" + (i + 37) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
