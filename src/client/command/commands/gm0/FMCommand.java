@@ -62,10 +62,12 @@ public class FMCommand extends Command {
         }
 
         MapleMap fm = c.getChannelServer().getMapFactory().getMap(GameConstants.GOTO_AREAS.get("fm"));
-        if (player.getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999
-            player.saveLocation("FREE_MARKET");
-        } else if (player.getMap().getId() != 910000000 && player.getMap().getId() != 76000) { // non normal maps and not fm/lost memories. ex: zakum's altar will return to forced location cave of passage
-            player.saveLocation("FREE_MARKET", true);
+        if (player.getMap().getReturnMapId() != 910000000) { // if return map is fm, don't update save location
+            if (player.getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999
+                player.saveLocation("FREE_MARKET");
+            } else if (player.getMap().getId() != 910000000 && player.getMap().getId() != 76000) { // non normal maps and not fm/lost memories. ex: zakum's altar will return to forced location cave of passage
+                player.saveLocation("FREE_MARKET", true);
+            }
         }
         player.changeMap(fm);
     }
