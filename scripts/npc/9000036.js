@@ -61,20 +61,20 @@ function action(mode, type, selection) {
     }
     if (status == 0) {
         if (selection == 0) { //pendants
-            var selStr = "Well, I've got these pendants on my repertoire:#b";
+            var selStr = "Well, I've got these pendants in my repertoire:#b#e";
             items = [1122018,1122007,1122001,1122003,1122004,1122006,1122002,1122005,1122058];
             for (var i = 0; i < items.length; i++)
-                selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
+                selStr += "\r\n#L" + i + "##v" + items[i] + "##e#z" + items[i] + "##n";
         }else if (selection == 1) { //face accessory
             var selStr = "Hmm, face accessories? There you go: #b";
             items = [1012181,1012182,1012183,1012184,1012185,1012186, 1012108, 1012109, 1012110, 1012111];
             for (var i = 0; i < items.length; i++)
-                selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
+                selStr += "\r\n#L" + i + "##v" + items[i] + "##e#z" + items[i] + "##n";
         }else if (selection == 2) { //eye accessory
             var selStr = "Blind as a bat? Choose some glasses!#b";
             items = [1022073, 1022088, 1022103, 1022089, 1022082];
             for (var i = 0; i < items.length; i++)
-                selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
+                selStr += "\r\n#L" + i + "##v" + items[i] + "##e#z" + items[i] + "##n";
         }else if (selection == 4) { //belt & medal
             var selStr = "Hmm... For these, things get a little tricky. Since these items are too short and too similar one another, I don't really know what item will emerge when I finish the synthesis. Still wanna try for something?";
             items = [];
@@ -98,7 +98,7 @@ function action(mode, type, selection) {
             items = [1112407, 1112408, 1112401, 1112413, 1112414, 1112405, 1112402, 1112585, 1112586]; //, 1112663 wabr when fixed
             
             for (var i = 0; i < items.length; i++)
-                selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
+                selStr += "\r\n#L" + i + "##v" + items[i] + "##e#z" + items[i] + "##n";
             
         }/*else if (selection == 5) { //make necklace
             var selStr = "Need to make #t4032496#?#b";
@@ -154,9 +154,9 @@ function action(mode, type, selection) {
         var prompt = "You want me to make ";
         if(selectedType != 4) {
             if (qty == 1)
-                prompt += "a #b#t" + item + "##k?";
+                prompt += "a #b#e#z" + item + "##n#k?";
             else
-                prompt += "#b" + qty + " #t" + item + "##k?";
+                prompt += "#r" + qty + "#b #z" + item + "##n#k?";
         }
         else prompt += "a #bbelt#k or a #bmedal#k?";
         
