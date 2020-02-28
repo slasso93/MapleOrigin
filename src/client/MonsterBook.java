@@ -204,7 +204,7 @@ public final class MonsterBook {
                     while (rs.next()) {
                         cardid = rs.getInt("cardid");
                         level = rs.getInt("level");
-                        tierSizes[cardid / 1000 % 10]++;
+                        loadTierSizes();
                         if (level == 5)
                             completedCardsByTier[cardid / 1000 % 10]++;
                         if (cardid / 1000 >= 2388) {
