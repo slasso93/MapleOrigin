@@ -82,8 +82,8 @@ public class ItemCommand extends Command {
                 flag |= ItemConstants.ACCOUNT_SHARING;
                 flag |= ItemConstants.UNTRADEABLE;
         }
-        MapleInventoryManipulator.addById(c, itemId, quantity, -1, flag, -1);
+        MapleInventoryManipulator.addById(c, itemId, quantity, null, -1, flag, -1);
 		
-        //MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), -1, flag, -1);
+        // MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), -1, flag, -1);
     }
 }

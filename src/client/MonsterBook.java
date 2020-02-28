@@ -196,6 +196,7 @@ public final class MonsterBook {
     public void loadCards(final int charid) throws SQLException {
         lock.lock();
         try {
+            loadTierSizes();
             Connection con = DatabaseConnection.getConnection();
             try (PreparedStatement ps = con.prepareStatement("SELECT cardid, level FROM monsterbook WHERE charid = ? ORDER BY cardid ASC")) {
                 ps.setInt(1, charid);
@@ -204,7 +205,6 @@ public final class MonsterBook {
                     while (rs.next()) {
                         cardid = rs.getInt("cardid");
                         level = rs.getInt("level");
-                        loadTierSizes();
                         if (level == 5)
                             completedCardsByTier[cardid / 1000 % 10]++;
                         if (cardid / 1000 >= 2388) {

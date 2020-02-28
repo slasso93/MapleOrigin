@@ -51,6 +51,18 @@ public class Skill {
         return effects.size();
     }
 
+    public boolean isFirstJob() {
+        return job % 1000 != 0 && job % 1000 / 10 % 10 == 0;
+    }
+
+    public boolean isSecondJob() {
+        return !isFirstJob() && job % 10 == 0;
+    }
+
+    public boolean isThirdJob() {
+        return job % 10 == 1;
+    }
+
     public boolean isFourthJob() {
         if (job == 2212) {
         	return false;

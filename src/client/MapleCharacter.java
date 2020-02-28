@@ -350,6 +350,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public boolean invite = false;
     private boolean pendingNameChange; //only used to change name on logout, not to be relied upon elsewhere
     private long loginTime;
+    private boolean usedFullSpReset;
     
     private MapleCharacter() {
         super.setListener(new AbstractCharacterListener() {
@@ -1464,6 +1465,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         changeMap(map_, portal_ != null ? portal_ : map_.getRandomPlayerSpawnpoint());
         
         setBanishPlayerData(banMap, banSp, banTime);
+    }
+
+    public boolean usedFullSpReset() {
+        return usedFullSpReset;
+    }
+
+    public void setUsedFullSpReset(boolean used) {
+        usedFullSpReset = used;
     }
 
     public void changeMap(int map) {
@@ -6867,7 +6876,37 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
         }
     }
-    
+
+    public synchronized void resetSP() {
+        effLock.lock();
+        statWlock.lock();
+        try {
+            int spGain = 0;
+            for (Entry<Skill, MapleCharacter.SkillEntry> skillMapEntry : getSkills().entrySet()) {
+                Skill skill = skillMapEntry.getKey();
+                SkillEntry skillEntry = skillMapEntry.getValue();
+                if (skill.isBeginnerSkill()) {
+                    continue;
+                }
+                changeSkillLevel(skill, (byte) 0, getMasterLevel(skill), getSkillExpiration(skill));
+                spGain += skillEntry.skillevel;
+            }
+            if (spGain > 0) {
+                gainSp(spGain, GameConstants.getSkillBook(job.getId()), true);
+
+                List<Pair<MapleStat, Integer>> statup = new ArrayList<>(10);
+                statup.add(new Pair<>(MapleStat.AVAILABLESP, remainingSp[GameConstants.getSkillBook(job.getId())]));
+                client.announce(MaplePacketCreator.updatePlayerStats(statup, true, this));
+            }
+        } finally {
+            statWlock.unlock();
+            effLock.unlock();
+        }
+
+        if (!isGM())
+            setUsedFullSpReset(true);
+    }
+
     public boolean leaveParty() {
         MapleParty party;
         boolean partyLeader;
@@ -7386,6 +7425,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ret.buddylist = new BuddyList(buddyCapacity);
             ret.lastExpGainTime = rs.getTimestamp("lastExpGainTime").getTime();
             ret.canRecvPartySearchInvite = rs.getBoolean("partySearch");
+            ret.usedFullSpReset = rs.getBoolean("used_sp_reset");
             
             ret.getInventory(MapleInventoryType.EQUIP).setSlotLimit(rs.getByte("equipslots"));
             ret.getInventory(MapleInventoryType.USE).setSlotLimit(rs.getByte("useslots"));
@@ -8702,7 +8742,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
 
             PreparedStatement ps;
-            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, gachaexp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpMpUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness= ?, equipslots = ?, useslots = ?, setupslots = ?, etcslots = ?,  monsterbookcover = ?, vanquisherStage = ?, dojoPoints = ?, lastDojoStage = ?, finishedDojoTutorial = ?, vanquisherKills = ?, matchcardwins = ?, matchcardlosses = ?, matchcardties = ?, omokwins = ?, omoklosses = ?, omokties = ?, dataString = ?, fquest = ?, jailexpire = ?, partnerId = ?, marriageItemId = ?, lastExpGainTime = ?, ariantPoints = ?, partySearch = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, gachaexp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpMpUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness= ?, equipslots = ?, useslots = ?, setupslots = ?, etcslots = ?,  monsterbookcover = ?, vanquisherStage = ?, dojoPoints = ?, lastDojoStage = ?, finishedDojoTutorial = ?, vanquisherKills = ?, matchcardwins = ?, matchcardlosses = ?, matchcardties = ?, omokwins = ?, omoklosses = ?, omokties = ?, dataString = ?, fquest = ?, jailexpire = ?, partnerId = ?, marriageItemId = ?, lastExpGainTime = ?, ariantPoints = ?, partySearch = ?, used_sp_reset = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, level);    // thanks CanIGetaPR for noticing an unnecessary "level" limitation when persisting DB data
             ps.setInt(2, fame);
             
@@ -8814,7 +8854,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.setTimestamp(53, new Timestamp(lastExpGainTime));
             ps.setInt(54, ariantPoints);
             ps.setBoolean(55, canRecvPartySearchInvite);
-            ps.setInt(56, id);
+            ps.setBoolean(56, usedFullSpReset);
+            ps.setInt(57, id);
 
             int updateRows = ps.executeUpdate();
             ps.close();
