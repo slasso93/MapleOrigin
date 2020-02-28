@@ -457,3 +457,9 @@ server:
     #Event End Timestamp
     EVENT_END_TIMESTAMP: 1428897600000
 
+    # Monster Book HP reward configuration (scales by tier)
+    USE_MONSTERBOOK_HP_SYSTEM: true               # Enables HP gain on monster card set obtained
+    USE_MONSTERBOOK_TIER_BONUS: true              # Gives bonus HP when a full tier is completed
+    USE_MONSTERBOOK_COMPLETE_BOOK_BONUS: true     # Give a bonus on completing the entire book
+    MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
+
