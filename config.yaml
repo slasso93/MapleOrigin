@@ -394,8 +394,10 @@ server:
     USE_EQUIPMNT_LVLUP_CASH: true   #Enable equip leveling up on cash equipments as well.
     USE_SPIKES_AVOID_BANISH: true   #Shoes equipped with spikes prevents mobs from banishing wearer.
     MAX_EQUIPMNT_LVLUP_STAT_UP: 5   #Max stat upgrade an equipment can have on a levelup.
+    EQUIPMNT_LVLUP_HP_MP_MULTIPLIER: 5  # HP will gain X times more stats when leveling. 5 = [0, 1, 2, 3, 4, 5]
     MAX_EQUIPMNT_STAT: 32767            #Max stat on an equipment by leveling up.
     USE_EQUIPMNT_LVLUP: 5               #All equips lvlup at max level of N, set 1 to disable.
+    USE_EQUIPMNT_LVLUP_OVERALL: 9       #Overalls lvlup at max level of N, set equal to USE_EQUIPMNT_LVLUP to have overalls level equally to other equips.
 
     #Map-Chair Configuration
     USE_CHAIR_EXTRAHEAL: false       #Enable map chairs to further recover player's HP and MP (player must have the Chair Mastery skill).
@@ -462,4 +464,3 @@ server:
     USE_MONSTERBOOK_TIER_BONUS: true              # Gives bonus HP when a full tier is completed
     USE_MONSTERBOOK_COMPLETE_BOOK_BONUS: true     # Give a bonus on completing the entire book
     MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
-
