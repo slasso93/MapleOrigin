@@ -53,7 +53,7 @@ public class KerningCity extends GachaponItems {
 
 	@Override
 	public int[] getRareItems() {
-		return new int[] {};
+		return new int[] {1092049};
 	}
 
 }
