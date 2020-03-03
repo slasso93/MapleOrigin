@@ -29,15 +29,13 @@ function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
         
-    else if(!cm.getEventInstance().isEventCleared())
-{
+    else if (cm.getEventInstance() && !cm.getEventInstance().isEventCleared()) {
         cm.warp(220080000);
         cm.dispose();
-}
-    else {
-        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
+    } else {
+        if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
             cm.warp(220080000);
-            cm.gainItem(4000313, 1);
+            cm.gainItem(4000038, 25);
             cm.dispose();
         } else {
             cm.sendOk("Please make space in your inventory");
