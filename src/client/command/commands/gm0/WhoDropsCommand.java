@@ -62,10 +62,13 @@ public class WhoDropsCommand extends Command {
                         Pair<Integer, String> data = listIterator.next();
                         int itemid = data.getLeft();
                         MapleData itemData = MapleItemInformationProvider.getInstance().getItemData(itemid);
-                        int successRate = MapleDataTool.getIntConvert("info/success", itemData, -1);
+                        String displayName = data.getRight();
+                        if (itemData != null) {
+                            int successRate = MapleDataTool.getIntConvert("info/success", itemData, -1);
 
-                        String displayName = successRate != -1 && !data.getRight().toLowerCase().contains("book") ?
-                                data.getRight() + " (" + successRate + "%)" : data.getRight();
+                            if (successRate != -1 && !data.getRight().toLowerCase().contains("book"))
+                                displayName = data.getRight() + " (" + successRate + "%)";
+                        }
                         output += "#b" + displayName + "#k is dropped by:\r\n";
                         try {
                             Connection con = DatabaseConnection.getConnection();
