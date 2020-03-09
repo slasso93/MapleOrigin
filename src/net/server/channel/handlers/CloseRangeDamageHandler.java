@@ -121,7 +121,7 @@ public final class CloseRangeDamageHandler extends AbstractDealDamageHandler {
                 }
             } else if (chr.getSkillLevel(chr.isCygnus() ? SkillFactory.getSkill(15100004) : SkillFactory.getSkill(5110001)) > 0 && (chr.getJob().isA(MapleJob.MARAUDER) || chr.getJob().isA(MapleJob.THUNDERBREAKER2))) {
                 for (int i = 0; i < attack.numAttacked; i++) {
-                    chr.handleEnergyChargeGain();
+                    chr.handleEnergyChargeGain(attack.numAttacked);
                 }
             }
         }

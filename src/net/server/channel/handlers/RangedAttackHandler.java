@@ -83,7 +83,7 @@ public final class RangedAttackHandler extends AbstractDealDamageHandler {
             applyAttack(attack, chr, 1);
             
             for (int i = 0; i < attack.numAttacked; i++) {
-                chr.handleEnergyChargeGain();
+                chr.handleEnergyChargeGain(attack.numAttacked);
             }
         } else if (attack.skill == Aran.COMBO_SMASH || attack.skill == Aran.COMBO_FENRIR || attack.skill == Aran.COMBO_TEMPEST) {
             chr.getMap().broadcastMessage(chr, MaplePacketCreator.rangedAttack(chr, attack.skill, attack.skilllevel, attack.stance, attack.numAttackedAndDamage, 0, attack.allDamage, attack.speed, attack.direction, attack.display), false);
