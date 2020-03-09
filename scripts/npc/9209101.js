@@ -23,7 +23,7 @@ var items = [1022082,
 var leaf = [4000313];
 
 function start() {
-    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, and Pink Bean! What would u like to buy? #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf");
+    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, and Pink Bean! What would u like to buy? #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf#b\r\n#L6# Buy Vega's Spells for Golden Maple Leaves");
 }
 
 function action (m,t,s) {
@@ -81,6 +81,12 @@ function action (m,t,s) {
             }
             cm.sendSimple(selStr);
             // cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE  #b\r\n#L37# #v2290084#Triple Throw 20 #b\r\n#L38# #v2290085#Triple Throw 30 #b\r\n#L39# #v2290010#Brandish 20 #b\r\n#L40# #v2290011#Brandish 30 #b\r\n#L41# #v2290022#Berserk 20 #b\r\n#L42# #v2290023#Berserk 30 #b\r\n#L43# #v2290060#Hurricane 20 #b\r\n#L44##v2290061#Hurricane 30 #b\r\n#L45# #v2290032#Chain Lightning 20 #b\r\n#L46# #v2290033#Chain Lightning 30 #b\r\n#L47##v2290030#Paralyze 20 #b\r\n#L48# #v2290031#Paralyze 30 #b\r\n#L49# #v2290050#Angel Ray 20 #b\r\n#L50# #v2290051#Angel Ray 30 #b\r\n#L51# #v2290090#Boomerang Step 20 #b\r\n#L52# #v2290091#Boomerang Step 30 #b\r\n#L53# #v2290074#Snipe 20 #b\r\n#L54# #v2290074# Snipe 30 #b\r\n#L55# #v2290136#Combo Tempest 20 #b\r\n#L56# #v2290137#Combo Tempest 30 #b\r\n#L57# #v2290012#Blast 20 #b\r\n#L58# #v2290013#Blast 30 #b\r\n#L59# #v2290096#Maple Warrior 20 #b\r\n#L60# #v2290125#Maple Warrior 30 #b\r\n");
+        } else if (s == 6) {
+            var selStr = "#e#kVega's Scroll shop:#n#b\r\n";
+
+            selStr += "#L" + 5610000 + "##v" + 5610000 + "##e#z" + 5610000 + "##n (#r2 GML#b)";
+            selStr += "\r\n#L" + 5610001 + "##v" +5610001 + "##e#z" + 5610001 + "##n (#r3 GML#b)";
+            cm.sendSimple(selStr);
         }
     } else if (status == 2) {
         if (sel == 100) {
@@ -159,6 +165,28 @@ function action (m,t,s) {
                             }
                         }
                     }
+                    else if (s == 5610000 || s == 5610001) {
+                        if (items[s] == 2330005 && cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(0)) {
+                            cm.sendOk("Please make sure you have at least 1 empty cash slots.");
+                        } else {
+                            if (s == 5610000) {
+                                if(cm.haveItem(leaf, 2)) {
+                                    cm.gainItem(leaf, -2);
+                                    cm.gainItem(s, 1);
+                                } else {
+                                    cm.sendOk("Sorry, you don't have enough leafs!");
+                                }
+                            } else if (s == 5610001) {
+                                if(cm.haveItem(leaf, 3)) {
+                                  cm.gainItem(leaf, -3);
+                                  cm.gainItem(s, 1);
+                              } else {
+                                  cm.sendOk("Sorry, you don't have enough leafs!");
+                              }
+                            }
+                        }
+                    }
+
 					/*else if(items[s] == 2290084 || items[s] == 2290085 || items[s] == 2290010 || items[s] == 2290011 || items[s] == 2290022 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
                         cm.gainItem(leaf, -15);
 						cm.gainItem(items[s], 1);
@@ -169,7 +197,14 @@ function action (m,t,s) {
                     cm.sendOk("Please make sure you have at least 1 empty slots in both equip and etc.");
                 }
             } else {
-                cm.sendOk(" You don't have " + points[s] + " Golden Maple Leafs. ");
+                var pts = points[s];
+                if (!pts)
+                    if (s == 5610000)
+                        pts = 2;
+                    if (s == 5610001)
+                        pts = 3;
+
+                cm.sendOk(" You don't have " + pts + " Golden Maple Leafs. ");
             }
         }
         cm.dispose();
