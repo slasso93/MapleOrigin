@@ -280,40 +280,43 @@ public final class InventorySortHandler extends AbstractMaplePacketHandler {
             c.disconnect(false, false);
             return;
         }
-	
-        ArrayList<Item> itemarray = new ArrayList<>();
-        List<ModifyInventory> mods = new ArrayList<>();
-        
-        MapleInventory inventory = chr.getInventory(MapleInventoryType.getByType(invType));
-        inventory.lockInventory();
-        try {
-            for (short i = 1; i <= inventory.getSlotLimit(); i++) {
-                Item item = inventory.getItem(i);
-                if (item != null) {
-                    itemarray.add((Item) item.copy());
+
+        if (c.tryacquireClient()) {
+            ArrayList<Item> itemarray = new ArrayList<>();
+            List<ModifyInventory> mods = new ArrayList<>();
+
+            MapleInventory inventory = chr.getInventory(MapleInventoryType.getByType(invType));
+            inventory.lockInventory();
+            try {
+                for (short i = 1; i <= inventory.getSlotLimit(); i++) {
+                    Item item = inventory.getItem(i);
+                    if (item != null) {
+                        itemarray.add((Item) item.copy());
+                    }
                 }
+
+                for (Item item : itemarray) {
+                    inventory.removeSlot(item.getPosition());
+                    mods.add(new ModifyInventory(3, item));
+                }
+
+                int invTypeCriteria = (MapleInventoryType.getByType(invType) == MapleInventoryType.EQUIP) ? 3 : 1;
+                int sortCriteria = (YamlConfig.config.server.USE_ITEM_SORT_BY_NAME == true) ? 2 : 0;
+                PairedQuicksort pq = new PairedQuicksort(itemarray, sortCriteria, invTypeCriteria);
+
+                for (Item item : itemarray) {
+                    inventory.addItem(item);
+                    mods.add(new ModifyInventory(0, item.copy()));//to prevent crashes
+                }
+                itemarray.clear();
+            } finally {
+                inventory.unlockInventory();
+                c.releaseClient();
             }
 
-            for (Item item : itemarray) {
-                inventory.removeSlot(item.getPosition());
-                mods.add(new ModifyInventory(3, item));
-            }
-
-            int invTypeCriteria = (MapleInventoryType.getByType(invType) == MapleInventoryType.EQUIP) ? 3 : 1;
-            int sortCriteria = (YamlConfig.config.server.USE_ITEM_SORT_BY_NAME == true) ? 2 : 0;
-            PairedQuicksort pq = new PairedQuicksort(itemarray, sortCriteria, invTypeCriteria);
-
-            for (Item item : itemarray) {
-                inventory.addItem(item);
-                mods.add(new ModifyInventory(0, item.copy()));//to prevent crashes
-            }
-            itemarray.clear();
-        } finally {
-            inventory.unlockInventory();
+            c.announce(MaplePacketCreator.modifyInventory(true, mods));
+            c.announce(MaplePacketCreator.finishedSort2(invType));
+            c.announce(MaplePacketCreator.enableActions());
         }
-        
-        c.announce(MaplePacketCreator.modifyInventory(true, mods));
-        c.announce(MaplePacketCreator.finishedSort2(invType));
-        c.announce(MaplePacketCreator.enableActions());
     }
 }

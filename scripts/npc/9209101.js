@@ -23,7 +23,7 @@ var items = [1022082,
 var leaf = [4000313];
 
 function start() {
-    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, and Pink Bean! What would u like to buy? #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf");
+    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, and Pink Bean! What would u like to buy? #b\r\n#L6# Buy 40 Event Trophies for 1 Golden Maple Leaf #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf");
 }
 
 function action (m,t,s) {
@@ -79,6 +79,10 @@ function action (m,t,s) {
                 selStr += "\r\n#L" + (i + 37) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
             cm.sendSimple(selStr);
             // cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE  #b\r\n#L37# #v2290084#Triple Throw 20 #b\r\n#L38# #v2290085#Triple Throw 30 #b\r\n#L39# #v2290010#Brandish 20 #b\r\n#L40# #v2290011#Brandish 30 #b\r\n#L41# #v2290022#Berserk 20 #b\r\n#L42# #v2290023#Berserk 30 #b\r\n#L43# #v2290060#Hurricane 20 #b\r\n#L44##v2290061#Hurricane 30 #b\r\n#L45# #v2290032#Chain Lightning 20 #b\r\n#L46# #v2290033#Chain Lightning 30 #b\r\n#L47##v2290030#Paralyze 20 #b\r\n#L48# #v2290031#Paralyze 30 #b\r\n#L49# #v2290050#Angel Ray 20 #b\r\n#L50# #v2290051#Angel Ray 30 #b\r\n#L51# #v2290090#Boomerang Step 20 #b\r\n#L52# #v2290091#Boomerang Step 30 #b\r\n#L53# #v2290074#Snipe 20 #b\r\n#L54# #v2290074# Snipe 30 #b\r\n#L55# #v2290136#Combo Tempest 20 #b\r\n#L56# #v2290137#Combo Tempest 30 #b\r\n#L57# #v2290012#Blast 20 #b\r\n#L58# #v2290013#Blast 30 #b\r\n#L59# #v2290096#Maple Warrior 20 #b\r\n#L60# #v2290125#Maple Warrior 30 #b\r\n");
+        } else if (s == 6) {
+            var selStr = "#kWould you like to trade #r1#k #b#e#z4000313##n#k for #r40#k #b#e#z4000038##n#k?";
+            cm.sendYesNo(selStr);
+            status++;
         }
     } else if (status == 2) {
         if (sel == 100) {
@@ -169,6 +173,15 @@ function action (m,t,s) {
             } else {
                 cm.sendOk(" You don't have " + points[s] + " Golden Maple Leafs. ");
             }
+        }
+        cm.dispose();
+    } else if (status == 3) {
+        if (cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+            cm.sendOk("Please make sure you have at least 1 empty slots in etc.");
+        } else {
+            cm.gainItem(leaf, -1);
+            cm.gainItem(4000038, 40);
+            cm.sendOk("Enjoy your trophies!");
         }
         cm.dispose();
     }
