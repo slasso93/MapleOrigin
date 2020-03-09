@@ -33,6 +33,7 @@ import tools.MaplePacketCreator;
 import tools.Pair;
 
 import java.util.Iterator;
+import java.util.List;
 
 public class WhatDropsFromCommand extends Command {
     {
@@ -48,28 +49,31 @@ public class WhatDropsFromCommand extends Command {
         }
         String monsterName = player.getLastCommandMessage();
         String output = "";
-        int limit = 3;
+        int limit = 10;
         Iterator<Pair<Integer, String>> listIterator = MapleMonsterInformationProvider.getMobsIDsFromName(monsterName).iterator();
         for (int i = 0; i < limit; i++) {
             if(listIterator.hasNext()) {
                 Pair<Integer, String> data = listIterator.next();
                 int mobId = data.getLeft();
                 String mobName = data.getRight();
-                output += mobName + " drops the following items:\r\n\r\n";
-                for (MonsterDropEntry drop : MapleMonsterInformationProvider.getInstance().retrieveDrop(mobId)){
-                    try {
-                        String name = MapleItemInformationProvider.getInstance().getName(drop.itemId);
-                        if (name == null || name.equals("null") || drop.chance == 0){
+                List<MonsterDropEntry> drops = MapleMonsterInformationProvider.getInstance().retrieveDrop(mobId);
+                if (!drops.isEmpty()) {
+                    output += mobName + " drops the following items:\r\n\r\n";
+                    for (MonsterDropEntry drop : MapleMonsterInformationProvider.getInstance().retrieveDrop(mobId)) {
+                        try {
+                            String name = MapleItemInformationProvider.getInstance().getName(drop.itemId);
+                            if (name == null || name.equals("null") || drop.chance == 0) {
+                                continue;
+                            }
+                            float chance = Math.max(1000000 / drop.chance / (!MapleMonsterInformationProvider.getInstance().isBoss(mobId) ? player.getDropRate() : player.getBossDropRate()), 1);
+                            output += "- " + name + " (1/" + (int) chance + ")\r\n";
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                             continue;
                         }
-                        float chance = Math.max(1000000 / drop.chance / (!MapleMonsterInformationProvider.getInstance().isBoss(mobId) ? player.getDropRate() : player.getBossDropRate()), 1);
-                        output += "- " + name + " (1/" + (int) chance + ")\r\n";
-                    } catch (Exception ex){
-                        ex.printStackTrace();
-                        continue;
                     }
+                    output += "\r\n";
                 }
-                output += "\r\n";
             }
         }
         
