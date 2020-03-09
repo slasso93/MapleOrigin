@@ -238,8 +238,10 @@ public class ServerConfig {
     public boolean USE_EQUIPMNT_LVLUP_CASH;
     public boolean USE_SPIKES_AVOID_BANISH;
     public int MAX_EQUIPMNT_LVLUP_STAT_UP;
+    public int EQUIPMNT_LVLUP_HP_MP_MULTIPLIER;
     public int MAX_EQUIPMNT_STAT;
     public int USE_EQUIPMNT_LVLUP;
+    public int USE_EQUIPMNT_LVLUP_OVERALL;
 
     //Map-Chair Configuration
     public boolean USE_CHAIR_EXTRAHEAL;

@@ -22,6 +22,7 @@
 package client.inventory;
 
 import client.MapleClient;
+import config.ServerConfig;
 import config.YamlConfig;
 import constants.game.ExpTable;
 import constants.inventory.ItemConstants;
@@ -341,7 +342,9 @@ public class Equip extends Item {
         
         int maxUpgrade = randomizeStatUpgrade((int)(1 + (curStat / (getStatModifier(isAttribute) * (isNotWeaponAffinity(name) ? 2.7 : 1)))));
         if(maxUpgrade == 0) return;
-            
+
+        if (name == StatUpgrade.incMHP || name == StatUpgrade.incMMP) // increase HP/MP by EQUIPMNT_LVLUP_HP_MP_MULTIPLIER times. Expected per level with 5x is ~14.52. range:[0, 5, 10, 15, 20, 25, 30]
+            maxUpgrade *= YamlConfig.config.server.EQUIPMNT_LVLUP_HP_MP_MULTIPLIER;
         stats.add(new Pair<>(name, maxUpgrade));
     }
     
@@ -356,8 +359,8 @@ public class Equip extends Item {
         if(str > 0) getUnitStatUpgrade(stats, StatUpgrade.incSTR, str, true);
         if(_int > 0) getUnitStatUpgrade(stats, StatUpgrade.incINT,_int, true);
         if(luk > 0) getUnitStatUpgrade(stats, StatUpgrade.incLUK, luk, true);
-        if(hp > 0) getUnitStatUpgrade(stats, StatUpgrade.incMHP, hp, false);
-        if(mp > 0) getUnitStatUpgrade(stats, StatUpgrade.incMMP, mp, false);
+        if(hp > 0) getUnitStatUpgrade(stats, StatUpgrade.incMHP, hp, true);
+        if(mp > 0) getUnitStatUpgrade(stats, StatUpgrade.incMMP, mp, true);
         if(watk > 0) getUnitStatUpgrade(stats, StatUpgrade.incPAD, watk, false);
         if(matk > 0) getUnitStatUpgrade(stats, StatUpgrade.incMAD, matk, false);
         if(wdef > 0) getUnitStatUpgrade(stats, StatUpgrade.incPDD, wdef, false);
@@ -572,7 +575,7 @@ public class Equip extends Item {
             return;
         }
         
-        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true), YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
+        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true), ItemConstants.isOverall(getItemId()) ? YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL: YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
         if (itemLevel >= equipMaxLevel) {
             return;
         }
@@ -613,8 +616,11 @@ public class Equip extends Item {
                 return false;
             }
         }
-        
-        return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP;
+
+        if (ItemConstants.isOverall(getItemId())) {
+            return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL;
+        } else
+            return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP;
     }
     
     public String showEquipFeatures(MapleClient c) {
