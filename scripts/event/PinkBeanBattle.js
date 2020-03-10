@@ -117,7 +117,7 @@ function setup(channel) {
 }
 
 function playerEntry(eim, player) {
-    //eim.dropMessage(5, "[Expedition] " + player.getName() + " has entered the map.");
+    eim.dropMessage(5, "[Expedition] " + player.getName() + " has entered the map.");
     var map = eim.getMapInstance(entryMap);
     player.changeMap(map, map.getPortal(0));
 }
@@ -134,7 +134,7 @@ function changedMap(eim, player, mapid) {
             end(eim);
         }
         else {
-           // eim.dropMessage(5, "[Expedition] " + player.getName() + " has left the expedition.");
+            eim.dropMessage(5, "[Expedition] " + player.getName() + " has left the expedition.");
             eim.unregisterPlayer(player);
         }
     }
@@ -175,7 +175,7 @@ function playerDisconnected(eim, player) {
         end(eim);
     }
     else {
-        //eim.dropMessage(5, "[Expedition] " + player.getName() + " has left the expedition.");
+        eim.dropMessage(5, "[Expedition] " + player.getName() + " has left the expedition.");
         eim.unregisterPlayer(player);
     }
 }
@@ -228,11 +228,10 @@ function noJrBossesLeft(map) {
 
 function spawnJrBoss(mobObj, gotKilled) {
     if(gotKilled) {
-        //spawnid = mobObj.getId() + 17;
-		spawnid = isJrBoss;
+        spawnid = mobObj.getId() + 17;
         
     } else {
-        mobObj.getId().killMonster(mobObj.getId());
+        mobObj.getMap().killMonster(mobObj.getId());
         spawnid = mobObj.getId() - 17;
     }
     
@@ -263,6 +262,9 @@ function monsterKilled(mob, eim) {
 
 
                 eim.dropMessage(6, "With the last of its guardians fallen, Pink Bean loses its invulnerability. The real fight starts now!");
+				var mob = MapleLifeFactory.getMonster(8820001);
+				mob.enableDrops();
+				eim.getInstanceMap(270050100).spawnMonsterOnGroundBelow(mob, new java.awt.Point(0, -42));
             } else {
                 stage++;
                 eim.setIntProperty("stage", stage);
@@ -273,16 +275,22 @@ function monsterKilled(mob, eim) {
         }
     } 
 }
-
 function startWave(eim) {
     var mapObj = eim.getMapInstance(270050100);
     var stage = eim.getProperty("stage");
     
-    for(var i = 1; i <= stage; i++) {
-        //spawnJrBoss(mapObj.getMonsterById(8820019 + (i % 5)), false);
-        spawnJrBoss;
-    }
+    eim.dropMessage(5, "Broken mob: " + (8820019 + (stage % 5)));
+    spawnJrBoss(mapObj.getMonsterById(8820019 + (stage % 5)), false);
 }
+/*function startWave(eim) {
+    var mapObj = eim.getMapInstance(270050100);
+    var stage = eim.getProperty("stage");
+    
+    for(var i = 1; i <= stage; i++) {
+		eim.dropMessage(5, "Broken mob: " + (8820019 + (i % 5)));
+        spawnJrBoss(mapObj.getMonsterById(8820019 + (i % 5)), false);
+    }
+}*/
 
 function allMonstersDead(eim) {}
 

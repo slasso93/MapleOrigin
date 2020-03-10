@@ -26,6 +26,8 @@ package client.command.commands.gm0;
 import client.MapleCharacter;
 import client.command.Command;
 import client.MapleClient;
+import provider.MapleData;
+import provider.MapleDataTool;
 import server.MapleItemInformationProvider;
 import server.life.MapleMonsterInformationProvider;
 import tools.DatabaseConnection;
@@ -56,9 +58,18 @@ public class WhoDropsCommand extends Command {
                 Iterator<Pair<Integer, String>> listIterator = MapleItemInformationProvider.getInstance().getItemDataByName(searchString).iterator();
                 if(listIterator.hasNext()) {
                     int count = 1;
-                    while(listIterator.hasNext() && count <= 3) {
+                    while(listIterator.hasNext() && count <= 15) {
                         Pair<Integer, String> data = listIterator.next();
-                        output += "#b" + data.getRight() + "#k is dropped by:\r\n";
+                        int itemid = data.getLeft();
+                        MapleData itemData = MapleItemInformationProvider.getInstance().getItemData(itemid);
+                        String displayName = data.getRight();
+                        if (itemData != null) {
+                            int successRate = MapleDataTool.getIntConvert("info/success", itemData, -1);
+
+                            if (successRate != -1 && !data.getRight().toLowerCase().contains("book"))
+                                displayName = data.getRight() + " (" + successRate + "%)";
+                        }
+                        output += "#b" + displayName + "#k is dropped by:\r\n";
                         try {
                             Connection con = DatabaseConnection.getConnection();
                             PreparedStatement ps = con.prepareStatement("SELECT dropperid FROM drop_data WHERE itemid = ? LIMIT 50");
