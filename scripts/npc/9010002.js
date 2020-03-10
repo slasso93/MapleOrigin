@@ -32,9 +32,10 @@ function action(mode, type, selection) {
         } else if (status == 1) {
             if (selection == 1) {
                 if(cm.getMeso() >= 5000000) {
+					cm.gainMeso(-5000000);
 					cm.getPlayer().getCashShop().gainCash(1, 5000);
 					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 5,000 NX"));
-                    cm.gainMeso(-5000000);
+                   
                     cm.sendOk("Here is your 5,000 NX!");
 					cm.logLeaf("5k NX");
                 } else {
@@ -45,8 +46,9 @@ function action(mode, type, selection) {
                 if(cm.haveItem(trophy, 5)) {
 					var chair1 = chairs[Math.floor(Math.random()*chairs.length)];
 					if(cm.canHold(chair1)){
-						cm.gainItem(chair1);
 						cm.gainItem(trophy, -5);
+						cm.gainItem(chair1);
+						
 						cm.sendOk("Here is your random chair!");
 						cm.logLeaf("Chair ID: " + chair1);
 					} else {
@@ -62,10 +64,11 @@ function action(mode, type, selection) {
 					var weapon2 = weapons[Math.floor(Math.random()*weapons.length)];
 					var weapon3 = weapons[Math.floor(Math.random()*weapons.length)];
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(1)) {
+						cm.gainItem(trophy, -1);
 						cm.gainItem(weapon1, 1, true, true);
 						cm.gainItem(weapon2, 1, true, true);
 						//cm.gainItem(weapon3, 1, true, true);
-						cm.gainItem(trophy, -1);
+						
 						cm.sendOk("Here are your 2 random weapons!");
 						cm.logLeaf("Maple Weapons IDs: " + weapon1 + "," + weapon2 + "," + weapon3);
 					} else {
@@ -80,8 +83,9 @@ function action(mode, type, selection) {
 				if(cm.haveItem(trophy, 1)) {
 					if(!cm.haveItem(5030000, 1)) {
 						if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(1)){
-							cm.gainItem(5030000, 1, false, true, 1000 * 60 * 60 * 24 * 10);
 							cm.gainItem(trophy, -1);
+							cm.gainItem(5030000, 1, false, true, 1000 * 60 * 60 * 24 * 10);
+							//cm.gainItem(trophy, -1);
 							cm.sendOk("Here is your Hired Merchant!");
 							cm.logLeaf("10 day hired merchant");
 						} else {
@@ -99,8 +103,9 @@ function action(mode, type, selection) {
                 if(cm.haveItem(trophy, 50)) {
 					var goldenleaf = 4000313;
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(2)){
+						cm.gainItem(trophy, -50);
 						cm.gainItem(goldenleaf, 1);
-						cm.gainItem(leaf, -50);
+						//cm.gainItem(leaf, -50);
 						cm.sendOk("Enjoy your Golden Maple Leaf");
 						cm.logLeaf("1 Golden Maple Leaf");
 					} else {
@@ -113,12 +118,13 @@ function action(mode, type, selection) {
             }	
 			else if (selection == 8) {
                 if(cm.haveItem(4000492, 1)) {
-					var genesis = 1002419;
+					var markofbeta = 1002419;
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)){
-						cm.gainItem(genesis, 1);
 						cm.gainItem(4000492, -1);
+						cm.gainItem(markofbeta, 1);
+						
 						cm.sendOk("Here is your Mark of the beta! Enjoy!");
-						cm.logLeaf("1 Genesis Bandana");
+						cm.logLeaf("1 Mark Of Beta");
 					} else {
 						cm.sendOk("Please make sure you have enough space to hold these items!");
 					}
@@ -148,8 +154,9 @@ function action(mode, type, selection) {
                 if(cm.haveItem(trophy, 10)) {
 					var magicmitten = 1472063;
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)){
-						cm.gainItem(magicmitten, 1);
 						cm.gainItem(trophy, -10);
+						cm.gainItem(magicmitten, 1);
+						//cm.gainItem(trophy, -10);
 						cm.sendOk("Here is your magic mitten! Enjoy the Happyville Raid!!");
 						cm.logLeaf("1 Magic Mitten");
 					} else {
@@ -164,8 +171,9 @@ function action(mode, type, selection) {
                 if(cm.haveItem(trophy, 50)) {
 					var eyeoffire = 4001017;
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)){
-						cm.gainItem(eyeoffire, 1);
 						cm.gainItem(trophy, -50);
+						cm.gainItem(eyeoffire, 1);
+						//cm.gainItem(trophy, -50);
 						cm.sendOk("Here is your eye of fire!");
 						cm.logLeaf("1 Eye of Fire");
 					} else {

@@ -294,7 +294,7 @@ public class MapleItemInformationProvider {
         return blockMouse;
     }
 
-    private MapleData getItemData(int itemId) {
+    public MapleData getItemData(int itemId) {
         MapleData ret = null;
         String idStr = "0" + String.valueOf(itemId);
         MapleDataDirectoryEntry root = itemData.getRoot();
