@@ -29,6 +29,7 @@ import client.MapleClient;
 import client.MapleCharacter;
 import constants.inventory.ItemConstants;
 import server.MapleItemInformationProvider;
+import tools.FilePrinter;
 
 public class HairCommand extends Command {
     {
@@ -71,6 +72,7 @@ public class HairCommand extends Command {
                 }
             }
         } catch (Exception e) {
+            FilePrinter.print(FilePrinter.COMMAND_BUG, e.getMessage());
         }
     }
 }
