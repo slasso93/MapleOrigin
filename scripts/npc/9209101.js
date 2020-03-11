@@ -88,8 +88,8 @@ function action (m,t,s) {
         } else if (s == 7) {
             var selStr = "#e#kVega's Scroll shop:#n#b\r\n";
 
-            selStr += "#L" + 5610000 + "##v" + 5610000 + "##e#z" + 5610000 + "##n (#r2 GML#b)";
-            selStr += "\r\n#L" + 5610001 + "##v" +5610001 + "##e#z" + 5610001 + "##n (#r3 GML#b)";
+            selStr += "#L" + 5610000 + "##v" + 5610000 + "##e#z" + 5610000 + "##n (#r3 GML#b)";
+            selStr += "\r\n#L" + 5610001 + "##v" +5610001 + "##e#z" + 5610001 + "##n (#r2 GML#b)";
             cm.sendSimple(selStr);
         }
     } else if (status == 2) {
@@ -174,15 +174,15 @@ function action (m,t,s) {
                             cm.sendOk("Please make sure you have at least 1 empty cash slots.");
                         } else {
                             if (s == 5610000) {
-                                if(cm.haveItem(leaf, 2)) {
-                                    cm.gainItem(leaf, -2);
+                                if(cm.haveItem(leaf, 3)) {
+                                    cm.gainItem(leaf, -3);
                                     cm.gainItem(s, 1);
                                 } else {
                                     cm.sendOk("Sorry, you don't have enough leafs!");
                                 }
                             } else if (s == 5610001) {
-                                if(cm.haveItem(leaf, 3)) {
-                                  cm.gainItem(leaf, -3);
+                                if(cm.haveItem(leaf, 2)) {
+                                  cm.gainItem(leaf, -2);
                                   cm.gainItem(s, 1);
                               } else {
                                   cm.sendOk("Sorry, you don't have enough leafs!");
@@ -204,9 +204,9 @@ function action (m,t,s) {
                 var pts = points[s];
                 if (!pts)
                     if (s == 5610000)
-                        pts = 2;
-                    if (s == 5610001)
                         pts = 3;
+                    if (s == 5610001)
+                        pts = 2;
 
                 cm.sendOk(" You don't have " + pts + " Golden Maple Leafs. ");
             }
