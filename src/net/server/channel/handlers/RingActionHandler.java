@@ -112,11 +112,11 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
             source.dropMessage(1, "You can't propose while holding a marriage ring!");
             source.announce(Wedding.OnMarriageResult((byte) 0));
             return;
-        } else if (target.getGender() == source.getGender()) {
+        } /*else if (target.getGender() == source.getGender()) {
             source.dropMessage(1, "You may only propose to a " + (source.getGender() == 1 ? "male" : "female") + "!");
             source.announce(Wedding.OnMarriageResult((byte) 0));
             return;
-        } else if (!MapleInventoryManipulator.checkSpace(c, newBoxId, 1, "")) {
+        } */else if (!MapleInventoryManipulator.checkSpace(c, newBoxId, 1, "")) {
             source.dropMessage(5, "You don't have a ETC slot available right now!");
             source.announce(Wedding.OnMarriageResult((byte) 0));
             return;
@@ -233,10 +233,9 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
             breakEngagementOffline(partnerid);
         } else {
             partner.dropMessage(5, chr.getName() + " has decided to break up the engagement.");
-            
-            int partnerMarriageitemid = marriageitemid + ((chr.getGender() == 0) ? 1 : -1);
-            if(partner.haveItem(partnerMarriageitemid)) {
-                MapleInventoryManipulator.removeById(partner.getClient(), MapleInventoryType.ETC, partnerMarriageitemid, (short) 1, false, false);
+
+            if(partner.haveItem(partner.getMarriageItemId())) {
+                MapleInventoryManipulator.removeById(partner.getClient(), MapleInventoryType.ETC, partner.getMarriageItemId(), (short) 1, false, false);
             }
             
             //partner.announce(Wedding.OnMarriageResult((byte) 0)); ok, how to gracefully unengage someone without the need to cc?
@@ -360,7 +359,7 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
                         System.out.println("Error with engagement " + e.getMessage());
                     }
                 } else {
-                    source.dropMessage(1, "She has politely declined your engagement request.");
+                    source.dropMessage(1, "She/he has politely declined your engagement request.");
                     source.announce(Wedding.OnMarriageResult((byte) 0));
                     
                     source.setMarriageItemId(-1);

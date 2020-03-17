@@ -278,8 +278,8 @@ public class Wedding extends MaplePacketCreator {
         mplew.writeShort(MARRIAGE_RESULT);
         mplew.write(11);
         mplew.writeInt(marriageId);
-        mplew.writeInt(chr.getGender() == 0 ? chr.getId() : chr.getPartnerId());
-        mplew.writeInt(chr.getGender() == 0 ? chr.getPartnerId() : chr.getId());
+        mplew.writeInt(chr.getId());
+        mplew.writeInt(chr.getPartnerId());
         mplew.writeShort(wedding ? 3 : 1);
         if (wedding) {
             mplew.writeInt(chr.getMarriageItemId());
@@ -288,8 +288,8 @@ public class Wedding extends MaplePacketCreator {
             mplew.writeInt(1112803); // Engagement Ring's Outcome (doesn't matter for engagement)
             mplew.writeInt(1112803); // Engagement Ring's Outcome (doesn't matter for engagement)
         }
-        mplew.writeAsciiString(StringUtil.getRightPaddedStr(chr.getGender() == 0 ? chr.getName() : MapleCharacter.getNameById(chr.getPartnerId()), '\0', 13));
-        mplew.writeAsciiString(StringUtil.getRightPaddedStr(chr.getGender() == 0 ? MapleCharacter.getNameById(chr.getPartnerId()) : chr.getName(), '\0', 13));
+        mplew.writeAsciiString(StringUtil.getRightPaddedStr(chr.getName(), '\0', 13));
+        mplew.writeAsciiString(StringUtil.getRightPaddedStr(MapleCharacter.getNameById(chr.getPartnerId()), '\0', 13));
         
         return mplew.getPacket();
     }
