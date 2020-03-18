@@ -23,7 +23,8 @@ var relaunchItemsExpire90 = {
 	5122000: 40, // Hearty Party Bear weather
 	5041000: 20, // VIP Teleport Rock
 	5130000: 20, // Safety Charm
-	5510000: 20 // Wheel of Destiny
+	5510000: 20, // Wheel of Destiny
+	3010514: 1  //Cimson Queen's Throne
 };
 
 var relaunchItemsPerm = [5450000, 1802369, 1802370, 1802371, 1022048]; // miu miu, pets equips (tiny fright, sadness, envy), transparent eye
