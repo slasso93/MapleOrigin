@@ -2,7 +2,7 @@
 Credits go to Travis of DeanMS ( xKillsAlotx on RaGEZONE)
 Item Exchanger for scrolls
 Modified by SharpAceX (Alan) for MapleSolaxia
-MIA
+Mia Trophy NPC
 */
 
 importPackage(Packages.tools);
@@ -26,7 +26,8 @@ var relaunchItemsExpire90 = {
 	5510000: 20 // Wheel of Destiny
 };
 
-var relaunchItemsPerm = [5450000, 1802369, 1802370, 1802371, 1022048]; // miu miu, pets (tiny fright, sadness, envy), transparent eye
+var relaunchItemsPerm = [5450000, 1802369, 1802370, 1802371, 1022048]; // miu miu, pets equips (tiny fright, sadness, envy), transparent eye
+var relaunchPets = [5000282, 5000283, 5000281]; // dire mors, wild invida, vile metus
 
 function start() {
 	status = -1;
@@ -132,7 +133,7 @@ function action(mode, type, selection) {
 				cm.dispose();
 			} else if (selection == 8) {
 				if (cm.haveItem(4000492, 1)) {
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(10) &&
+					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(13) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(0) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(7)) {
 						var expires = 1000 * 24 * 60 * 60 * 90; // 90 days
@@ -144,10 +145,12 @@ function action(mode, type, selection) {
 						for (var i = 0; i < 4; i++)
 							cm.gainItem(1112908, 1, false, true, expires); // for some reason you cant do 4 equips in one (aura rings)
 
-						for (var itemid in relaunchItemsPerm)
-							cm.gainItem(itemid, 1);
+						for (var i in relaunchItemsPerm)
+							cm.gainItem(relaunchItemsPerm[i], 1);
+						for (var i in relaunchPets)
+							cm.gainItem(relaunchPets[i], 1, false, true, 10*365); // dry up in 10 year
 
-						cm.sendOk("WIPE HYPE! Here are your item! Thanks for sticking around through the wipe");
+						cm.sendOk("WIPE HYPE! Here are your item! Thanks for staying with MapleOrigin through the wipe. Happy Mapling!");
 						cm.logLeaf("relaunch redemption");
 					} else {
 						cm.sendOk("Please make sure you have enough space to hold these items!");
