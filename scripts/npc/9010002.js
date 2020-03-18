@@ -2,6 +2,7 @@
 Credits go to Travis of DeanMS ( xKillsAlotx on RaGEZONE)
 Item Exchanger for scrolls
 Modified by SharpAceX (Alan) for MapleSolaxia
+MIA
 */
 
 importPackage(Packages.tools);
@@ -13,17 +14,19 @@ var scrolls = new Array(2040603, 2044503, 2041024, 2041025, 2044703, 2044603, 20
 var weapons = new Array(1302020, 1302030, 1302033, 1302058, 1302064, 1302080, 1312032, 1322054, 1332025, 1332055, 1332056, 1372034, 1382009, 1382012, 1382039, 1402039, 1412011, 1412027, 1422014, 1422029, 1432012, 1432040, 1432046, 1442024, 1442030, 1442051, 1452016, 1452022, 1452045, 1462014, 1462019, 1462040, 1472030, 1472032, 1472055, 1482020, 1482021, 1482022, 1492020, 1492021, 1492022, 1092030, 1092045, 1092046, 1092047);
 
 var relaunchItemsExpire90 = {
-	1812001: 1,
-	1812000: 1,
-	1812005: 1,
-	1812004: 1,
-	1812002: 1,
-	1812003: 1,
-	5122000: 40,
-	5041000: 20,
-	5130000: 20,
-	5510000: 20
+	1812000: 1, // Meso Magnet
+	1812001: 1, // Item Pouch
+	1812002: 1, // Auto HP Potion Pouch
+	1812003: 1, // Auto MP Potion Pouch
+	1812004: 1, // Wing Boots
+	1812005: 1, // Binoculars
+	5122000: 40, // Hearty Party Bear weather
+	5041000: 20, // VIP Teleport Rock
+	5130000: 20, // Safety Charm
+	5510000: 20 // Wheel of Destiny
 };
+
+var relaunchItemsPerm = [5450000, 1802369, 1802370, 1802371, 1022048]; // miu miu, pets (tiny fright, sadness, envy), transparent eye
 
 function start() {
 	status = -1;
@@ -129,7 +132,6 @@ function action(mode, type, selection) {
 				cm.dispose();
 			} else if (selection == 8) {
 				if (cm.haveItem(4000492, 1)) {
-					var markofbeta = 1002419;
 					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(10) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(0) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(7)) {
@@ -138,14 +140,15 @@ function action(mode, type, selection) {
 
 						for (var key in relaunchItemsExpire90) {
 							cm.gainItem(parseInt(key), relaunchItemsExpire90[key], false, true, expires);
-            }
-            for (var i = 0; i < 4; i++)
-              cm.gainItem(1112908, 1, false, true, expires); // for some reason you cant do 4 equips in one (aura rings)
+						}
+						for (var i = 0; i < 4; i++)
+							cm.gainItem(1112908, 1, false, true, expires); // for some reason you cant do 4 equips in one (aura rings)
 
-            cm.gainItem(5450000, 1); // miu miu
+						for (var itemid in relaunchItemsPerm)
+							cm.gainItem(itemid, 1);
 
-						cm.sendOk("WIPE HYPE! Here are your item! Thanks for sticking around for wipe while we got this sorted out ;)");
-						cm.logLeaf("relaunch coupon");
+						cm.sendOk("WIPE HYPE! Here are your item! Thanks for sticking around through the wipe");
+						cm.logLeaf("relaunch redemption");
 					} else {
 						cm.sendOk("Please make sure you have enough space to hold these items!");
 					}
