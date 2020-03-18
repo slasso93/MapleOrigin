@@ -23,15 +23,12 @@ package server.life;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 import client.MapleCharacter;
 import client.MapleDisease;
 import client.status.MonsterStatus;
 import constants.game.GameConstants;
-import java.util.LinkedList;
-import java.util.Map;
 import net.server.services.type.ChannelServices;
 import net.server.services.task.channel.OverallService;
 import tools.Randomizer;
@@ -332,15 +329,15 @@ public class MobSkill {
         }
         if (disease != null) {
             if (lt != null && rb != null && skill) {
-                int i = 0;
-                for (MapleCharacter character : getPlayersInRange(monster)) {
-                    if (!character.hasActiveBuff(2321005)) {  // holy shield
-                        if (disease.equals(MapleDisease.SEDUCE)) {
-                            if (i < 10) {
-                                character.giveDebuff(MapleDisease.SEDUCE, this);
-                                i++;
-                            }
-                        } else {
+
+                if (disease.equals(MapleDisease.SEDUCE)) {
+                    getPlayersInRange(monster).stream()
+                            .filter(c -> !c.hasActiveBuff(2321005))
+                            .min(Comparator.comparingDouble(c -> c.getPosition().distanceSq(monster.getPosition())))
+                            .ifPresent(closestChar -> closestChar.giveDebuff(MapleDisease.SEDUCE, this));
+                } else {
+                    for (MapleCharacter character : getPlayersInRange(monster)) {
+                        if (!character.hasActiveBuff(2321005)) {  // holy shield
                             character.giveDebuff(disease, this);
                         }
                     }
