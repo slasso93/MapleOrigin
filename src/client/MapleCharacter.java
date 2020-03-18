@@ -2836,7 +2836,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             List<MapleBuffStatValueHolder> mbsvhList = getAllStatups();
             for (MapleBuffStatValueHolder mbsvh : mbsvhList) {
                 if (mbsvh.effect.isSkill()) {
-                    if (mbsvh.effect.getBuffSourceId() != Aran.COMBO_ABILITY) { // check discovered thanks to Croosade dev team
+                    if (mbsvh.effect.getBuffSourceId() != Aran.COMBO_ABILITY
+                            && mbsvh.effect.getBuffSourceId() != Buccaneer.SUPER_TRANSFORMATION
+                            && mbsvh.effect.getBuffSourceId() != ThunderBreaker.TRANSFORMATION
+                            && mbsvh.effect.getBuffSourceId() != Magician.MAGIC_GUARD) { // check discovered thanks to Croosade dev team
                         cancelEffect(mbsvh.effect, false, mbsvh.startTime);
                     }
                 }
