@@ -185,6 +185,7 @@ import net.server.world.MapleRaid;
 public class MapleCharacter extends AbstractMapleCharacterObject {
     private static final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
     private static final String LEVEL_200 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
+    private static final String LEVEL_250 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
     private static final String[] BLOCKED_NAMES = {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert", "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole", "gay",
         "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape", "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster", "cock", "gaay", "gm",
         "operate", "master", "sysop", "party", "GameMaster", "community", "message", "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys"};
@@ -2836,7 +2837,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             List<MapleBuffStatValueHolder> mbsvhList = getAllStatups();
             for (MapleBuffStatValueHolder mbsvh : mbsvhList) {
                 if (mbsvh.effect.isSkill()) {
-                    if (mbsvh.effect.getBuffSourceId() != Aran.COMBO_ABILITY) { // check discovered thanks to Croosade dev team
+                    if (mbsvh.effect.getBuffSourceId() != Aran.COMBO_ABILITY
+                            && mbsvh.effect.getBuffSourceId() != Buccaneer.SUPER_TRANSFORMATION
+                            && mbsvh.effect.getBuffSourceId() != ThunderBreaker.TRANSFORMATION
+                            && mbsvh.effect.getBuffSourceId() != Magician.MAGIC_GUARD) { // check discovered thanks to Croosade dev team
                         cancelEffect(mbsvh.effect, false, mbsvh.startTime);
                     }
                 }
@@ -5557,7 +5561,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     
     public int getMaxClassLevel() {
-        return isCygnus() ? 200 : 250;
+        return 250; // return isCygnus() ? 200 : 250;
     }
     
     public int getMaxLevel() {
@@ -6771,27 +6775,30 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
 
         level++;
+
         if (level >= getMaxClassLevel()) {
             exp.set(0);
+            level = getMaxClassLevel(); //To prevent levels past the maximum
+        }
 
-            int maxClassLevel = getMaxClassLevel();
-            if (level == maxClassLevel) {
-                if (!this.isGM()) {
-                    if (YamlConfig.config.server.PLAYERNPC_AUTODEPLOY) {
-                        ThreadManager.getInstance().newTask(new Runnable() {
-                            @Override
-                            public void run() {
+        if (!this.isGM()) {
+            if (level == 200) {
+                if (YamlConfig.config.server.PLAYERNPC_AUTODEPLOY) {
+                    ThreadManager.getInstance().newTask(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!job.isA(MapleJob.PIRATE)) // pirate seems to crash, even when adding npcs to npc.wz
                                 MaplePlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(job), MapleCharacter.this);
-                            }
-                        });
-                    }
-
-                    final String names = (getMedalText() + name);
-                    getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, String.format(LEVEL_200, names, maxClassLevel, names)));
+                        }
+                    });
                 }
-            }
 
-            level = maxClassLevel; //To prevent levels past the maximum
+                final String names = (getMedalText() + name);
+                getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, String.format(LEVEL_200, names, 200, names)));
+            } else if (level == getMaxClassLevel()) {
+                final String names = (getMedalText() + name);
+                getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, String.format(LEVEL_250, names, 250, names)));
+            }
         }
         
         levelUpGainSp();
