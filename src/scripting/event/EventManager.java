@@ -810,29 +810,31 @@ public class EventManager {
     }
     
     public List<MaplePartyCharacter> getEligibleParty(MapleParty party) {
-        if (party == null) {
-            return(new ArrayList<>());
-        }
-        try {
-            Object p = iv.invokeFunction("getEligibleParty", party.getPartyMembersOnline());
-            
-            if(p != null) {
-                List<MaplePartyCharacter> lmpc;
-                
-                if(ServerConstants.JAVA_8) {
-                    lmpc = new ArrayList<>(((Map<String, MaplePartyCharacter>)(ScriptUtils.convert(p, Map.class))).values());
-                } else {
-                    lmpc = new ArrayList<>((List<MaplePartyCharacter>) p);
+        List<MaplePartyCharacter> lmpc = new ArrayList<>();
+        if (party != null) {
+            try {
+                Object p = iv.invokeFunction("getEligibleParty", party.getPartyMembersOnline());
+
+                if (p != null) {
+
+                    if (ServerConstants.JAVA_8) {
+                        lmpc = new ArrayList<>(((Map<String, MaplePartyCharacter>) (ScriptUtils.convert(p, Map.class))).values());
+                    } else {
+                        lmpc = new ArrayList<>((List<MaplePartyCharacter>) p);
+                    }
+                    if (!lmpc.stream()
+                            .map(mpc -> mpc.getPlayer().getClient().getHWID())
+                            .allMatch(new HashSet<>()::add)
+                    ) {
+                        lmpc = new ArrayList<>();
+                    }
+                    party.setEligibleMembers(lmpc);
                 }
-
-                party.setEligibleMembers(lmpc);
-                return lmpc;
+            } catch (ScriptException | NoSuchMethodException ex) {
+                ex.printStackTrace();
             }
-        } catch (ScriptException | NoSuchMethodException ex) {
-            ex.printStackTrace();
         }
-
-        return(new ArrayList<>());
+        return lmpc;
     }
         public List<MaplePartyCharacter> getEligiblePartySrc(MapleParty party, int mapid, int lvlmin, int lvlmax, int mincount, int maxcount) {
         if (party == null) {
