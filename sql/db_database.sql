@@ -21491,6 +21491,13 @@ CREATE TABLE IF NOT EXISTS `worldtransfers` (
   INDEX (characterid)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `namereserve` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountid` int(11) NOT NULL,
+  `name` varchar(13) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX (accountid)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `dueyitems`
   ADD CONSTRAINT `dueyitems_ibfk_1` FOREIGN KEY (`PackageId`) REFERENCES `dueypackages` (`PackageId`) ON DELETE CASCADE;
