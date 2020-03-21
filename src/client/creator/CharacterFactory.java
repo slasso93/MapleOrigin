@@ -42,7 +42,7 @@ public abstract class CharacterFactory {
                         return -3;
                 }
             
-                if (!MapleCharacter.canCreateChar(name)) {
+                if (!c.canUseReservedName(name) || !MapleCharacter.canCreateChar(name)) {
                         return -1;
                 }
                 
