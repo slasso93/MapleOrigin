@@ -20,20 +20,21 @@
 package net.server.task;
 
 import config.YamlConfig;
-import net.server.world.World;
+import net.server.channel.Channel;
 import client.MapleCharacter;
 import net.server.PlayerStorage;
 
 /**
  * @author Ronan
  */
-public class CharacterAutosaverTask extends BaseTask implements Runnable {  // thanks Alex (Alex09) for noticing these runnable classes are tasks, "workers" runs them
-    
+public class CharacterAutosaverTask implements Runnable {  // thanks Alex (Alex09) for noticing these runnable classes are tasks, "workers" runs them
+    private Channel cserv;
+
     @Override
     public void run() {
         if(!YamlConfig.config.server.USE_AUTOSAVE) return;
-        
-        PlayerStorage ps = wserv.getPlayerStorage();
+
+        PlayerStorage ps = cserv.getPlayerStorage();
         for(MapleCharacter chr: ps.getAllCharacters()) {
             if(chr != null && chr.isLoggedin()) {
                 chr.saveCharToDB(false);
@@ -41,7 +42,8 @@ public class CharacterAutosaverTask extends BaseTask implements Runnable {  // t
         }
     }
     
-    public CharacterAutosaverTask(World world) {
-        super(world);
+    public CharacterAutosaverTask(Channel channel) {
+        this.cserv = channel;
     }
+
 }
