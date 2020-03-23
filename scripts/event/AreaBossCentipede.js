@@ -26,6 +26,12 @@
 	Ronan - based on xQuasar's King Clang spawner
 
 **/
+
+importPackage(Packages.tools);
+
+var timer = 3 * 60 * 60 * 1000; // 3hrs
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
+
 function init() {
     scheduleNew();
 }
@@ -44,13 +50,13 @@ function start() {
     var gcent = Packages.server.life.MapleLifeFactory.getMonster(5220004);
 	
 	if(herbGarden.getMonsterById(5220004) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
     herbGarden.spawnMonsterOnGroundBelow(gcent, new Packages.java.awt.Point(560, 50));
     herbGarden.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "From the mists surrounding the herb garden, the gargantuous Giant Centipede appears."));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

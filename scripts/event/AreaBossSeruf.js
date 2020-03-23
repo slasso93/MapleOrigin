@@ -29,6 +29,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -48,7 +52,7 @@ function start() {
     var seruf = Packages.server.life.MapleLifeFactory.getMonster(4220001);
 	
 	if(theSeaweedTower.getMonsterById(4220001) != null) {
-		em.schedule("start", 3 * 60 * 60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
@@ -57,7 +61,7 @@ function start() {
     posX =  Math.floor((Math.random() * 2300) - 1500);
     theSeaweedTower.spawnMonsterOnGroundBelow(seruf, new Packages.java.awt.Point(posX, posY));
     theSeaweedTower.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "A strange shell has appeared from a grove of seaweed"));
-	em.schedule("start", 3 * 60 * 60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

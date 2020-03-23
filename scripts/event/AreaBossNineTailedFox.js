@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -46,7 +50,7 @@ function start() {
     var moonRidge = em.getChannelServer().getMapFactory().getMap(222010310);
     var nineTailedFox = Packages.server.life.MapleLifeFactory.getMonster(7220001);
 	if(moonRidge.getMonsterById(7220001) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
     var posX;
@@ -54,7 +58,7 @@ function start() {
     posX =  Math.floor((Math.random() * 1300) - 800);
     moonRidge.spawnMonsterOnGroundBelow(nineTailedFox, new Packages.java.awt.Point(posX, posY));
     moonRidge.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "As the moon light dims, a long fox cry can be heard and the presence of the old fox can be felt"));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

@@ -26,6 +26,12 @@
 	ThreeStep - based on xQuasar's King Clang spawner
 
 **/
+
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
+
 function init() {
     scheduleNew();
 }
@@ -44,13 +50,13 @@ function start() {
     var deo = Packages.server.life.MapleLifeFactory.getMonster(3220001);
 	
 	if(royalCatthusDesert.getMonsterById(3220001) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
     royalCatthusDesert.spawnMonsterOnGroundBelow(deo, new Packages.java.awt.Point(645, 275));
     royalCatthusDesert.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Deo slowly appeared out of the sand dust."));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------
