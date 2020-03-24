@@ -93,22 +93,22 @@ function action(mode, type, selection) {
                 switch (rnk) {
                     case 10:
                         cm.warp(980000000, 0);
-                        cm.gainExp(17500);
+                        cm.gainExp(75000);
                         cm.dispose();
                         break;
                     case 20:
                         cm.warp(980000000, 0);
-                        cm.gainExp(1200);
+                        cm.gainExp(50000);
                         cm.dispose();
                         break;
                     case 30:
                         cm.warp(980000000, 0);
-                        cm.gainExp(5000);
+                        cm.gainExp(30000);
                         cm.dispose();
                         break;
                     case 40:
                         cm.warp(980000000, 0);
-                        cm.gainExp(2500);
+                        cm.gainExp(15000);
                         cm.dispose();
                         break;
                     default:
@@ -146,22 +146,22 @@ function action(mode, type, selection) {
                 switch (rnk) {
                     case 1:
                         cm.warp(980000000, 0);
-                        cm.gainExp(50000);
+                        cm.gainExp(200000);
                         cm.dispose();
                         break;
                     case 2:
                         cm.warp(980000000, 0);
-                        cm.gainExp(25500);
+                        cm.gainExp(150000);
                         cm.dispose();
                         break;
                     case 3:
                         cm.warp(980000000, 0);
-                        cm.gainExp(21000);
+                        cm.gainExp(100000);
                         cm.dispose();
                         break;
                     case 4:
                         cm.warp(980000000, 0);
-                        cm.gainExp(19505);
+                        cm.gainExp(75000);
                         cm.dispose();
                         break;
                     default:

@@ -63,22 +63,22 @@ function action(mode, type, selection) {
                 switch (rnk) {
                     case 10:
                         cm.warp(980030000, 0);
-                        cm.gainExp(35000);
+                        cm.gainExp(215000);
                         cm.dispose();
                         break;
                     case 20:
                         cm.warp(980030000, 0);
-                        cm.gainExp(25000);
+                        cm.gainExp(195000);
                         cm.dispose();
                         break;
                     case 30:
                         cm.warp(980030000, 0);
-                        cm.gainExp(12500);
+                        cm.gainExp(175000);
                         cm.dispose();
                         break;
                     case 40:
                         cm.warp(980030000, 0);
-                        cm.gainExp(3500);
+                        cm.gainExp(150000);
                         cm.dispose();
                         break;
                     default:
@@ -131,7 +131,7 @@ function action(mode, type, selection) {
                         break;
                     case 4:
                         cm.warp(980030000, 0);
-                        cm.gainExp(100000);
+                        cm.gainExp(215000);
                         cm.dispose();
                         break;
                     default:
