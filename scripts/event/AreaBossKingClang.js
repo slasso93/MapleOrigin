@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 var hotSand;
 
@@ -47,7 +51,7 @@ function cancelSchedule() {
 
 function start() {
     if(hotSand.getMonsterById(5220001) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
     var kingClang = Packages.server.life.MapleLifeFactory.getMonster(5220001);
@@ -56,7 +60,7 @@ function start() {
     posX =  Math.floor((Math.random() * 2400) - 1600);
     hotSand.spawnMonsterOnGroundBelow(kingClang, new Packages.java.awt.Point(posX, posY));
     hotSand.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "A strange turban shell has appeared on the beach."));
-	em.schedule("start", 3 * 60 * 60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

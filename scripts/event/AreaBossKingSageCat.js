@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -47,7 +51,7 @@ function start() {
     var kingSageCat = Packages.server.life.MapleLifeFactory.getMonster(7220002);
 	
 	if(goblinForest2.getMonsterById(7220002) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
     var posX;
@@ -55,7 +59,7 @@ function start() {
     posX =  Math.floor((Math.random() * 1300) - 500);
     goblinForest2.spawnMonsterOnGroundBelow(kingSageCat, new Packages.java.awt.Point(posX, posY));
     goblinForest2.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "The ghostly air around here has become stronger. The unpleasant sound of a cat crying can be heard."));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

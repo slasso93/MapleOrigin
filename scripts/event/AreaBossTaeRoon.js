@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -47,7 +51,7 @@ function start() {
     var taeRoon = Packages.server.life.MapleLifeFactory.getMonster(7220000);
 	
 	if(territoryOfWanderingBear.getMonsterById(7220000) != null) {
-		em.schedule("start", 3 * 60 * 60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
@@ -56,7 +60,7 @@ function start() {
     posX =  Math.floor((Math.random() * 700) - 800);
     territoryOfWanderingBear.spawnMonsterOnGroundBelow(taeRoon, new Packages.java.awt.Point(posX, posY));
     territoryOfWanderingBear.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Tae Roon has appeared with a soft whistling sound."));
-	em.schedule("start", 3 * 60 * 60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------
