@@ -70,7 +70,11 @@ function setEventExclusives(eim) {
         eim.setExclusiveItems(itemSet);
 }
 
-function setEventRewards(eim) {}
+function setEventRewards(eim) {
+    var expStages = [2500, 2500, 2500, 2500, 2500, 10000];    //bonus exp given on CLEAR stage signal
+    expStages.map(e => 2 * e);
+    eim.setEventClearStageExp(expStages);
+}
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
         var eligible = [];
