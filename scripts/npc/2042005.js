@@ -50,7 +50,7 @@ function action(mode, type, selection) {
                     }
                 }
 
-                if (party >= 1) {
+                if (party.size() < 2) {
                     status = 10;
                     cm.sendOk("You do not have enough people in your party. You need a party with #b" + cpqMinAmt + "#k - #r" + cpqMaxAmt + "#k members and they should be on the map with you.");
                 } else if (lvlOk != inMap) {
