@@ -71,8 +71,7 @@ function setEventExclusives(eim) {
 }
 
 function setEventRewards(eim) {
-    var expStages = [2500, 2500, 2500, 2500, 2500, 10000];    //bonus exp given on CLEAR stage signal
-    expStages = expStages.map(e => 2 * e);
+    var expStages = [2 * 2500, 2 * 2500, 2 * 2500, 2 * 2500, 2 * 2500, 2 * 10000];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
