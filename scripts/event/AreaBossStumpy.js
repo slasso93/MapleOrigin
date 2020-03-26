@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -47,7 +51,7 @@ function start() {
     var stumpy = Packages.server.life.MapleLifeFactory.getMonster(3220000);
 	
     if(eastRockyMountain5.getMonsterById(3220000) != null) {
-        em.schedule("start", 3 * 60 * 60 * 1000);
+        em.schedule("start", timer + randomize);
         return;
     }
 	
@@ -56,7 +60,7 @@ function start() {
     posX = Math.floor((Math.random() * 800) + 400);
     eastRockyMountain5.spawnMonsterOnGroundBelow(stumpy, new Packages.java.awt.Point(posX, posY));
     eastRockyMountain5.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Stumpy has appeared with a stumping sound that rings the Stone Mountain."));
-    em.schedule("start", 3 * 60 * 60 * 1000);
+    em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

@@ -33,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
+import client.MapleClient;
 import net.server.PlayerStorage;
 import net.server.Server;
 import server.TimerManager;
@@ -171,27 +172,32 @@ public class MapleExpedition {
 		Server.getInstance().broadcastGMMessage(startMap.getWorld(), MaplePacketCreator.serverNotice(6, "[Expedition] " + type.toString() + " Expedition started with leader: " + leader.getName()));
 	}
 
-	public String addMember(MapleCharacter player) {
-		if (!registering){
-			return "Sorry, this expedition is already underway. Registration is closed!";
-		}
-		if (banned.contains(player.getId())){
-			return "Sorry, you've been banned from this expedition by #b" + leader.getName() + "#k.";
-		}
-		if (members.size() >= this.getMaxSize()){ //Would be a miracle if anybody ever saw this
-			return "Sorry, this expedition is full!";
-		}
-                
-                int channel = this.getRecruitingMap().getChannelServer().getId();
-                if (!MapleExpeditionBossLog.attemptBoss(player.getId(), channel, this, false)) {    // thanks Conrad, Cato for noticing some expeditions have entry limit
-                        return "Sorry, you've already reached the quota of attempts for this expedition! Try again another day...";
-                }
-                
-                members.put(player.getId(), player.getName());
-                player.announce(MaplePacketCreator.getClock((int)(startTime - System.currentTimeMillis()) / 1000));
-                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + player.getName() + " has joined the expedition!"));
-                return "You have registered for the expedition successfully!";
-	}
+    public String addMember(MapleCharacter player) {
+        if (!registering) {
+            return "Sorry, this expedition is already underway. Registration is closed!";
+        }
+        if (banned.contains(player.getId())) {
+            return "Sorry, you've been banned from this expedition by #b" + leader.getName() + "#k.";
+        }
+        if (members.size() >= this.getMaxSize()) { //Would be a miracle if anybody ever saw this
+            return "Sorry, this expedition is full!";
+        }
+        if (getActiveMembers().stream()
+                .map(p -> p.getClient().getHWID())
+                .anyMatch(hwid -> hwid.equals(player.getClient().getHWID())))
+            return "Sorry, you cannot register for the expedition on more than one account!";
+
+        int channel = this.getRecruitingMap().getChannelServer().getId();
+        if (!MapleExpeditionBossLog.attemptBoss(player.getId(), channel, this, false)) {    // thanks Conrad, Cato for noticing some expeditions have entry limit
+            return "Sorry, you've already reached the quota of attempts for this expedition! Try again another day...";
+        }
+
+        members.put(player.getId(), player.getName());
+        player.announce(MaplePacketCreator.getClock((int) (startTime - System.currentTimeMillis()) / 1000));
+        if (!silent)
+            broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + player.getName() + " has joined the expedition!"));
+        return "You have registered for the expedition successfully!";
+    }
         
         public int addMemberInt(MapleCharacter player) {
                 if (!registering) {
@@ -287,20 +293,20 @@ public class MapleExpedition {
 	public MapleExpeditionType getType() {
 		return type;
 	}
-        
-        public List<MapleCharacter> getActiveMembers() {    // thanks MedicOP for figuring out an issue with broadcasting packets to offline members
-                PlayerStorage ps = startMap.getWorldServer().getPlayerStorage();
-                
-                List<MapleCharacter> activeMembers = new LinkedList<>();
-		for (Integer chrid : getMembers().keySet()){
-                        MapleCharacter chr = ps.getCharacterById(chrid);
-                        if (chr != null && chr.isLoggedinWorld()) {
-                                activeMembers.add(chr);
-                        }
-		}
-                
-                return activeMembers;
+
+    public List<MapleCharacter> getActiveMembers() {    // thanks MedicOP for figuring out an issue with broadcasting packets to offline members
+        PlayerStorage ps = startMap.getWorldServer().getPlayerStorage();
+
+        List<MapleCharacter> activeMembers = new LinkedList<>();
+        for (Integer chrid : getMembers().keySet()) {
+            MapleCharacter chr = ps.getCharacterById(chrid);
+            if (chr != null && chr.isLoggedinWorld()) {
+                activeMembers.add(chr);
+            }
         }
+
+        return activeMembers;
+    }
         
         public Map<Integer, String> getMembers() {
                 return new HashMap<>(members);

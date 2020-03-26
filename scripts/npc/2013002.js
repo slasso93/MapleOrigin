@@ -40,6 +40,7 @@ function action(mode, type, selection) {
                 cm.sendYesNo("I have lifted the spell that was blocking the access to the tower's jail storages. You may find some goodies down there... Alternatively, you may want to be leaving now. Are you ready to exit?");
             else if (status == 1) {
                 cm.warp(920011300, 0);
+                cm.getEventInstance().giveEventPlayersExp(25000);
                 cm.dispose();
             }
             

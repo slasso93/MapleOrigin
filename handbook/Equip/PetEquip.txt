@@ -65,3 +65,6 @@
 1802061 - Scuba Mask - A scuba mask #cWhite Duck# likes to wear when diving down under.
 1802062 - Starry Stereo Headset - A Stereo Headset to keep your #cPink Bean# entertained at all times.
 1802063 - Baby Tiger Wings - A wing accessory exclusively for #cBaby Tiger#.
+01802040 - (1802369)
+01802041 - (1802370)
+01802069 - (1802371)

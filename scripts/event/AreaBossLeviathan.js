@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 3 * 60 * 60 * 1000; // 3hrs
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -46,7 +50,7 @@ function start() {
     var leviathansCanyon = em.getChannelServer().getMapFactory().getMap(240040401);
     var leviathan = Packages.server.life.MapleLifeFactory.getMonster(8220003);
     if(leviathansCanyon.getMonsterById(8220003) != null) {
-		em.schedule("start", 3 * 60 *60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
@@ -55,7 +59,7 @@ function start() {
     posX =  Math.floor((Math.random() * 600) - 300);
     leviathansCanyon.spawnMonsterOnGroundBelow(leviathan, new Packages.java.awt.Point(posX, posY));
     leviathansCanyon.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Leviathan emerges from the canyon and the cold icy wind blows."));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

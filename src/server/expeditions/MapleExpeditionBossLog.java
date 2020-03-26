@@ -114,10 +114,6 @@ public class MapleExpeditionBossLog {
             MapleExpeditionBossLog.resetBossLogTable(true, thursday);
         }
         
-        now.set(Calendar.HOUR, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        
         MapleExpeditionBossLog.resetBossLogTable(false, now);
     }
     

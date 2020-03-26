@@ -78,7 +78,8 @@ function setEventRewards(eim) {
         itemQty = [100, 100, 20, 10, 50, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
-        expStages = [0, 10000, 20000, 0, 20000, 20000, 0, 0];    //bonus exp given on CLEAR stage signal
+        expStages = [0, 2 * 10000, 2 * 20000, 0, 2 * 20000, 2 * 20000, 0, 0];    //bonus exp given on CLEAR stage signal
+		
         eim.setEventClearStageExp(expStages);
 }
 

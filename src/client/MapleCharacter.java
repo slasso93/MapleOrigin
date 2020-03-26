@@ -1049,13 +1049,21 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public static boolean canCreateChar(String name) {
+        return !isBannedName(name) && getIdByName(name) < 0 && validNameString(name);
+    }
+
+    public static boolean validNameString(String name) {
+        return Pattern.compile("[a-zA-Z0-9]{3,12}").matcher(name).matches();
+    }
+
+    public static boolean isBannedName(String name) {
         String lname = name.toLowerCase();
         for (String nameTest : BLOCKED_NAMES) {
             if (lname.contains(nameTest)) {
-                return false;
+                return true;
             }
         }
-        return getIdByName(name) < 0 && Pattern.compile("[a-zA-Z0-9]{3,12}").matcher(name).matches();
+        return false;
     }
 
     public boolean canDoor() {

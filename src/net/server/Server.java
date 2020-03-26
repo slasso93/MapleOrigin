@@ -360,11 +360,12 @@ public class Server {
             wldWLock.lock();
             try {
                 channelInfo.put(channelid, channel.getIP());
+                world.setCharAutosaveTasks();
             } finally {
                 wldWLock.unlock();
             }
         }
-        
+
         return channelid;
     }
     
@@ -431,6 +432,7 @@ public class Server {
             world.addChannel(channel);
             channelInfo.put(channelid, channel.getIP());
         }
+        world.setCharAutosaveTasks();
         
         boolean canDeploy;
         
@@ -986,7 +988,6 @@ public class Server {
         tMan.register(new RespawnTask(), YamlConfig.config.server.RESPAWN_INTERVAL, YamlConfig.config.server.RESPAWN_INTERVAL);
         
         timeLeft = getTimeLeftForNextDay();
-        MapleExpeditionBossLog.resetBossLogTable();
         tMan.register(new BossLogTask(), 24 * 60 * 60 * 1000, timeLeft);
     }
 

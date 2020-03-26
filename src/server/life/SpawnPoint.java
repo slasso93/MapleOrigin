@@ -25,6 +25,7 @@ import client.MapleCharacter;
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.server.Server;
+import tools.Randomizer;
 
 public class SpawnPoint {
     private int monster, mobTime, team, fh, f;
@@ -33,6 +34,7 @@ public class SpawnPoint {
     private int mobInterval = 5000;
     private AtomicInteger spawnedMonsters = new AtomicInteger(0);
     private boolean immobile, denySpawn = false;
+    private boolean isBoss;
 
     public SpawnPoint(final MapleMonster monster, Point pos, boolean immobile, int mobTime, int mobInterval, int team) {
         this.monster = monster.getId();
@@ -43,6 +45,7 @@ public class SpawnPoint {
         this.f = monster.getF();
         this.immobile = immobile;
         this.mobInterval = mobInterval;
+        this.isBoss = monster.isBoss();
         this.nextPossibleSpawn = Server.getInstance().getCurrentTime();
     }
     
@@ -85,7 +88,8 @@ public class SpawnPoint {
             public void monsterKilled(int aniTime) {
                 nextPossibleSpawn = Server.getInstance().getCurrentTime();
                 if (mobTime > 0) {
-                    nextPossibleSpawn += mobTime * 1000;
+                    int randomize = isBoss ? Randomizer.rand((int) (-0.2 * mobTime), (int) (0.2 * mobTime)) : 0;
+                    nextPossibleSpawn += ((mobTime + randomize) * 1000);
                 } else {
                     nextPossibleSpawn += aniTime;
                 }
