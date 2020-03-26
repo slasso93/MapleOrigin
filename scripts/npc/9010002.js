@@ -23,12 +23,11 @@ var relaunchItemsExpire90 = {
 	5122000: 40, // Hearty Party Bear weather
 	5041000: 20, // VIP Teleport Rock
 	5130000: 20, // Safety Charm
-	5510000: 20, // Wheel of Destiny
-	3010514: 1  //Cimson Queen's Throne
+	5510000: 20 // Wheel of Destiny
 };
 
-var relaunchItemsPerm = [5450000, 1802369, 1802370, 1802371, 1022048]; // miu miu, pets equips (tiny fright, sadness, envy), transparent eye
-var relaunchPets = [5000282, 5000283, 5000281]; // dire mors, wild invida, vile metus
+var relaunchItemsPerm = [5450000, 1802040, 1802041, 1802069, 1022048, 3010514]; // miu miu, pets equips (tiny fright, sadness, envy), transparent eye, Crimson Queen's Throne
+var relaunchPets = [5000040, 5000043, 5000046]; // vile metus, dire mors, wild invidia,
 
 function start() {
 	status = -1;
@@ -149,7 +148,7 @@ function action(mode, type, selection) {
 						for (var i in relaunchItemsPerm)
 							cm.gainItem(relaunchItemsPerm[i], 1);
 						for (var i in relaunchPets)
-							cm.gainItem(relaunchPets[i], 1, false, true, 10*365); // dry up in 10 year
+							cm.gainItem(relaunchPets[i], 1, false, true, 10 * 365 * 1000 * 24 * 60 * 60); // dry up in 10 year
 
 						cm.sendOk("WIPE HYPE! Here are your item! Thanks for staying with MapleOrigin through the wipe. Happy Mapling!");
 						cm.logLeaf("relaunch redemption");

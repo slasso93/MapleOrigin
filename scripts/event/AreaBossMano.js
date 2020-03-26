@@ -27,6 +27,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -45,13 +49,13 @@ function start() {
     var thicketAroundTheBeach3 = em.getChannelServer().getMapFactory().getMap(104000400);
     var mano = Packages.server.life.MapleLifeFactory.getMonster(2220000);
     if(thicketAroundTheBeach3.getMonsterById(2220000) != null) {
-        em.schedule("start", 3 * 60 * 60 * 1000);
+        em.schedule("start", timer + randomize);
         return;
     }
 	
     thicketAroundTheBeach3.spawnMonsterOnGroundBelow(mano, new Packages.java.awt.Point(279, -496));
     thicketAroundTheBeach3.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "A cool breeze was felt when Mano appeared."));
-    em.schedule("start", 3 * 60 *60 * 1000);
+    em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

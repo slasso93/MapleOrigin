@@ -144,7 +144,7 @@ function changedLeader(eim, leader) {}
 
 function playerDead(eim, player) {
     var count = eim.getIntProperty("fallenPlayers");
-    count = count + 1;
+    count = count;// + 1;
     
     eim.setIntProperty("fallenPlayers", count);
     
@@ -279,7 +279,6 @@ function startWave(eim) {
     var mapObj = eim.getMapInstance(270050100);
     var stage = eim.getProperty("stage");
     
-    eim.dropMessage(5, "Broken mob: " + (8820019 + (stage % 5)));
     spawnJrBoss(mapObj.getMonsterById(8820019 + (stage % 5)), false);
 }
 /*function startWave(eim) {

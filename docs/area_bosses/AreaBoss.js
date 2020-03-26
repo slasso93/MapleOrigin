@@ -10,6 +10,9 @@ var y = new Array(50, 50, 275, 119, 83, 278, 278, 180, 140, 1125, 455, 33, -437,
 var mapObj;
 var mobObj;
 
+var timer = 30 * 60 * 1000; // 30 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
+
 function init() {
     scheduleNew();
 }
@@ -31,5 +34,5 @@ function start() {
 			mapObj.spawnMonsterOnGroundBelow(mobObj, new Packages.java.awt.Point(x[i],y[i]));
 		}
 	}
-	setupTask = em.schedule("start", 30 * 60 * 1000);
+	setupTask = em.schedule("start", timer + randomize);
 }

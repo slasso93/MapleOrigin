@@ -44,7 +44,7 @@ public final class UseCatchItemHandler extends AbstractMaplePacketHandler {
         MapleCharacter chr = c.getPlayer();
         AutobanManager abm = chr.getAutobanManager();
         slea.readInt();
-        abm.setTimestamp(5, Server.getInstance().getCurrentTimestamp(), 4);
+        //abm.setTimestamp(5, Server.getInstance().getCurrentTimestamp(), 4);
         slea.readShort();
         int itemId = slea.readInt();
         int monsterid = slea.readInt();

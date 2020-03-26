@@ -28,6 +28,10 @@
 **/
 
 importPackage(Packages.client);
+importPackage(Packages.tools);
+
+var timer = 45 * 60 * 1000; // 45 mins
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
 
 function init() {
     scheduleNew();
@@ -47,7 +51,7 @@ function start() {
     var timer2 = Packages.server.life.MapleLifeFactory.getMonster(5220003);
 	
 	if(lostTime1.getMonsterById(5220003) != null) {
-		em.schedule("start", 3 * 60 * 60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
@@ -56,7 +60,7 @@ function start() {
     posX =  Math.floor((Math.random() * 1400) - 1000);
     lostTime1.spawnMonsterOnGroundBelow(timer2, new Packages.java.awt.Point(posX, posY));
     lostTime1.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Tick-Tock Tick-Tock! Timer makes it's presence known."));
-	em.schedule("start", 3 * 60 * 60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

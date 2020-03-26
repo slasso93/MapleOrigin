@@ -26,6 +26,12 @@
 	Ronan - based on xQuasar's King Clang spawner
 
 **/
+
+importPackage(Packages.tools);
+
+var timer = 3 * 60 * 60 * 1000; // 3hrs
+var randomize = Randomizer.rand(((-0.2 * timer) | 0), ((0.2 * timer) | 0)) // randomize by += 20%
+
 function init() {
     scheduleNew();
 }
@@ -44,7 +50,7 @@ function start() {
     var snackBar = Packages.server.life.MapleLifeFactory.getMonster(8220008);
 	
 	if(snackBarMap.getMonsterById(8220008) != null || snackBarMap.getMonsterById(8220009) != null) {
-		em.schedule("start", 3 * 60 * 60 * 1000);
+		em.schedule("start", timer + randomize);
 		return;
 	}
 	
@@ -53,7 +59,7 @@ function start() {
         
         snackBarMap.spawnMonsterOnGroundBelow(snackBar, new Packages.java.awt.Point(rndPos[0], rndPos[1]));
         snackBarMap.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, "Slowly, a suspicious food stand opens up on a strangely remote place."));
-	em.schedule("start", 3 * 60 *60 * 1000);
+	em.schedule("start", timer + randomize);
 }
 
 // ---------- FILLER FUNCTIONS ----------

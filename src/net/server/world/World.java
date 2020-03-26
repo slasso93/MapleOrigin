@@ -56,6 +56,7 @@ import java.util.PriorityQueue;
 import java.util.WeakHashMap;
 import java.util.concurrent.ScheduledFuture;
 
+import net.server.task.*;
 import scripting.event.EventInstanceManager;
 import server.MapleStorage;
 import server.TimerManager;
@@ -90,18 +91,6 @@ import net.server.guild.MapleGuildSummary;
 import net.server.services.BaseService;
 import net.server.services.ServicesManager;
 import net.server.services.type.WorldServices;
-import net.server.task.CharacterAutosaverTask;
-import net.server.task.FamilyDailyResetTask;
-import net.server.task.FishingTask;
-import net.server.task.HiredMerchantTask;
-import net.server.task.MapOwnershipTask;
-import net.server.task.MountTirednessTask;
-import net.server.task.PartySearchTask;
-import net.server.task.PetFullnessTask;
-import net.server.task.ServerMessageTask;
-import net.server.task.TimedMapObjectTask;
-import net.server.task.TimeoutTask;
-import net.server.task.WeddingReservationTask;
 import tools.DatabaseConnection;
 import tools.MaplePacketCreator;
 import tools.Pair;
@@ -181,7 +170,7 @@ public class World {
     
     private Map<MapleCharacter, Integer> fishingAttempters = Collections.synchronizedMap(new WeakHashMap<MapleCharacter, Integer>());
     
-    private ScheduledFuture<?> charactersSchedule;
+    private List<ScheduledFuture<?>> charactersSchedules = new ArrayList<>();
     private ScheduledFuture<?> marriagesSchedule;
     private ScheduledFuture<?> mapOwnershipSchedule;
     private ScheduledFuture<?> fishingSchedule;
@@ -215,7 +204,6 @@ public class World {
         mountsSchedule = tman.register(new MountTirednessTask(this), 60 * 1000, 60 * 1000);
         merchantSchedule = tman.register(new HiredMerchantTask(this), 10 * 60 * 1000, 10 * 60 * 1000);
         timedMapObjectsSchedule = tman.register(new TimedMapObjectTask(this), 60 * 1000, 60 * 1000);
-        charactersSchedule = tman.register(new CharacterAutosaverTask(this), 60 * 60 * 1000, 60 * 60 * 1000);
         marriagesSchedule = tman.register(new WeddingReservationTask(this), YamlConfig.config.server.WEDDING_RESERVATION_INTERVAL * 60 * 1000, YamlConfig.config.server.WEDDING_RESERVATION_INTERVAL * 60 * 1000);
         mapOwnershipSchedule = tman.register(new MapOwnershipTask(this), 20 * 1000, 20 * 1000);
         fishingSchedule = tman.register(new FishingTask(this), 10 * 1000, 10 * 1000);
@@ -265,12 +253,36 @@ public class World {
         try {
             if (channel.getId() == channels.size() + 1) {
                 channels.add(channel);
+                charactersSchedules.add(null);
                 return true;
             } else {
                 return false;
             }
         } finally {
             chnWLock.unlock();
+        }
+    }
+
+    public void setCharAutosaveTasks() {
+        TimerManager tman = TimerManager.getInstance();
+        int size = channels.size();
+        for (int i = 0; i < size - 1; i++) {
+            ScheduledFuture<?> charSave = charactersSchedules.get(i);
+            if (charSave != null) {
+                charSave.cancel(false);
+            }
+
+            charSave = tman.register(new CharacterAutosaverTask(channels.get(i)), 60 * 60 * 1000, (long) ((60.0 + ((i * 60.0) / size)) * 60) * 1000);
+            charactersSchedules.set(i, charSave);
+        }
+        if (size - 1 > -1) { // add the last channel (this is to support add channel command)
+            ScheduledFuture<?> charSave = charactersSchedules.get(size - 1);
+            if (charSave != null) {
+                charSave.cancel(false);
+            }
+            charSave = tman.register(new CharacterAutosaverTask(channels.get(size - 1)), 60 * 60 * 1000, (long) ((60.0 + (((size - 1) * 60.0) / size)) * 60) * 1000);
+            charactersSchedules.set(size - 1, charSave);
+
         }
     }
 
@@ -2153,10 +2165,12 @@ public class World {
             timedMapObjectsSchedule.cancel(false);
             timedMapObjectsSchedule = null;
         }
-        
-        if(charactersSchedule != null) {
-            charactersSchedule.cancel(false);
-            charactersSchedule = null;
+
+        for (ScheduledFuture<?> charactersSchedule : charactersSchedules) {
+            if (charactersSchedule != null) {
+                charactersSchedule.cancel(false);
+                charactersSchedule = null;
+            }
         }
         
         if(marriagesSchedule != null) {

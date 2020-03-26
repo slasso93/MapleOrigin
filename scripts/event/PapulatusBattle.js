@@ -23,6 +23,7 @@
  * @event: Vs Papulatus
 */
 importPackage(Packages.server.expeditions);
+importPackage(Packages.client);
 
 var isPq = true;
 var minPlayers = 1, maxPlayers = 6;
@@ -93,8 +94,15 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
             var ch = partyList[i];
 
             if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
-                if(ch.isLeader()) hasLeader = true;
-                eligible.push(ch);
+				if (ch.getPlayer().getQuestStatus(7103) == 2 || (ch.getPlayer().getQuestStatus(7103) == 1 && ch.getPlayer().haveItem(4031172))) {
+					eligible.push(ch);
+                } else {
+					eligible = [];
+					break;
+				}
+				
+                if(ch.isLeader())
+					hasLeader = true;
             }
         }
     }

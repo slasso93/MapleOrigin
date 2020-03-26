@@ -27,6 +27,7 @@ import client.command.Command;
 import client.MapleClient;
 import client.MapleCharacter;
 import net.server.Server;
+import server.life.MapleNPC;
 import server.maps.MaplePortal;
 import server.TimerManager;
 import server.life.MapleMonster;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DebugCommand extends Command {
-    private final static String debugTypes[] = {"monster", "packet", "portal", "spawnpoint", "pos", "map", "mobsp", "event", "areas", "reactors", "servercoupons", "playercoupons", "timer", "marriage", "buff", ""};
+    private final static String debugTypes[] = {"monster", "packet", "portal", "spawnpoint", "pos", "map", "mobsp", "event", "areas", "reactors", "servercoupons", "playercoupons", "timer", "marriage", "buff", "npc", ""};
     
     {
         setDescription("");
@@ -72,6 +73,14 @@ public class DebugCommand extends Command {
                     MapleMonster monster = (MapleMonster) monstermo;
                     MapleCharacter controller = monster.getController();
                     player.message("Monster ID: " + monster.getId() + " Aggro target: " + ((controller != null) ? controller.getName() + " Has aggro: " + monster.isControllerHasAggro() + " Knowns aggro: " + monster.isControllerKnowsAboutAggro() : "<none>"));
+                }
+                break;
+
+            case "npc":
+                List<MapleMapObject> npcs = player.getMap().getMapObjectsInRange(player.getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapleMapObjectType.NPC));
+                for (MapleMapObject npcmo : npcs) {
+                    MapleNPC npc = (MapleNPC) npcmo;
+                    player.dropMessage(6, "NPC ID: " + npc.getId() + " Name: " + npc.getName());
                 }
                 break;
 
