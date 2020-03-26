@@ -42,23 +42,18 @@ function end(mode, type, selection) {
         if (status == 0) {
             qm.sendYesNo("So you brought all of #t4032096#... Okay, I believe that your are now qualified to become an official knight. Do you want to become one?");
         } else if (status == 1) {
-            if (qm.getPlayer().getJob().getId() == 1100 && qm.getPlayer().getRemainingSp() > ((qm.getPlayer().getLevel() - 30) * 3)) {
-                qm.sendNext("You have too much #bSP#k with you. Use some more on the 1st-level skill.");
-                qm.dispose();
-            } else {
-                if (qm.getPlayer().getJob().getId() != 1110) {
-					if (!qm.canHold(1142067)) {
-						qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
-						qm.dispose();
-						return;
-					}
-                    qm.gainItem(4032096, -30);
-                    qm.gainItem(1142067, 1);
-                    qm.getPlayer().changeJob(Packages.client.MapleJob.DAWNWARRIOR2);
-                    qm.completeQuest();
+            if (qm.getPlayer().getJob().getId() != 1110) {
+                if (!qm.canHold(1142067)) {
+                    qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                    qm.dispose();
+                    return;
                 }
-                qm.sendNext("You are a Knight-in-Training no more. You are now an official knight of the Cygnus Knights.");
+                qm.gainItem(4032096, -30);
+                qm.gainItem(1142067, 1);
+                qm.getPlayer().changeJob(Packages.client.MapleJob.DAWNWARRIOR2);
+                qm.completeQuest();
             }
+            qm.sendNext("You are a Knight-in-Training no more. You are now an official knight of the Cygnus Knights.");
         } else if (status == 2) {
             qm.sendNextPrev("I have given you some #bSP#k. I have also given you a number of skills for a Dawn Warrior that's only available to knights, so I want you to work on it and hopefully cultivate it as much as your soul.");
         } else if (status == 3) {
