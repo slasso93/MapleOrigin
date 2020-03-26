@@ -138,7 +138,7 @@ public final class CloseRangeDamageHandler extends AbstractDealDamageHandler {
             boolean advcharge_prob = false;
             int advcharge_level = chr.getSkillLevel(SkillFactory.getSkill(1220010));
             if (advcharge_level > 0) {
-                advcharge_prob = SkillFactory.getSkill(1220010).getEffect(advcharge_level).makeChanceResult();
+                advcharge_prob = Math.random() < SkillFactory.getSkill(1220010).getEffect(advcharge_level).getX() / 100.0;
             }
             if (!advcharge_prob) {
                 chr.cancelEffectFromBuffStat(MapleBuffStat.WK_CHARGE);

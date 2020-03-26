@@ -23,6 +23,7 @@ repositories {
 dependencies {
     compile 'com.zaxxer:HikariCP-java7:2.4.13'
     compile 'org.apache.mina:mina-core:2.0.19'
+    compile 'org.apache.mina:mina-http:2.0.19'
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'org.slf4j:slf4j-jdk14:1.7.5'
     compile 'mysql:mysql-connector-java:8.0.19'
