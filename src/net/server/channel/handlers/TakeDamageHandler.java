@@ -271,7 +271,7 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
                 chr.addMPHP(-damage, -mpattack);
             } else {
                 if (chr.isRidingBattleship()) {
-                    chr.decreaseBattleshipHp(damage);
+                    chr.decreaseBattleshipHp(is_deadly ? damage / 2 : damage);
                 }
                 chr.addMPHP(-damage, -mpattack);
             }
