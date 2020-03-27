@@ -99,24 +99,28 @@ function action(mode, type, selection) {
                 if(cm.haveItem(5220020,1)) {
                     if (chance > 0 && chance <= 1) {
                             cm.sendOk("#b#eCongratulations!#n#k You have obtained a #b#t" + cm.gainItem(icommon, 1) + "##k #v" + icommon + "#");
-                            cm.dispose(); 
-                        (cm.gainItem(05220020, -1));
+                            cm.gainItem(5220020, -1);
+							cm.dispose(); 
+                        //cm.gainItem(05220020, -1);
                         } else if (chance >= 2 && chance <= 3) {
                             cm.sendOk("#b#eCongratulations!#n#k You have obtained a #b#t" + cm.gainItem(inormal, 1) + "##k #v" + inormal + "#");
                             cm.dispose();
-                        (cm.gainItem(05220020, -1));
+                        cm.gainItem(5220020, -1);
                         } else if (chance >=4 && chance <=5) {
                             cm.sendOk("#b#eCongratulations!#n#k You have obtained a #d#t" + cm.gainItem(irare, 1) + "##k #v" + irare + "#");
-                            cm.dispose();
-                        (cm.gainItem(05220020, -1));
+                            cm.gainItem(5220020, -1);
+							cm.dispose();
+                       // cm.gainItem(5220020, -1);
                         } else if (chance >= 6 && chance <= 7) {
                             cm.sendOk("#b#eCongratulations!#n#k You have obtained a #b#t" + cm.gainItem(irare1, 1) + "##k #v" + irare1 + "#");
-                            cm.dispose();
-                        (cm.gainItem(05220020, -1));
+                            cm.gainItem(5220020, -1);
+							cm.dispose();
+                        
                         } else if (chance >= 8 && chance <= 9) {
                             cm.sendOk("#b#eCongratulations!#n#k You have obtained a #b#t" + cm.gainItem(irare2, 1) + "##k #v" + irare2 + "#");
-                            cm.dispose();
-                        (cm.gainItem(05220020, -1));
+                            cm.gainItem(5220020, -1);
+							cm.dispose();
+                        //cm.gainItem(5220020, -1);
                         } else {
                             cm.sendOk("Sorry you do not have a gachapon ticket");
                             cm.dispose();
