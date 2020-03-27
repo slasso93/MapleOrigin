@@ -27,7 +27,7 @@ function action(mode, type, selection) {
                     cm.sendOk("The leader of the Raid must be the to talk to me about joining the event.");
                     cm.dispose();
                 } else {
-                    var eli = em.getEligibleRaidSrc(cm.getPlayer().getRaid(), cm.getPlayer().getMapId(), 200, 255, 1, 40);
+                    var eli = em.getEligibleRaidSrc(cm.getPlayer().getRaid(), cm.getPlayer().getMapId(), 2, 255, 1, 40);
                     if (eli.size() > 0) {
                         if (!em.startPlayerInstance(cm.getPlayer(), 1)) {
                             cm.sendOk("Someone is already attempting the PQ or your instance is currently being reset. Try again in few seconds.");
