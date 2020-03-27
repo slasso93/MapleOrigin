@@ -42,23 +42,18 @@ function end(mode, type, selection) {
         if (status == 0) {
             qm.sendYesNo("#t4032098#... I checked them all. I can tell you are now ready to make the leap as an official knight. Do you want to become one?");
         } else if (status == 1) {
-            if (qm.getPlayer().getJob().getId() == 1300 && qm.getPlayer().getRemainingSp() > ((qm.getPlayer().getLevel() - 30) * 3)) {
-                qm.sendNext("You have way too much #bSP#k with you. You'll need to spend more SP on 1st-level skills to become an official knight.");
-                qm.dispose();
-            } else {
-                if (qm.getPlayer().getJob().getId() != 1310) {
-					if (!qm.canHold(1142067)) {
-						qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
-						qm.dispose();
-						return;
-					}
-                    qm.gainItem(4032098, -30);
-                    qm.gainItem(1142067, 1);
-                    qm.getPlayer().changeJob(Packages.client.MapleJob.WINDARCHER2);
-                    qm.completeQuest();
+            if (qm.getPlayer().getJob().getId() != 1310) {
+                if (!qm.canHold(1142067)) {
+                    qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                    qm.dispose();
+                    return;
                 }
-                qm.sendNext("You are no longer a Knight-in-Training. You are now officially a Cygnus Knight.");
+                qm.gainItem(4032098, -30);
+                qm.gainItem(1142067, 1);
+                qm.getPlayer().changeJob(Packages.client.MapleJob.WINDARCHER2);
+                qm.completeQuest();
             }
+            qm.sendNext("You are no longer a Knight-in-Training. You are now officially a Cygnus Knight.");
         } else if (status == 2) {
             qm.sendNextPrev("I have given you some #bSP#k. I have also given you some skills of Wind Archer that are only available to official knights, so keep working!");
         } else if (status == 3) {
