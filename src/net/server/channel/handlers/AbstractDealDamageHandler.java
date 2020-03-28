@@ -909,7 +909,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
 
                     allDamageNumbers.add(damage);
             }
-            if (ret.skill != Corsair.RAPID_FIRE || ret.skill != Aran.HIDDEN_FULL_DOUBLE || ret.skill != Aran.HIDDEN_FULL_TRIPLE || ret.skill != Aran.HIDDEN_OVER_DOUBLE || ret.skill != Aran.HIDDEN_OVER_TRIPLE) {
+            if (ret.skill != Corsair.RAPID_FIRE && ret.skill != Aran.HIDDEN_FULL_DOUBLE && ret.skill != Aran.HIDDEN_FULL_TRIPLE && ret.skill != Aran.HIDDEN_OVER_DOUBLE && ret.skill != Aran.HIDDEN_OVER_TRIPLE) {
             	lea.skip(4);
             }
             ret.allDamage.put(Integer.valueOf(oid), allDamageNumbers);
