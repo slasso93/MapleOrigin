@@ -1943,6 +1943,7 @@ public class Server {
     }
 
     private synchronized void shutdownInternal(boolean restart) {
+        online = false;
         System.out.println((restart ? "Restarting" : "Shutting down") + " the server!\r\n");
         if (getWorlds() == null) return;//already shutdown
         for (World w : getWorlds()) {
