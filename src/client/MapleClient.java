@@ -1270,7 +1270,7 @@ public class MapleClient {
     }
 
     public void addVotePoints(int points) {
-        votePoints += points;
+        votePoints = getVotePoints() + points;
         saveVotePoints();
     }
 
