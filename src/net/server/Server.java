@@ -1991,14 +1991,18 @@ public class Server {
         TimerManager.getInstance().stop();
 
         System.out.println("Worlds + Channels are offline.");
+        if ( acceptor != null) {
+            acceptor.unbind();
+            acceptor.dispose();
+            acceptor = null;
+        }
 
-        acceptor.unbind();
-        acceptor.dispose();
-        acceptor = null;
+        if (httpAcceptor != null) {
+            httpAcceptor.unbind();
+            httpAcceptor.dispose();
+            httpAcceptor = null;
+        }
 
-        httpAcceptor.unbind();
-        httpAcceptor.dispose();
-        httpAcceptor = null;
 
         System.out.println("Sockets unbound");
         if (!restart) {  // shutdown hook deadlocks if System.exit() method is used within its body chores, thanks MIKE for pointing that out
