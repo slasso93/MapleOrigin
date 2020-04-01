@@ -380,6 +380,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+            } else {
+                owner.setHasMerchant(false);
             }
 
         } finally {

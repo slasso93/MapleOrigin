@@ -249,28 +249,28 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     double distanceToDetect = 200000.0;
                     
                     if(attack.ranged)
-                        distanceToDetect += 400000;
+                        distanceToDetect += 450000;
                     
                     if(attack.magic)
-                        distanceToDetect += 200000;
+                        distanceToDetect += 250000;
                     
                     if(player.getJob().isA(MapleJob.ARAN1))
-                        distanceToDetect += 200000; // Arans have extra range over normal warriors.
+                        distanceToDetect += 250000; // Arans have extra range over normal warriors.
                     
                     if(attack.skill == Aran.COMBO_SMASH || attack.skill == Aran.BODY_PRESSURE)
-                        distanceToDetect += 40000;
+                        distanceToDetect += 45000;
                     
                     else if(attack.skill == Bishop.GENESIS || attack.skill == ILArchMage.BLIZZARD || attack.skill == FPArchMage.METEOR_SHOWER)
                         distanceToDetect += 275000;
                     
                     else if(attack.skill == Hero.BRANDISH || attack.skill == DragonKnight.SPEAR_CRUSHER || attack.skill == DragonKnight.POLE_ARM_CRUSHER)
-                        distanceToDetect += 40000;
+                        distanceToDetect += 43000;
                     
                     else if(attack.skill == DragonKnight.DRAGON_ROAR || attack.skill == SuperGM.SUPER_DRAGON_ROAR)
                         distanceToDetect += 250000;
                     
                     else if(attack.skill == Shadower.BOOMERANG_STEP)
-                        distanceToDetect += 60000;
+                        distanceToDetect += 65000;
                     
                     if (distance > distanceToDetect) {
                         AutobanFactory.DISTANCE_HACK.alert(player, "Distance Sq to monster: " + distance + " SID: " + attack.skill + " MID: " + monster.getId());
