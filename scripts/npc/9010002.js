@@ -133,12 +133,17 @@ function action(mode, type, selection) {
 				}
 				cm.dispose();
 			} else if (selection == 8) {
-				if (cm.haveItem(4000492, 1)) {
+				if (cm.haveItem(4000492, 1) ||
+				    (cm.getPlayer().getRewardPoints() == 1 && !(cm.haveItem(5000040) || cm.haveItem(5000043) || cm.haveItem(5000046)))) {
+
 					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(13) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(0) &&
 						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(7)) {
 						var expires = 1000 * 24 * 60 * 60 * 90; // 90 days
-						cm.gainItem(4000492, -1);
+						if (cm.haveItem(4000492, 1))
+						    cm.gainItem(4000492, -1);
+						else
+							cm.getPlayer().setRewardPoints(0);
 
 						for (var key in relaunchItemsExpire90) {
 							cm.gainItem(parseInt(key), relaunchItemsExpire90[key], false, true, expires);

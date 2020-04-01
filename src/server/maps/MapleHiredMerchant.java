@@ -380,6 +380,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+            } else {
+                owner.setHasMerchant(false);
             }
 
         } finally {
@@ -639,6 +641,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
     public void saveItems(boolean shutdown, Connection con, boolean keepConnection) throws SQLException {
         List<Pair<Item, MapleInventoryType>> itemsWithType = new ArrayList<>();
         List<Short> bundles = new ArrayList<>();
+        boolean hasEmptyBundle = false;
+        final String deleteEmptyBundlesQuery = "DELETE i FROM inventoryitems i join inventorymerchant m using(inventoryitemid) where m.bundles=0 and m.characterid=" + getOwnerId();
 
         for (MaplePlayerShopItem pItems : getItems()) {
             Item newItem = pItems.getItem();
@@ -652,14 +656,21 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             if (newBundle > 0) {
                 itemsWithType.add(new Pair<>(newItem, newItem.getInventoryType()));
                 bundles.add(newBundle);
+            } else {
+                hasEmptyBundle = true;
             }
         }
-	
         con = con == null ? DatabaseConnection.getConnection() : con;
+
+        if (hasEmptyBundle) {
+            try (PreparedStatement psCleanMerchant = con.prepareStatement(deleteEmptyBundlesQuery)) {
+                psCleanMerchant.executeUpdate();
+            }
+        }
         ItemFactory.MERCHANT.saveMerchantItems(itemsWithType, bundles, this.ownerId, con);
         if (!keepConnection)
             con.close();
-        
+
         FredrickProcessor.insertFredrickLog(this.ownerId);
     }
 

@@ -53,7 +53,7 @@ function setLobbyRange() {
 }
 
 function setEventExclusives(eim) {
-        var itemSet = [4031217, 4000313];    // golden key, golden maple leaf
+        var itemSet = [4031217];    // golden key, golden maple leaf
         eim.setExclusiveItems(itemSet);
 }
 
