@@ -354,14 +354,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             setOpen(false);
             removeAllVisitors();
 
-            if (owner != null) {
+            if (owner != null) { // owner exists on the world
                 if (owner.isLoggedinWorld() && this == owner.getHiredMerchant()) { // owner is inside their store
                     closeOwnerMerchant(owner);
                 }
                 owner.setHasMerchant(false);
-            }
-
-            if (owner == null) {
+            } else { // owner is offline
                 try {
                     Connection con = DatabaseConnection.getConnection();
                     PreparedStatement ps = con.prepareStatement("UPDATE characters SET HasMerchant = 0 WHERE id = ?");
@@ -373,8 +371,6 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-            } else {
-                owner.setHasMerchant(false);
             }
 
         } finally {
@@ -413,13 +409,18 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                         }
                     }
                 }
-            }
-
-            try {
+                // clear items from merchant so they get deleted from merchant
                 synchronized (items) {
                     items.clear();
                 }
+            }
+
+            try {
                 this.saveItems(timeout);
+                // clear items after we save so we don't delete merchant items
+                synchronized (items) {
+                    items.clear();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
