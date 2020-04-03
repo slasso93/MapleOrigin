@@ -9376,26 +9376,28 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
         merchantmeso = set;
     }
-    
+
     public synchronized void withdrawMerchantMesos() {
         int merchantMeso = this.getMerchantNetMeso();
         int playerMeso = this.getMeso();
-        
+
         if (merchantMeso > 0) {
             int possible = Integer.MAX_VALUE - playerMeso;
-            
+
             if (possible > 0) {
                 if (possible < merchantMeso) {
                     this.gainMeso(possible, false);
+                    FilePrinter.print(FilePrinter.FREDRICK + getName() + ".txt", getName() + " gained " + possible + " mesos");
                     this.setMerchantMeso(merchantMeso - possible);
                 } else {
                     this.gainMeso(merchantMeso, false);
+                    FilePrinter.print(FilePrinter.FREDRICK + getName() + ".txt", getName() + " gained " + merchantMeso + " mesos");
                     this.setMerchantMeso(0);
                 }
             }
         } else {
             int nextMeso = playerMeso + merchantMeso;
-            
+
             if (nextMeso < 0) {
                 this.gainMeso(-playerMeso, false);
                 this.setMerchantMeso(merchantMeso + playerMeso);

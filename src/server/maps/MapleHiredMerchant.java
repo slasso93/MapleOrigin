@@ -46,6 +46,7 @@ import net.server.audit.locks.factory.MonitoredReentrantLockFactory;
 import net.server.Server;
 import server.MapleItemInformationProvider;
 import tools.DatabaseConnection;
+import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import tools.Pair;
 import net.server.audit.locks.MonitoredLockType;
@@ -354,14 +355,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             setOpen(false);
             removeAllVisitors();
 
-            if (owner != null) {
+            if (owner != null) { // owner exists on the world
                 if (owner.isLoggedinWorld() && this == owner.getHiredMerchant()) { // owner is inside their store
                     closeOwnerMerchant(owner);
                 }
                 owner.setHasMerchant(false);
-            }
-
-            if (owner == null) {
+            } else { // owner is offline
                 try {
                     Connection con = DatabaseConnection.getConnection();
                     PreparedStatement ps = con.prepareStatement("UPDATE characters SET HasMerchant = 0 WHERE id = ?");
@@ -370,11 +369,15 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
 
                     ps.close();
                     con.close();
+                    FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Closing offline player merchant nothing to update.");
+                    for (MaplePlayerShopItem mpsi : getItems()) {
+                        if (mpsi.isExist()) {
+                            FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Owner offline: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to Frederick.");
+                        }
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-            } else {
-                owner.setHasMerchant(false);
             }
 
         } finally {
@@ -406,6 +409,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             if (check(c.getPlayer(), copyItems) && !timeout) {
                 for (MaplePlayerShopItem mpsi : copyItems) {
                     if(mpsi.isExist()) {
+                        FilePrinter.print(FilePrinter.FREDRICK + c.getPlayer().getName() + ".txt", "Closing merchant: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to inventory.");
                         if (mpsi.getItem().getInventoryType().equals(MapleInventoryType.EQUIP)) {
                             MapleInventoryManipulator.addFromDrop(c, mpsi.getItem(), false);
                         } else {
@@ -413,13 +417,24 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                         }
                     }
                 }
-            }
-
-            try {
+                // clear items from merchant so they get deleted from merchant
                 synchronized (items) {
                     items.clear();
                 }
+            } else {
+                for (MaplePlayerShopItem mpsi : copyItems) {
+                    if (mpsi.isExist()) {
+                        FilePrinter.print(FilePrinter.FREDRICK + c.getPlayer().getName() + ".txt", "Inventory full: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to Frederick.");
+                    }
+                }
+            }
+
+            try {
                 this.saveItems(timeout);
+                // clear items after we save so we don't delete merchant items
+                synchronized (items) {
+                    items.clear();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
