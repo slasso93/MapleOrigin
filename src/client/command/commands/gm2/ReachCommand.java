@@ -62,8 +62,7 @@ public class ReachCommand extends Command {
                             e.printStackTrace();
                         }
                     }
-                    if (player.getMap().getId() != victim.getMap().getId())
-                        player.changeMap(victim.getMapId(), victim.getMap().findClosestPortal(victim.getPosition()));
+                    player.changeMap(victim.getMapId(), victim.getMap().findClosestPortal(victim.getPosition()));
                 }, 0);
             }
             else {
