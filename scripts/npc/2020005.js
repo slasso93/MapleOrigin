@@ -82,13 +82,17 @@ function action(mode, type, selection) {
         }
         cm.sendYesNo("Are you sure you want to buy #r"+amount+" #t"+item[selected]+"(s)##k? It'll cost you "+cost[selected]+" mesos per #t"+item[selected]+"#, which will cost you #r"+totalcost+" mesos#k in total.");
     } else if(status == 3) {
-        if(cm.getMeso() < totalcost || !cm.canHold(item[selected])) {
-            cm.sendNext("Are you sure you have enough mesos? Please check and see if your etc. or use inventory is full, or if you have at least #r"+totalcost+"#k mesos.");
+        if(cm.getMeso() < totalcost) {
+			cm.sendNext("Are you sure you have enough mesos? Make sure you have at least #r" + totalcost + "#k mesos.");
+			cm.dispose();
+		} else if (!cm.canHold(item[selected])) {
+            cm.sendNext("Please check and see if your etc. or use inventory is full.");
             cm.dispose();
-        }
-        cm.sendNext("Thank you. If you ever find yourself needing items down the road, make sure to drop by here. I may have gotten old over the years, but I can still make magic items with ease.");
-        cm.gainMeso(-totalcost);
-        cm.gainItem(item[selected], amount);
-        cm.dispose();
+        } else {
+			cm.sendNext("Thank you. If you ever find yourself needing items down the road, make sure to drop by here. I may have gotten old over the years, but I can still make magic items with ease.");
+			cm.gainMeso(-totalcost);
+			cm.gainItem(item[selected], amount);
+			cm.dispose();
+		}
     }
 }

@@ -15,7 +15,7 @@ function action(mode, type, selection) {
             cm.dispose();
         if (status == 1) {
             if (cm.getGiftLog('FreeGift') >= 1 && cm.haveItem(4001190)) {
-                cm.sendOk("I'm sorry, You have already received your gift in this account today!! Please come back 24 hours later!! Either this or you are not level 150");
+                cm.sendOk("I'm sorry, You have already recieved your hammer for the day!! Please come back later!! ");
                 cm.dispose();
             }else
                 cm.sendYesNo("Wow really?! Thank you so much! If you're 100% sure lets trade!");

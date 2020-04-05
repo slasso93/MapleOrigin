@@ -23,10 +23,17 @@
 */
 package client.command.commands.gm2;
 
+import client.MapleBuffStat;
 import client.command.Command;
 import client.MapleClient;
 import client.MapleCharacter;
+import server.TimerManager;
 import server.maps.MapleMap;
+import tools.MaplePacketCreator;
+import tools.Pair;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ReachCommand extends Command {
     {
@@ -43,12 +50,20 @@ public class ReachCommand extends Command {
 
         MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
         if (victim != null && victim.isLoggedin()) {
-           /*if (player.getClient().getChannel() != victim.getClient().getChannel()) {
-                player.dropMessage(5, "Player '" + victim.getName() + "' is at channel " + victim.getClient().getChannel() + ".");
-            }*/
             if (player.getClient().getChannel() != victim.getClient().getChannel()) {
                 player.dropMessage("Changing to target's channel");
                 player.getClient().changeChannel(victim.getClient().getChannel());
+                TimerManager tMan = TimerManager.getInstance();
+                tMan.schedule(() -> {
+                    while (!player.isLoggedinWorld()) {
+                        try {
+                            Thread.sleep(1777);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    player.changeMap(victim.getMapId(), victim.getMap().findClosestPortal(victim.getPosition()));
+                }, 0);
             }
             else {
                 MapleMap map = victim.getMap();

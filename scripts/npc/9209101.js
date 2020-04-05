@@ -53,9 +53,9 @@ function action (m,t,s) {
             cm.sendSimple(selStr);
         } else if (s == 2) {
             var selStr = "#e#kVIP Weapon shop:#n #r10#b #e#z4000313##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
-            var pageItems = items.slice(79, 95);
+            var pageItems = items.slice(78, 95);
             for (var i = 0; i < pageItems.length; i++)
-                selStr += "\r\n#L" + (i + 79) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
+                selStr += "\r\n#L" + (i + 78) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
             cm.sendSimple(selStr);
         } else if (s == 3) {
             var selStr = "Fun Fact: The original MapleOrigin used to be called ProjectNanp because Jay has fat fingers #b";

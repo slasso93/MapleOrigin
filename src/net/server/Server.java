@@ -1943,6 +1943,7 @@ public class Server {
     }
 
     private synchronized void shutdownInternal(boolean restart) {
+        online = false;
         System.out.println((restart ? "Restarting" : "Shutting down") + " the server!\r\n");
         if (getWorlds() == null) return;//already shutdown
         for (World w : getWorlds()) {
@@ -1990,14 +1991,18 @@ public class Server {
         TimerManager.getInstance().stop();
 
         System.out.println("Worlds + Channels are offline.");
+        if ( acceptor != null) {
+            acceptor.unbind();
+            acceptor.dispose();
+            acceptor = null;
+        }
 
-        acceptor.unbind();
-        acceptor.dispose();
-        acceptor = null;
+        if (httpAcceptor != null) {
+            httpAcceptor.unbind();
+            httpAcceptor.dispose();
+            httpAcceptor = null;
+        }
 
-        httpAcceptor.unbind();
-        httpAcceptor.dispose();
-        httpAcceptor = null;
 
         System.out.println("Sockets unbound");
         if (!restart) {  // shutdown hook deadlocks if System.exit() method is used within its body chores, thanks MIKE for pointing that out

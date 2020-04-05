@@ -34,10 +34,10 @@ var maxMapId = 680000401;
 var startMsgTime = 4;
 var blessMsgTime = 5;
 
-var eventTime = 10;    // 10 minutes gathering
-var ceremonyTime = 20; // 20 minutes ceremony
-var blessingsTime = 15;// blessings are held until the 15th minute from the ceremony start
-var partyTime = 45;    // 45 minutes party
+var eventTime = 5;    // 10 minutes gathering
+var ceremonyTime = 10; // 20 minutes ceremony
+var blessingsTime = 10;// blessings are held until the 15th minute from the ceremony start
+var partyTime = 20;    // 45 minutes party
 
 var forceHideMsgTime = 10;  // unfortunately, EIM weddings don't send wedding talk packets to the server... this will need to suffice
 
@@ -53,7 +53,7 @@ function setLobbyRange() {
 }
 
 function setEventExclusives(eim) {
-        var itemSet = [4031217, 4000313];    // golden key, golden maple leaf
+        var itemSet = [4031217];    // golden key, golden maple leaf
         eim.setExclusiveItems(itemSet);
 }
 
