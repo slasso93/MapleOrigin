@@ -40,7 +40,6 @@ function start(ms) {
         var realstage = stage - ((stage / 6) | 0);
         var mob = ms.getMonsterLifeFactory(9300183 + realstage);
         if (callBoss && mob != null && ms.getPlayer().getMap().getMonsterById(9300216) == null) {
-            mob.setBoss(false);
             ms.getPlayer().getMap().spawnDojoMonster(mob);
         }
     }

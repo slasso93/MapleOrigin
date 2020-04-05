@@ -54,7 +54,7 @@ function start() {
     }
     
 	if(cm.getPlayer().isMale()){
-		cm.sendSimple("Hey there, you can change your look for " + price + " mesos. What would you like to change?\r\n#L0#Skin#l\r\n#L1#Male Hair#l\r\n#L2#Hair Color#l\r\n#L3#Male Regular Eyes#l\r\n#L4#Eye Color#l");
+		cm.sendSimple("Hey there, you can change your look for " + price + " mesos. What would you like to change?\r\n#L0#Skin#l\r\n#L1#Male Hair#l\r\n#L2#Hair Color#l\r\n#L3#Male Regular Eyes#l\r\n#L4#Eye Color#l\r\n#L7#Reload fm#l");
 	}else{
 		cm.sendSimple("Hey there, you can change your look for " + price + " mesos. What would you like to change?\r\n#L0#Skin#l\r\n#L5#Female Hair#l\r\n#L2#Hair Color#l\r\n#L6#Female Eyes#l\r\n#L4#Eye Color#l");
 	}
@@ -89,6 +89,14 @@ function action(mode, type, selection) {
 				for(var i = 0; i < 9; i++)
 					pushIfItemExists(colors, baseFace + (i*100));
 				cm.sendStyle("Pick one?", colors);
+			} else if (selection == 7) {
+				
+				var player = cm.getPlayer();
+				var newMap = cm.getClient().getChannelServer().getMapFactory().resetMap(910000000);
+
+				
+				newMap.respawn();
+				cm.dispose();
 			}
 		} else {
 			cm.sendNext("You don't have enough mesos. Sorry to say this, but without " + price + " mesos, you won't be able to change your look!");
