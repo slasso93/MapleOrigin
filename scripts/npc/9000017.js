@@ -20,7 +20,7 @@ function action(mode, type, selection) {
 	return;
     }
     if (status == 0) {
-        cm.sendSimple("Oh no! It appears the #rCoronavirus #khas spread to MapleOrigin. But have no fear your grinding will still go on! For the month of April monsters will drop:\r\n\r\n #v4001332# - #z4001332#\r\n\r\nFwind us swome toiwet pwaper and we'll reward uwu with swome interwesting itwems uwu\r\n#b#L0# Exchange 10 #z4001332# fwor an interwesting itwem!#l\r\n");
+        cm.sendSimple("Oh no! It appears the #rCoronavirus #khas spread to MapleOrigin. But have no fear your grinding will still go on! For the month of April monsters will drop:\r\n\r\n #v4001332# - #z4001332#\r\n\r\nFwind us swome toiwet pwaper and we'll reward uwu with swome interwesting itwems uwu\r\n#b#L0# Exchange 10 Toilet Rolls fwor an interwesting itwem!#l\r\n");
     } else if (status == 1) {
 		if (selection == 0) {
             if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
