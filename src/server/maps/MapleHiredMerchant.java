@@ -23,10 +23,7 @@ package server.maps;
 
 import client.MapleCharacter;
 import client.MapleClient;
-import client.inventory.Item;
-import client.inventory.ItemFactory;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryType;
+import client.inventory.*;
 import client.inventory.manipulator.MapleInventoryManipulator;
 import client.inventory.manipulator.MapleKarmaManipulator;
 import client.processor.npc.FredrickProcessor;
@@ -359,6 +356,14 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 if (owner.isLoggedinWorld() && this == owner.getHiredMerchant()) { // owner is inside their store
                     closeOwnerMerchant(owner);
                 }
+                FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Closing player merchant, owner not in shop, nothing to update.");
+                for (MaplePlayerShopItem mpsi : getItems()) {
+                    if (mpsi.isExist()) {
+                        FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Owner not in shop: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to Frederick.");
+                        if (mpsi.getItem().getInventoryType().equals(MapleInventoryType.EQUIP))
+                            printEquipStats((Equip) mpsi.getItem(), ownerName);
+                    }
+                }
                 owner.setHasMerchant(false);
             } else { // owner is offline
                 try {
@@ -373,6 +378,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                     for (MaplePlayerShopItem mpsi : getItems()) {
                         if (mpsi.isExist()) {
                             FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Owner offline: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to Frederick.");
+                            if (mpsi.getItem().getInventoryType().equals(MapleInventoryType.EQUIP))
+                                printEquipStats((Equip) mpsi.getItem(), ownerName);
                         }
                     }
                 } catch (SQLException ex) {
@@ -412,6 +419,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                         FilePrinter.print(FilePrinter.FREDRICK + c.getPlayer().getName() + ".txt", "Closing merchant: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to inventory.");
                         if (mpsi.getItem().getInventoryType().equals(MapleInventoryType.EQUIP)) {
                             MapleInventoryManipulator.addFromDrop(c, mpsi.getItem(), false);
+                            printEquipStats((Equip) mpsi.getItem(), c.getPlayer().getName());
                         } else {
                             MapleInventoryManipulator.addById(c, mpsi.getItem().getItemId(), (short) (mpsi.getBundles() * mpsi.getItem().getQuantity()), mpsi.getItem().getOwner(), -1, mpsi.getItem().getFlag(), mpsi.getItem().getExpiration());
                         }
@@ -425,6 +433,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 for (MaplePlayerShopItem mpsi : copyItems) {
                     if (mpsi.isExist()) {
                         FilePrinter.print(FilePrinter.FREDRICK + c.getPlayer().getName() + ".txt", "Inventory full: adding " + mpsi.getBundles() + " " + mpsi.getItem().getItemId() + " to Frederick.");
+                        if (mpsi.getItem().getInventoryType().equals(MapleInventoryType.EQUIP))
+                            printEquipStats((Equip) mpsi.getItem(), c.getPlayer().getName());
                     }
                 }
             }
@@ -444,7 +454,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
         
         Server.getInstance().getWorld(world).unregisterHiredMerchant(this);
     }
-    
+
+    private void printEquipStats(Equip e, String ownerName) {
+        FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "equip stats: " + e.getStats() + " | slots=" + e.getUpgradeSlots() + ", level=" + e.getLevel() + ", itemlevel=" + e.getItemLevel());
+        e.getStats();
+    }
+
     public synchronized void visitShop(MapleCharacter chr) {
         visitorLock.lock();
         try {
