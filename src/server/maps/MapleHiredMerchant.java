@@ -531,7 +531,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
 
     public boolean addItem(MaplePlayerShopItem item) {
         synchronized (items) {
-            if (items.size() >= 16) return false;
+            if (items.size() >= 10) return false;
             
             items.add(item);
             return true;
