@@ -1430,6 +1430,15 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                             debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
                         }
                 }
+				    } else if (skillid == DragonKnight.POWER_CRASH ) {
+                        if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
+                            debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+                        }
+                    
+                        if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
+                            debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
+                        }
+                }
                 }
             }
         } finally {
