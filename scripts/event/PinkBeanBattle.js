@@ -144,7 +144,7 @@ function changedLeader(eim, leader) {}
 
 function playerDead(eim, player) {
     var count = eim.getIntProperty("fallenPlayers");
-    count = count; + 1;
+    count = count + 1;
     
     eim.setIntProperty("fallenPlayers", count);
     
