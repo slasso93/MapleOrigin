@@ -23,6 +23,7 @@
 /**
  *Crystal of Roots
  *@Author: Ronan
+ *@Author: Evol
  *@NPC: Crystal of Roots
  */
 function start() {
@@ -32,26 +33,21 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
-        
-    else if(!cm.getEventInstance().isEventCleared()) //If event is not cleared, tp players out without GML reward
-	{
-        cm.warp(240050600);
-        cm.dispose();
-	}
-	else if(cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
+	
+    else if(cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
 	{
 		cm.warp(240050000);
 		cm.dispose();
 	}
-	else if(cm.getMapId() == 240050000) //if player is at this map, warp them to the map defined
+	
+    else if(!cm.getEventInstance().isEventCleared()) //If event is NOT cleared, tp players out without GML reward
 	{
-		cm.warp(240040700);
-		cm.dispose();
-	}
-    else {
+        cm.warp(240050600);
+        cm.dispose();
+		
+	} else if(cm.getEventInstance().isEventCleared()) //If event IS cleared, tp players out with GML reward
         cm.warp(240050600);
         cm.gainItem(4000313, 2);
         cm.dispose();
  
     }
-}

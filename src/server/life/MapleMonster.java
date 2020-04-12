@@ -1413,7 +1413,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                 int i = (skillid == Crusader.ARMOR_CRASH ? 1 : (skillid == WhiteKnight.MAGIC_CRASH ? 2 : 0));
                 debuffMobStat(statups[i]);
 
-                if(YamlConfig.config.server.USE_ANTI_IMMUNITY_CRASH) {
+				if(YamlConfig.config.server.USE_ANTI_IMMUNITY_CRASH) {
                     if (skillid == Crusader.ARMOR_CRASH) {
                         if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
                             debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
@@ -1425,11 +1425,11 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                         if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
                             debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
                         }
-                    } else {
+                    
                         if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
                             debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
                         }
-                    }
+                }
                 }
             }
         } finally {
