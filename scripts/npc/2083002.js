@@ -34,7 +34,7 @@ function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
   
-cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
+	else if (cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
 	{
 		cm.warp(240050000);
 		cm.dispose();
