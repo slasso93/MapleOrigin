@@ -32,6 +32,7 @@ import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import config.YamlConfig;
 import constants.skills.Crusader;
+import constants.skills.DragonKnight;
 import constants.skills.FPMage;
 import constants.skills.Hermit;
 import constants.skills.ILMage;
@@ -1430,7 +1431,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                             debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
                         }
                 }
-				    } else if (skillid == DragonKnight.POWER_CRASH ) {
+				    } else if (skillid == DragonKnight.POWER_CRASH) {
                         if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
                             debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
                         }
@@ -1440,7 +1441,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                         }
                 }
                 }
-            }
+            
         } finally {
             statiLock.unlock();
         }
