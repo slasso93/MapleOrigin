@@ -24,7 +24,7 @@
 */
 
 var isPq = true;
-var onlyMarriedPlayers = true;
+var onlyMarriedPlayers = false;
 var minPlayers = 6, maxPlayers = 6;
 var minLevel = 40, maxLevel = 255;
 var entryMap = 670010200;
