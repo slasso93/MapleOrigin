@@ -1,8 +1,8 @@
 /*
-	This file is part of the OdinMS Maple Story Server
+    This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+               Matthias Butz <matze@odinms.de>
+               Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -33,8 +33,8 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
-	
-    else if(cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
+  
+cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
 	{
 		cm.warp(240050000);
 		cm.dispose();

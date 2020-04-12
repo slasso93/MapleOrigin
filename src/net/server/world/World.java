@@ -1666,7 +1666,7 @@ public class World {
                 int timeOn = dm.getValue().getRight();
                 MapleHiredMerchant hm = dm.getValue().getLeft();
                 
-                if(timeOn <= 144) {   // 1440 minutes == 24hrs
+                if(timeOn <= 432) {   // 1440 minutes == 24hrs (4320 = 72hrs)
                     activeMerchants.put(hm.getOwnerId(), new Pair<>(dm.getValue().getLeft(), timeOn + 1));
                 } else {
                     hm.forceClose();

@@ -1,5 +1,5 @@
 /* @author RonanLana */
-var level = 140;
+var level = 200;
 var minparty = 1;
 var maxparty = 6;
 var minraid = 1;
