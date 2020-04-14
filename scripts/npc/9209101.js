@@ -18,7 +18,7 @@ var items = [1022082,
 /*Starts at 65, Thief Empress Gear */          1003175, 1102278, 1052317, 1072488, 1082298,
 /*Starts at 70, Pirate Empress Gear*/          1003176, 1102279, 1052318, 1072489, 1082299,
 /*Starts at 75, Mage Empress Gear*/            1003173, 1102276, 1052315,
-/*Starts at 78, VIP Weapoons */                1302147, 1312062, 1322090, 1332120, 1332125, 1372078, 1382099, 1402090, 1412062, 1422063, 1432081, 1442111, 1452106, 1462091, 1472117, 1482079, 1492079, 1092074, 1092079,
+/*Starts at 78, VIP Weapoons */                1302147, 1312062, 1322090, 1332120, 1332125, 1372078, 1382099, 1402090, 1412062, 1422063, 1432081, 1442111, 1452106, 1462091, 1472117, 1482079, 1492079,
 /*Starts at 95, 60% Scrolls */                 2040914, 2040919, 2044301, 2044401, 2044501, 2044601, 2044701, 2044801, 2044901, 2044201, 2044101, 2044001, 2043001, 2043101, 2043201, 2043801, 2043701, 2043301];
 var leaf = [4000313];
 
@@ -37,7 +37,7 @@ function action (m,t,s) {
         sel = s;
         if (s == 0) {
             var selStr = "#e#kScroll shop:#n #r1#b #e#z4000313##n#k\r\nFun Fact: Mitochondria is not actually the powerhouse of the cell #b";
-            var scrolls = [2049100, 2340000, 2049003].concat(items.slice(97, 113));
+            var scrolls = [2049100, 2340000, 2049003].concat(items.slice(95, 113));
             for (var i = 0; i < scrolls.length; i++) {
                 if (scrolls[i] != 2340000)
                     selStr += "\r\n#L" + (i < 3 ? i + 34 : i + 92) + "##v" + scrolls[i] + "##e#z" + scrolls[i] + (i > 2 ?"# x3#n" : "##n");
@@ -53,7 +53,7 @@ function action (m,t,s) {
             cm.sendSimple(selStr);
         } else if (s == 2) {
             var selStr = "#e#kVIP Weapon shop:#n #r10#b #e#z4000313##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
-            var pageItems = items.slice(78, 97);
+            var pageItems = items.slice(78, 95);
             for (var i = 0; i < pageItems.length; i++)
                 selStr += "\r\n#L" + (i + 78) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
             cm.sendSimple(selStr);
@@ -149,7 +149,7 @@ function action (m,t,s) {
                             cm.sendOk("Please make sure you have at least 1 slots empty in your inventory");
                         }
                     }
-                    else if(items[s] == 1302147 || items[s] == 1312062 || items[s] == 1322090 || items[s] == 1332120 || items[s] == 1332125 || items[s] == 1372078 || items[s] == 1382099 || items[s] == 1402090 || items[s] == 1412062 || items[s] == 1422063 || items[s] == 1432081 || items[s] == 1442111 || items[s] == 1452106 || items[s] == 1462091 || items[s] == 1472117 || items[s] == 1482079 || items[s] == 1492079 || items[s] == 1092074 || items[s] == 1092079){
+                    else if(items[s] == 1302147 || items[s] == 1312062 || items[s] == 1322090 || items[s] == 1332120 || items[s] == 1332125 || items[s] == 1372078 || items[s] == 1382099 || items[s] == 1402090 || items[s] == 1412062 || items[s] == 1422063 || items[s] == 1432081 || items[s] == 1442111 || items[s] == 1452106 || items[s] == 1462091 || items[s] == 1472117 || items[s] == 1482079 || items[s] == 1492079){
                         if(cm.haveItem(leaf, 10)) {
                             cm.gainItem(leaf, -10);
                             cm.gainItem(items[s], 1);
@@ -198,7 +198,7 @@ function action (m,t,s) {
 					
                 }
                 else {
-                    cm.sendOk("Please make sure you have at least 1 empty slots in both equip, etc ,or use. ");
+                    cm.sendOk("Please make sure you have at least 1 empty slots in both equip and etc.");
                 }
             } else {
                 var pts = points[s];
