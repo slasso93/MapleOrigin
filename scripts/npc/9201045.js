@@ -39,7 +39,7 @@ function isAllGatesOpen() {
     for(var i = 0; i < 7; i++) {
         var gate = map.getReactorByName("gate0" + i);
         if(gate.getState() != 4) {
-            return false;
+            return true;
         }
     }
     

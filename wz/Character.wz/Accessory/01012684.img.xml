@@ -119,21 +119,21 @@
       <string name="islot" value="Af"/>
       <string name="vslot" value="Af"/>
       <int name="reqJob" value="0"/>
-      <int name="reqLevel" value="0"/>
+      <int name="reqLevel" value="10"/>
       <int name="reqSTR" value="0"/>
       <int name="reqDEX" value="0"/>
       <int name="reqINT" value="0"/>
       <int name="reqLUK" value="0"/>
-      <int name="incSTR" value="0"/>
-      <int name="incINT" value="0"/>
-      <int name="incDEX" value="0"/>
-      <int name="incLUK" value="0"/>
-      <int name="incMHP" value="0"/>
-      <int name="incMMP" value="0"/>
-      <int name="incPAD" value="0"/>
-      <int name="incMAD" value="0"/>
-      <int name="cash" value="1"/>
-      <int name="tradeBlock" value="1"/>
+      <int name="incSTR" value="3"/>
+      <int name="incINT" value="3"/>
+      <int name="incDEX" value="3"/>
+      <int name="incLUK" value="3"/>
+      <int name="incMHP" value="150"/>
+      <int name="incMMP" value="150"/>
+      <int name="incPAD" value="1"/>
+      <int name="incMAD" value="2"/>
+      <int name="cash" value="0"/>
+      <int name="tradeBlock" value="0"/>
       <imgdir name="abilityTimeLimited">
          <int name="incSTR" value="5"/>
          <int name="incINT" value="5"/>

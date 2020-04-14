@@ -70,18 +70,19 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         final MapleCharacter player = c.getPlayer();
         
-        long timeNow = currentServerTime();
-        if (timeNow - player.getLastUsedCashItem() < 3000) {
-            player.dropMessage(1, "You have used a cash item recently. Wait a moment, then try again.");
-            c.announce(MaplePacketCreator.enableActions());
-            return;
-        }
-        player.setLastUsedCashItem(timeNow);
-        
+
         MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
         short position = slea.readShort();
         int itemId = slea.readInt();
         int itemType = itemId / 10000;
+		
+		        long timeNow = currentServerTime();
+        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < 10000) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
+            player.dropMessage(1, "You have used a cash item or smega recently. Wait a moment, then try again.");
+            c.announce(MaplePacketCreator.enableActions());
+            return;
+        }
+        player.setLastUsedCashItem(timeNow);
         
         MapleInventory cashInv = player.getInventory(MapleInventoryType.CASH);
         Item toUse = cashInv.getItem(position);
