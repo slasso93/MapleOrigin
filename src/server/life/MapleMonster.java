@@ -31,6 +31,7 @@ import client.SkillFactory;
 import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import config.YamlConfig;
+import constants.skills.DragonKnight;
 import constants.skills.Crusader;
 import constants.skills.FPMage;
 import constants.skills.Hermit;
@@ -1410,37 +1411,21 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                     debuffMobStat(ms);
                 }
             } else {    // is a crash skill
-                int i = (skillid == Crusader.ARMOR_CRASH ? 1 : (skillid == WhiteKnight.MAGIC_CRASH ? 2 : 0));
+			int i = (skillid == Crusader.ARMOR_CRASH ? 1 : skillid == WhiteKnight.MAGIC_CRASH ? 2 : skillid == DragonKnight.POWER_CRASH ? 3 : 0);
                 debuffMobStat(statups[i]);
-
 				if(YamlConfig.config.server.USE_ANTI_IMMUNITY_CRASH) {
-                    if (skillid == Crusader.ARMOR_CRASH) {
-                        if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
-                            debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
-                        }
-                        if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
-                            debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
-                        }
-                    } else if (skillid == WhiteKnight.MAGIC_CRASH) {
-                        if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
-                            debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
-                        }
-                    
-                        if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
-                            debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
-                        }
-                }
-				    } else if (skillid == DragonKnight.POWER_CRASH ) {
-                        if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) {
-                            debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
-                        }
-                    
-                        if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) {
-                            debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
-                        }
-                }
-                }
-            }
+					if (skillid == Crusader.ARMOR_CRASH) {
+                    if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
+                    if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+                } else if (skillid == WhiteKnight.MAGIC_CRASH) {
+                    if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+                    if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
+				} else if (skillid == DragonKnight.POWER_CRASH) {
+                    if(!isBuffed(MonsterStatus.MAGIC_REFLECT)) debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+                    if(!isBuffed(MonsterStatus.WEAPON_REFLECT)) debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
+					}
+				}
+			}
         } finally {
             statiLock.unlock();
         }
