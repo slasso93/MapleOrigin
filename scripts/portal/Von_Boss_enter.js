@@ -1,8 +1,8 @@
 /* @author RonanLana */
-var level = 200;
-var minparty = 1;
+var level = 210;
+var minparty = 6;
 var maxparty = 6;
-var minraid = 1;
+var minraid = 6;
 var maxraid = 40;
 
 function enter(pi) {
