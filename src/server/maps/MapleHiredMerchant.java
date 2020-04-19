@@ -355,7 +355,10 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             if (owner != null) { // owner exists on the world
                 if (owner.isLoggedinWorld() && this == owner.getHiredMerchant()) { // owner is inside their store
                     closeOwnerMerchant(owner);
+                } else {
+                    clearInexistentItems();
                 }
+
                 FilePrinter.print(FilePrinter.FREDRICK + ownerName + ".txt", "Closing player merchant, owner not in shop, nothing to update.");
                 for (MaplePlayerShopItem mpsi : getItems()) {
                     if (mpsi.isExist()) {
@@ -367,6 +370,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 owner.setHasMerchant(false);
             } else { // owner is offline
                 try {
+                    clearInexistentItems();
                     Connection con = DatabaseConnection.getConnection();
                     PreparedStatement ps = con.prepareStatement("UPDATE characters SET HasMerchant = 0 WHERE id = ?");
                     ps.setInt(1, ownerId);
