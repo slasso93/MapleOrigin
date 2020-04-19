@@ -124,7 +124,7 @@ function action(mode, type, selection) {
 
                                                 } else if(stage == 5) {
                                                         var pass = true;
-
+/*
                                                         if(eim.isEventTeamTogether()) {
                                                             var party = cm.getEventInstance().getPlayers();
                                                             var area = cm.getMap().getArea(2);
@@ -139,7 +139,7 @@ function action(mode, type, selection) {
                                                             }
                                                         } else {
                                                             pass = false;
-                                                        }
+                                                        }*/
 
                                                         if(pass) {
                                                                 if(isAllGatesOpen()) {

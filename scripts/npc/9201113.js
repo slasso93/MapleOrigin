@@ -57,7 +57,7 @@ function action(mode, type, selection) {
             if (player.getLevel() < cwkpq.getMinLevel() || player.getLevel() > cwkpq.getMaxLevel()) { //Don't fit requirement, thanks Conrad
                 cm.sendOk("You do not meet the criteria to take attempt Crimsonwood Keep Party Quest!");
                 cm.dispose();
-            } else if (expedition == null && em.getChannelServer().getId() == 4 || em.getChannelServer().getId() == 5 || em.getChannelServer().getId() == 6) { //Start an expedition
+            } else if (expedition == null && (em.getChannelServer().getId() == 4 || em.getChannelServer().getId() == 5 || em.getChannelServer().getId() == 6)) { //Start an expedition
 			
                 cm.sendSimple("#e#b<Party Quest: Crimsonwood Keep>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble a team to attempt the #rCrimsonwood Keep Party Quest#k?\r\n#b#L1#Lets get this going!#l\r\n\#L2#No, I think I'll wait a bit...#l");
                 status = 1;
