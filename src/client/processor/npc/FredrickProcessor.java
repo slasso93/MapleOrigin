@@ -25,6 +25,7 @@ package client.processor.npc;
 
 import client.MapleCharacter;
 import client.MapleClient;
+import client.autoban.AutobanFactory;
 import client.inventory.Item;
 import client.inventory.ItemFactory;
 import client.inventory.MapleInventory;
@@ -286,38 +287,44 @@ public class FredrickProcessor {
             try {
                 MapleCharacter chr = c.getPlayer();
 
-                List<Pair<Item, MapleInventoryType>> items;
-                try {
-                    items = ItemFactory.MERCHANT.loadItems(chr.getId(), false);
-                    
-                    byte response = canRetrieveFromFredrick(chr, items);
-                    if (response != 0) {
-                        chr.announce(MaplePacketCreator.fredrickMessage(response));
-                        return;
-                    }
-                    
-                    chr.withdrawMerchantMesos();
-                    
-                    if (deleteFredrickItems(chr.getId())) {
-                        MapleHiredMerchant merchant = chr.getHiredMerchant();
+                if (!chr.hasMerchant()) {
+                    List<Pair<Item, MapleInventoryType>> items;
+                    try {
+                        items = ItemFactory.MERCHANT.loadItems(chr.getId(), false);
 
-                        if(merchant != null)
-                            merchant.clearItems();
-
-                        for (Pair<Item, MapleInventoryType> it : items) {
-                            Item item = it.getLeft();
-                            MapleInventoryManipulator.addFromDrop(chr.getClient(), item, false);
-                            String itemName = MapleItemInformationProvider.getInstance().getName(item.getItemId());
-                            FilePrinter.print(FilePrinter.FREDRICK + chr.getName() + ".txt", chr.getName() + " gained " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
+                        byte response = canRetrieveFromFredrick(chr, items);
+                        if (response != 0) {
+                            chr.announce(MaplePacketCreator.fredrickMessage(response));
+                            return;
                         }
 
-                        chr.announce(MaplePacketCreator.fredrickMessage((byte) 0x1E));
-                        removeFredrickLog(chr.getId());
-                    } else {
-                        chr.message("An unknown error has occured.");
+                        chr.withdrawMerchantMesos();
+
+                        if (deleteFredrickItems(chr.getId())) {
+                            MapleHiredMerchant merchant = chr.getHiredMerchant();
+
+                            if (merchant != null)
+                                merchant.clearItems();
+
+                            for (Pair<Item, MapleInventoryType> it : items) {
+                                Item item = it.getLeft();
+                                MapleInventoryManipulator.addFromDrop(chr.getClient(), item, false);
+                                String itemName = MapleItemInformationProvider.getInstance().getName(item.getItemId());
+                                FilePrinter.print(FilePrinter.FREDRICK + chr.getName() + ".txt", chr.getName() + " gained " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
+                            }
+
+                            chr.announce(MaplePacketCreator.fredrickMessage((byte) 0x1E));
+                            removeFredrickLog(chr.getId());
+                        } else {
+                            chr.message("An unknown error has occured.");
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                } else {
+                    AutobanFactory.PACKET_EDIT.alert(chr, chr.getName() + " tried to packet edit with Fredrick.");
+                    FilePrinter.printError(FilePrinter.EXPLOITS + chr.getName() + ".txt", chr.getName() + " tried to retrieve items from Fredrick with an open Hired Merchant.");
+                    c.disconnect(true, false);
                 }
             } finally {
                 c.releaseClient();
