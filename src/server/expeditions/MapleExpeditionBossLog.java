@@ -24,9 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import config.YamlConfig;
 import tools.DatabaseConnection;
@@ -230,5 +228,48 @@ public class MapleExpeditionBossLog {
     public static void registerBossEntry(int cid, MapleExpeditionType type) {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         insertPlayerEntry(cid, boss);
+    }
+    public static Map<String, String> getDailyBossEntries(int cid) {
+
+        Map<String,String> dailyBossLog = new HashMap<String,String>();
+        int zakumCount = 0;
+        int horntailCount = 0;
+        int pinkbeanCount = 0;
+        int scargaCount = 0;
+        int papulatusCount = 0;
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT bosstype FROM bosslog_daily WHERE characterid = ?" );
+            ps.setInt(1, cid);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                String boss = rs.getString("bosstype");
+
+                if(boss.equals("ZAKUM")){
+                    zakumCount++;
+                } else if(boss.equals("HORNTAIL")){
+                    horntailCount++;
+                } else if(boss.equals("PINKBEAN")){
+                    pinkbeanCount++;
+                } else if(boss.equals("SCARGA")){
+                    scargaCount++;
+                } else if(boss.equals("PAPULATUS")){
+                    papulatusCount++;
+                }
+            }
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        dailyBossLog.put("Zakum",Integer.toString(zakumCount)+"/2");
+        dailyBossLog.put("Horntail", Integer.toString(horntailCount)+"/2");
+        dailyBossLog.put("Pink Bean",Integer.toString(pinkbeanCount)+"/1");
+        dailyBossLog.put("Scarga", Integer.toString(scargaCount)+"/1");
+        dailyBossLog.put("Papulatus",Integer.toString(papulatusCount)+"/2");
+
+        return dailyBossLog;
     }
 }

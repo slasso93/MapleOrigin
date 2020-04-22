@@ -46,7 +46,7 @@ function action(mode, type, selection) {
 		else
 			status--;
 		if (status == 0) {
-			cm.sendSimple("Hello #b#e#h ##n#k, you currently have #r#c4000038##b #e#z4000038##n.#k \r\nWhat would you like to do?\r\n#k#L1# Buy #r5,000#k #b#eNX#n#k for #r5mil#k #b#eMesos#n#k #l\r\n#L2# Trade #r5#k #b#e#z4000038##n#k for #r1 random#k #b#echair#n#k #l\r\n#L3# Trade #r1#k #b#e#z4000038##n#k for #r2 random#k #e#bMaple Weapons#n#k #l\r\n#L4#Trade #r1#k #b#e#z4000038##n#k for a #e#b#z5030001##n#k#l\r\n#L5#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001168##n#k #l#l\r\n#L6#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001017##n#k #l#l\r\n#L7#Trade #r10#k #e#b#z4000038##n#k for #r1#k #b#e#z1472063##n#k for use in the Happyville raid! #l\r\n#L9#Trade #r10#k #b#e#z5072000##n#k for #r1#k #b#e#z5076000##n#k #l\r\n#L10##rOne time#k #b#eFull SP Reset#n#k (level 120+ only) for #r10mil#k #b#eMesos#n#k \r\n#k#L11# Buy #r1#k #b#eNX Gachapon Ticket#n#k for #r20,000#k #b#eNX#n#k \r\n#k#L12# Buy #r12#k #b#eNX Gachapon Ticket#n#k for #r200,000#k #b#eNX#n#k");
+			cm.sendSimple("Hello #b#e#h ##n#k, you currently have #r#c4000038##b #e#z4000038##n.#k \r\nWhat would you like to do?\r\n#k#L1# Buy #r5,000#k #b#eNX#n#k for #r5mil#k #b#eMesos#n#k #l\r\n#L2# Trade #r5#k #b#e#z4000038##n#k for #r1 random#k #b#echair#n#k #l\r\n#L3# Trade #r1#k #b#e#z4000038##n#k for #r2 random#k #e#bMaple Weapons#n#k #l\r\n#L4#Trade #r1#k #b#e#z4000038##n#k for a #e#b#z5030001##n#k#l\r\n#L5#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001168##n#k #l#l\r\n#L6#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001017##n#k #l#l\r\n#L7#Trade #r10#k #e#b#z4000038##n#k for #r1#k #b#e#z1472063##n#k for use in the Happyville raid! #l\r\n#L9#Trade #r10#k #b#e#z5072000##n#k for #r1#k #b#e#z5076000##n#k #l\r\n#L10##rOne time#k #b#eFull SP Reset#n#k (level 120+ only) for #r10mil#k #b#eMesos#n#k #l\r\n#L11# Buy #r1#k #b#eNX Gachapon Ticket#n#k for #r20,000#k #b#eNX#n#k \r\n#k#L12# Buy #r12#k #b#eNX Gachapon Ticket#n#k for #r200,000#k #b#eNX#n#k#l\r\n#L8##r1 #b#eFREE 4 hour 2x Drop Coupon#n#k#l");
 		} else if (status == 1) {
 			if (selection == 1) {
 				if (cm.getMeso() >= 5000000) {
@@ -133,7 +133,17 @@ function action(mode, type, selection) {
 				}
 				cm.dispose();
 			} else if (selection == 8) {
-				if (cm.haveItem(4000492, 1) ||
+				if (cm.getPlayer().getRewardPoints() == 1) {
+					var expires = 1000 * 60 * 60 * 4; // 4 hours
+					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(0)) {
+						cm.getPlayer().setRewardPoints(0);
+						cm.gainItem(5360042, 1, false, true, expires);
+					
+					} else {
+						cm.sendOk("Please make sure you have enough space to receive your reward!");
+					}
+				}
+				/*if (cm.haveItem(4000492, 1) ||
 				    (cm.getPlayer().getRewardPoints() == 1 && !(cm.haveItem(5000040) || cm.haveItem(5000043) || cm.haveItem(5000046)))) {
 
 					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(13) &&
@@ -161,8 +171,9 @@ function action(mode, type, selection) {
 					} else {
 						cm.sendOk("Please make sure you have enough space to hold these items!");
 					}
-				} else {
-					cm.sendOk("Sorry, you don't have a Certificate of Great Tester! Contact Light or slasso via discord to verify tester status.");
+				}*/ else {
+					//cm.sendOk("Sorry, you don't have a Certificate of Great Tester! Contact Light or slasso via discord to verify tester status.");
+					cm.sendOk("Sorry, you've already claimed this reward");
 				}
 				cm.dispose();
 			} else if (selection == 9) {

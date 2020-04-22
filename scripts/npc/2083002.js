@@ -1,8 +1,8 @@
 /*
-	This file is part of the OdinMS Maple Story Server
+    This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+               Matthias Butz <matze@odinms.de>
+               Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,7 @@
 /**
  *Crystal of Roots
  *@Author: Ronan
+ *@Author: Evol
  *@NPC: Crystal of Roots
  */
 function start() {
@@ -32,16 +33,19 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
-        
-    else if(!cm.getEventInstance().isEventCleared())
-{
+
+	else if(cm.getMapId() == 240050400) //if player is at this map, warp them to the map defined
+    {
+        cm.warp(240050000);
+        cm.dispose();
+    }
+    else if(!cm.getEventInstance().isEventCleared()) //If event is NOT cleared, tp players out without GML reward
+    {
         cm.warp(240050600);
         cm.dispose();
-}
-    else {
+	} else {
         cm.warp(240050600);
         cm.gainItem(4000313, 2);
         cm.dispose();
- 
     }
 }
