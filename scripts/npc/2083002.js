@@ -39,6 +39,11 @@ function action(mode, type, selection) {
         cm.warp(240050000);
         cm.dispose();
     }
+    else if(cm.getMapId() == 240050500) // fail map
+    {
+        cm.warp(240050400);
+        cm.dispose();
+    }
     else if(!cm.getEventInstance().isEventCleared()) //If event is NOT cleared, tp players out without GML reward
     {
         cm.warp(240050600);
