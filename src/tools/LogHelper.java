@@ -19,13 +19,13 @@ public class LogHelper {
 		String name2 = trade2.getChr().getName();
 		String log = "TRADE BETWEEN " + name1 + " AND " + name2 + "\r\n";
 		//Trade 1 to trade 2
-		log += trade1.getExchangeMesos() + " mesos from " + name1 + " to " + name2 + " \r\n";
+		log += trade2.getExchangeMesos() + " mesos from " + name1 + " to " + name2 + " \r\n";
 		for (Item item : trade1.getItems()){
 			String itemName = MapleItemInformationProvider.getInstance().getName(item.getItemId()) + "(" + item.getItemId() + ")";
 			log += item.getQuantity() + " " + itemName + " from "  + name1 + " to " + name2 + " \r\n";;
 		}
 		//Trade 2 to trade 1
-		log += trade2.getExchangeMesos() + " mesos from " + name2 + " to " + name1 + " \r\n";
+		log += trade1.getExchangeMesos() + " mesos from " + name2 + " to " + name1 + " \r\n";
 		for (Item item : trade2.getItems()){
 			String itemName = MapleItemInformationProvider.getInstance().getName(item.getItemId()) + "(" + item.getItemId() + ")";
 			log += item.getQuantity() + " " + itemName + " from " + name2 + " to " + name1 + " \r\n";;
