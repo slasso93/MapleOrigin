@@ -92,6 +92,7 @@ import net.server.services.BaseService;
 import net.server.services.ServicesManager;
 import net.server.services.type.WorldServices;
 import tools.DatabaseConnection;
+import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import tools.Pair;
 import tools.packets.Fishing;
@@ -1669,9 +1670,16 @@ public class World {
                 if(timeOn <= 432) {   // 1440 minutes == 24hrs (4320 = 72hrs)
                     activeMerchants.put(hm.getOwnerId(), new Pair<>(dm.getValue().getLeft(), timeOn + 1));
                 } else {
-                    hm.forceClose();
-                    this.getChannel(hm.getChannel()).removeHiredMerchant(hm.getOwnerId());
-
+                    try {
+                        hm.forceClose();
+                        this.getChannel(hm.getChannel()).removeHiredMerchant(hm.getOwnerId());
+                    } catch (Exception e) {
+                        if (hm != null) {
+                            FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "Failed to forceClose Hired Merchant for character: " + hm.getOwner() + ". " + e.getMessage());
+                        } else {
+                            FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "Can't forceClose null HiredMerchant");
+                        }
+                    }
                     activeMerchants.remove(dm.getKey());
                 }
             }
