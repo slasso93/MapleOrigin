@@ -551,10 +551,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 }
             }
 
-            try (Connection con = DatabaseConnection.getConnection()) {
-                ItemFactory.MERCHANT.deleteItems(this.ownerId, con, itemsToClear, false);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            if (itemsToClear.size() > 0) {
+                try (Connection con = DatabaseConnection.getConnection()) {
+                    ItemFactory.MERCHANT.deleteItems(this.ownerId, con, itemsToClear, false);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
