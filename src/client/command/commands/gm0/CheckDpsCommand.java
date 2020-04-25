@@ -27,6 +27,7 @@ import client.MapleClient;
 import net.server.Server;
 import server.TimerManager;
 import server.life.*;
+import server.maps.MapleMapObject;
 import tools.Randomizer;
 
 import java.awt.*;
@@ -63,6 +64,22 @@ public class CheckDpsCommand extends Command {
             player.yellowMessage("Please wait for your previous dps check to finish. or '@checkdps end' to end the currently running dps check");
             return;
         }
+
+        if (player.getMap().getId() != 910000000) {
+            player.yellowMessage("You can only use this command in the FM!");
+            return;
+        }
+
+        int count = 0;
+        for (MapleMapObject mMob : player.getMap().getMonsters()) {
+            if (((MapleMonster) mMob).getId() == 9400584)
+                count++;
+        }
+        if (count >= 5) {
+            player.yellowMessage("Only 5 players can check their DPS at once, please wait a bit.");
+            return;
+        }
+
         player.setDpsCalcInProgress(true);
 
         MapleMonsterStats stats = new MapleMonsterStats(); // create simple stats
