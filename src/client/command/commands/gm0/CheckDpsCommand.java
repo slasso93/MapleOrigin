@@ -84,6 +84,7 @@ public class CheckDpsCommand extends Command {
 
         MapleMonsterStats stats = new MapleMonsterStats(); // create simple stats
         stats.setHp(Integer.MAX_VALUE);
+        stats.setBoss(true);
 
         MapleMonster monster = new MapleMonster(9400584, stats); // leprechaun money sack mob so it's stationary
 
@@ -117,13 +118,13 @@ public class CheckDpsCommand extends Command {
             long deltaMs = player.getDpsStart() > 0 ? System.currentTimeMillis() - player.getDpsStart() : 0;
 
             if (deltaMs > 0) {
-                String dpsStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt() / (deltaMs / 1000));
-                String dpmStr = NumberFormat.getNumberInstance(Locale.US).format(60 * player.getDamageDealt() / (deltaMs / 1000));
-                String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
+                double dps = (double) player.getDamageDealt() / (deltaMs / 1000.0);
+                double dpm = dps * 60;
 
+                String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
                 player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt: %s", (deltaMs / 1000), damageStr));
-                player.dropMessage(6, String.format("DPS: %s", dpsStr));
-                player.dropMessage(6, String.format("DPM: %s", dpmStr));
+                player.dropMessage(6, String.format("DPS: %,.0f", dps));
+                player.dropMessage(6, String.format("DPM: %,.0f", dpm));
             }
             player.setDpsCalcInProgress(false);
             player.setDpsStart(-1);
