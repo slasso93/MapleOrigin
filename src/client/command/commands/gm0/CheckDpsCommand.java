@@ -44,20 +44,25 @@ public class CheckDpsCommand extends Command {
         MapleCharacter player = c.getPlayer();
 
         if (params.length != 0 && params.length != 1)  {
-            player.yellowMessage("Syntax: @checkdps [<end>]");
+            player.yellowMessage("Syntax: @checkdps <end OR weak>");
             return;
         }
 
+        int mobId = 9400624;
         if (params.length == 1) {
             if (params[0].equals("end")) {
                 if (player.isDpsCalcInProgress()) {
                     player.setDpsCalcInProgress(false);
                     player.getDpsCheckFuture().cancel(true);
                 }
+                return;
+            } else if (params[0].equals("weak")) { // TODO: get a working elemental weak mob
+               // mobId = 9400628;
             } else {
-                player.yellowMessage("if you're trying to cancel the running dps check: @checkdps end");
+                player.yellowMessage("If you're trying to cancel the running dps check: @checkdps end");
+                //player.yellowMessage("If you want to check your dps with elemental weakness: @checkdps weak");
+                return;
             }
-            return;
         }
 
         if (player.isDpsCalcInProgress()) {
@@ -72,21 +77,23 @@ public class CheckDpsCommand extends Command {
 
         int count = 0;
         for (MapleMapObject mMob : player.getMap().getMonsters()) {
-            if (((MapleMonster) mMob).getId() == 9400584)
+            int mid = ((MapleMonster) mMob).getId();
+            if (mid == 9400624 || mid == 9400628)
                 count++;
         }
         if (count >= 5) {
-            player.yellowMessage("Only 5 players can check their DPS at once, please wait a bit.");
+            player.yellowMessage("Only 5 players can check their DPS at once, please wait a bit longer for someone to finish.");
             return;
         }
 
         player.setDpsCalcInProgress(true);
 
         MapleMonsterStats stats = new MapleMonsterStats(); // create simple stats
+        stats.setName("Mesos Bag");
         stats.setHp(Integer.MAX_VALUE);
         stats.setBoss(true);
 
-        MapleMonster monster = new MapleMonster(9400584, stats); // leprechaun money sack mob so it's stationary
+        MapleMonster monster = new MapleMonster(mobId, stats); // money sack stationary mob copied from leprechaun
 
         monster.addListener(new MonsterListener() {
             @Override
