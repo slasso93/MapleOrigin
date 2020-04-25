@@ -35,7 +35,7 @@ import java.util.Locale;
 
 public class CheckDpsCommand extends Command {
     {
-        setDescription("Check your DPS calculated from a 30 second interval");
+        setDescription("Check your DPS, calculated from a 30 second interval");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CheckDpsCommand extends Command {
         MapleCharacter player = c.getPlayer();
 
         if (params.length != 0 && params.length != 1)  {
-            player.yellowMessage("Syntax: !checkdps [<end>]");
+            player.yellowMessage("Syntax: @checkdps [<end>]");
             return;
         }
 
@@ -51,18 +51,16 @@ public class CheckDpsCommand extends Command {
             if (params[0].equals("end")) {
                 if (player.isDpsCalcInProgress()) {
                     player.setDpsCalcInProgress(false);
-                    player.setDamageDealt(0);
                     player.getDpsCheckFuture().cancel(true);
-                    player.setDpsStart(-1);
                 }
             } else {
-                player.yellowMessage("Syntax: !checkdps [<end>]");
+                player.yellowMessage("if you're trying to cancel the running dps check: @checkdps end");
             }
             return;
         }
 
         if (player.isDpsCalcInProgress()) {
-            player.yellowMessage("Please wait for your previous dps check to finish. or '!checkdps end' to end the currently running check");
+            player.yellowMessage("Please wait for your previous dps check to finish. or '@checkdps end' to end the currently running dps check");
             return;
         }
         player.setDpsCalcInProgress(true);
@@ -98,22 +96,24 @@ public class CheckDpsCommand extends Command {
             } catch (InterruptedException e) {
 
             }
-            long deltaMs = System.currentTimeMillis() - player.getDpsStart();
 
-            String dpsStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt()/(deltaMs/1000));
-            String dpmStr = NumberFormat.getNumberInstance(Locale.US).format(60* player.getDamageDealt()/(deltaMs/1000));
-            String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
+            long deltaMs = player.getDpsStart() > 0 ? System.currentTimeMillis() - player.getDpsStart() : 0;
 
-            player.getMap().damageMonster(player, monster, Integer.MAX_VALUE);
+            if (deltaMs > 0) {
+                String dpsStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt() / (deltaMs / 1000));
+                String dpmStr = NumberFormat.getNumberInstance(Locale.US).format(60 * player.getDamageDealt() / (deltaMs / 1000));
+                String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
 
-            player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt: %s", (deltaMs/1000), damageStr));
-            player.dropMessage(6, String.format("DPS: %s", dpsStr));
-            player.dropMessage(6, String.format("DPM: %s", dpmStr));
+                player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt: %s", (deltaMs / 1000), damageStr));
+                player.dropMessage(6, String.format("DPS: %s", dpsStr));
+                player.dropMessage(6, String.format("DPM: %s", dpmStr));
+            }
             player.setDpsCalcInProgress(false);
             player.setDpsStart(-1);
             player.setDamageDealt(0);
-        }, 0));
 
+            monster.getMap().killMonster(monster, null, false);
+        }, 0));
     }
 
 }
