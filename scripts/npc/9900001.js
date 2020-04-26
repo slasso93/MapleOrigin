@@ -26,17 +26,24 @@
  * @Purpose:     Name reservations.
  */
 
+var purpose = "reload reactor drops"
+
 var state = "INTRO";
+importPackage(Packages.scripting.reactor);
 
 function start() {
-    cm.sendYesNo("Hi #b#e#h ##n#k! I'm here to help you reserve a name for the server wipe. You can only reserve ONE name across all of your accounts. You can edit the name up until the wipe. Would you like to check on your name reservation?");
+	cm.sendYesNo("Current purpose is #e#b" + purpose);
+    //cm.sendYesNo("Hi #b#e#h ##n#k! I'm here to help you reserve a name for the server wipe. You can only reserve ONE name across all of your accounts. You can edit the name up until the wipe. Would you like to check on your name reservation?");
 }
 
 function action(mode, type, selection, message) {
     if (mode < 1)
         cm.dispose();
     else {
-        if (state == "INTRO") {
+		cm.sendOk("Reactor drops reloaded");
+		ReactorScriptManager.getInstance().clearDrops();
+		cm.dispose();
+        /*if (state == "INTRO") {
             displayReservedName();
         } else if (state == "CHOOSE") {
             if (selection == 1) // nothing
@@ -53,7 +60,7 @@ function action(mode, type, selection, message) {
             updateName();
         } else {
             cm.dispose();
-        }
+        }*/
     }
 }
 
