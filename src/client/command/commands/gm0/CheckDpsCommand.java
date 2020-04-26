@@ -24,13 +24,10 @@ package client.command.commands.gm0;
 import client.MapleCharacter;
 import client.command.Command;
 import client.MapleClient;
-import net.server.Server;
 import server.TimerManager;
 import server.life.*;
 import server.maps.MapleMapObject;
-import tools.Randomizer;
 
-import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -56,11 +53,11 @@ public class CheckDpsCommand extends Command {
                     player.getDpsCheckFuture().cancel(true);
                 }
                 return;
-            } else if (params[0].equals("weak")) { // TODO: get a working elemental weak mob
-               // mobId = 9400628;
+            } else if (params[0].equals("weak")) {
+                mobId = 9400625;
             } else {
                 player.yellowMessage("If you're trying to cancel the running dps check: @checkdps end");
-                //player.yellowMessage("If you want to check your dps with elemental weakness: @checkdps weak");
+                player.yellowMessage("If you want to check your dps with elemental weakness: @checkdps weak");
                 return;
             }
         }
@@ -78,7 +75,7 @@ public class CheckDpsCommand extends Command {
         int count = 0;
         for (MapleMapObject mMob : player.getMap().getMonsters()) {
             int mid = ((MapleMonster) mMob).getId();
-            if (mid == 9400624 || mid == 9400628)
+            if (mid == 9400624 || mid == 9400625)
                 count++;
         }
         if (count >= 5) {
@@ -129,7 +126,7 @@ public class CheckDpsCommand extends Command {
                 double dpm = dps * 60;
 
                 String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
-                player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt: %s", (deltaMs / 1000), damageStr));
+                player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt " + (monster.getId() == 9400625 ? "(Elemental weak)" : "") + ": %s", (deltaMs / 1000), damageStr));
                 player.dropMessage(6, String.format("DPS: %,.0f", dps));
                 player.dropMessage(6, String.format("DPM: %,.0f", dpm));
             }
