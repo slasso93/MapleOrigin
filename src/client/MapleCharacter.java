@@ -352,7 +352,13 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private boolean pendingNameChange; //only used to change name on logout, not to be relied upon elsewhere
     private long loginTime;
     private boolean usedFullSpReset;
-    
+
+    // for DPS checking
+    private int damageDealt = 0;
+    private long dpsStart = -1;
+    private boolean dpsCalcInProgress = false;
+    private ScheduledFuture<?> dpsCheckFuture;
+
     private MapleCharacter() {
         super.setListener(new AbstractCharacterListener() {
             @Override
@@ -11834,5 +11840,37 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public int getLanguage() {
         return getClient().getLanguage();
     }
-    
+
+    public void setDamageDealt(int damageDealt) {
+        this.damageDealt = damageDealt;
+    }
+
+    public int getDamageDealt() {
+        return damageDealt;
+    }
+
+    public long getDpsStart() {
+        return dpsStart;
+    }
+
+    public void setDpsStart(long dpsStart) {
+        this.dpsStart = dpsStart;
+    }
+
+    public boolean isDpsCalcInProgress() {
+        return dpsCalcInProgress;
+    }
+
+    public void setDpsCalcInProgress(boolean dpsCalcInProgress) {
+        this.dpsCalcInProgress = dpsCalcInProgress;
+    }
+
+    public ScheduledFuture<?> getDpsCheckFuture() {
+        return dpsCheckFuture;
+    }
+
+    public void setDpsCheckFuture(ScheduledFuture<?> dpsCheckFuture) {
+        this.dpsCheckFuture = dpsCheckFuture;
+    }
+
 }

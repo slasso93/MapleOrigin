@@ -81,6 +81,7 @@ import server.maps.MapleMap;
 import server.maps.MapleMapManager;
 import server.maps.MapleMiniDungeon;
 import server.maps.MapleMiniDungeonInfo;
+import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import tools.Pair;
 
@@ -273,7 +274,15 @@ public final class Channel {
             }
 
             for (MapleHiredMerchant merch : merchs) {
-                merch.forceClose();
+                try {
+                    merch.forceClose();
+                } catch (Exception e) {
+                    if (merch != null) {
+                        FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "Failed to forceClose Hired Merchant for character: " + merch.getOwner() + ". " + e.getMessage());
+                    } else {
+                        FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "Can't forceClose null HiredMerchant");
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
