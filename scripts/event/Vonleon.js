@@ -55,10 +55,12 @@ function setup(player, lobbyid) {
     var eim = em.newInstance("Vonleon" + player.getName());
     map = eim.getMapInstance(eventMapId);
     map.killAllMonsters();
+	eim.setProperty("fallenPlayers", 0);
     eim.schedule("start", 10 * 1000);
     eim.createEventTimer(10 * 1000);
     eim.setIntProperty("finished", 0);
     kills = 0;
+	
     return eim;
 }
 
@@ -73,7 +75,7 @@ function bomb(eim) {
     if (eim.getIntProperty("finished") < 1) {
         if (map.getSpawnedMonstersOnMap() < 20) {
             for (var i = 1; i <= 20; i++) {
-                map.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8510200), new java.awt.Point(Randomizer.rand(-650, 2500), -70));
+                map.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8210006), new java.awt.Point(Randomizer.rand(-650, 2500), -70));
             }
             eim.schedule("bomb", 60000);
         }
@@ -93,7 +95,7 @@ function playerUnregistered(eim, player) {
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-    var map = eim.getMapFactory().getMap(105090200);
+    var map = eim.getMapFactory().getMap(82100);
     player.changeMap(map, map.getPortal(0));
 }
 
@@ -112,6 +114,19 @@ function changedLeader(eim, leader) {
 }
 
 function playerDead(eim, player) {
+    var count = eim.getIntProperty("fallenPlayers");
+    count = count + 1;
+    
+    eim.setIntProperty("fallenPlayers", count);
+    
+    if(count == 5) {
+        eim.dropMessage(5, "[Expedition] Too many players have fallen, Von Leon is now deemed undefeatable; the expedition is over.");
+        end(eim);
+    } else if(count == 4) {
+        eim.dropMessage(5, "[Expedition] Von Leon is growing stronger than ever, this is our last stand!");
+    } else if(count == 3) {
+        eim.dropMessage(5, "[Expedition] Casualty count is starting to get out of control. Battle with care.");
+    }
 }
 
 function playerRevive(eim, player) { // player presses ok on the death pop up.
@@ -135,7 +150,11 @@ function monsterValue(eim, mobId) {
 }
 
 function end(eim) {
-    eim.exitParty(exitMap);
+    var party = eim.getPlayers();
+    for (var i = 0; i < party.size(); i++) {
+        playerExit(eim, party.get(i));
+    }
+    eim.dispose();
 }
 
 /*function monsterKilled1(mob, eim) {
@@ -163,7 +182,7 @@ function monsterKilled(mob, eim) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
-    //updateGateState(0);
+    updateGateState(0);
 }
 
 function finish(eim) {
@@ -177,6 +196,9 @@ function cancelSchedule() {
 }
 
 function dispose(eim) {
+    if (!eim.isEventCleared()) {
+        updateGateState(0);
+    }
 }
 
 function afterSetup(eim) {

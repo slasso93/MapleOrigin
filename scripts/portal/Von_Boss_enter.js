@@ -1,8 +1,15 @@
-/* @author RonanLana */
-var level = 210;
-var minparty = 6;
-var maxparty = 6;
-var minraid = 6;
+
+function enter(pi) {
+        // unexpected warp condition noticed thanks to IxianMace
+
+        pi.openNpc(920101, "VonLeon");
+	
+}
+/*
+var level = 200;
+var minparty = 1;
+var maxparty = 40;
+var minraid = 1;
 var maxraid = 40;
 
 function enter(pi) {
@@ -42,3 +49,4 @@ function enter(pi) {
     }
     return false;
 }
+*/

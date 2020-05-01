@@ -86,6 +86,7 @@ public class MapleExpedition {
 			9420543,// - Angry Targa
 			9420544,// - Furious Targa
 		      //8150011,// - Cygnus
+                        8840000, //Von Leon
 	};
 	
 	private MapleCharacter leader;
