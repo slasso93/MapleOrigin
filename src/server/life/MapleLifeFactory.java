@@ -135,7 +135,8 @@ public class MapleLifeFactory {
             int exp = (int) (Math.pow(stats.getLevel() * Rank.getMobRank(mid), 2));
             stats.setExp(Rank.getMobRank(mid) > 0 ? Randomizer.Min(exp, 1) : 0);
         }
-        stats.setHp(MapleDataTool.getIntConvert("maxHP", monsterInfoData));
+        stats.setHp((long) Math.pow(MapleDataTool.getIntConvert("maxHP", monsterInfoData), Rank.getMobRank(mid) + 1));
+        //stats.setHp(MapleDataTool.getIntConvert("maxHP", monsterInfoData)); - Original Code
         stats.setFriendly(MapleDataTool.getIntConvert("damagedByMob", monsterInfoData, stats.isFriendly() ? 1 : 0) == 1);
         stats.setPADamage(MapleDataTool.getIntConvert("PADamage", monsterInfoData));
         stats.setPDDamage(MapleDataTool.getIntConvert("PDDamage", monsterInfoData));

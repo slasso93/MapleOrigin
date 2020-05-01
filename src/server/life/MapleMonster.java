@@ -87,7 +87,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     
     private ChangeableStats ostats = null;  //unused, v83 WZs offers no support for changeable stats.
     private MapleMonsterStats stats;
-    private AtomicInteger hp = new AtomicInteger(1);
+    private AtomicLong hp = new AtomicLong(1);
     private AtomicLong maxHpPlusHeal = new AtomicLong(1);
     private int mp;
     private WeakReference<MapleCharacter> controller = new WeakReference<>(null);
@@ -233,11 +233,11 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         return r;
     }
     
-    public int getHp() {
+    public long getHp() {
         return hp.get();
     }
     
-    public synchronized void addHp(int hp) {
+    public synchronized void addHp(long hp) {
         if (this.hp.get() <= 0) {
             return;
         }
