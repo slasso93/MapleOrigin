@@ -164,7 +164,7 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
 	            if (mobSkill != null && damage > 0) {
 	                mobSkill.applyEffect(chr, attacker, false, banishPlayers);
 	            }
-	            
+
                     attacker.setMp(attacker.getMp() - attackInfo.getMpCon());
                     if (chr.getBuffedValue(MapleBuffStat.MANA_REFLECTION) != null && damage > 0 && !attacker.isBoss()) {
                         int jobid = chr.getJob().getId();
@@ -174,7 +174,8 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
                             if (chr.isBuffFrom(MapleBuffStat.MANA_REFLECTION, manaReflectSkill) && chr.getSkillLevel(manaReflectSkill) > 0 && manaReflectSkill.getEffect(chr.getSkillLevel(manaReflectSkill)).makeChanceResult()) {
                                 int bouncedamage = (damage * manaReflectSkill.getEffect(chr.getSkillLevel(manaReflectSkill)).getX() / 100);
                                 if (bouncedamage > attacker.getMaxHp() / 5) {
-                                    bouncedamage = attacker.getMaxHp() / 5;
+                                    int hp = (int) (attacker.getMaxHp() > Integer.MAX_VALUE ? Integer.MAX_VALUE : attacker.getMaxHp());
+                                    bouncedamage = hp / 5;
                                 }
                                 map.damageMonster(chr, attacker, bouncedamage);
                                 map.broadcastMessage(chr, MaplePacketCreator.damageMonster(oid, bouncedamage), true);
@@ -183,7 +184,7 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
                             }
                         }
                     }
-	        }
+            }
         }
         
         if (damage == -1) {
@@ -207,7 +208,7 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
                 if (damagefrom == -1) {
                     if (chr.getBuffedValue(MapleBuffStat.POWERGUARD) != null) { // PG works on bosses, but only at half of the rate.
                         int bouncedamage = (int) (damage * (chr.getBuffedValue(MapleBuffStat.POWERGUARD).doubleValue() / (attacker.isBoss() ? 200 : 100)));
-                        bouncedamage = Math.min(bouncedamage, attacker.getMaxHp() / 10);
+                        bouncedamage = Math.min(bouncedamage, (attacker.getLevel() * chr.getLevel()) * chr.getLevel());
                         damage -= bouncedamage;
                         map.damageMonster(chr, attacker, bouncedamage);
                         map.broadcastMessage(chr, MaplePacketCreator.damageMonster(oid, bouncedamage), false, true);

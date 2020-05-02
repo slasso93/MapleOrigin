@@ -39,7 +39,7 @@ import tools.Pair;
 public class MapleMonsterStats {
     public boolean changeable;
     public int exp, mp, level, PADamage, PDDamage, MADamage, MDDamage, dropPeriod, cp, buffToGive = -1, removeAfter;
-    private long hp;
+    public long hp;
     public boolean boss, undead, ffaLoot, isExplosiveReward, firstAttack, removeOnMiss;
     public String name;
     public Map<String, Integer> animationTimes = new HashMap<String, Integer>();

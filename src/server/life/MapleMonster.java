@@ -244,12 +244,12 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         this.hp.addAndGet(hp);
     }
     
-    public synchronized void setStartingHp(int hp) {
+    public synchronized void setStartingHp(long hp) {
         stats.setHp(hp);    // refactored mob stats after non-static HP pool suggestion thanks to twigs
         this.hp.set(hp);
     }
 
-    public int getMaxHp() {
+    public long getMaxHp() {
         return stats.getHp();
     }
 
@@ -349,8 +349,8 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
     }
     
-    public synchronized Integer applyAndGetHpDamage(int delta, boolean stayAlive) {
-        int curHp = hp.get();
+    public synchronized Long applyAndGetHpDamage(long delta, boolean stayAlive) {
+        long curHp = hp.get();
         if (curHp <= 0) {       // this monster is already dead
             return null;
         }
@@ -359,14 +359,14 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             if (stayAlive) {
                 curHp--;
             }
-            int trueDamage = Math.min(curHp, delta);
+            long trueDamage = Math.min(curHp, delta);
             
             hp.addAndGet(-trueDamage);
             return trueDamage;
         } else {
-            int trueHeal = -delta;
-            int hp2Heal = curHp + trueHeal;
-            int maxHp = getMaxHp();
+            long trueHeal = -delta;
+            long hp2Heal = curHp + trueHeal;
+            long maxHp = getMaxHp();
             
             if (hp2Heal > maxHp) {
                 trueHeal -= (hp2Heal - maxHp);
@@ -452,8 +452,8 @@ public class MapleMonster extends AbstractLoadedMapleLife {
      * @param damage
      * @param stayAlive
      */
-    private void applyDamage(MapleCharacter from, int damage, boolean stayAlive, boolean fake) {
-        Integer trueDamage = applyAndGetHpDamage(damage, stayAlive);
+    private void applyDamage(MapleCharacter from, long damage, boolean stayAlive, boolean fake) {
+        Long trueDamage = applyAndGetHpDamage(damage, stayAlive);
         if (trueDamage == null) {
             return;
         }
@@ -475,12 +475,12 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         broadcastMobHpBar(from);
     }
     
-    public void applyFakeDamage(MapleCharacter from, int damage, boolean stayAlive) {
+    public void applyFakeDamage(MapleCharacter from, long damage, boolean stayAlive) {
         applyDamage(from, damage, stayAlive, true);
     }
     
     public void heal(int hp, int mp) {
-        Integer hpHealed = applyAndGetHpDamage(-hp, false);
+        Long hpHealed = applyAndGetHpDamage(-hp, false);
         if (hpHealed == null) {
             return;
         }
@@ -493,7 +493,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         setMp(mp2Heal);
         
         if (hp > 0) {
-            getMap().broadcastMessage(MaplePacketCreator.healMonster(getObjectId(), hp, getHp(), getMaxHp()));
+            getMap().broadcastMessage(MaplePacketCreator.healMonster(getObjectId(), hp, (int) getHp(), getMaxHp()));
         }
         
         maxHpPlusHeal.addAndGet(hpHealed);
@@ -940,7 +940,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
     }
     
-    private void dispatchMonsterDamaged(MapleCharacter from, int trueDmg) {
+    private void dispatchMonsterDamaged(MapleCharacter from, long trueDmg) {
         MonsterListener[] listenersList;
         statiLock.lock();
         try {
@@ -954,7 +954,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
     }
     
-    private void dispatchMonsterHealed(int trueHeal) {
+    private void dispatchMonsterHealed(long trueHeal) {
         MonsterListener[] listenersList;
         statiLock.lock();
         try {
@@ -1673,14 +1673,14 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
         @Override
         public void run() {
-            int curHp = hp.get();
+            long curHp = hp.get();
             if(curHp <= 1) {
                 MobStatusService service = (MobStatusService) map.getChannelServer().getServiceAccess(ChannelServices.MOB_STATUS);
                 service.interruptMobStatus(map.getId(), status);
                 return;
             }
             
-            int damage = dealDamage;
+            long damage = dealDamage;
             if (damage >= curHp) {
                 damage = curHp - 1;
                 if (type == 1 || type == 2) {
@@ -1691,16 +1691,16 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             if (damage > 0) {
                 lockMonster();
                 try {
-                    applyDamage(chr, damage, true, false);
+                    applyDamage(chr, (int) damage, true, false);
                 } finally {
                     unlockMonster();
                 }
                 
                 if (type == 1) {
-                    map.broadcastMessage(MaplePacketCreator.damageMonster(getObjectId(), damage), getPosition());
+                    map.broadcastMessage(MaplePacketCreator.damageMonster(getObjectId(),(int) damage), getPosition());
                 } else if (type == 2) {
                     if(damage < dealDamage) {    // ninja ambush (type 2) is already displaying DOT to the caster
-                        map.broadcastMessage(MaplePacketCreator.damageMonster(getObjectId(), damage), getPosition());
+                        map.broadcastMessage(MaplePacketCreator.damageMonster(getObjectId(), (int) damage), getPosition());
                     }
                 }
             }
@@ -1798,7 +1798,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 	return ostats;
     }
 
-    public final int getMobMaxHp() {
+    public final long getMobMaxHp() {
         if (ostats != null) {
             return ostats.hp;
         }
