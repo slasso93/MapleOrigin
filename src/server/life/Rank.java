@@ -10,9 +10,6 @@
  the Free Software Foundation. You may not use, modify or distribute
  this program under any other version of the GNU Affero General Public
  License.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU Affero General Public License for more details.
 
@@ -39,22 +36,13 @@ public class Rank {
             case 8850011://Empress - end game
             case 8880000://Magnus - end game
             case 9300534://Baby lotus - end game
-            case 7220003://Bergamot
-            case 7220004://Bergamot
-            case 7220005://Bergamot
-            case 8220010://Dunas
-            case 8220011://Aufheben
-            case 8220012://Oberon
-            case 8220013://Nibelung
-            case 8220014://Nibelung
-            case 8220015://Nibelung
             case 8840000://Von Leon - lion form
-            case 8820114://Pink Bean final form
-            case 9400300://the boss - showa
+
             case 8870000://Hilla
             case 8880004://baby magnus
             case 8860000://Ark
-            case 8510000://pianus
+                return 1;
+            /*case 8510000://pianus
             case 8520000://pianus
             case 9800003://MP - metal golem
             case 9800008://MP - spirit of rock
@@ -135,6 +123,7 @@ public class Rank {
             case 8500003://Papu mine
             case 8500004://Papu mine
                 return 0;
+                */
         }
         if (id >= 8820200 && id <= 8820212) { //Chaos Pink Beans
             return 1;
@@ -151,19 +140,7 @@ public class Rank {
         if (id >= 8850000 && id <= 8850004) { //empress boss knights
             return 1;
         }
-        if (id >= 8800000 && id <= 8800002) { //zakum parts
-            return 1;
-        }
-        if (id >= 8800003 && id <= 8800010) { //zakum arms
-            return 1;
-        }
-        if (id >= 8810000 && id <= 8810009) { //horntail parts
-            return 1;
-        }
-        if (id >= 8820002 && id <= 8820007) { //Pink Bean statues
-            return 1;
-        }
-        if (id >= 9500337 && id <= 9500361) { //easy boss rush
+      /*  if (id >= 9500337 && id <= 9500361) { //easy boss rush
             return 1;
         }
         if (id >= 9305100 && id <= 9305139) { //normal boss rush
@@ -177,11 +154,9 @@ public class Rank {
         }
         if (id >= 9800000 && id <= 9800141) { //monster park
             return 1;
-        }
-        if (MapleDataTool.getIntConvert(("boss"), monsterInfoData, 0) > 0) {
-            return 1;
-        }
-        return 1; //normal mob
+        }*/
+
+        return 0; //normal mob
     }
 
     public static int getMobLevel(int mid) {
@@ -200,8 +175,8 @@ public class Rank {
                 //return 1;
             case 8840000://Von Leon - lion form
                 return 200;
-            case 8820114://Pink Bean final form
-                return 200;
+           // case 8820114://Pink Bean final form
+             //   return 200;
                 
         }
         if (mid >= 8820200 && mid <= 8820212) { //Chaos Pink Beans
@@ -210,7 +185,7 @@ public class Rank {
         if (mid >= 9800000 && mid <= 9800124) {
             return ((mid - 9800000) + 126);
         }
-        if (mid >= 9305200 && mid <= 9305239) { //mega boss rush
+       /* if (mid >= 9305200 && mid <= 9305239) { //mega boss rush
             return (level + 50);
         }
         if (mid >= 9305300 && mid <= 9305339) { //ultimate boss rush
@@ -218,7 +193,7 @@ public class Rank {
         }
         if (mid == 9500532) {
             return 100;
-        }
+        }*/
         return level;
     }
 }

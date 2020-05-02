@@ -71,9 +71,9 @@ function action(mode, type, selection) {
             itemSet = (Math.floor(Math.random() * reward.length));
             prizeItem = reward[itemSet][0];
             prizeQuantity = reward[itemSet][1];
-            if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(1) &&
-						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1) &&
-						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(1)){
+            if (cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(0) ||
+					cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(0) ||
+					cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)){
                 cm.sendNext("I can't give you the reward if your equip, use, or etc. inventory is full. Please go take a look right now.");
             } else if (cm.hasItem(requiredItem, 100)){   // check they have >= 100 in Inventory
                 cm.gainItem(requiredItem,-100);   
