@@ -4531,7 +4531,8 @@ public class MapleMap {
             statUpdateRunnables.clear();
 
             for (Runnable r : toRun) {
-                r.run();
+                if (r != null)
+                    r.run();
             }
         }
     }

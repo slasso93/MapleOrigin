@@ -208,7 +208,8 @@ public final class TakeDamageHandler extends AbstractMaplePacketHandler {
                 if (damagefrom == -1) {
                     if (chr.getBuffedValue(MapleBuffStat.POWERGUARD) != null) { // PG works on bosses, but only at half of the rate.
                         int bouncedamage = (int) (damage * (chr.getBuffedValue(MapleBuffStat.POWERGUARD).doubleValue() / (attacker.isBoss() ? 200 : 100)));
-                        bouncedamage = Math.min(bouncedamage, (attacker.getLevel() * chr.getLevel()) * chr.getLevel());
+                        int bounceHp = attacker.getMaxHp() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) attacker.getMaxHp();
+                        bouncedamage = Math.min(bouncedamage, bounceHp / 10);
                         damage -= bouncedamage;
                         map.damageMonster(chr, attacker, bouncedamage);
                         map.broadcastMessage(chr, MaplePacketCreator.damageMonster(oid, bouncedamage), false, true);

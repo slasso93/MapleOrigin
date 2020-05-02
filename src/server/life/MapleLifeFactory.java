@@ -121,7 +121,6 @@ public class MapleLifeFactory {
         }
         //stats.setBoss(MapleDataTool.getIntConvert(("boss"), monsterInfoData, 0) > 0);
         //stats.setLevel(Rank.getMobLevel(mid));
-        long HP = (long) Math.pow(stats.getLevel(), Rank.getMobRank(mid) > 0 ? Rank.getMobRank(mid) + 2 : 4);
         //if (mid == 9500317 || mid == 9500318 || mid == 9500319) {
        //     HP = (long) (Math.pow(stats.getLevel(), 2) * 10);
        // }
@@ -135,7 +134,7 @@ public class MapleLifeFactory {
             int exp = (int) (Math.pow(stats.getLevel() * Rank.getMobRank(mid), 2));
             stats.setExp(Rank.getMobRank(mid) > 0 ? Randomizer.Min(exp, 1) : 0);
         }
-       stats.setHp((long) Math.pow(MapleDataTool.getIntConvert("maxHP", monsterInfoData), Rank.getMobRank(mid) + 1));
+       stats.setHp((long) MapleDataTool.getIntConvert("maxHP", monsterInfoData) * ((long) Rank.getMobRank(mid) + 1L));
         //stats.setHp(MapleDataTool.getIntConvert("maxHP", monsterInfoData)); - Original Code
         stats.setFriendly(MapleDataTool.getIntConvert("damagedByMob", monsterInfoData, stats.isFriendly() ? 1 : 0) == 1);
         stats.setPADamage(MapleDataTool.getIntConvert("PADamage", monsterInfoData));

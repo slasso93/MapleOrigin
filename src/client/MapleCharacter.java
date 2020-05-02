@@ -354,7 +354,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private boolean usedFullSpReset;
 
     // for DPS checking
-    private int damageDealt = 0;
+    private long damageDealt = 0;
     private long dpsStart = -1;
     private boolean dpsCalcInProgress = false;
     private ScheduledFuture<?> dpsCheckFuture;
@@ -11841,11 +11841,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         return getClient().getLanguage();
     }
 
-    public void setDamageDealt(int damageDealt) {
+    public void setDamageDealt(long damageDealt) {
         this.damageDealt = damageDealt;
     }
 
-    public int getDamageDealt() {
+    public long getDamageDealt() {
         return damageDealt;
     }
 

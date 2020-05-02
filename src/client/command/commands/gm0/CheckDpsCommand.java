@@ -91,7 +91,7 @@ public class CheckDpsCommand extends Command {
 
         monster.addListener(new MonsterListener() {
             @Override
-            public void monsterDamaged(MapleCharacter from, int trueDmg) {
+            public void monsterDamaged(MapleCharacter from, long trueDmg) {
                 if (from.getId() == player.getId()) {
                     if (player.getDpsStart() == -1) {
                         player.setDpsStart(System.currentTimeMillis());
@@ -103,7 +103,7 @@ public class CheckDpsCommand extends Command {
             @Override
             public void monsterKilled(int aniTime) {}
             @Override
-            public void monsterHealed(int trueHeal) {}
+            public void monsterHealed(long trueHeal) {}
         });
 
         player.getMap().spawnMonsterOnGroundBelow(monster, player.getPosition());
