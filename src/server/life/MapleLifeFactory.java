@@ -128,14 +128,14 @@ public class MapleLifeFactory {
         //if (mid == 9500532) {
         //    HP = (long) (Math.pow(stats.getLevel(), 4) * 10);
        // }
-        stats.setHp((int) Randomizer.MaxLong(HP, Long.MAX_VALUE));
+        //stats.setHp((int) Randomizer.MaxLong(HP, Long.MAX_VALUE));
         if (mid == 8510100) {
             stats.setExp(0);
         } else {
             int exp = (int) (Math.pow(stats.getLevel() * Rank.getMobRank(mid), 2));
             stats.setExp(Rank.getMobRank(mid) > 0 ? Randomizer.Min(exp, 1) : 0);
         }
-       //stats.setHp((long) Math.pow(MapleDataTool.getIntConvert("maxHP", monsterInfoData), Rank.getMobRank(mid) + 1));
+       stats.setHp((long) Math.pow(MapleDataTool.getIntConvert("maxHP", monsterInfoData), Rank.getMobRank(mid) + 1));
         //stats.setHp(MapleDataTool.getIntConvert("maxHP", monsterInfoData)); - Original Code
         stats.setFriendly(MapleDataTool.getIntConvert("damagedByMob", monsterInfoData, stats.isFriendly() ? 1 : 0) == 1);
         stats.setPADamage(MapleDataTool.getIntConvert("PADamage", monsterInfoData));
