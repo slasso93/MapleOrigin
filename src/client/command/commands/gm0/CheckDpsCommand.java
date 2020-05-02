@@ -1,19 +1,16 @@
 /*
     This file is part of the HeavenMS MapleStory Server, commands OdinMS-based
     Copyleft (L) 2016 - 2018 RonanLana
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
     published by the Free Software Foundation version 3 as published by
     the Free Software Foundation. You may not use, modify or distribute
     this program under any other version of the GNU Affero General Public
     License.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -24,18 +21,16 @@ package client.command.commands.gm0;
 import client.MapleCharacter;
 import client.command.Command;
 import client.MapleClient;
-import net.server.Server;
 import server.TimerManager;
 import server.life.*;
-import tools.Randomizer;
+import server.maps.MapleMapObject;
 
-import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class CheckDpsCommand extends Command {
     {
-        setDescription("Check your DPS calculated from a 30 second interval");
+        setDescription("Check your DPS, calculated from a 30 second interval");
     }
 
     @Override
@@ -43,30 +38,56 @@ public class CheckDpsCommand extends Command {
         MapleCharacter player = c.getPlayer();
 
         if (params.length != 0 && params.length != 1)  {
-            player.yellowMessage("Syntax: !checkdps [<end>]");
+            player.yellowMessage("Syntax: @checkdps <end OR weak>");
             return;
         }
 
-        if (params.length == 1 && params[0].equals("end")) {
-            if (player.isDpsCalcInProgress()) {
-                player.setDpsCalcInProgress(false);
-                player.setDamageDealt(0);
-                player.getDpsCheckFuture().cancel(true);
-                player.setDpsStart(-1);
+        int mobId = 9400624;
+        if (params.length == 1) {
+            if (params[0].equals("end")) {
+                if (player.isDpsCalcInProgress()) {
+                    player.setDpsCalcInProgress(false);
+                    player.getDpsCheckFuture().cancel(true);
+                }
+                return;
+            } else if (params[0].equals("weak")) {
+                mobId = 9400625;
+            } else {
+                player.yellowMessage("If you're trying to cancel the running dps check: @checkdps end");
+                player.yellowMessage("If you want to check your dps with elemental weakness: @checkdps weak");
+                return;
             }
-            return;
         }
 
         if (player.isDpsCalcInProgress()) {
-            player.yellowMessage("Please wait for your previous dps check to finish. or '!checkdps end' to end the currently running check");
+            player.yellowMessage("Please wait for your previous dps check to finish. or '@checkdps end' to end the currently running dps check");
             return;
         }
+
+        if (player.getMap().getId() != 910000000) {
+            player.yellowMessage("You can only use this command in the FM!");
+            return;
+        }
+
+        int count = 0;
+        for (MapleMapObject mMob : player.getMap().getMonsters()) {
+            int mid = ((MapleMonster) mMob).getId();
+            if (mid == 9400624 || mid == 9400625)
+                count++;
+        }
+        if (count >= 5) {
+            player.yellowMessage("Only 5 players can check their DPS at once, please wait a bit longer for someone to finish.");
+            return;
+        }
+
         player.setDpsCalcInProgress(true);
 
         MapleMonsterStats stats = new MapleMonsterStats(); // create simple stats
+        stats.setName("Mesos Bag");
         stats.setHp(Integer.MAX_VALUE);
+        stats.setBoss(true);
 
-        MapleMonster monster = new MapleMonster(9400584, stats); // leprechaun money sack mob so it's stationary
+        MapleMonster monster = new MapleMonster(mobId, stats); // money sack stationary mob copied from leprechaun
 
         monster.addListener(new MonsterListener() {
             @Override
@@ -94,22 +115,24 @@ public class CheckDpsCommand extends Command {
             } catch (InterruptedException e) {
 
             }
-            long deltaMs = System.currentTimeMillis() - player.getDpsStart();
 
-            String dpsStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt()/(deltaMs/1000));
-            String dpmStr = NumberFormat.getNumberInstance(Locale.US).format(60* player.getDamageDealt()/(deltaMs/1000));
-            String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
+            long deltaMs = player.getDpsStart() > 0 ? System.currentTimeMillis() - player.getDpsStart() : 0;
 
-            player.getMap().damageMonster(player, monster, Integer.MAX_VALUE);
+            if (deltaMs > 0) {
+                double dps = (double) player.getDamageDealt() / (deltaMs / 1000.0);
+                double dpm = dps * 60;
 
-            player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt: %s", (deltaMs/1000), damageStr));
-            player.dropMessage(6, String.format("DPS: %s", dpsStr));
-            player.dropMessage(6, String.format("DPM: %s", dpmStr));
+                String damageStr = NumberFormat.getNumberInstance(Locale.US).format(player.getDamageDealt());
+                player.dropMessage(6, String.format("Attacked for %s seconds. Total damage dealt " + (monster.getId() == 9400625 ? "(Elemental weak)" : "") + ": %s", (deltaMs / 1000), damageStr));
+                player.dropMessage(6, String.format("DPS: %,.0f", dps));
+                player.dropMessage(6, String.format("DPM: %,.0f", dpm));
+            }
             player.setDpsCalcInProgress(false);
             player.setDpsStart(-1);
             player.setDamageDealt(0);
-        }, 0));
 
+            monster.getMap().killMonster(monster, null, false);
+        }, 0));
     }
 
 }

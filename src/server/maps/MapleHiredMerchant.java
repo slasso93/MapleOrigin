@@ -275,23 +275,22 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                     synchronized (sold) {
                         sold.add(new SoldItem(c.getPlayer().getName(), pItem.getItem().getItemId(), newItem.getQuantity(), price));
                     }
-                    
+
                     pItem.setBundles((short) (pItem.getBundles() - quantity));
                     if (pItem.getBundles() < 1) {
                         pItem.setDoesExist(false);
                     }
-                    
+
                     if(YamlConfig.config.server.USE_ANNOUNCE_SHOPITEMSOLD) {   // idea thanks to Vcoc
                         announceItemSold(newItem, price, getQuantityLeft(pItem.getItem().getItemId()));
                     }
-                    
+
                     MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterByName(ownerName);
                     if (owner != null) {
                         owner.addMerchantMesos(price);
                     } else {
-                        try {
-                            Connection con = DatabaseConnection.getConnection();
-                            
+                        try (Connection con = DatabaseConnection.getConnection()) {
+
                             long merchantMesos = 0;
                             try (PreparedStatement ps = con.prepareStatement("SELECT MerchantMesos FROM characters WHERE id = ?")) {
                                 ps.setInt(1, ownerId);
@@ -302,14 +301,13 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                                 }
                             }
                             merchantMesos += price;
-                            
+
                             try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET MerchantMesos = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS)) {
                                 ps.setInt(1, (int) Math.min(merchantMesos, Integer.MAX_VALUE));
                                 ps.setInt(2, ownerId);
                                 ps.executeUpdate();
                             }
-                            
-                            con.close();
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -325,7 +323,10 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 return;
             }
             try {
-                this.saveItem(pItem, false);
+                if (pItem.isExist())
+                    this.saveItem(pItem, false);
+                else
+                    this.deleteItem(pItem);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -551,10 +552,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 }
             }
 
-            try (Connection con = DatabaseConnection.getConnection()) {
-                ItemFactory.MERCHANT.deleteItems(this.ownerId, con, itemsToClear, false);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            if (itemsToClear.size() > 0) {
+                try (Connection con = DatabaseConnection.getConnection()) {
+                    ItemFactory.MERCHANT.deleteItems(this.ownerId, con, itemsToClear, false);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
