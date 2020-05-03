@@ -48,7 +48,8 @@ public class KillAllCommand extends Command {
         for (MapleMapObject monstermo : monsters) {
             MapleMonster monster = (MapleMonster) monstermo;
             if (!monster.getStats().isFriendly() && !(monster.getId() >= 8810010 && monster.getId() <= 8810018)) {
-                map.damageMonster(player, monster, Integer.MAX_VALUE);
+                while (!monster.isFake() && monster.getHp() > 0)
+                    map.damageMonster(player, monster, Integer.MAX_VALUE);
                 count++;
             }
         }

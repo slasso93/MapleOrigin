@@ -226,7 +226,7 @@ public class CommandsExecutor {
         //addCommand("RaidDC", ReEnterRaid.class);
         addCommand(new String[]{"help","commands"}, HelpCommand.class);
         addCommand("svtime", ServerTimeCommand.class);
-        addCommand("checkdps", CheckDpsCommand.class);
+        addCommand(new String[]{"checkdps", "dpscheck"}, CheckDpsCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 

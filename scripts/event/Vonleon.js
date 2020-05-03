@@ -19,8 +19,8 @@
  */
 
 /**
- * @author: Ronan
- * @event: Zakum Battle
+ * @author: Ronan, Light, slasso
+ * @event: Von Leon Battle
  */
 
 importPackage(Packages.client);
@@ -29,36 +29,71 @@ importPackage(Packages.server.life);
 
 
 var isPq = true;
-var minPlayers = 6, maxPlayers = 30;
-var minLevel = 120, maxLevel = 255;
+var minPlayers = 6, maxPlayers = 12;
+var minLevel = 200, maxLevel = 255;
 
 var exitMap = 82100;
 var eventMapId = 82101;
 
-var eventTime = 240;     // 140 minutes
+var eventTime = 140;     // 140 minutes
 
 var lobbyRange = [0, 0];
 var map = 0;
 
 function init() {
-
+        setEventRequirements();
 }
 
 function setLobbyRange() {
-    return lobbyRange;
+        return lobbyRange;
+}
+
+function setEventRequirements() {
+        var reqStr = "";
+
+        reqStr += "\r\n    Number of players: ";
+        if(maxPlayers - minPlayers >= 1) reqStr += minPlayers + " ~ " + maxPlayers;
+        else reqStr += minPlayers;
+
+        reqStr += "\r\n    Level range: ";
+        if(maxLevel - minLevel >= 1) reqStr += minLevel + " ~ " + maxLevel;
+        else reqStr += minLevel;
+
+        reqStr += "\r\n    Time limit: ";
+        reqStr += eventTime + " minutes";
+
+        em.setProperty("party", reqStr);
 }
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
 }
 
-function setup(player, lobbyid) {
-    var eim = em.newInstance("Vonleon" + player.getName());
+function setEventRewards(eim) {
+        var itemSet, itemQty, evLevel, expStages, mesoStages;
+
+        evLevel = 1;    //Rewards at clear PQ
+        itemSet = [4000313];
+        itemQty = [5];
+        eim.setEventRewards(evLevel, itemSet, itemQty);
+
+        expStages = [];    //bonus exp given on CLEAR stage signal
+        eim.setEventClearStageExp(expStages);
+
+        mesoStages = [];    //bonus meso given on CLEAR stage signal
+        eim.setEventClearStageMeso(mesoStages);
+}
+
+function setup(channel) {
+    var eim = em.newInstance("Vonleon" + channel);
     map = eim.getMapInstance(eventMapId);
-    map.killAllMonsters();
+    eim.setProperty("defeatedBoss", 0);
+	eim.setProperty("fallenPlayers", 0);
     eim.schedule("start", 10 * 1000);
     eim.createEventTimer(10 * 1000);
     eim.setIntProperty("finished", 0);
-    kills = 0;
+    eim.startEventTimer(eventTime * 60000);
+    setEventRewards(eim);
+
     return eim;
 }
 
@@ -73,7 +108,7 @@ function bomb(eim) {
     if (eim.getIntProperty("finished") < 1) {
         if (map.getSpawnedMonstersOnMap() < 20) {
             for (var i = 1; i <= 20; i++) {
-                map.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8510200), new java.awt.Point(Randomizer.rand(-650, 2500), -70));
+                map.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8210006), new java.awt.Point(Randomizer.rand(-650, 2500), -70));
             }
             eim.schedule("bomb", 60000);
         }
@@ -93,7 +128,7 @@ function playerUnregistered(eim, player) {
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-    var map = eim.getMapFactory().getMap(105090200);
+    var map = eim.getMapFactory().getMap(82100);
     player.changeMap(map, map.getPortal(0));
 }
 
@@ -112,6 +147,19 @@ function changedLeader(eim, leader) {
 }
 
 function playerDead(eim, player) {
+    var count = eim.getIntProperty("fallenPlayers");
+    count = count + 1;
+    
+    eim.setIntProperty("fallenPlayers", count);
+    
+    if(count == 5) {
+        eim.dropMessage(5, "[Expedition] Too many players have fallen, Von Leon is now deemed undefeatable; the expedition is over.");
+        end(eim);
+    } else if(count == 4) {
+        eim.dropMessage(5, "[Expedition] Von Leon is growing stronger than ever, this is our last stand!");
+    } else if(count == 3) {
+        eim.dropMessage(5, "[Expedition] Casualty count is starting to get out of control. Battle with care.");
+    }
 }
 
 function playerRevive(eim, player) { // player presses ok on the death pop up.
@@ -135,7 +183,11 @@ function monsterValue(eim, mobId) {
 }
 
 function end(eim) {
-    eim.exitParty(exitMap);
+    var party = eim.getPlayers();
+    for (var i = 0; i < party.size(); i++) {
+        playerExit(eim, party.get(i));
+    }
+    eim.dispose();
 }
 
 /*function monsterKilled1(mob, eim) {
@@ -157,13 +209,16 @@ function monsterKilled(mob, eim) {
         eim.showClearEffect(mob.getMap().getId());
         eim.clearPQ();
         map.killAllMonsters();
-        //.getMap().broadcastZakumVictory();
     }
 }
+
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
-    //updateGateState(0);
+    var party = eim.getPlayers();
+    for (var i = 0; i < party.size(); i++) {
+        eim.giveEventReward(party.get(i));
+    }
 }
 
 function finish(eim) {
@@ -173,10 +228,16 @@ function finish(eim) {
 function allMonstersDead(eim) {
 }
 
+function giveRandomEventReward(eim, player) {
+    //eim.giveEventReward(player);
+}
+
 function cancelSchedule() {
 }
 
 function dispose(eim) {
+    if (!eim.isEventCleared()) {
+    }
 }
 
 function afterSetup(eim) {

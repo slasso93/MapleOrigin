@@ -4195,12 +4195,12 @@ public class MapleMap {
             public void monsterKilled(int aniTime) {}
 
             @Override
-            public void monsterDamaged(MapleCharacter from, int trueDmg) {
+            public void monsterDamaged(MapleCharacter from, long trueDmg) {
                 ht.addHp(trueDmg);
             }
 
             @Override
-            public void monsterHealed(int trueHeal) {
+            public void monsterHealed(long trueHeal) {
                 ht.addHp(-trueHeal);
             }
         });
@@ -4215,13 +4215,13 @@ public class MapleMap {
                 public void monsterKilled(int aniTime) {}
 
                 @Override
-                public void monsterDamaged(MapleCharacter from, int trueDmg) {
+                public void monsterDamaged(MapleCharacter from, long trueDmg) {
                     // thanks Halcyon for noticing HT not dropping loots due to propagated damage not registering attacker
                     ht.applyFakeDamage(from, trueDmg, true);
                 }
 
                 @Override
-                public void monsterHealed(int trueHeal) {
+                public void monsterHealed(long trueHeal) {
                     ht.addHp(trueHeal);
                 }
             });
@@ -4531,7 +4531,8 @@ public class MapleMap {
             statUpdateRunnables.clear();
 
             for (Runnable r : toRun) {
-                r.run();
+                if (r != null)
+                    r.run();
             }
         }
     }

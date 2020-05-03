@@ -41,7 +41,7 @@ public final class MobDamageMobFriendlyHandler extends AbstractMaplePacketHandle
 		int attacker = slea.readInt();
 		slea.readInt();
 		int damaged = slea.readInt();
-                
+
                 MapleMap map = c.getPlayer().getMap();
 		MapleMonster monster = map.getMonsterByOid(damaged);
 
@@ -49,8 +49,9 @@ public final class MobDamageMobFriendlyHandler extends AbstractMaplePacketHandle
 			return;
 		}
 
-		int damage = Randomizer.nextInt(((monster.getMaxHp() / 13 + monster.getPADamage() * 10)) * 2 + 500) / 10; //Beng's formula.
-                
+            int hp = (int) (monster.getMaxHp() > Integer.MAX_VALUE ? Integer.MAX_VALUE : monster.getMaxHp());
+            int damage = Randomizer.nextInt(((hp / 13 + monster.getPADamage() * 10)) * 2 + 500) / 10; //Beng's formula.
+
                 if (monster.getHp() - damage < 1) {     // friendly dies
                         if(monster.getId() == 9300102) {
                                 map.broadcastMessage(MaplePacketCreator.serverNotice(6, "The Watch Hog has been injured by the aliens. Better luck next time..."));
@@ -67,7 +68,7 @@ public final class MobDamageMobFriendlyHandler extends AbstractMaplePacketHandle
                         } else if(monster.getId() == 9300162) {   //delli
                                 map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Delli vanished after the ambush, sheets still laying on the ground..."));
                         }
-                        
+
                         map.killFriendlies(monster);
                 } else {
                         EventInstanceManager eim = map.getEventInstance();
@@ -75,9 +76,9 @@ public final class MobDamageMobFriendlyHandler extends AbstractMaplePacketHandle
                                 eim.friendlyDamaged(monster);
                         }
                 }
-                
+
                 monster.applyAndGetHpDamage(damage, false);
-                int remainingHp = monster.getHp();
+                long remainingHp = monster.getHp();
                 if(remainingHp <= 0) {
                     remainingHp = 0;
                     map.removeMapObject(monster);
