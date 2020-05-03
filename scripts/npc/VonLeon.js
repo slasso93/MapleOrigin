@@ -32,7 +32,7 @@ var expedition;
 var expedMembers;
 var player;
 var em;
-var exped = MapleExpeditionType.VonLeon;
+var exped = MapleExpeditionType.VONLEON;
 var expedName = "VonLeon";
 var expedBoss = "VonLeon";
 var expedMap = "VonsChamber";
@@ -98,12 +98,6 @@ function action(mode, type, selection) {
             }
         } else if (status == 1) {
             if (selection == 1) {
-                if (!cm.haveItem(expedItem)) {
-                    cm.sendOk("As the expedition leader, you must have on your inventory a #b#t" + expedItem + "##k to battle " + expedBoss + "!");
-                    cm.dispose();
-                    return;
-                }
-                
                 expedition = cm.getExpedition(exped);
                 if(expedition != null) {
                     cm.sendOk("Someone already taken the initiative to be the leader of the expedition. Try joining them!");
