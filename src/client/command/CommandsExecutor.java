@@ -296,6 +296,7 @@ public class CommandsExecutor {
         addCommand("checkdmg", 3, CheckDmgCommand.class);
         addCommand("inmap", 3, InMapCommand.class);
         addCommand("reloadevents", 3, ReloadEventsCommand.class);
+        addCommand("reloadevent", 3, ReloadEventCommand.class);
         addCommand("reloaddrops", 3, ReloadDropsCommand.class);
         addCommand("reloadportals", 3, ReloadPortalsCommand.class);
         addCommand("reloadmap", 3, ReloadMapCommand.class);
@@ -348,7 +349,8 @@ public class CommandsExecutor {
         addCommand("timerall", 3, TimerAllCommand.class);
         addCommand("warpmap", 3, WarpMapCommand.class);
         addCommand("warparea", 3, WarpAreaCommand.class);
-	addCommand("say", 3, SayCommand.class);
+        addCommand("say", 3, SayCommand.class);
+        addCommand("setbosscount", 3, SetBossCountCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }
