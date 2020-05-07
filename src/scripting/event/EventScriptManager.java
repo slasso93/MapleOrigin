@@ -74,7 +74,30 @@ public class EventScriptManager extends AbstractScriptManager {
         }
         return entry.em;
     }
-    
+
+    public void reloadEvent(Channel cserv, String script) {
+        if (cserv != null) {
+            String name = events.keySet().stream()
+                    .filter(e -> e.equalsIgnoreCase(script))
+                    .findFirst()
+                    .orElse(script);
+            NashornScriptEngine iv = getScriptEngine("event/" + name + ".js");
+            if (iv != null) {
+                events.put(name, new EventEntry(iv, new EventManager(cserv, iv, name)));
+
+                EventEntry eventEntry = events.get(name);
+
+                try {
+                    eventEntry.iv.put("em", eventEntry.em);
+                    eventEntry.iv.invokeFunction("init", (Object) null);
+                } catch (Exception ex) {
+                    Logger.getLogger(EventScriptManager.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Error on script: " + eventEntry.em.getName());
+                }
+            }
+        }
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -119,7 +142,14 @@ public class EventScriptManager extends AbstractScriptManager {
             entry.em.cancel();
         }
     }
-    
+
+    public void cancelEntry(String name) {
+        events.keySet().stream()
+                .filter(e -> e.equalsIgnoreCase(name))
+                .findFirst()
+                .ifPresent(e -> events.get(e).em.cancel());
+    }
+
     public void dispose() {
         if (events.isEmpty()) {
             return;

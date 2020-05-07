@@ -240,5 +240,9 @@ function dispose(eim) {
     }
 }
 
+function monsterValue(eim, mobId) {
+        return 1;
+}
+
 function afterSetup(eim) {
 }
