@@ -40,16 +40,16 @@ public class GmCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         String[] tips = {
                 "Please use @gm in emergencies or to report hackers.",
-                "To report a bug or make a suggestion, please use our discord and tag Light or Evol.",
+                "To report a bug or make a suggestion, please use our discord/forums and wait for a reply from a GM.",
         };
         MapleCharacter player = c.getPlayer();
-        if (params.length < 1 || params[0].length() < 3) { // #goodbye 'hi'
+        if (params.length < 8) {
             player.dropMessage(5, "Your message was too short. Please provide as much detail as possible.");
             return;
         }
         String message = player.getLastCommandMessage();
         Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.sendYellowTip("[GM Message]:" + MapleCharacter.makeMapleReadable(player.getName()) + ": " + message));
-        Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.serverNotice(1, message));
+        Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.serverNotice(1, MapleCharacter.makeMapleReadable(player.getName()) + ": " + message));
         FilePrinter.printError(FilePrinter.COMMAND_GM, MapleCharacter.makeMapleReadable(player.getName()) + ": " + message);
         player.dropMessage(5, "Your message '" + message + "' was sent to GMs.");
         player.dropMessage(5, tips[Randomizer.nextInt(tips.length)]);
