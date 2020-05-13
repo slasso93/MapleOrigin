@@ -190,6 +190,14 @@ public final class Channel {
     	eventSM = new EventScriptManager(this, getEvents());
     }
 
+    public synchronized void reloadEventByName(String name) {
+        if (finishedShutdown) {
+            return;
+        }
+        eventSM.cancelEntry(name);
+        eventSM.reloadEvent(this, name);
+    }
+
     public final synchronized void shutdown() {
         try {
             if (finishedShutdown) {

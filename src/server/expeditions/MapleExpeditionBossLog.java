@@ -140,7 +140,7 @@ public class MapleExpeditionBossLog {
         return week ? "bosslog_weekly" : "bosslog_daily";
     }
 
-    private static int countPlayerEntries(int cid, BossLogEntry boss) {
+    public static int countPlayerEntries(int cid, BossLogEntry boss) {
         int ret_count = 0;
         try {
             Connection con = DatabaseConnection.getConnection();
@@ -164,7 +164,7 @@ public class MapleExpeditionBossLog {
         }
     }
 
-    private static void insertPlayerEntry(int cid, BossLogEntry boss) {
+    public static void insertPlayerEntry(int cid, BossLogEntry boss) {
         try {
             Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement("INSERT INTO " + getBossLogTable(boss.week) + " (characterid, bosstype) VALUES (?,?)");
@@ -177,7 +177,22 @@ public class MapleExpeditionBossLog {
             e.printStackTrace();
         }
     }
-    
+
+    public static void removePlayerEntry(int cid, BossLogEntry boss, int removeCount) {
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement("DELETE FROM " + getBossLogTable(boss.week) + " WHERE characterid = ? and bosstype LIKE ? LIMIT ?");
+            ps.setInt(1, cid);
+            ps.setString(2, boss.name());
+            ps.setInt(3, removeCount);
+            ps.executeUpdate();
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean attemptBoss(int cid, int channel, MapleExpedition exped, boolean log) {
         if (!YamlConfig.config.server.USE_ENABLE_DAILY_EXPEDITIONS) {
             return true;
@@ -230,6 +245,7 @@ public class MapleExpeditionBossLog {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         insertPlayerEntry(cid, boss);
     }
+
     public static Map<String, String> getDailyBossEntries(int cid) {
 
         Map<String,String> dailyBossLog = new HashMap<String,String>();

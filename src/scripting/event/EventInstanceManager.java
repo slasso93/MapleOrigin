@@ -692,9 +692,11 @@ public class EventInstanceManager {
             int inc;
 
             if (ServerConstants.JAVA_8) {
-                inc = (int) invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                Object res = invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                inc = res == null ? 1 : (int) res;
             } else {
-                inc = ((Double) invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId())).intValue();
+                Object res = invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                inc = res == null ? 1 : ((Double) res).intValue();
             }
 
             if (inc != 0) {
