@@ -109,7 +109,7 @@ public class MobSkill {
             @Override
             public void run() {
                 if (monster.isAlive()) {
-                    applyEffect(player, monster, skill, null);
+                    applyEffect(player, monster, skill, null, true);
                 }
             }
         };
@@ -118,7 +118,7 @@ public class MobSkill {
         service.registerOverallAction(monster.getMap().getId(), toRun, animationTime);
     }
 
-    public void applyEffect(MapleCharacter player, MapleMonster monster, boolean skill, List<MapleCharacter> banishPlayers) {
+    public void applyEffect(MapleCharacter player, MapleMonster monster, boolean skill, List<MapleCharacter> banishPlayers, boolean expires) {
         MapleDisease disease = null;
         Map<MonsterStatus, Integer> stats = new ArrayMap<MonsterStatus, Integer>();
         List<Integer> reflection = new LinkedList<Integer>();
@@ -321,10 +321,10 @@ public class MobSkill {
         if (stats.size() > 0) {
             if (lt != null && rb != null && skill) {
                 for (MapleMapObject mons : getObjectsInRange(monster, MapleMapObjectType.MONSTER)) {
-                    ((MapleMonster) mons).applyMonsterBuff(stats, getX(), getSkillId(), getDuration(), this, reflection);
+                    ((MapleMonster) mons).applyMonsterBuff(stats, getX(), getSkillId(), expires ? getDuration() : -1, this, reflection);
                 }
             } else {
-                monster.applyMonsterBuff(stats, getX(), getSkillId(), getDuration(), this, reflection);
+                monster.applyMonsterBuff(stats, getX(), getSkillId(), expires ? getDuration() : -1, this, reflection);
             }
         }
         if (disease != null) {
