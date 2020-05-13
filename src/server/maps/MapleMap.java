@@ -2039,7 +2039,7 @@ public class MapleMap {
             if (teamS != null) {
                 for (MCSkill skil : teamS) {
                     if (skil != null) {
-                        skil.getSkill().applyEffect(null, monster, false, null);
+                        skil.getSkill().applyEffect(null, monster, false, null, true);
                     }
                 }
             }
@@ -4471,7 +4471,7 @@ public class MapleMap {
             if (mmo.getType() == MapleMapObjectType.MONSTER) {
                 MapleMonster mob = (MapleMonster) mmo;
                 if (mob.getTeam() == team) {
-                    skill.getSkill().applyEffect(null, mob, false, null);
+                    skill.getSkill().applyEffect(null, mob, false, null, true);
                 }
             }
         }

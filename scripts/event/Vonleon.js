@@ -24,6 +24,7 @@
  */
 
 importPackage(Packages.client);
+importPackage(Packages.client.status);
 importPackage(Packages.tools);
 importPackage(Packages.server.life);
 
@@ -39,6 +40,7 @@ var eventTime = 140;     // 140 minutes
 
 var lobbyRange = [0, 0];
 var map = 0;
+var mob;
 
 function init() {
         setEventRequirements();
@@ -66,6 +68,20 @@ function setEventRequirements() {
 }
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
+    var eligible = [];
+
+    if (party.size() > 0) {
+        var partyList = party.toArray();
+
+        for(var i = 0; i < party.size(); i++) {
+            var ch = partyList[i];
+            if (!ch.getPlayer().haveItem(4000313)) {
+                return [];
+            }
+            eligible.push(ch);
+        }
+    }
+    return eligible;
 }
 
 function setEventRewards(eim) {
@@ -98,7 +114,7 @@ function setup(channel) {
 }
 
 function start(eim) {
-    var mob = MapleLifeFactory.getMonster(8840000);
+    mob = MapleLifeFactory.getMonster(8840000);
     map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(1500, -70));
     eim.startEventTimer(eventTime * 60000);
     eim.schedule("bomb", 60000);
@@ -106,12 +122,21 @@ function start(eim) {
 
 function bomb(eim) {
     if (eim.getIntProperty("finished") < 1) {
-        if (map.getSpawnedMonstersOnMap() < 20) {
-            for (var i = 1; i <= 20; i++) {
-                map.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8210006), new java.awt.Point(Randomizer.rand(-650, 2500), -70));
+        if (!mob.isBuffed(MonsterStatus.WEAPON_REFLECT)) {
+            if (mob.isBuffed(MonsterStatus.WEAPON_IMMUNITY)) {
+                mob.debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
             }
-            eim.schedule("bomb", 60000);
+            if (mob.isBuffed(MonsterStatus.MAGIC_IMMUNITY)) {
+                mob.debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+            }
+            MobSkillFactory.getMobSkill(145, 5).applyEffect(null, mob, false, null, false);
         }
+		for (var i = 1; i <= 20; i++) {
+			var monster = MapleLifeFactory.getMonster(8210006);
+			monster.getStats().setExp(10);
+			map.spawnMonsterOnGroundBelow(monster, new java.awt.Point(Randomizer.rand(-650, 2500), -70));
+		}
+        eim.schedule("bomb", 3 * 60 * 1000);
     }
 }
 
@@ -203,12 +228,19 @@ function isVonLeon(mob) {
     return (mobid == 8840000);
 }
 
-function monsterKilled(mob, eim) {
-    if(isVonLeon(mob)) {
+function monsterKilled(killedMob, eim) {
+    if(isVonLeon(killedMob)) {
         eim.setIntProperty("defeatedBoss", 1);
-        eim.showClearEffect(mob.getMap().getId());
+        eim.showClearEffect(killedMob.getMap().getId());
         eim.clearPQ();
         map.killAllMonsters();
+    } else {
+        if (map.getSpawnedMonstersOnMap() == 1) {
+            mob.debuffMobStat(MonsterStatus.WEAPON_REFLECT);
+            mob.debuffMobStat(MonsterStatus.WEAPON_IMMUNITY);
+            mob.debuffMobStat(MonsterStatus.MAGIC_REFLECT);
+            mob.debuffMobStat(MonsterStatus.MAGIC_IMMUNITY);
+        }
     }
 }
 
