@@ -206,12 +206,12 @@ public class MobSkill {
                 disease = MapleDisease.ZOMBIFY;
                 break;
             case 140:
-                if (makeChanceResult() && !monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY)) {
+                if (makeChanceResult() && !monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY) && (!monster.isBuffed(MonsterStatus.WEAPON_REFLECT) || !monster.isBuffed(MonsterStatus.MAGIC_REFLECT))) {
                     stats.put(MonsterStatus.WEAPON_IMMUNITY, Integer.valueOf(x));
                 }
                 break;
             case 141:
-                if (makeChanceResult() && !monster.isBuffed(MonsterStatus.WEAPON_IMMUNITY)) {
+                if (makeChanceResult() && !monster.isBuffed(MonsterStatus.WEAPON_IMMUNITY) && (!monster.isBuffed(MonsterStatus.WEAPON_REFLECT) || !monster.isBuffed(MonsterStatus.MAGIC_REFLECT))) {
                     stats.put(MonsterStatus.MAGIC_IMMUNITY, Integer.valueOf(x));
                 }
                 break;
