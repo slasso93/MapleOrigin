@@ -4,8 +4,8 @@
 worlds:
     #Properties for Scania 0
   - flag: 3
-    server_message: Welcome back to Maple Origin! @commands - list of usable player commands. @tele - Lost Memories is the home hubmap! Enjoy the server! 
-    event_message: Welcome to MO!
+    server_message: Welcome back to Maple Origin! @commands - list of usable player commands. @tele - Lost Memories is the home hubmap! Enjoy the server! Summer Updated is now live, patching is required.
+    event_message: Welcome to MO Under the Sea!
     why_am_i_recommended: Welcome to MapleOrigin!!
     channels: 6
     exp_rate: 1
@@ -392,7 +392,7 @@ server:
     USE_EQUIPMNT_LVLUP_SLOTS: false  #Equips can upgrade slots at level up.
     USE_EQUIPMNT_LVLUP_POWER: true  #Enable more powerful stat upgrades at equip level up.
     USE_EQUIPMNT_LVLUP_CASH: true   #Enable equip leveling up on cash equipments as well.
-    USE_SPIKES_AVOID_BANISH: true   #Shoes equipped with spikes prevents mobs from banishing wearer.
+    USE_SPIKES_AVOID_BANISH: false   #Shoes equipped with spikes prevents mobs from banishing wearer.
     MAX_EQUIPMNT_LVLUP_STAT_UP: 5   #Max stat upgrade an equipment can have on a levelup.
     EQUIPMNT_LVLUP_HP_MP_MULTIPLIER: 5  # HP will gain X times more stats when leveling. 5 = [0, 1, 2, 3, 4, 5]
     MAX_EQUIPMNT_STAT: 32767            #Max stat on an equipment by leveling up.
