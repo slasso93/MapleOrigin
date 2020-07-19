@@ -257,4 +257,45 @@ public final class ItemConstants {
     public static boolean isChair(int itemId) {
         return itemId / 10000 == 301;
     }
+
+    public static boolean isTimelessWeapon(int itemid) {
+        return itemid == 1302081 ||
+            itemid == 1312037 ||
+            itemid == 1322060 ||
+            itemid == 1402046 ||
+            itemid == 1412033 ||
+            itemid == 1422037 ||
+            itemid == 1442063 ||
+            itemid == 1482023 ||
+            itemid == 1332073 ||
+            itemid == 1332074 ||
+            itemid == 1372044 ||
+            itemid == 1382057 ||
+            itemid == 1432047 ||
+            itemid == 1452057 ||
+            itemid == 1462050 ||
+            itemid == 1472068 ||
+            itemid == 1492023;
+    }
+
+    public static boolean isReverseWeapon(int itemid) {
+        return itemid == 1302086 ||
+                itemid == 1312038 ||
+                itemid == 1322061 ||
+                itemid == 1332075 ||
+                itemid == 1332076 ||
+                itemid == 1372045 ||
+                itemid == 1382059 ||
+                itemid == 1402047 ||
+                itemid == 1412034 ||
+                itemid == 1422038 ||
+                itemid == 1432049 ||
+                itemid == 1442067 ||
+                itemid == 1452059 ||
+                itemid == 1462051 ||
+                itemid == 1472071 ||
+                itemid == 1482024 ||
+                itemid == 1492025;
+    }
+
 }

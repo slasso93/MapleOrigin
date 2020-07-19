@@ -227,6 +227,7 @@ public class CommandsExecutor {
         addCommand(new String[]{"help","commands"}, HelpCommand.class);
         addCommand("svtime", ServerTimeCommand.class);
         addCommand(new String[]{"checkdps", "dpscheck"}, CheckDpsCommand.class);
+        addCommand("gachalist", GachaListCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 
@@ -278,8 +279,7 @@ public class CommandsExecutor {
         addCommand("job", 2, JobCommand.class);
         addCommand("unbug", 2, UnBugCommand.class);
         addCommand("id", 2, IdCommand.class);
-        addCommand("gachalist", GachaListCommand.class);
-        addCommand("loot", LootCommand.class);
+        addCommand("loot", 2, LootCommand.class);
         addCommand("awardToMap", 2, AwardToMapCommand.class);
         addCommand("spreset", 2, SPReset.class);
         
