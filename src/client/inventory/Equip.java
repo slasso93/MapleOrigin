@@ -627,6 +627,10 @@ public class Equip extends Item {
 
         if (ItemConstants.isOverall(getItemId())) {
             return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL;
+        } else if (ItemConstants.isReverseWeapon(getItemId())) {
+            return itemLevel >= 8;
+        } else if (ItemConstants.isTimelessWeapon(getItemId())) {
+            return itemLevel >= 10;
         } else
             return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP;
     }
