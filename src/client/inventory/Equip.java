@@ -575,7 +575,15 @@ public class Equip extends Item {
             return;
         }
         
-        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true), ItemConstants.isOverall(getItemId()) ? YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL: YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
+        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true),
+                ItemConstants.isOverall(getItemId()) ? YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL : YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
+
+        // TODO: should be config yaml flag
+        if (ItemConstants.isReverseWeapon(getItemId()))
+            equipMaxLevel = 8;
+        if (ItemConstants.isTimelessWeapon(getItemId()))
+            equipMaxLevel = 10;
+
         if (itemLevel >= equipMaxLevel) {
             return;
         }

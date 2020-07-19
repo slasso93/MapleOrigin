@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         
     else if(!cm.getEventInstance().isEventCleared())
 {  
-        cm.warp(211042300);
+        cm.warp(270050000);
         //cm.gainItem(4000313, 1);
         cm.dispose();
 }
