@@ -39,6 +39,7 @@ public class MapleExpeditionBossLog {
     
     public enum BossLogEntry {
         ZAKUM(2, 1, false),
+        SHOWA(2, 1, false),
         HORNTAIL(2, 1, false),
         PINKBEAN(1, 1, false),
         SCARGA(1, 1, false),
