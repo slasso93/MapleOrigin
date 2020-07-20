@@ -132,12 +132,12 @@ function bomb(eim) {
             }
             MobSkillFactory.getMobSkill(145, 5).applyEffect(null, mob, false, null, false);
         }
-		for (var i = 1; i <= 25; i++) {
+		for (var i = 1; i <= 24; i++) {
 			var monster = MapleLifeFactory.getMonster(8210006);
 			monster.getStats().setExp(10);
 			map.spawnMonsterOnGroundBelow(monster, new java.awt.Point(Randomizer.rand(-650, 2500), -70));
 		}
-        eim.schedule("bomb", 3 * 60 * 1000);
+        eim.schedule("bomb", 4 * 60 * 1000);
     }
 }
 
@@ -232,6 +232,7 @@ function isVonLeon(mob) {
 function monsterKilled(killedMob, eim) {
     if(isVonLeon(killedMob)) {
         eim.setIntProperty("defeatedBoss", 1);
+        eim.setIntProperty("finished", 1);
         eim.showClearEffect(killedMob.getMap().getId());
         eim.clearPQ();
         map.killAllMonsters();
