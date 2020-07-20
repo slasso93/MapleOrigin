@@ -85,6 +85,8 @@ import server.events.MapleEvents;
 import server.events.RescueGaga;
 import server.events.gm.MapleFitness;
 import server.events.gm.MapleOla;
+import server.expeditions.MapleExpeditionBossLog;
+import server.expeditions.MapleExpeditionType;
 import server.life.MapleMonster;
 import server.life.MaplePlayerNPC;
 import server.life.MobSkill;
@@ -11871,6 +11873,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void setDpsCheckFuture(ScheduledFuture<?> dpsCheckFuture) {
         this.dpsCheckFuture = dpsCheckFuture;
+    }
+
+    public boolean reachedRewardLimit(MapleExpeditionType type) {
+        return MapleExpeditionBossLog.reachedBossRewardLimit(getId(), type);
     }
 
 }

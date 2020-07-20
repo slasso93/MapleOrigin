@@ -33,7 +33,10 @@ function action(mode, type, selection) {
         cm.warp(220080000);
         cm.dispose();
     } else {
-        if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+        if (cm.reachedRewardLimit(MapleExpeditionType.PAPULATUS)) {
+            cm.warp(220080000);
+            cm.dispose();
+        } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
             cm.warp(220080000);
             cm.gainItem(4000038, 25);
             cm.dispose();

@@ -27,6 +27,7 @@ importPackage(Packages.client);
 importPackage(Packages.client.status);
 importPackage(Packages.tools);
 importPackage(Packages.server.life);
+importPackage(Packages.server.expeditions);
 
 
 var isPq = true;
@@ -89,7 +90,7 @@ function setEventRewards(eim) {
 
         evLevel = 1;    //Rewards at clear PQ
         itemSet = [4000313];
-        itemQty = [5];
+        itemQty = [4];
         eim.setEventRewards(evLevel, itemSet, itemQty);
 
         expStages = [];    //bonus exp given on CLEAR stage signal
@@ -131,7 +132,7 @@ function bomb(eim) {
             }
             MobSkillFactory.getMobSkill(145, 5).applyEffect(null, mob, false, null, false);
         }
-		for (var i = 1; i <= 20; i++) {
+		for (var i = 1; i <= 25; i++) {
 			var monster = MapleLifeFactory.getMonster(8210006);
 			monster.getStats().setExp(10);
 			map.spawnMonsterOnGroundBelow(monster, new java.awt.Point(Randomizer.rand(-650, 2500), -70));
@@ -177,12 +178,12 @@ function playerDead(eim, player) {
     
     eim.setIntProperty("fallenPlayers", count);
     
-    if(count == 5) {
+    if(count == 3) {
         eim.dropMessage(5, "[Expedition] Too many players have fallen, Von Leon is now deemed undefeatable; the expedition is over.");
         end(eim);
-    } else if(count == 4) {
+    } else if(count == 2) {
         eim.dropMessage(5, "[Expedition] Von Leon is growing stronger than ever, this is our last stand!");
-    } else if(count == 3) {
+    } else if(count == 1) {
         eim.dropMessage(5, "[Expedition] Casualty count is starting to get out of control. Battle with care.");
     }
 }
@@ -249,7 +250,8 @@ function clearPQ(eim) {
     eim.setEventCleared();
     var party = eim.getPlayers();
     for (var i = 0; i < party.size(); i++) {
-        eim.giveEventReward(party.get(i));
+        if (!party.get(i).reachedRewardLimit(MapleExpeditionType.VONLEON))
+            eim.giveEventReward(party.get(i));
     }
 }
 
