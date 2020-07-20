@@ -32,41 +32,43 @@ function start() {
 }
 
 function action(mode, type, selection) {
-        if (mode == -1) {
-                cm.dispose();
-        } else {
-                if (mode == 0 && status == 0) {
-                        cm.dispose();
-                        return;
-                }
-                if (mode == 1)
-                        status++;
-                else
-                        status--;
-    
-                var eim = cm.getEventInstance();
-                if(!eim.isEventCleared()) {
-                        if (status == 0) {
-                                cm.sendYesNo("If you leave now, you won't be able to return. Are you sure you want to leave?");
-                        } else if (status == 1) {
-                                cm.warp(551030100, 2);
-                                cm.dispose();
-                        }
-                } else {
-                        if (status == 0) {
-                                cm.sendNext("You guys defeated both Scarlion and Targa! Wonderful! Take this memento as a prize for your bravery.");
-                        } else if (status == 1) {
-                                if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
-									cm.warp(551030100, 2);
-									cm.gainItem(4000313, 1);
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (mode == 0 && status == 0) {
             cm.dispose();
-        } else {
-            cm.sendOk("Please make space in your inventory");
-            cm.dispose();
+            return;
         }
+        if (mode == 1)
+            status++;
+        else
+            status--;
 
-                                cm.dispose();
-                        }
+        var eim = cm.getEventInstance();
+        if(!eim.isEventCleared()) {
+            if (status == 0) {
+                cm.sendYesNo("If you leave now, you won't be able to return. Are you sure you want to leave?");
+            } else if (status == 1) {
+                cm.warp(551030100, 2);
+                cm.dispose();
+            }
+        } else {
+            if (status == 0) {
+                cm.sendNext("You guys defeated both Scarlion and Targa! Wonderful! Take this memento as a prize for your bravery.");
+            } else if (status == 1) {
+                if (cm.reachedRewardLimit(MapleExpeditionType.SCARGA)) {
+                    cm.warp(551030100, 2);
+                    cm.dispose();
+                } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+                    cm.warp(551030100, 2);
+                    cm.gainItem(4000313, 1);
+                    cm.dispose();
+                } else {
+                    cm.sendOk("Please make space in your inventory");
+                    cm.dispose();
                 }
+                cm.dispose();
+            }
         }
+    }
 }

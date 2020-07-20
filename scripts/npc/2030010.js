@@ -43,15 +43,14 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1)
         cm.dispose();
-        
-    else if(!cm.getEventInstance().isEventCleared())
-{  
+    else if(!cm.getEventInstance().isEventCleared()) {
         cm.warp(211042300);
-        //cm.gainItem(4000313, 1);
         cm.dispose();
-}
-    else {
-        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
+    } else {
+        if (cm.reachedRewardLimit(MapleExpeditionType.ZAKUM)) {
+            cm.warp(211042300);
+            cm.dispose();
+        } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
             cm.warp(211042300);
             cm.gainItem(4000313, 1);
             cm.dispose();

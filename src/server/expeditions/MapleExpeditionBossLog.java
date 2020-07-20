@@ -140,6 +140,31 @@ public class MapleExpeditionBossLog {
         return week ? "bosslog_weekly" : "bosslog_daily";
     }
 
+    public static int countPlayerEntriesByHwid(int cid, BossLogEntry boss) {
+        int count;
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement(
+                    "SELECT COUNT(*) FROM " + getBossLogTable(boss.week) + " WHERE " +
+                            "characterid IN (SELECT c.id FROM characters c JOIN accounts a ON c.accountid=a.id WHERE " +
+                            "a.hwid = (SELECT a1.hwid FROM accounts a1 JOIN characters c1 ON c1.accountid=a1.id WHERE " +
+                            "c1.id=? and bosstype LIKE ?))")) {
+                ps.setInt(1, cid);
+                ps.setString(2, boss.name());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        count = rs.getInt(1);
+                    } else {
+                        count = -1;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return count;
+    }
+
     public static int countPlayerEntries(int cid, BossLogEntry boss) {
         int ret_count = 0;
         try {
@@ -215,6 +240,13 @@ public class MapleExpeditionBossLog {
             insertPlayerEntry(cid, boss);
         }
         return true;
+    }
+
+    public static boolean reachedBossRewardLimit(int cid, MapleExpeditionType type) {
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+        if (boss == null)
+            return false;
+        return countPlayerEntriesByHwid(cid, boss) > boss.entries;
     }
 
     public static boolean attemptBoss(int cid, int channel, MapleExpeditionType type, boolean log) {

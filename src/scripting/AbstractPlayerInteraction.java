@@ -1122,6 +1122,11 @@ public class AbstractPlayerInteraction {
         }
     }
 
+    public boolean reachedRewardLimit(MapleExpeditionType type) {
+        MapleCharacter player = getPlayer();
+        return MapleExpeditionBossLog.reachedBossRewardLimit(player.getId(), type);
+    }
+
     public void endExpedition(MapleExpedition exped) {
         exped.dispose(true);
         exped.removeChannelExpedition(getPlayer().getClient().getChannelServer());
