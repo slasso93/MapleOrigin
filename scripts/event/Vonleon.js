@@ -132,7 +132,7 @@ function bomb(eim) {
             }
             MobSkillFactory.getMobSkill(145, 5).applyEffect(null, mob, false, null, false);
         }
-		for (var i = 1; i <= 24; i++) {
+		for (var i = 1; i <= 20; i++) {
 			var monster = MapleLifeFactory.getMonster(8210006);
 			monster.getStats().setExp(10);
 			map.spawnMonsterOnGroundBelow(monster, new java.awt.Point(Randomizer.rand(-650, 2500), -70));
@@ -178,12 +178,12 @@ function playerDead(eim, player) {
     
     eim.setIntProperty("fallenPlayers", count);
     
-    if(count == 3) {
+    if(count == 5) {
         eim.dropMessage(5, "[Expedition] Too many players have fallen, Von Leon is now deemed undefeatable; the expedition is over.");
         end(eim);
-    } else if(count == 2) {
+    } else if(count == 4) {
         eim.dropMessage(5, "[Expedition] Von Leon is growing stronger than ever, this is our last stand!");
-    } else if(count == 1) {
+    } else if(count == 2) {
         eim.dropMessage(5, "[Expedition] Casualty count is starting to get out of control. Battle with care.");
     }
 }
