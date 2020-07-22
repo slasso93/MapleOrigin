@@ -23,7 +23,7 @@ var items = [1022082,
 var leaf = [4000313];
 
 function start() {
-    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, and Pink Bean! What would u like to buy? #b\r\n#L6# Buy 40 Event Trophies for 1 Golden Maple Leaf #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf#b\r\n#L7# Buy Vega's Spells for Golden Maple Leaves");
+    cm.sendSimple("Hi! I can exchange #v4000313# for various items to help you in your adventures in Maple Origin! You may obtain these items as rewards for clearing Zakum, Horntail, The Boss, Pink Bean, and Von Leon! What would u like to buy? #b\r\n#L6# Buy 40 Event Trophies for 1 Golden Maple Leaf #b\r\n#L0# Buy some scrolls for 1 Golden Maple Leaf #b\r\n#L1# Buy ITCG Equips for 3 Golden Maple Leaf #b\r\n#L2# Buy VIP Weapons for 10 Golden Maple Leaf#b\r\n#L5# Buy Skill Books for 15 Golden Maple Leaf#b\r\n#L7# Buy Vega's Spells for Golden Maple Leaves");
 }
 
 function action (m,t,s) {

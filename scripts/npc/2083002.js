@@ -26,6 +26,9 @@
  *@Author: Evol
  *@NPC: Crystal of Roots
  */
+ 
+importPackage(Packages.server.expeditions);
+
 function start() {
     cm.sendYesNo("Do you wish to leave?");
 }

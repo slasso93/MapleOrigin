@@ -37,7 +37,8 @@ var marriageAction = 0;
 var marriageGifts;
 
 function start() {
-    marriageRoom = cm.getPlayer().getMarriageInstance() != null;
+	cm.dispose();
+    /*marriageRoom = cm.getPlayer().getMarriageInstance() != null;
     if (!marriageRoom) {
         marriageGifts = cm.getUnclaimedMarriageGifts();
         marriageAction = (!marriageGifts.isEmpty() ? 2 : ((cm.haveItem(4031423) || cm.haveItem(4031424)) ? 1 : 0));
@@ -45,6 +46,7 @@ function start() {
     
     status = -1;
     action(1, 0, 0);
+	*/
 }
 
 function action(mode, type, selection) {

@@ -57,10 +57,10 @@ eQuestPrizes[3] = new Array ([1002801,1],   //Raven Ninja Bandana
     [3010040,1],        // The Stirge Seat
     [0,1750000]);       // Mesos
 
-eQuestPrizes[4] = new Array ([0,3500000]);	// Mesos
-eQuestPrizes[5] = new Array ([0,3500000]);	// Mesos
-eQuestPrizes[6] = new Array ([0,3500000]);	// Mesos
-eQuestPrizes[7] = new Array ([0,3500000]);	// Mesos
+eQuestPrizes[4] = new Array ([0,35000]);	// Mesos
+eQuestPrizes[5] = new Array ([0,35000]);	// Mesos
+eQuestPrizes[6] = new Array ([0,35000]);	// Mesos
+eQuestPrizes[7] = new Array ([0,35000]);	// Mesos
 
 var requiredItem  = 0;
 var lastSelection = 0;
