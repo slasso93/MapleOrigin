@@ -28,6 +28,8 @@ import client.MapleClient;
 import client.command.Command;
 import server.expeditions.MapleExpeditionBossLog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class BossLogCommand extends Command {
@@ -37,11 +39,27 @@ public class BossLogCommand extends Command {
 
     @Override
     public void execute(MapleClient c, String[] params) {
+        List<MapleCharacter> chars = new ArrayList<>();
         MapleCharacter player = c.getPlayer();
-        int cid = c.getPlayer().getId();
-        Map<String,String> bossMap = MapleExpeditionBossLog.getDailyBossEntries(cid);
-
-        player.message("Your boss count for the day: ");
-        bossMap.forEach((k,v) -> player.message("You have killed "+ k +": "+v+" times." ));
+        if (player.gmLevel() > 1 && params.length > 0) { // we can check all the players boss records across hwid
+            MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
+            if (victim != null) {
+                List<MapleCharacter> allChars = victim.getCharactersByHWID();
+                chars.addAll(allChars);
+            } else
+                player.dropMessage(6, "Unknown player.");
+        } else {
+            chars.add(c.getPlayer());
+        }
+        for (MapleCharacter mapleCharacter : chars) {
+            Map<String, String> bossMap = MapleExpeditionBossLog.getDailyBossEntries(mapleCharacter.getId(), player.gmLevel() <= 1 || params.length == 0);
+            if (bossMap != null && !bossMap.isEmpty()) {
+                if (player.gmLevel() > 1)
+                    player.message(mapleCharacter.getName() + "'s boss count for the day: ");
+                else
+                    player.message("Your boss count for the day: ");
+                bossMap.forEach((k, v) -> player.message("You have killed " + k + ": " + v + " times."));
+            }
+        }
     }
 }

@@ -248,7 +248,7 @@ function monsterKilled(killedMob, eim) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.VONLEON);
     var party = eim.getPlayers();
     for (var i = 0; i < party.size(); i++) {
         if (!party.get(i).reachedRewardLimit(MapleExpeditionType.VONLEON))

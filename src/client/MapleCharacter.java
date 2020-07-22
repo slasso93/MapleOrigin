@@ -449,6 +449,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         
         return(MapleJob.BEGINNER);
     }
+
     public MapleRaid getRaid() {
         return raid;
     }
@@ -5357,6 +5358,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public static int getAccountIdByName(String name) {
@@ -11877,6 +11882,31 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public boolean reachedRewardLimit(MapleExpeditionType type) {
         return MapleExpeditionBossLog.reachedBossRewardLimit(getId(), type);
+    }
+
+    public void setExpeditionCompleted(MapleExpeditionType type) {
+        MapleExpeditionBossLog.setExpeditionCompleted(getId(), type);
+    }
+
+    public List<MapleCharacter> getCharactersByHWID() {
+        String hwid = getClient().convertHWID(getClient().getHWID());
+        List<MapleCharacter> characters = new ArrayList<>();
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT c.* FROM characters c join accounts a WHERE a.id=c.accountid and a.hwid=?")) {
+                ps.setString(1, hwid);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        MapleCharacter res = new MapleCharacter();
+                        res.setName(rs.getString("name"));
+                        res.setId(rs.getInt("id"));
+                        characters.add(res);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return characters;
     }
 
 }
