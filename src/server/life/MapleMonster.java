@@ -1333,25 +1333,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
     
     public void applyMonsterBuff(final Map<MonsterStatus, Integer> stats, final int x, int skillId, long duration, MobSkill skill, final List<Integer> reflection) {
-        final Runnable cancelTask = new Runnable() {
 
-            @Override
-            public void run() {
-                if (isAlive()) {
-                    byte[] packet = MaplePacketCreator.cancelMonsterStatus(getObjectId(), stats);
-                    broadcastMonsterStatusMessage(packet);
-                    
-                    statiLock.lock();
-                    try {
-                        for (final MonsterStatus stat : stats.keySet()) {
-                            stati.remove(stat);
-                        }
-                    } finally {
-                        statiLock.unlock();
-                    }
-                }
-            }
-        };
         final MonsterStatusEffect effect = new MonsterStatusEffect(stats, null, skill, true);
         byte[] packet = MaplePacketCreator.applyMonsterStatus(getObjectId(), effect, reflection);
         broadcastMonsterStatusMessage(packet);
@@ -1367,7 +1349,28 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         
         MobStatusService service = (MobStatusService) map.getChannelServer().getServiceAccess(ChannelServices.MOB_STATUS);
-        service.registerMobStatus(map.getId(), effect, cancelTask, duration);
+        if (duration != -1) {
+            final Runnable cancelTask = new Runnable() {
+
+                @Override
+                public void run() {
+                    if (isAlive()) {
+                        byte[] packet = MaplePacketCreator.cancelMonsterStatus(getObjectId(), stats);
+                        broadcastMonsterStatusMessage(packet);
+
+                        statiLock.lock();
+                        try {
+                            for (final MonsterStatus stat : stats.keySet()) {
+                                stati.remove(stat);
+                            }
+                        } finally {
+                            statiLock.unlock();
+                        }
+                    }
+                }
+            };
+            service.registerMobStatus(map.getId(), effect, cancelTask, duration);
+        }
     }
     
     public void refreshMobPosition() {
@@ -1384,7 +1387,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         aggroUpdateController();
     }
 
-    private void debuffMobStat(MonsterStatus stat) {
+    public void debuffMobStat(MonsterStatus stat) {
         MonsterStatusEffect oldEffect;
         statiLock.lock();
         try {

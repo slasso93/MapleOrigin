@@ -107,7 +107,7 @@ public final class MoveLifeHandler extends AbstractMovementPacketHandler {
                         toUse.applyDelayedEffect(player, monster, true, animationTime);
                     } else {
                         banishPlayers = new LinkedList<>();
-                        toUse.applyEffect(player, monster, true, banishPlayers);
+                        toUse.applyEffect(player, monster, true, banishPlayers, true);
                     }
                 }
             }

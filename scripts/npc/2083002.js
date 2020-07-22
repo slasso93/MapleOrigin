@@ -26,6 +26,9 @@
  *@Author: Evol
  *@NPC: Crystal of Roots
  */
+ 
+importPackage(Packages.server.expeditions);
+
 function start() {
     cm.sendYesNo("Do you wish to leave?");
 }
@@ -49,8 +52,13 @@ function action(mode, type, selection) {
         cm.warp(240050600);
         cm.dispose();
 	} else {
-        cm.warp(240050600);
-        cm.gainItem(4000313, 2);
+	    if (cm.reachedRewardLimit(MapleExpeditionType.HORNTAIL)) {
+            cm.warp(240050600);
+            cm.dispose();
+        } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+            cm.warp(240050600);
+            cm.gainItem(4000313, 2);
+        }
         cm.dispose();
     }
 }

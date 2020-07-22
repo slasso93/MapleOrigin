@@ -29,11 +29,11 @@ function action(mode, type, selection) {
         }
         if (status == 0) {
 			if (cm.getPlayer().isGM()) {
-				cm.warp(79000, 0);
+				cm.warp(90000, 0);
 				cm.dispose();
 			} else {
 				//cm.sendYesNo("Dream World Coming soon.");
-				cm.warp(79000, 0);
+				cm.warp(90000, 0);
 				cm.dispose();
 			}
 

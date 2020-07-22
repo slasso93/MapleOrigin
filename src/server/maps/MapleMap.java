@@ -670,11 +670,6 @@ public class MapleMap {
             int dropChance = (int) Math.min((float) de.chance * chRate * cardRate, Integer.MAX_VALUE);
             
             if (Randomizer.nextInt(999999) < dropChance) {
-                if (droptype == 3) {
-                    pos.x = (int) (mobpos + ((d % 2 == 0) ? (40 * ((d + 1) / 2)) : -(40 * (d / 2))));
-                } else {
-                    pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * ((d + 1) / 2)) : -(25 * (d / 2))));
-                }
                 if (de.itemId == 0) { // meso
                     int mesos = Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum;
 
@@ -686,18 +681,35 @@ public class MapleMap {
                         if (mesos <= 0) {
                             mesos = Integer.MAX_VALUE;
                         }
-                        
+                        if (droptype == 3) {
+                            pos.x = (int) (mobpos + ((d % 2 == 0) ? (40 * ((d + 1) / 2)) : -(40 * (d / 2))));
+                        } else {
+                            pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * ((d + 1) / 2)) : -(25 * (d / 2))));
+                        }
                         spawnMesoDrop(mesos, calcDropPos(pos, mob.getPosition()), mob, chr, false, droptype);
+                        d++;
                     }
                 } else {
                     if (ItemConstants.getInventoryType(de.itemId) == MapleInventoryType.EQUIP) {
                         idrop = ii.randomizeStats((Equip) ii.getEquipById(de.itemId));
                     } else {
-                        idrop = new Item(de.itemId, (short) 0, (short) (de.Maximum != 1 ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : 1));
+                        short quantity = (short) (de.Maximum > de.Minimum ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : de.Minimum);
+                        idrop = new Item(de.itemId, (short) 0, quantity);
                     }
-                    spawnDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
+                    int count = 1;
+                    if (!de.shouldStack) {
+                        count = idrop.getQuantity();
+                        idrop.setQuantity((short) 1);
+                    }
+                    for (int i = 0; i < count; i++, d++) {
+                        if (droptype == 3) {
+                            pos.x = (int) (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));
+                        } else {
+                            pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * (d + 1) / 2) : -(25 * (d / 2))));
+                        }
+                        spawnDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
+                    }
                 }
-                d++;
             }
         }
         
@@ -712,26 +724,33 @@ public class MapleMap {
         
         for (final MonsterGlobalDropEntry de : globalEntry) {
             if (Randomizer.nextInt(999999) < de.chance) {
-                if (droptype == 3) {
-                    pos.x = (int) (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));
-                } else {
-                    pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * (d + 1) / 2) : -(25 * (d / 2))));
-                }
                 if (de.itemId != 0) {
                     if (ItemConstants.getInventoryType(de.itemId) == MapleInventoryType.EQUIP) {
                         idrop = ii.randomizeStats((Equip) ii.getEquipById(de.itemId));
                     } else {
-                        idrop = new Item(de.itemId, (short) 0, (short) (de.Maximum != 1 ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : 1));
+                        short quantity = (short) (de.Maximum > de.Minimum ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : de.Minimum);
+                        idrop = new Item(de.itemId, (short) 0, quantity);
                     }
-                    spawnDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
-                    d++;
+                    int count = 1;
+                    if (!de.shouldStack) {
+                        count = idrop.getQuantity();
+                        idrop.setQuantity((short) 1);
+                    }
+                    for (int i = 0; i < count; i++, d++) {
+                        if (droptype == 3) {
+                            pos.x = (int) (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));
+                        } else {
+                            pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * (d + 1) / 2) : -(25 * (d / 2))));
+                        }
+                        spawnDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
+                    }
                 }
             }
         }
         
         return d;
     }
-    
+
     private void dropFromMonster(final MapleCharacter chr, final MapleMonster mob, final boolean useBaseRate) {
         if (mob.dropsDisabled() || !dropsOn) {
             return;
@@ -2039,7 +2058,7 @@ public class MapleMap {
             if (teamS != null) {
                 for (MCSkill skil : teamS) {
                     if (skil != null) {
-                        skil.getSkill().applyEffect(null, monster, false, null);
+                        skil.getSkill().applyEffect(null, monster, false, null, true);
                     }
                 }
             }
@@ -4471,7 +4490,7 @@ public class MapleMap {
             if (mmo.getType() == MapleMapObjectType.MONSTER) {
                 MapleMonster mob = (MapleMonster) mmo;
                 if (mob.getTeam() == team) {
-                    skill.getSkill().applyEffect(null, mob, false, null);
+                    skill.getSkill().applyEffect(null, mob, false, null, true);
                 }
             }
         }
