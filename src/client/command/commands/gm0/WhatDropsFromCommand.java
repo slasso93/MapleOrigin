@@ -73,7 +73,8 @@ public class WhatDropsFromCommand extends Command {
                         }
                     }
                     output += "\r\n";
-                }
+                } else
+                    i--;
             }
         }
         
