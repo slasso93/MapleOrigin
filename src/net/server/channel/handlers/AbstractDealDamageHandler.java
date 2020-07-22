@@ -328,8 +328,8 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     } else if (attack.skill == Bandit.STEAL) {
                         Skill steal = SkillFactory.getSkill(Bandit.STEAL);
                         if (monster.getStolen().size() < 1) { // One steal per mob <3
+                            monster.addStolen(0); // set the steal even if it fails
                             if (steal.getEffect(player.getSkillLevel(steal)).makeChanceResult()) {
-                                monster.addStolen(0);
                                 
                                 MapleMonsterInformationProvider mi = MapleMonsterInformationProvider.getInstance();
                                 List<Integer> dropPool = mi.retrieveDropPool(monster.getId());
