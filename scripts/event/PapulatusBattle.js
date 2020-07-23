@@ -127,6 +127,7 @@ function setup(level, lobbyid) {
 }
 
 function afterSetup(eim) {
+	eim.registerBossEntry(exped);
     updateGateState(1);
 }
 
@@ -223,7 +224,6 @@ function monsterKilled(mob, eim) {
     if(isPapulatus(mob)) {
         eim.showClearEffect();
         eim.clearPQ();
-        eim.registerBossEntry(exped)
     }
 }
 
