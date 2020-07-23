@@ -57,8 +57,13 @@ function action(mode, type, selection) {
                 
                 cm.sendDimensionalMirror(selStr); 
             } 
-        } else if (status == 1) { 
-            cm.getPlayer().saveLocation("MIRROR"); 
+        } else if (status == 1) {
+            if (cm.getPlayer().getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999
+                cm.getPlayer().saveLocation("MIRROR");
+            } else {
+                cm.getPlayer().saveLocation("MIRROR", true);
+            }
+
             switch (selection) { 
                 case 0: 
                     cm.warp(980010000, 3); 
