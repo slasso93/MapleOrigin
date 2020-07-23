@@ -25,6 +25,7 @@
 
 importPackage(Packages.server.life);
 importPackage(Packages.client.inventory);
+importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
@@ -209,7 +210,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.PINKBEAN);
 }
 
 function isPinkBean(mob) {

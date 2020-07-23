@@ -57,8 +57,15 @@ function action(mode, type, selection) {
                 
                 cm.sendDimensionalMirror(selStr); 
             } 
-        } else if (status == 1) { 
-            cm.getPlayer().saveLocation("MIRROR"); 
+        } else if (status == 1) {
+            if (cm.getPlayer().getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999
+                cm.getPlayer().saveLocation("MIRROR");
+                cm.getPlayer().saveLocation("MONSTER_CARNIVAL"); 
+            } else {
+				cm.getPlayer().saveLocation("MONSTER_CARNIVAL", true); 
+                cm.getPlayer().saveLocation("MIRROR", true);
+            }
+
             switch (selection) { 
                 case 0: 
                     cm.warp(980010000, 3); 
@@ -67,7 +74,6 @@ function action(mode, type, selection) {
                     cm.warp(925020000, 0); 
                     break; 
                 case 2: 
-                    cm.getPlayer().saveLocation("MONSTER_CARNIVAL"); 
                     cm.warp(980000000, 3); 
                     break; 
                 case 3: 

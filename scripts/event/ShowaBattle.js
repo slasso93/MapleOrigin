@@ -23,6 +23,8 @@
  * @event: Showa Boss Battle
 */
 
+importPackage(Packages.server.expeditions);
+
 var isPq = true;
 var minPlayers = 3, maxPlayers = 30;
 var minLevel = 100, maxLevel = 255;
@@ -192,7 +194,7 @@ function clearPQ(eim) {
     eim.getInstanceMap(801040100).killAllMonsters();
     
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.SHOWA);
     
     if(eim.getIntProperty("playerDied") == 0) {
         var mob = eim.getMonster(9400114);

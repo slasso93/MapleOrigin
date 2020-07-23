@@ -35,7 +35,7 @@ function action(mode, type, selection) {
     } else {
         status++;
         if (status == 0) 
-            cm.sendSimple("\r\n#e#L0##i5150001##rHaircut#k#i5150001##l\t\t\t\#L3##i5152001##bFace Surgery#k#i5152001##l\r\n#L1##i5150001##rHaircut#k#i5150001##l\t\t\t\#L4##i5152001##bFace Surgery#k#i5152001##l\r\n#L2##i5150001##rHaircut#k#i5150001##l\r\n\r\n");
+            cm.sendSimple("\r\n#e#L0##i5150001##rHaircut#k#i5150001##l\t\t\t#L3##i5152001##bFace Surgery#k#i5152001##l\r\n#L1##i5150001##rHaircut#k#i5150001##l\t\t\t#L2##i5150001##rHaircut#k#i5150001##l\r\n\r\n");
         else if (status == 1) {
 			if (selection == 0) {
                 beauty = 1;
