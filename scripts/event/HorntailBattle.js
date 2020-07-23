@@ -24,6 +24,7 @@
 */
 
 importPackage(Packages.server.life);
+importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
@@ -195,7 +196,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.HORNTAIL);
 }
 
 function isHorntailHead(mob) {

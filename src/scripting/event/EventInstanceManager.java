@@ -1221,10 +1221,16 @@ public class EventInstanceManager {
     }
 
     public final void setEventCleared() {
+        setEventCleared(null);
+    }
+
+    public final void setEventCleared(MapleExpeditionType type) {
         eventCleared = true;
 
         for (MapleCharacter chr : getPlayers()) {
             chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
+            if (type != null)
+                chr.setExpeditionCompleted(type);
         }
 
         sL.lock();
@@ -1526,4 +1532,5 @@ public class EventInstanceManager {
             MapleExpeditionBossLog.registerBossEntry(player.getId(), type);
         }
     }
+
 }

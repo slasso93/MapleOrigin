@@ -23,6 +23,8 @@
  * @event: Scarga Battle
 */
 
+importPackage(Packages.server.expeditions);
+
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
 var minLevel = 100, maxLevel = 255;
@@ -181,7 +183,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.SCARGA);
 }
 
 function isScarga(mob) {

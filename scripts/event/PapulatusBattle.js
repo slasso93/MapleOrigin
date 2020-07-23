@@ -22,6 +22,7 @@
  * @author: Ronan
  * @event: Vs Papulatus
 */
+
 importPackage(Packages.server.expeditions);
 importPackage(Packages.client);
 
@@ -209,7 +210,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.PAPULATUS);
     updateGateState(0);
 }
 

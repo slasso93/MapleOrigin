@@ -703,7 +703,7 @@ public class MapleClient {
         return ipAddress;
     }
 
-    private String convertHWID(String newHwid) {
+    public String convertHWID(String newHwid) {
         StringBuilder hwid = new StringBuilder();
         String[] split = newHwid.split("_");
         if (split.length > 1 && split[1].length() == 8) {
