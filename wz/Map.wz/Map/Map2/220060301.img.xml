@@ -975,35 +975,35 @@
     </imgdir>
     <imgdir name="26">
       <string name="type" value="m"/>
-      <string name="id" value="7141100"/>
+      <string name="id" value="8141100"/>
       <int name="x" value="-730"/>
       <int name="y" value="570"/>
       <int name="mobTime" value="0"/>
     </imgdir>
     <imgdir name="27">
       <string name="type" value="m"/>
-      <string name="id" value="7141100"/>
+      <string name="id" value="8141100"/>
       <int name="x" value="-706"/>
       <int name="y" value="818"/>
       <int name="mobTime" value="0"/>
     </imgdir>
     <imgdir name="28">
       <string name="type" value="m"/>
-      <string name="id" value="7141100"/>
+      <string name="id" value="8141100"/>
       <int name="x" value="105"/>
       <int name="y" value="818"/>
       <int name="mobTime" value="0"/>
     </imgdir>
     <imgdir name="29">
       <string name="type" value="m"/>
-      <string name="id" value="7141100"/>
+      <string name="id" value="8141100"/>
       <int name="x" value="-1116"/>
       <int name="y" value="1960"/>
       <int name="mobTime" value="0"/>
     </imgdir>
     <imgdir name="30">
       <string name="type" value="m"/>
-      <string name="id" value="7141100"/>
+      <string name="id" value="8141100"/>
       <int name="x" value="-62"/>
       <int name="y" value="1960"/>
       <int name="mobTime" value="0"/>
