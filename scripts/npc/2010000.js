@@ -11,11 +11,11 @@
 **/
 
 var status = 0;
-var eQuestChoices = new Array (4000073,4000059,4000060,4000061,4000058,
-    4000062,4000048,4000049,4000055,4000056,
-    4000051,4000052,4000050,4000057,4000053,
-    4000054,4000076,4000078,4000081,4000070,
-    4000071,4000072,4000069,4000079,4000080);
+var eQuestChoices = new Array ([4000073, 1],[4000059, 1],[4000060, 1],[4000061, 1],[4000058, 1],
+    [4000062, 3],[4000048, 3],[4000049, 5],[4000055, 5],[4000056, 5],
+    [4000051, 3],[4000052, 3],[4000050, 5],[4000057, 8],[4000053, 8],
+    [4000054, 8],[4000076, 1],[4000078, 3],[4000081, 3],[4000070, 3],
+    [4000071, 3],[4000072, 3],[4000069, 3],[4000079, 5],[4000080, 8]);
 
 var eQuestPrizes = new Array();
 
@@ -163,6 +163,7 @@ eQuestPrizes[24] = new Array   ([2000006,35],	// Mana Elixir
     [4020007,4],	// Diamond Ore
     [2041008,1]);   // 10% Cape HP
 var requiredItem  = 0;
+var multiplier    = 0; // etc divided into tiers for higher exp rewards for higher level mobs
 var lastSelection = 0;
 var prizeItem     = 0;
 var prizeQuantity = 0;
@@ -190,7 +191,8 @@ function action(mode, type, selection) {
 	cm.sendSimple(eQuestChoice);
     } else if (status == 3){
 	lastSelection = selection;
-	requiredItem = eQuestChoices[selection];
+	requiredItem = eQuestChoices[selection][0];
+	multiplier = eQuestChoices[selection][1];
 	cm.sendYesNo("Let's see, you want to trade your #b100 #t" + requiredItem + "##k with my stuff right? Before trading make sure you have an empty slot available on your use or etc. inventory. Now, do you want to trade with me?");
     }else if (status == 4){
 	itemSet = (Math.floor(Math.random() * eQuestPrizes[lastSelection].length));
@@ -202,9 +204,12 @@ function action(mode, type, selection) {
 	} else if(cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(0) ||
 						cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)){
 	    cm.sendOk("Your use and etc. inventory seems to be full. You need the free spaces to trade with me! Make room, and then find me.");
+	} else if ((multiplier == 1 && cm.getPlayer().getLevel() < 30) || (multiplier == 3 && cm.getPlayer().getLevel() < 50) || (multiplier >= 5 && cm.getPlayer().getLevel() < 70)) {
+	    var neededLevel = multiplier == 1 ? 30 : (multiplier == 3 ? 50 : 70);
+	    cm.sendOk("Your level is too low to exchange that item. Please come back when you reach level " + neededLevel);
 	} else {
 	    cm.gainItem(requiredItem,-100);
-	    cm.gainExp(500 * cm.getPlayer().getExpRate());
+	    cm.gainExp(5000 * multiplier * cm.getPlayer().getExpRate());
 	    cm.gainItem(prizeItem, prizeQuantity);
 	    cm.sendOk("For your #b100 #t"+requiredItem+"##k, here's my #b"+prizeQuantity+" #t"+prizeItem+"##k. What do you think? Do you like the items I gave you in return? I plan on being here for a while, so if you gather up more items, I'm always open for a trade ...");
 	}
@@ -215,7 +220,7 @@ function action(mode, type, selection) {
 function makeChoices(a){
     var result  = "Ok! First you need to choose the item that you'll trade with. The better the item, the more likely the chance that I'll give you something much nicer in return.\r\n";
     for (var x = 0; x< a.length; x++){
-	result += " #L" + x + "##v" + a[x] + "#  #t" + a[x] + "##l\r\n";
+	result += " #L" + x + "##v" + a[x][0] + "#  #t" + a[x][0] + "##l\r\n";
     }
     return result;
 }
