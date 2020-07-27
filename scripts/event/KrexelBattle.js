@@ -8,7 +8,7 @@ importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 1, maxPlayers = 6;
-var minLevel = 120, maxLevel = 255;
+var minLevel = 100, maxLevel = 255;
 var entryMap = 541020800;
 var exitMap = 541020700;
 var recruitMap = 541020700;
