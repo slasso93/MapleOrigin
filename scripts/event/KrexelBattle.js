@@ -56,7 +56,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
             var ch = partyList[i];
 
             if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
-				if (ch.getPlayer().getQuestStatus(7103) == 2) {
+				if (ch.getPlayer().getQuestStatus(4530) >= 1) {
 					eligible.push(ch);
                 } else {
 					eligible = [];
