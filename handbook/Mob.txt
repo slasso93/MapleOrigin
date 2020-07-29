@@ -940,6 +940,16 @@
 9400334 - Giant Snowman (Lvl 3) - Hard
 9400335 - Giant Snowman (Lvl 4) - Hard
 9400336 - Giant Snowman (Lvl 5) - Hard
+9400400 - Genin
+9400401 - Chunin
+9400402 - Jonin
+9400403 - Ninto
+9400404 - Ashigaru
+9400405 - Kacchuu Musha
+9400406 - Kunoichi
+9400407 - Toad
+9400408 - Castellan
+9400409 - Castellan Toad
 9400500 - Malady
 9400501 - Jr. Wraith
 9400502 - Wraith
@@ -1125,6 +1135,15 @@
 9420511 - Selkie Jr.
 9420512 - Mr. Anchor
 9420513 - Capt. Latanica
+9420514 - Berserkie
+9420515 - Veetron
+9420516 - Slygie
+9420517 - Petrifighter
+9420518 - Montrecer
+9420519 - Duku
+9420520 - Krexel [1]
+9420521 - Krexel [2]
+9420522 - Krexel [3]
 9500000 - Making a wish to full moon
 9500001 - Making a wish to the full moon
 9500002 - Making a wish to the full moon
