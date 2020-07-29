@@ -46,14 +46,14 @@
         <int name="maxHP" value="250000000"/>
         <int name="maxMP" value="18000"/>
         <int name="speed" value="100"/>
-        <int name="PADamage" value="4026"/>
+        <int name="PADamage" value="980"/>
         <int name="PDDamage" value="570"/>
         <int name="PDRate" value="25"/>
-        <int name="MADamage" value="3780"/>
+        <int name="MADamage" value="560"/>
         <int name="MDDamage" value="1020"/>
         <int name="MDRate" value="25"/>
-        <int name="acc" value="169"/>
-        <int name="eva" value="144"/>
+        <int name="acc" value="250"/>
+        <int name="eva" value="20"/>
         <int name="pushed" value="50000"/>
         <float name="fs" value="10.0"/>
         <int name="boss" value="1"/>
