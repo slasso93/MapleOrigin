@@ -1410,7 +1410,11 @@ public class MapleMap {
     public void broadcastZakumVictory() {
         getWorldServer().dropMessage(6, "[Victory] At last, the tree of evil that for so long overwhelmed Ossyria has fallen. To the crew that managed to finally conquer Zakum, after numerous attempts, victory! You are the true heroes of Ossyria!!");
     }
-    
+
+    public void broadcastKrexelVictory() {
+        getWorldServer().dropMessage(6, "[Victory] Krexel has been defeated and Ulu City may rest. To the saviors of Ulu City, you are true heroes!");
+    }
+
     public void broadcastPinkBeanVictory(int channel) {
         getWorldServer().dropMessage(6, "[Victory] In a swift stroke of sorts, the crew that has attempted Pink Bean at channel " + channel + " has ultimately defeated it. The Temple of Time shines radiantly once again, the day finally coming back, as the crew that managed to finally conquer it returns victoriously from the battlefield!!");
     }
