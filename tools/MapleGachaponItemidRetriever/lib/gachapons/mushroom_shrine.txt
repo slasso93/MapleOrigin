@@ -85,7 +85,6 @@ Warrior equipment:
 1050022 
 
 Mage equipment:
-1382037 
 1060014 
 1051026 
 1050056 
