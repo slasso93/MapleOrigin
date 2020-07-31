@@ -10049,13 +10049,18 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             client.announce(MaplePacketCreator.getClock((int) (getDojoTimeLeft() / 1000)));
         }
     }
-    
-    public void showUnderleveledInfo(MapleMonster mob) {
+    public void showUnderleveledInfo(MapleMonster mob, boolean isExpedition) {
         long curTime = Server.getInstance().getCurrentTime();
         if(nextWarningTime < curTime) {
             nextWarningTime = curTime + (60 * 1000);   // show underlevel info again after 1 minute
-            
-            showHint("You have gained #rno experience#k from defeating #e#b" + mob.getName() + "#k#n (lv. #b" + mob.getLevel() + "#k)! Take note you must have around the same level as the mob to start earning EXP from it.");
+
+            showHint(String.format("You have gained #rno experience#k from defeating #e#b%s#k#n (lv. #b%d#k)! " +
+                            "Take note you must be at least %s levels below the mob AND within %s levels of all " +
+                            "participants to earn EXP from it.",
+                    mob.getName(),
+                    mob.getLevel(),
+                    YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL,
+                    isExpedition ? YamlConfig.config.server.EXP_SPLIT_EXPEDITION_INTERVAL : YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL));
         }
     }
     

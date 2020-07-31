@@ -63,6 +63,7 @@ import net.server.world.MapleParty;
 import net.server.world.MaplePartyCharacter;
 import scripting.event.EventInstanceManager;
 import server.TimerManager;
+import server.expeditions.MapleExpedition;
 import server.life.MapleLifeFactory.BanishInfo;
 import server.maps.MapleMap;
 import server.maps.MapleMapObjectType;
@@ -543,12 +544,25 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
     
     private void distributePartyExperience(Map<MapleCharacter, Long> partyParticipation, float expPerDmg, Set<MapleCharacter> underleveled, Map<Integer, Float> personalRatio, double sdevRatio) {
-        IntervalBuilder leechInterval = new IntervalBuilder();
-        leechInterval.addInterval(this.getLevel() - YamlConfig.config.server.EXP_SPLIT_LEVEL_INTERVAL, this.getLevel() + YamlConfig.config.server.EXP_SPLIT_LEVEL_INTERVAL);
-        
+        int highestParticipant = -1;
+        boolean checkExpedition = true;
+
         long maxDamage = 0, partyDamage = 0;
         MapleCharacter participationMvp = null;
+        int attackerInterval = YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL;
         for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
+            if (checkExpedition) { // only check once
+                for (MapleExpedition exped : e.getKey().getClient().getChannelServer().getExpeditions()) {
+                    if (exped.contains(e.getKey())) {
+                        if (exped.isInProgress()) {
+                            attackerInterval = YamlConfig.config.server.EXP_SPLIT_EXPEDITION_INTERVAL;
+                        }
+                        break;
+                    }
+                }
+                checkExpedition = false;
+            }
+
             long entryDamage = e.getValue();
             partyDamage += entryDamage;
             
@@ -559,16 +573,19 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             
             // thanks Thora for pointing out leech level limitation
             int chrLevel = e.getKey().getLevel();
-            leechInterval.addInterval(chrLevel - YamlConfig.config.server.EXP_SPLIT_LEECH_INTERVAL, chrLevel + YamlConfig.config.server.EXP_SPLIT_LEECH_INTERVAL);
+            if (chrLevel > highestParticipant)
+                highestParticipant = chrLevel;
         }
-        
+
         List<MapleCharacter> expMembers = new LinkedList<>();
         int totalPartyLevel = 0;
         
         // thanks G h o s t, Alfred, Vcoc, BHB for poiting out a bug in detecting party members after membership transactions in a party took place
         if (YamlConfig.config.server.USE_ENFORCE_MOB_LEVEL_RANGE) {
             for (MapleCharacter member : partyParticipation.keySet().iterator().next().getPartyMembersOnSameMap()) {
-                if (!leechInterval.inInterval(member.getLevel())) {
+                if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
+                    member.getLevel() >= highestParticipant - attackerInterval &&
+                    member.getLevel() <= highestParticipant + attackerInterval)) {
                     underleveled.add(member);
                     continue;
                 }
@@ -671,9 +688,11 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         for (Map<MapleCharacter, Long> partyParticipation : partyExpDist.values()) {
             distributePartyExperience(partyParticipation, expPerDmg, underleveled, personalRatio, sdevRatio);
         }
-        
+
+        boolean isExpedition = false;
         EventInstanceManager eim = getMap().getEventInstance();
         if (eim != null) {
+            isExpedition = eim.isExpeditionInProgress();
             MapleCharacter chr = mapPlayers.get(killerId);
             if (chr != null) {
                 eim.monsterKilled(chr, this);
@@ -681,7 +700,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         
         for(MapleCharacter mc : underleveled) {
-            mc.showUnderleveledInfo(this);
+            mc.showUnderleveledInfo(this, isExpedition);
         }
         
     }
