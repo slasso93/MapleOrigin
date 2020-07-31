@@ -27,6 +27,7 @@ import client.MapleBuffStat;
 import client.command.Command;
 import client.MapleClient;
 import client.MapleCharacter;
+import constants.game.GameConstants;
 import server.TimerManager;
 import server.maps.MapleMap;
 import tools.MaplePacketCreator;
@@ -51,6 +52,9 @@ public class ReachCommand extends Command {
         MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
         if (victim != null && victim.isLoggedin()) {
             if (player.getClient().getChannel() != victim.getClient().getChannel()) {
+                if (player.getMap().getForcedReturnId() != 999999999) {
+                    player.changeMap(c.getChannelServer().getMapFactory().getMap(GameConstants.GOTO_AREAS.get("fm")));
+                }
                 player.dropMessage("Changing to target's channel");
                 player.getClient().changeChannel(victim.getClient().getChannel());
                 TimerManager tMan = TimerManager.getInstance();
