@@ -128,7 +128,22 @@ public enum ItemFactory {
         equip.setExpiration(rs.getLong("expiration"));
         equip.setGiftFrom(rs.getString("giftFrom"));
         equip.setRingId(rs.getInt("ringid"));
-        
+
+        equip.setLvlStr((short) rs.getInt("lvl_str"));
+        equip.setLvlDex((short) rs.getInt("lvl_dex"));
+        equip.setLvlInt((short) rs.getInt("lvl_int"));
+        equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+        equip.setLvlHp((short) rs.getInt("lvl_hp"));
+        equip.setLvlMp((short) rs.getInt("lvl_mp"));
+        equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+        equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+        equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+        equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+        equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+        equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+        equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+        equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
         return equip;
     }
     
@@ -228,7 +243,7 @@ public enum ItemFactory {
         final String updateItemsQuery = "UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
                 "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
                 "WHERE inventoryitemid=?";
-        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // TODO: ON DUPLICATE KEY UPDATE may be faster, but either way we are not updating many rows
+        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // TODO: ON DUPLICATE KEY UPDATE may be faster, but either way we are not updating many rows
         final String insertMerchantQuery = "INSERT INTO inventorymerchant VALUES (DEFAULT, ?, ?, ?) ON DUPLICATE KEY UPDATE bundles=VALUES(bundles)";
         try (PreparedStatement psNew = con.prepareStatement(insertItemsQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
@@ -471,6 +486,20 @@ public enum ItemFactory {
             ps.setInt(21, equip.getItemLevel());
             ps.setInt(22, equip.getItemExp());
             ps.setInt(23, equip.getRingId());
+            ps.setInt(24, equip.getLvlStr());
+            ps.setInt(25, equip.getLvlDex());
+            ps.setInt(26, equip.getLvlInt());
+            ps.setInt(27, equip.getLvlLuk());
+            ps.setInt(28, equip.getLvlHp());
+            ps.setInt(29, equip.getLvlMp());
+            ps.setInt(30, equip.getLvlWatk());
+            ps.setInt(31, equip.getLvlMatk());
+            ps.setInt(32, equip.getLvlWdef());
+            ps.setInt(33, equip.getLvlMdef());
+            ps.setInt(34, equip.getLvlAcc());
+            ps.setInt(35, equip.getLvlAvoid());
+            ps.setInt(36, equip.getLvlSpeed());
+            ps.setInt(37, equip.getLvlJump());
             ps.addBatch();
             ps.executeBatch();
         }

@@ -81,7 +81,12 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                         announceCannotScroll(c, legendarySpirit);
                         return;
                     }
-                } else if (!ItemConstants.isModifierScroll(scroll.getItemId()) && ((Equip) toScroll).getUpgradeSlots() < 1) {
+                } else if (ItemConstants.isResetScroll(scroll.getItemId())) {
+                    if (toScroll.getItemLevel() == 1) {
+                        announceCannotScroll(c, legendarySpirit);
+                        return;
+                    }
+                } else if (!ItemConstants.isModifierScroll(scroll.getItemId()) && toScroll.getUpgradeSlots() < 1) {
                     announceCannotScroll(c, legendarySpirit);   // thanks onechord for noticing zero upgrade slots freezing Legendary Scroll UI
                     return;
                 }
@@ -98,14 +103,14 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                     }
                 }
 
-                if (!ItemConstants.isChaosScroll(scroll.getItemId()) && !ItemConstants.isCleanSlate(scroll.getItemId())) {
+                if (!ItemConstants.isResetScroll(scroll.getItemId()) && !ItemConstants.isChaosScroll(scroll.getItemId()) && !ItemConstants.isCleanSlate(scroll.getItemId())) {
                     if (!canScroll(scroll.getItemId(), toScroll.getItemId())) {
                         announceCannotScroll(c, legendarySpirit);
                         return;
                     }
                 }
 
-                if (ItemConstants.isCleanSlate(scroll.getItemId()) && !ii.canUseCleanSlate(toScroll)) {
+                if (!ItemConstants.isResetScroll(scroll.getItemId()) && ItemConstants.isCleanSlate(scroll.getItemId()) && !ii.canUseCleanSlate(toScroll)) {
                     announceCannotScroll(c, legendarySpirit);
                     return;
                 }
@@ -114,7 +119,7 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                 ScrollResult scrollSuccess = Equip.ScrollResult.FAIL; // fail
                 if (scrolled == null) {
                     scrollSuccess = Equip.ScrollResult.CURSE;
-                } else if (scrolled.getLevel() > oldLevel || (ItemConstants.isCleanSlate(scroll.getItemId()) && scrolled.getUpgradeSlots() == oldSlots + 1) || ItemConstants.isFlagModifier(scroll.getItemId(), scrolled.getFlag())) {
+                } else if (scrolled.getLevel() > oldLevel || (ItemConstants.isResetScroll(scroll.getItemId()) && scrolled.getItemLevel() == 1) || (ItemConstants.isCleanSlate(scroll.getItemId()) && scrolled.getUpgradeSlots() == oldSlots + 1) || ItemConstants.isFlagModifier(scroll.getItemId(), scrolled.getFlag())) {
                     scrollSuccess = Equip.ScrollResult.SUCCESS;
                 }
                 

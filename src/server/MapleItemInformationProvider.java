@@ -748,6 +748,55 @@ public class MapleItemInformationProvider {
         }
     }
 
+    private void scrollEquipWithLevelReset(Equip nEquip) {
+        short curStr = nEquip.getStr();
+        short curDex = nEquip.getDex();
+        short curInt = nEquip.getInt();
+        short curLuk = nEquip.getLuk();
+        short curWatk = nEquip.getWatk();
+        short curWdef = nEquip.getWdef();
+        short curMatk = nEquip.getMatk();
+        short curMdef = nEquip.getMdef();
+        short curAcc = nEquip.getAcc();
+        short curAvoid = nEquip.getAvoid();
+        short curSpeed = nEquip.getSpeed();
+        short curJump = nEquip.getJump();
+        short curHp = nEquip.getHp();
+        short curMp = nEquip.getMp();
+
+        nEquip.setStr((short) (curStr - nEquip.getLvlStr()));
+        nEquip.setDex((short) (curDex - nEquip.getLvlDex()));
+        nEquip.setInt((short) (curInt - nEquip.getLvlInt()));
+        nEquip.setLuk((short) (curLuk - nEquip.getLvlLuk()));
+        nEquip.setWatk((short) (curWatk - nEquip.getLvlWatk()));
+        nEquip.setWdef((short) (curWdef - nEquip.getLvlWdef()));
+        nEquip.setMatk((short) (curMatk - nEquip.getLvlMatk()));
+        nEquip.setMdef((short) (curMdef - nEquip.getLvlMdef()));
+        nEquip.setAcc((short) (curAcc - nEquip.getLvlAcc()));
+        nEquip.setAvoid((short) (curAvoid - nEquip.getLvlAvoid()));
+        nEquip.setSpeed((short) (curSpeed - nEquip.getLvlSpeed()));
+        nEquip.setJump((short) (curJump - nEquip.getLvlJump()));
+        nEquip.setHp((short) (curHp - nEquip.getLvlHp()));
+        nEquip.setMp((short) (curMp - nEquip.getLvlMdef()));
+
+        nEquip.setLvlStr((short) 0);
+        nEquip.setLvlDex((short) 0);
+        nEquip.setLvlInt((short) 0);
+        nEquip.setLvlLuk((short) 0);
+        nEquip.setLvlWatk((short) 0);
+        nEquip.setLvlWdef((short) 0);
+        nEquip.setLvlMatk((short) 0);
+        nEquip.setLvlMdef((short) 0);
+        nEquip.setLvlAcc((short) 0);
+        nEquip.setLvlAvoid((short) 0);
+        nEquip.setLvlSpeed((short) 0);
+        nEquip.setLvlJump((short) 0);
+        nEquip.setLvlHp((short) 0);
+        nEquip.setLvlMp((short) 0);
+
+        nEquip.setItemLevel((byte) 1);
+    }
+
     private void scrollEquipWithChaos(Equip nEquip, int range) {
         if(YamlConfig.config.server.CHSCROLL_STAT_RATE > 0) {
             int temp;
@@ -976,7 +1025,7 @@ public class MapleItemInformationProvider {
             Equip nEquip = (Equip) equip;
             Map<String, Integer> stats = this.getEquipStats(scrollId);
 
-            if (((nEquip.getUpgradeSlots() > 0 || ItemConstants.isCleanSlate(scrollId))) || assertGM) {
+            if (nEquip.getUpgradeSlots() > 0 || ItemConstants.isCleanSlate(scrollId) || ItemConstants.isResetScroll(scrollId) || assertGM) {
                 double prop = (double) stats.get("success");
 
                 switch(vegaItemId) {
@@ -1019,19 +1068,21 @@ public class MapleItemInformationProvider {
                         case 2049102:
                             scrollEquipWithChaos(nEquip, YamlConfig.config.server.CHSCROLL_STAT_RANGE);
                             break;
-
+                        case 2049115:
+                            scrollEquipWithLevelReset(nEquip);
+                            break;
                         default:
                             improveEquipStats(nEquip, stats);
                             break;
                     }
-                    if (!ItemConstants.isCleanSlate(scrollId)) {
+                    if (!ItemConstants.isResetScroll(scrollId) && !ItemConstants.isCleanSlate(scrollId)) {
                         if (!assertGM && !ItemConstants.isModifierScroll(scrollId)) {   // issue with modifier scrolls taking slots found thanks to Masterrulax, justin, BakaKnyx
                             nEquip.setUpgradeSlots((byte) (nEquip.getUpgradeSlots() - 1));
                         }
                         nEquip.setLevel((byte) (nEquip.getLevel() + 1));
                     }
                 } else {
-                    if (!YamlConfig.config.server.USE_PERFECT_SCROLLING && !usingWhiteScroll && !ItemConstants.isCleanSlate(scrollId) && !assertGM && !ItemConstants.isModifierScroll(scrollId)) {
+                    if (!YamlConfig.config.server.USE_PERFECT_SCROLLING && !usingWhiteScroll && !ItemConstants.isResetScroll(scrollId) && !ItemConstants.isCleanSlate(scrollId) && !assertGM && !ItemConstants.isModifierScroll(scrollId)) {
                         nEquip.setUpgradeSlots((byte) (nEquip.getUpgradeSlots() - 1));
                     }
                     if (Randomizer.nextInt(100) < stats.get("cursed")) {
