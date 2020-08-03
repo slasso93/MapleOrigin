@@ -223,13 +223,13 @@ public class CommandsExecutor {
         addCommand("int", StatIntCommand.class);
         addCommand("luk", StatLukCommand.class);
         //addCommand("enableauth", EnableAuthCommand.class);
-        addCommand("toggleexp", ToggleExpCommand.class);
+        //addCommand("toggleexp", ToggleExpCommand.class);
         addCommand("mylawn", MapOwnerClaimCommand.class);
         addCommand("bosshp", BossHpCommand.class);
         addCommand("mobhp", MobHpCommand.class);
-        addCommand("Raid", RaidCommand.class);
-        addCommand("whatdropsfrom", WhatDropsFromCommand.class);
-        addCommand("whodrops", WhoDropsCommand.class);
+        addCommand("raid", RaidCommand.class);
+        addCommand(new String[]{"whatdropsfrom", "from"}, WhatDropsFromCommand.class);
+        addCommand(new String[]{"whodrops", "whatdrops"}, WhoDropsCommand.class);
         //addCommand("RaidDC", ReEnterRaid.class);
         addCommand(new String[]{"help","commands"}, HelpCommand.class);
         addCommand("svtime", ServerTimeCommand.class);

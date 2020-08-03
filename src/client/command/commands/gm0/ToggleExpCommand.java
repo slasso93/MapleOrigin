@@ -28,7 +28,7 @@ import client.MapleClient;
 
 public class ToggleExpCommand extends Command {
     {
-        setDescription("use this command to turn exp gain on and off & useful for PQ mules ");
+        setDescription("use this command to turn exp gain on and off, useful for PQ mules ");
     }
 
     @Override
