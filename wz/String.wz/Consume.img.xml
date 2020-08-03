@@ -5650,9 +5650,9 @@
                 value="This increases the master level of #cSmokescreen# up to 30 with 50% of chance.rnClass : ShadowerrnCondition : Skill level above 15"/>
     </imgdir>
     <imgdir name="2290096">
-        <string name="name" value="[Mastery Book] Maple Hero 20"/>
+        <string name="name" value="[Mastery Book] Maple Warrior 20"/>
         <string name="desc"
-                value="This increases the master level of #cMaple Hero# up to 20 with 70% of chance.rnJob : All 4th Advancement JobsrnCondition : Skill level above 5"/>
+                value="This increases the master level of #cMaple Warrior# up to 20 with 70% of chance.rnJob : All 4th Advancement JobsrnCondition : Skill level above 5"/>
     </imgdir>
     <imgdir name="2290097">
         <string name="name" value="[Mastery Book] Dragon Strike"/>
@@ -5795,9 +5795,9 @@
                 value="With a 70% success rate, it raises the Master Level of #cBullseye# to 20.nJob : CorsairnRequirement : At least Level 5 in this skill"/>
     </imgdir>
     <imgdir name="2290125">
-        <string name="name" value="[Mastery Book] Maple Hero 30"/>
+        <string name="name" value="[Mastery Book] Maple Warrior 30"/>
         <string name="desc"
-                value="This increases the master level of #cMaple Hero# up to 30 with 50% of chance.rnJob : All 4th Advancement JobsrnCondition : Skill level above 15"/>
+                value="This increases the master level of #cMaple Warrior# up to 30 with 50% of chance.rnJob : All 4th Advancement JobsrnCondition : Skill level above 15"/>
     </imgdir>
     <imgdir name="2310000">
         <string name="name" value="The Owl of Minerva"/>
