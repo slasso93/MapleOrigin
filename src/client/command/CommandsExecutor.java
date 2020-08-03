@@ -139,8 +139,15 @@ public class CommandsExecutor {
 
     private void addCommandInfo(String name, Class<? extends Command> commandClass) {
         try {
-            levelCommandsCursor.getRight().add(commandClass.newInstance().getDescription());
-            levelCommandsCursor.getLeft().add(name);
+            String description = commandClass.newInstance().getDescription();
+            if (levelCommandsCursor.getRight().contains(description)) {
+                int idx = levelCommandsCursor.getRight().indexOf(description);
+                String left = levelCommandsCursor.getLeft().get(idx);
+                levelCommandsCursor.getLeft().set(idx, left + "/" + name);
+            } else {
+                levelCommandsCursor.getRight().add(commandClass.newInstance().getDescription());
+                levelCommandsCursor.getLeft().add(name);
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }

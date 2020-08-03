@@ -30,7 +30,7 @@ import server.gachapon.MapleGachapon;
 
 public class GachaCommand extends Command {
     {
-        setDescription("");
+        setDescription("Shows the available items from each gachapon");
     }
 
     @Override

@@ -7,6 +7,9 @@ import client.command.Command;
 import java.util.Calendar;
 
 public class ServerTimeCommand extends Command {
+    {
+        setDescription("Shows the current server time");
+    }
 
     @Override
     public void execute(MapleClient c, String[] params) {
