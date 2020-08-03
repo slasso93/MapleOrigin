@@ -9391,6 +9391,7 @@
       </canvas>
       <int name="price" value="1"/>
       <int name="randstat" value="1"/>
+      <int name="tradeBlock" value="1"/>
       <int name="success" value="100"/>
       <int name="slotMax" value="1000"/>
     </imgdir>
