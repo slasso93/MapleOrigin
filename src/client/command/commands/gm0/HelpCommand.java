@@ -28,7 +28,7 @@ import client.command.Command;
 
 public class HelpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Brings up this npc dialogue");
     }
 
     @Override

@@ -1533,4 +1533,8 @@ public class EventInstanceManager {
         }
     }
 
+    public boolean isExpeditionInProgress() {
+        return expedition != null && expedition.isInProgress();
+    }
+
 }

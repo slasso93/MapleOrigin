@@ -1347,6 +1347,7 @@
 2330004 - Shiny Bullet - A bullet made out of steel. A set contains numerous bullets and once they are used up, they'll need to be recharged.rnAttack + 18
 2330005 - Eternal Bullet - A bullet made out of steel. A set contains numerous bullets and once they are used up, they'll need to be recharged.\nAttack + 20
 2330006 - Bullet for Novice Pirates - A bullet made out of steel. A set contains numerous bullets.rnAttack + 10
+2330008 - Giant Bullet - Bullets made of steel. Once they run out, they need to be recharged.\n\nAttack +22
 2331000 - Blaze Capsule - A capsule used for fire-elemental attacks.
 2332000 - Glaze Capsule - A capsule used for ice-elemental attacks.
 2340000 - White Scroll - One of Subani's sacred Scrolls. If used in conjunction with a normal or Dark Scroll, the number of item upgrade slots will not be deducted if the scroll fails. However, if using a Dark Scroll, there is still a chance that your weapon will be destroyed.

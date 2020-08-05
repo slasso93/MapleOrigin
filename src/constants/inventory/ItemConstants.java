@@ -144,7 +144,11 @@ public final class ItemConstants {
     public static boolean isCleanSlate(int scrollId) {
         return scrollId > 2048999 && scrollId < 2049004;
     }
-    
+
+    public static boolean isResetScroll(int scrollId) {
+        return scrollId == 2049115;
+    }
+
     public static boolean isModifierScroll(int scrollId) {
         return scrollId == 2040727 || scrollId == 2041058;
     }

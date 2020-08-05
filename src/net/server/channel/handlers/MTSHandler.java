@@ -334,6 +334,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                             equip.setFlag((short) rs.getInt("flag"));
                             equip.setExpiration(rs.getLong("expiration"));
                             equip.setGiftFrom(rs.getString("giftFrom"));
+
+                            equip.setLvlStr((short) rs.getInt("lvl_str"));
+                            equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                            equip.setLvlInt((short) rs.getInt("lvl_int"));
+                            equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                            equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                            equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                            equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                            equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                            equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                            equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                            equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                            equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                            equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                            equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                             equip.setPosition(c.getPlayer().getInventory(ItemConstants.getInventoryType(rs.getInt("itemid"))).getNextFreeSlot());
                             i = equip.copy();
                         }
@@ -586,6 +602,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                     equip.setRingId(rs.getInt("ringid"));
                     equip.setExpiration(rs.getLong("expiration"));
                     equip.setGiftFrom(rs.getString("giftFrom"));
+
+                    equip.setLvlStr((short) rs.getInt("lvl_str"));
+                    equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                    equip.setLvlInt((short) rs.getInt("lvl_int"));
+                    equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                    equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                    equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                    equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                    equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                    equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                    equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                    equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                    equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                    equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                    equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                     items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                 }
             }
@@ -646,6 +678,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                             equip.setFlag((short) rs.getInt("flag"));
                             equip.setExpiration(rs.getLong("expiration"));
                             equip.setGiftFrom(rs.getString("giftFrom"));
+
+                            equip.setLvlStr((short) rs.getInt("lvl_str"));
+                            equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                            equip.setLvlInt((short) rs.getInt("lvl_int"));
+                            equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                            equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                            equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                            equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                            equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                            equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                            equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                            equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                            equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                            equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                            equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                             items.add(new MTSItemInfo((Item) equip, rse.getInt("price"), rse.getInt("id"), rse.getInt("seller"), rse.getString("sellername"), rse.getString("sell_ends")));
                         }
                     }
@@ -714,6 +762,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                     equip.setFlag((short) rs.getInt("flag"));
                     equip.setExpiration(rs.getLong("expiration"));
                     equip.setGiftFrom(rs.getString("giftFrom"));
+
+                    equip.setLvlStr((short) rs.getInt("lvl_str"));
+                    equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                    equip.setLvlInt((short) rs.getInt("lvl_int"));
+                    equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                    equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                    equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                    equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                    equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                    equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                    equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                    equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                    equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                    equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                    equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                     items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                 }
             }
@@ -780,6 +844,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                     equip.setFlag((short) rs.getInt("flag"));
                     equip.setExpiration(rs.getLong("expiration"));
                     equip.setGiftFrom(rs.getString("giftFrom"));
+
+                    equip.setLvlStr((short) rs.getInt("lvl_str"));
+                    equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                    equip.setLvlInt((short) rs.getInt("lvl_int"));
+                    equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                    equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                    equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                    equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                    equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                    equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                    equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                    equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                    equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                    equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                    equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                     items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                 }
             }
@@ -879,6 +959,22 @@ public final class MTSHandler extends AbstractMaplePacketHandler {
                     equip.setFlag((short) rs.getInt("flag"));
                     equip.setExpiration(rs.getLong("expiration"));
                     equip.setGiftFrom(rs.getString("giftFrom"));
+
+                    equip.setLvlStr((short) rs.getInt("lvl_str"));
+                    equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                    equip.setLvlInt((short) rs.getInt("lvl_int"));
+                    equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                    equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                    equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                    equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                    equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                    equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                    equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                    equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                    equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                    equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                    equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
                     items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                 }
             }
