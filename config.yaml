@@ -448,7 +448,7 @@ server:
 
     #Buyback Configuration
     USE_BUYBACK_WITH_MESOS: true    #Enables usage of either mesos or NX for the buyback fee.
-    BUYBACK_FEE: 77.70               #Sets the base amount needed to buyback (level 30 or under will use the base value).
+    BUYBACK_FEE: 150.0               #Sets the base amount needed to buyback (level 30 or under will use the base value).
     BUYBACK_LEVEL_STACK_FEE: 85.47   #Sets the level-stacking portion of the amount needed to buyback (fee will sum up linearly until level 120, when it reaches the peak).
     BUYBACK_MESO_MULTIPLIER: 100       #Sets a multiplier for the fee when using meso as the charge unit.
     BUYBACK_RETURN_MINUTES: 1           #Sets the maximum amount of time the player can wait before decide to buyback.
