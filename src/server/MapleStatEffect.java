@@ -765,8 +765,14 @@ public class MapleStatEffect {
                     monsterStatus.put(MonsterStatus.NINJA_AMBUSH, Integer.valueOf(ret.damage));
                     break;
                 case Page.THREATEN:
-                    monsterStatus.put(MonsterStatus.WATK, Integer.valueOf(ret.x));
-                    monsterStatus.put(MonsterStatus.WDEF, Integer.valueOf(ret.y));
+                    // keep monsterStatus a value Integers but we will multiple the % reduction by 100 and handle it later as a %
+                    monsterStatus.put(MonsterStatus.WATK, Integer.valueOf((int) (ret.prop * 100.0)));
+                    monsterStatus.put(MonsterStatus.MATK, Integer.valueOf((int) (ret.prop * 100.0)));
+
+                    monsterStatus.put(MonsterStatus.WDEF, Integer.valueOf(ret.x));
+                    monsterStatus.put(MonsterStatus.MDEF, Integer.valueOf(ret.x));
+
+                    monsterStatus.put(MonsterStatus.SEAL, Integer.valueOf(1));
                     break;
                 case DragonKnight.DRAGON_ROAR:
                     ret.hpR = -x / 100.0;
@@ -1198,7 +1204,7 @@ public class MapleStatEffect {
             } else if (isSeal() && monster.isBoss()) {  // thanks IxianMace for noticing seal working on bosses
                 // do nothing
             } else {
-                if (makeChanceResult()) {
+                if (makeChanceResult() || isThreaten()) {
                     monster.applyStatus(applyfrom, new MonsterStatusEffect(getMonsterStati(), skill_, null, false), isPoison(), getDuration());
                     if (isCrash()) {
                         monster.debuffMob(skill_.getId());
@@ -1714,6 +1720,10 @@ public class MapleStatEffect {
 
     private boolean isDispel() {
         return skill && (sourceid == Priest.DISPEL || sourceid == SuperGM.HEAL_PLUS_DISPEL);
+    }
+
+    private boolean isThreaten() {
+        return skill && sourceid == Page.THREATEN;
     }
 
     private boolean isCureAllAbnormalStatus() {
