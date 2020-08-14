@@ -6466,7 +6466,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         return Server.getInstance().getCurrentTime() - lastBuyback < 4200;
     }
     
-    private int getBuybackFee() {
+    public int getBuybackFee() {
         float fee = YamlConfig.config.server.BUYBACK_FEE;
         int grade = Math.min(Math.max(level, 30), 120) - 30;
         
