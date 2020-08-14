@@ -3858,10 +3858,6 @@ Keep it in your Inventory Set-up tab for 30 minutes to receive a Shiny Easter Eg
       <string name="name" value="Xerxes Chair"/>
       <string name="desc" value="Recovers 50 MP every 10 seconds."/>
    </imgdir>
-   <imgdir name="3010188">
-      <string name="name" value="Von Leon Chair"/>
-      <string name="desc" value="Recovers 50 MP every 10 seconds."/>
-   </imgdir>
    <imgdir name="3010187">
       <string name="name" value="Cat&apos;s Love Chair"/>
       <string name="desc" value="Hug me tightly. Recovers 30 HP and 30 MP every 10 seconds."/>
