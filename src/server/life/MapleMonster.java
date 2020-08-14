@@ -31,16 +31,8 @@ import client.SkillFactory;
 import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import config.YamlConfig;
-import constants.skills.DragonKnight;
-import constants.skills.Crusader;
-import constants.skills.FPMage;
-import constants.skills.Hermit;
-import constants.skills.ILMage;
-import constants.skills.NightLord;
-import constants.skills.NightWalker;
-import constants.skills.Priest;
-import constants.skills.Shadower;
-import constants.skills.WhiteKnight;
+import constants.skills.*;
+
 import java.awt.Point;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -1208,7 +1200,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
 
         final Map<MonsterStatus, Integer> statis = status.getStati();
-        if (stats.isBoss()) {
+        if (stats.isBoss() && status.getSkill().getId() != Page.THREATEN) {
             if (!(statis.containsKey(MonsterStatus.SPEED)
                     && statis.containsKey(MonsterStatus.NINJA_AMBUSH)
                     && statis.containsKey(MonsterStatus.WATK))) {
@@ -1319,6 +1311,14 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             
             overtimeAction = new DamageTask(damage, from, status, 2);
             overtimeDelay = 1000;
+        } else if (status.getSkill().getId() == Page.THREATEN) {
+            int watkDecrease = (int) (getStats().getPADamage() * (status.getStati().get(MonsterStatus.WATK) / 100.0));
+            int matkDecrease = (int) (getStats().getMADamage() * (status.getStati().get(MonsterStatus.MATK) / 100.0));
+
+            status.setValue(MonsterStatus.WATK, -watkDecrease);
+            status.setValue(MonsterStatus.MATK, -matkDecrease);
+
+            animationTime = broadcastStatusEffect(status);
         } else {
             animationTime = broadcastStatusEffect(status);
         }
