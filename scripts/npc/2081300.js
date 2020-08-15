@@ -59,6 +59,13 @@ function action(mode, type, selection) {
                                 //cm.dispose();
                         }
                 } else if(status == 1) {
+                    if (cm.getPlayer().getRemainingSp() > 0) {
+                        if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
+                            cm.sendNext("Please, use all your SP before continuing.");
+                            cm.dispose();
+                            return;
+                        }
+                    }
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 312) {
@@ -80,8 +87,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(3121004 , 0, 10, -1);
 											if(cm.getPlayer().getSkillLevel(3121008) == 0)
                                                 cm.teachSkill(3121008 , 0, 10, -1);
-											if(cm.getPlayer().getSkillLevel(3121003) == 0)
-                                                cm.teachSkill(3121003 , 0, 10, -1);
                                 } else if(cm.getJobId() == 322) {
                                         if(cm.getPlayer().getSkillLevel(3221007) == 0)
                                                 cm.teachSkill(3221007 , 0, 10, -1);

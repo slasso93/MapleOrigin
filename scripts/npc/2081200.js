@@ -59,30 +59,33 @@ function action(mode, type, selection) {
                                 //cm.dispose();
                         }
                 } else if(status == 1) {
+                    if (cm.getPlayer().getRemainingSp() > 0) {
+                        if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
+                            cm.sendNext("Please, use all your SP before continuing.");
+                            cm.dispose();
+                            return;
+                        }
+                    }
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 212) {
                                         cm.teachSkill(2121001, 0, 10, -1);
 										cm.teachSkill(2121002, 0, 10, -1);
 										cm.teachSkill(2121003, 0, 10, -1);
-										cm.teachSkill(2121004, 0, 10, -1);
                                         cm.teachSkill(2121005, 0, 10, -1);
                                         cm.teachSkill(2121006, 0, 10, -1);
                                 } else if(cm.getJobId() == 222) {
                                         cm.teachSkill(2221001, 0, 10, -1);
 										cm.teachSkill(2221002, 0, 10, -1);
 										cm.teachSkill(2221003, 0, 10, -1);
-										cm.teachSkill(2221004, 0, 10, -1);
                                         cm.teachSkill(2221005, 0, 10, -1);
                                         cm.teachSkill(2221006, 0, 10, -1);
                                 } else if(cm.getJobId() == 232) {
                                         cm.teachSkill(2321001, 0, 10, -1);
                                         cm.teachSkill(2321002, 0, 10, -1);
                                         cm.teachSkill(2321003, 0, 10, -1);
-										cm.teachSkill(2321004, 0, 10, -1);
 										cm.teachSkill(2321005, 0, 10, -1);
 										cm.teachSkill(2321006, 0, 10, -1);
-										cm.teachSkill(2321007, 0, 10, -1);
 										cm.teachSkill(2321008, 0, 10, -1);
                                 }
                         } else if( mode >= 1 && cm.getJobId() % 100 % 10 == 2) {
@@ -93,8 +96,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2121002 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(2121003) == 0)
                                                 cm.teachSkill(2121003 , 0, 10, -1);
-										if(cm.getPlayer().getSkillLevel(2121004) == 0)
-                                                cm.teachSkill(2121004 , 0, 10, -1);
 										if(cm.getPlayer().getSkillLevel(2121005) == 0)
                                                 cm.teachSkill(2121005 , 0, 10, -1);
 										if(cm.getPlayer().getSkillLevel(2121006) == 0)
@@ -108,8 +109,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2221002 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(2221003) == 0)
                                                 cm.teachSkill(2221003 , 0, 10, -1);
-											if(cm.getPlayer().getSkillLevel(2221004) == 0)
-                                                cm.teachSkill(2221004 , 0, 10, -1);
 											if(cm.getPlayer().getSkillLevel(2221005) == 0)
                                                 cm.teachSkill(2221005 , 0, 10, -1);
 											if(cm.getPlayer().getSkillLevel(2221006) == 0)
@@ -122,10 +121,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2321008, 0, 10,-1); // Genesis 
                                         if (cm.getPlayer().getSkillLevel(2321006) < 1)
                                                 cm.teachSkill(2321006, 0, 10,-1); // res
-											if (cm.getPlayer().getSkillLevel(2321004) < 1)
-                                                cm.teachSkill(2321004, 0, 10,-1); // res
-											if (cm.getPlayer().getSkillLevel(2321007) < 1)
-                                                cm.teachSkill(2321007, 0, 10,-1); // res
 											
 											
                                 }
