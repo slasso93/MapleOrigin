@@ -12208,7 +12208,7 @@
       <imgdir name="19">
         <int name="item" value="4000066"/>
         <int name="count" value="100"/>
-        <int name="prob" value="15"/>
+        <int name="prob" value="14"/>
         <string name="Effect" value="Effect/BasicEff/Event1/Good"/>
       </imgdir>
       <imgdir name="20">
@@ -12295,6 +12295,13 @@
         <int name="count" value="1"/>
         <int name="prob" value="4"/>
         <string name="Effect" value="Effect/BasicEff/Event1/Good"/>
+      </imgdir>
+      <imgdir name="34">
+        <int name="item" value="2330008"/>
+        <int name="count" value="1"/>
+        <int name="prob" value="1"/>
+        <string name="Effect" value="Effect/BasicEff/Event1/Best"/>
+        <string name="worldMsg" value="/name has obtained a /item from the Golden Pig's Egg."/>
       </imgdir>
     </imgdir>
   </imgdir>
