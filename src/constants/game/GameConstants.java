@@ -35,7 +35,7 @@ public class GameConstants {
     // Ronan's rates upgrade system
     private static final int[] DROP_RATE_GAIN = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
     private static final int[] MESO_RATE_GAIN = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-    private static final int[]  EXP_RATE_GAIN = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 4, 2, 3};    //fibonacci :3
+    private static final int[]  EXP_RATE_GAIN = {1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 4, 3, 3, 2, 2, 1};
     
     private static final int[] jobUpgradeBlob = {1, 20, 60, 110, 190};
     private static final int[] jobUpgradeSpUp = {0, 1, 2, 3, 6};

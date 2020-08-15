@@ -7045,19 +7045,19 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     
     public void setPlayerRates() {
-        this.expRate  *=  GameConstants.getPlayerBonusExpRate(this.level / 20);
+        this.expRate  *=  GameConstants.getPlayerBonusExpRate(this.level / 10);
         this.mesoRate *= GameConstants.getPlayerBonusMesoRate(this.level / 20);
         this.dropRate *= GameConstants.getPlayerBonusDropRate(this.level / 20);
     }
 
     public void revertLastPlayerRates() {
-        this.expRate  /=  GameConstants.getPlayerBonusExpRate((this.level - 1) / 20);
+        this.expRate  /=  GameConstants.getPlayerBonusExpRate((this.level - 1) / 10);
         this.mesoRate /= GameConstants.getPlayerBonusMesoRate((this.level - 1) / 20);
         this.dropRate /= GameConstants.getPlayerBonusDropRate((this.level - 1) / 20);
     }
     
     public void revertPlayerRates() {
-        this.expRate  /=  GameConstants.getPlayerBonusExpRate(this.level / 20);
+        this.expRate  /=  GameConstants.getPlayerBonusExpRate(this.level / 10);
         this.mesoRate /= GameConstants.getPlayerBonusMesoRate(this.level / 20);
         this.dropRate /= GameConstants.getPlayerBonusDropRate(this.level / 20);
     }
