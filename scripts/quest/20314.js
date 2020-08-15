@@ -45,13 +45,18 @@ function start(mode, type, selection) {
         } else if (status == 1) {
             qm.sendYesNo("The Empress thought highly of your accomplishment and granted you a new title. Would you like to receive it?");
         } else if (status == 2) {
-            if (!qm.canHold(1142068)) {
-                qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+            nPSP = (qm.getPlayer().getLevel() - 70) * 3;
+            if (qm.getPlayer().getRemainingSp() > nPSP) {
+                qm.sendNext("You still have way too much #bSP#k with you. You can't earn a new title like that, I strongly urge you to use more SP on your 1st and 2nd level skills.");
             } else {
-                qm.gainItem(1142068, 1);
-                qm.getPlayer().changeJob(Packages.client.MapleJob.NIGHTWALKER3);
-                qm.completeQuest();
-                qm.sendOk("#h #, from here on out, you are an Advanced Knight of Cygnus Knights. The title comes with a newfound broad view on everything. You may encounter temptations here and there, but I want you to keep your faith and beliefs intact and do not succumb to the darkness.");
+                if (!qm.canHold(1142068)) {
+                    qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                } else {
+                    qm.gainItem(1142068, 1);
+                    qm.getPlayer().changeJob(Packages.client.MapleJob.NIGHTWALKER3);
+                    qm.completeQuest();
+                    qm.sendOk("#h #, from here on out, you are an Advanced Knight of Cygnus Knights. The title comes with a newfound broad view on everything. You may encounter temptations here and there, but I want you to keep your faith and beliefs intact and do not succumb to the darkness.");
+                }
             }
         } else if (status == 3) {
             qm.dispose();

@@ -43,7 +43,7 @@ function start() {
         actionx["Mental"] = true;
     else if (cm.haveItem(4031057))
         actionx["Physical"] = true;
-    cm.sendSimple("Can I help you?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3th job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
+    cm.sendSimple("Can I help you?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3rd job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
 }
 
 function action(mode, type, selection){
@@ -62,12 +62,12 @@ function action(mode, type, selection){
         else if (status == 1)
             cm.sendYesNo("Okay! Now, you'll be transformed into a much more powerful pirate through me. Before doing that, though, please make sure your SP has been thoroughly used, You'll need to use up at least all of SP's gained until level 70 to make the 3rd job advancement. Oh, and since you have already chosen your path of the occupation by the 2nd job adv., you won't have to choose again for the 3rd job adv. Do you want to do it right now?");
         else if (status == 2) {
-           /* if (cm.getPlayer().getRemainingSp() > 0)
+            if (cm.getPlayer().getRemainingSp() > 0)
                 if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 70) * 3) {
                     cm.sendNext("Please, use all your SP before continuing.");
                     cm.dispose();
                     return;
-                }*/
+                }
             if (cm.getJobId() % 10 == 0) {
                 cm.gainItem(4031058, -1);
                 cm.changeJobById(cm.getJobId() + 1);
@@ -102,7 +102,7 @@ function action(mode, type, selection){
         if (sel == 0){
             if (cm.getPlayer().getLevel() >= 70 && cm.getJobId() % 10 == 0){
                 if (status == 0)
-                    cm.sendYesNo("Welcome. I'm #b#p2020013##k, the chief of all pirates, in charge of bringing out the best in each and every pirate that needs my guidance. You seem like the kind of pirate that wants to make the leap forward, the one ready to take on the challenges of the 3th job advancement. But I've seen countless pirates eager to make the jump just like you, only to see them fail. What about you? Are you ready to be tested and make the 3th job advancement?");
+                    cm.sendYesNo("Welcome. I'm #b#p2020013##k, the chief of all pirates, in charge of bringing out the best in each and every pirate that needs my guidance. You seem like the kind of pirate that wants to make the leap forward, the one ready to take on the challenges of the 3rd job advancement. But I've seen countless pirates eager to make the jump just like you, only to see them fail. What about you? Are you ready to be tested and make the 3rd job advancement?");
                 else if (status == 1){
                     cm.getPlayer().setPartyQuestItemObtained("JB3");
                     cm.sendNext("Good. You will be tested on two important aspects of the pirate: strength and wisdom. I'll now explain to you the physical half of the test. Remember #b#p1090000##k from Nautilus Harbor? Go see him, and he'll give you the details on the first half of the test. Please complete the mission, and get #b#t4031057##k from #p1090000#.");

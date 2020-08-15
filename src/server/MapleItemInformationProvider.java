@@ -124,7 +124,7 @@ public class MapleItemInformationProvider {
     protected Map<Integer, Integer> useDelay = new HashMap<>();
     protected Map<Integer, Integer> mobHP = new HashMap<>();
     protected Map<Integer, Integer> levelCache = new HashMap<>();
-    protected Map<Integer, Pair<Integer, List<RewardItem>>> rewardCache = new HashMap<>();
+    protected Map<Integer, Pair<List<Integer>, Map<Integer, RewardItem>>> rewardCache = new HashMap<>();
     protected List<Pair<Integer, String>> itemNameCache = new ArrayList<>();
     protected Map<Integer, Boolean> consumeOnPickupCache = new HashMap<>();
     protected Map<Integer, Boolean> isQuestItemCache = new HashMap<>();
@@ -1637,26 +1637,28 @@ public class MapleItemInformationProvider {
         }
     }
 
-    public Pair<Integer, List<RewardItem>> getItemReward(int itemId) {//Thanks Celino, used some stuffs :)
+    public Pair<List<Integer>, Map<Integer, RewardItem>> getItemReward(int itemId) {//Thanks Celino, used some stuffs :)
         if (rewardCache.containsKey(itemId)) {
             return rewardCache.get(itemId);
         }
-        int totalprob = 0;
-        List<RewardItem> rewards = new ArrayList<>();
+
+        Map<Integer, RewardItem> rewardsMap = new HashMap<>();
+        List<Integer> rewardIds = new ArrayList<>();
         for (MapleData child : getItemData(itemId).getChildByPath("reward").getChildren()) {
             RewardItem reward = new RewardItem();
             reward.itemid = MapleDataTool.getInt("item", child, 0);
-            reward.prob = (byte) MapleDataTool.getInt("prob", child, 0);
+            reward.prob = MapleDataTool.getInt("prob", child, 0);
             reward.quantity = (short) MapleDataTool.getInt("count", child, 0);
             reward.effect = MapleDataTool.getString("Effect", child, "");
             reward.worldmsg = MapleDataTool.getString("worldMsg", child, null);
             reward.period = MapleDataTool.getInt("period", child, -1);
 
-            totalprob += reward.prob;
+            for (int i = 0; i < reward.prob; i++)
+                rewardIds.add(reward.itemid);
 
-            rewards.add(reward);
+            rewardsMap.put(reward.itemid, reward);
         }
-        Pair<Integer, List<RewardItem>> hmm = new Pair<>(totalprob, rewards);
+        Pair<List<Integer>, Map<Integer, RewardItem>> hmm = new Pair<>(rewardIds, rewardsMap);
         rewardCache.put(itemId, hmm);
         return hmm;
     }
@@ -2309,9 +2311,14 @@ public class MapleItemInformationProvider {
 
     public static final class RewardItem {
 
-        public int itemid, period;
-        public short prob, quantity;
+        public int itemid, period, prob;
+        public short quantity;
         public String effect, worldmsg;
+
+        public int getProb() {
+            return prob;
+        }
+
     }
     
     public static final class QuestConsItem {

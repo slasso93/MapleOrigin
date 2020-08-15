@@ -268,13 +268,13 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
     protected void setMaxHp(int hp_) {
         if (this.maxhp < hp_) this.transienthp = Float.NEGATIVE_INFINITY;
         this.maxhp = hp_;
-        this.clientmaxhp = Math.min(30000, hp_);
+        this.clientmaxhp = Math.min(32000, hp_);
     }
     
     protected void setMaxMp(int mp_) {
         if (this.maxmp < mp_) this.transientmp = Float.NEGATIVE_INFINITY;
         this.maxmp = mp_;
-        this.clientmaxmp = Math.min(30000, mp_);
+        this.clientmaxmp = Math.min(32000, mp_);
     }
     
     private static long clampStat(int v, int min, int max) {
@@ -412,7 +412,7 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
     }
     
     public void healHpMp() {
-        updateHpMp(30000);
+        updateHpMp(32000);
     }
     
     public void updateHpMp(int x) {
@@ -599,7 +599,7 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
         effLock.lock();
         statWlock.lock();
         try {
-            if (remainingAp - deltaAp < 0 || hpMpApUsed + deltaAp < 0 || maxhp >= 30000) {
+            if (remainingAp - deltaAp < 0 || hpMpApUsed + deltaAp < 0 || maxhp >= 32000) {
                 return false;
             }
             
@@ -619,7 +619,7 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
         effLock.lock();
         statWlock.lock();
         try {
-            if (remainingAp - deltaAp < 0 || hpMpApUsed + deltaAp < 0 || maxmp >= 30000) {
+            if (remainingAp - deltaAp < 0 || hpMpApUsed + deltaAp < 0 || maxmp >= 32000) {
                 return false;
             }
 

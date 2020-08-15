@@ -41,6 +41,7 @@ public class BuybackProcessor {
             c.unlockClient();
         }
 
+        // mesos paid at this point
         if (buyback) {
             String jobString;
             switch(chr.getJobStyle()) {
