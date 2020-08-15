@@ -43,7 +43,7 @@ function start() {
         actionx["Mental"] = true;
     else if (cm.haveItem(4031057))
         actionx["Physical"] = true;
-    cm.sendSimple("Anything you want from me?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3th job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
+    cm.sendSimple("Anything you want from me?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3rd job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
 }
 
 function action(mode, type, selection){
@@ -103,7 +103,7 @@ function action(mode, type, selection){
         if (sel == 0){
             if (cm.getPlayer().getLevel() >= 70 && cm.getJobId() % 10 == 0){
                 if (status == 0)
-                    cm.sendYesNo("Welcome. I'm #b#p2020011##k, the chief of all thieves, ready to share my street knowledge and hard knock life to those willing to listen. You seem ready to make the leap forward, the one ready to take on the challenges of the 3rd job advancement. Too many thieves have come and gone, unable to meet the standards of achieving the 3rd job advancement. What about you? Are you ready to be tested and make the 3th job advancement?");
+                    cm.sendYesNo("Welcome. I'm #b#p2020011##k, the chief of all thieves, ready to share my street knowledge and hard knock life to those willing to listen. You seem ready to make the leap forward, the one ready to take on the challenges of the 3rd job advancement. Too many thieves have come and gone, unable to meet the standards of achieving the 3rd job advancement. What about you? Are you ready to be tested and make the 3rd job advancement?");
                 else if (status == 1){
                     cm.getPlayer().setPartyQuestItemObtained("JB3");
                     cm.sendNext("Good. You will be tested on two important aspects of the thief: strength and wisdom. I'll now explain to you the physical half of the test. Remember #b#p1052001##k from Kerning City? Go see him, and he'll give you the details on the first half of the test. Please complete the mission, and get #b#t4031057##k from #p1052001#.");
