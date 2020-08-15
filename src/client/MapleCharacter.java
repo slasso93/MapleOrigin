@@ -6759,8 +6759,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             addhp += Randomizer.rand(30, 36);
             addmp += Randomizer.rand(14, 16);
         } else if (job.isA(MapleJob.GM)) {
-            addhp += 30000;
-            addmp += 30000;
+            addhp += 32000;
+            addmp += 32000;
         } else if (job.isA(MapleJob.PIRATE) || job.isA(MapleJob.THUNDERBREAKER1)) {
             improvingMaxHP = isCygnus() ? SkillFactory.getSkill(ThunderBreaker.IMPROVE_MAX_HP) : SkillFactory.getSkill(Brawler.IMPROVE_MAX_HP);
             improvingMaxHPLevel = getSkillLevel(improvingMaxHP);
@@ -8137,8 +8137,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localmaxmp += (hbmp.doubleValue() / 100) * localmaxmp;
             }
 
-            localmaxhp = Math.min(30000, localmaxhp);
-            localmaxmp = Math.min(30000, localmaxmp);
+            localmaxhp = Math.min(32000, localmaxhp);
+            localmaxmp = Math.min(32000, localmaxmp);
 
             MapleStatEffect combo = getBuffEffect(MapleBuffStat.ARAN_COMBO);
             if (combo != null) {
@@ -9488,7 +9488,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     
     private int calcHpRatioUpdate(int curpoint, int maxpoint, int diffpoint) {
         int curMax = maxpoint;
-        int nextMax = Math.min(30000, maxpoint + diffpoint);
+        int nextMax = Math.min(32000, maxpoint + diffpoint);
         
         float temp = curpoint * nextMax;
         int ret = (int) Math.ceil(temp / curMax);
@@ -9499,7 +9499,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     
     private int calcMpRatioUpdate(int curpoint, int maxpoint, int diffpoint) {
         int curMax = maxpoint;
-        int nextMax = Math.min(30000, maxpoint + diffpoint);
+        int nextMax = Math.min(32000, maxpoint + diffpoint);
         
         float temp = curpoint * nextMax;
         int ret = (int) Math.ceil(temp / curMax);
