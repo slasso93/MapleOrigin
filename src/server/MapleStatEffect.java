@@ -767,10 +767,9 @@ public class MapleStatEffect {
                 case Page.THREATEN:
                     // keep monsterStatus a value Integers but we will multiple the % reduction by 100 and handle it later as a %
                     monsterStatus.put(MonsterStatus.WATK, Integer.valueOf((int) (ret.prop * 100.0)));
-                    monsterStatus.put(MonsterStatus.MATK, Integer.valueOf((int) (ret.prop * 100.0)));
 
                     monsterStatus.put(MonsterStatus.WDEF, Integer.valueOf(ret.x));
-                    monsterStatus.put(MonsterStatus.MDEF, Integer.valueOf(ret.x));
+                    monsterStatus.put(MonsterStatus.MDEF, Integer.valueOf(ret.y));
 
                     monsterStatus.put(MonsterStatus.SEAL, Integer.valueOf(1));
                     break;

@@ -63,7 +63,13 @@ public class LogHelper {
 		String log = player.getName() + (gotPrize ? " used a maple leaf to buy " + operation : " redeemed " + operation + " VP for a leaf") + " - " + timeStamp;
 		FilePrinter.print(FilePrinter.LOG_LEAF, log);
 	}
-	
+
+	public static void logVPShopPurchase(MapleCharacter player, int vp, int itemid) {
+		String timeStamp = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());
+		String log = player.getName() + " used " + vp + " votepoints to buy " + itemid + " - " + timeStamp;
+		FilePrinter.print(FilePrinter.LOG_LEAF, log);
+	}
+
 	public static void logGacha(MapleCharacter player, int itemid, String map) {
 		String itemName = MapleItemInformationProvider.getInstance().getName(itemid);
 		String timeStamp = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());

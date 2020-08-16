@@ -1313,10 +1313,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             overtimeDelay = 1000;
         } else if (status.getSkill().getId() == Page.THREATEN) {
             int watkDecrease = (int) (getStats().getPADamage() * (status.getStati().get(MonsterStatus.WATK) / 100.0));
-            int matkDecrease = (int) (getStats().getMADamage() * (status.getStati().get(MonsterStatus.MATK) / 100.0));
-
             status.setValue(MonsterStatus.WATK, -watkDecrease);
-            status.setValue(MonsterStatus.MATK, -matkDecrease);
 
             animationTime = broadcastStatusEffect(status);
         } else {

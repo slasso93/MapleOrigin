@@ -5698,11 +5698,9 @@
         <string name="n1" value="Go inside, and you&apos;ll see plenty of delicious cheese inside!"/>
     </imgdir>
     <imgdir name="9010016">
-        <string name="name" value="Aru"/>
-        <string name="n0"
-                value="Every Monday and Tuesday at 4:05pm! What&apos;s on SBS? Maple Story Animation ON AIR beginning on the April 1st!"/>
-        <string name="n1"
-                value="Now enjoy the amazing Maple Story in animation! On Air every Monday and Tuesday at 4:05pm from April 1st on SBS!"/>
+        <string name="name" value="Strider"/>
+        <string name="n0" value="Hey, come look at the rewards you can get from voting!"/>
+        <string name="n1" value="Remember to vote for MapleOrigin on our website for points. Talk to me when you have voted!"/>
     </imgdir>
     <imgdir name="9010017">
         <string name="name" value="Dev Doll"/>
