@@ -146,7 +146,7 @@ public final class ItemConstants {
     }
 
     public static boolean isResetScroll(int scrollId) {
-        return scrollId == 2049115;
+        return scrollId == 2049115 || scrollId == 2049117;
     }
 
     public static boolean isModifierScroll(int scrollId) {

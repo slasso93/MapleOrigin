@@ -19,6 +19,7 @@ public class FilePrinter {
             LOG_TRADE = "interactions/Trades.txt",
             LOG_EXPEDITION = "interactions/Expeditions.txt",
             LOG_LEAF = "interactions/MapleLeaves.txt",
+            LOG_VOTEPOINTS = "interactions/VotePoints.txt",
             LOG_GACHAPON = "interactions/Gachapon.txt",
             LOG_CHAT = "interactions/ChatLog.txt",
             QUEST_RESTORE_ITEM = "game/QuestItemRestore.txt",
