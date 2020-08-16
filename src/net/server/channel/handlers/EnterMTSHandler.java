@@ -55,6 +55,7 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
         } else if (chr.isAlive() && YamlConfig.config.server.USE_BUYBACK_SYSTEM) {
             c.announce(MaplePacketCreator.serverNotice(1, "You may use this to resurrect yourself if you die. This costs " +
                     c.getPlayer().getBuybackFee() + " mesos, cooldown " + YamlConfig.config.server.BUYBACK_COOLDOWN_MINUTES + " min."));
+            c.announce(MaplePacketCreator.enableActions());
         } else {
             if (!YamlConfig.config.server.USE_MTS) {
                 c.announce(MaplePacketCreator.enableActions());

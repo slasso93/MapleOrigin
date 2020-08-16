@@ -49,7 +49,7 @@ function action(mode, type, selection) {
                         if(cm.getLevel() < 120 || Math.floor(cm.getJobId() / 100) != 3) {
                                 cm.sendOk("Please don't bother me right now, I am trying to concentrate.");
                                 cm.dispose();
-                        } else if (!cm.isQuestCompleted(6924)) { 
+                        } else if (cm.isQuestCompleted(6924)) {
                                 cm.sendOk("You have not yet passed my trials. I can not advance you until you do so.");
                                 cm.dispose();
                         } else if ( cm.getJobId() % 100 % 10 != 2) {
@@ -59,14 +59,15 @@ function action(mode, type, selection) {
                                 //cm.dispose();
                         }
                 } else if(status == 1) {
-                    if (cm.getPlayer().getRemainingSp() > 0) {
-                        if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
-                            cm.sendNext("Please, use all your SP before continuing.");
-                            cm.dispose();
-                            return;
-                        }
-                    }
+
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
+                            if (cm.getPlayer().getRemainingSp() > 0) {
+                                if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
+                                    cm.sendNext("Please, use all your SP before continuing.");
+                                    cm.dispose();
+                                    return;
+                                }
+                            }
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 312) {
                                         cm.teachSkill(3121002, 0, 10, -1);

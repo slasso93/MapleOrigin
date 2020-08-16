@@ -59,14 +59,15 @@ function action(mode, type, selection) {
                                 //cm.dispose();
                         }
                 } else if(status == 1) {
-                    if (cm.getPlayer().getRemainingSp() > 0) {
-                        if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
-                            cm.sendNext("Please, use all your SP before continuing.");
-                            cm.dispose();
-                            return;
-                        }
-                    }
+
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
+                            if (cm.getPlayer().getRemainingSp() > 0) {
+                                if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
+                                    cm.sendNext("Please, use all your SP before continuing.");
+                                    cm.dispose();
+                                    return;
+                                }
+                            }
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 512) {
                                         cm.teachSkill(5121001, 0, 10, -1);

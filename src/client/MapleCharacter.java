@@ -6866,11 +6866,13 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     this.yellowMessage("You reached level " + level + ". Congratulations! As a token of your success, your inventory has been expanded a little bit.");
                 }            
             }
-            if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) { //For the rate upgrade
-                revertLastPlayerRates();
-                setPlayerRates();
-               // this.yellowMessage("You managed to get level " + level + "! Getting experience and items seems a little easier now, huh?");
-            }
+
+        }
+
+        if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) { //For the rate upgrade
+            revertLastPlayerRates();
+            setPlayerRates();
+            this.yellowMessage("You managed to get level " + level + "! Getting experience may seem a little harder now ;)");
         }
 
         if (YamlConfig.config.server.USE_PERFECT_PITCH && level >= 30) {

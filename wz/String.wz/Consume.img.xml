@@ -10157,7 +10157,12 @@
     </imgdir>
     <imgdir name="2049115">
         <string name="desc"
-                value="Resets the stats gained from leveling and brings the item back to level 1.\nSuccess rate:100%"/>
-        <string name="name" value="Level Reset Scroll"/>
+                value="Resets all stats from an item gained from leveling. Can only be used on equipment. Consumes no slots and the item will return to level 1.\nSuccess rate:40%"/>
+        <string name="name" value="Innocence Scroll 40%"/>
+    </imgdir>
+    <imgdir name="2049117">
+        <string name="desc"
+                value="Resets all stats from an item gained from leveling. Can only be used on equipment. Consumes no slots and the item will return to level 1.\nSuccess rate:90%"/>
+        <string name="name" value="Innocence Scroll 90%"/>
     </imgdir>
 </imgdir>

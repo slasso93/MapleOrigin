@@ -1069,6 +1069,7 @@ public class MapleItemInformationProvider {
                             scrollEquipWithChaos(nEquip, YamlConfig.config.server.CHSCROLL_STAT_RANGE);
                             break;
                         case 2049115:
+                        case 2049117:
                             scrollEquipWithLevelReset(nEquip);
                             break;
                         default:
