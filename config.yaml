@@ -465,3 +465,5 @@ server:
     USE_MONSTERBOOK_TIER_BONUS: true              # Gives bonus HP when a full tier is completed
     USE_MONSTERBOOK_COMPLETE_BOOK_BONUS: true     # Give a bonus on completing the entire book
     MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
+
+    MAX_ALLOWED_VOTES: 2                # Allow up to 2 votes per account (votes still need to be fulfilled by gtop100
