@@ -205,6 +205,7 @@ public class CommandsExecutor {
         //addCommand("credits", StaffCommand.class);
         //addCommand("buyback", BuyBackCommand.class);
         addCommand("uptime", UptimeCommand.class);
+        addCommand("playtime", PlaytimeCommand.class);
         //addCommand("gacha", GachaCommand.class);
         addCommand("dispose", DisposeCommand.class);
        // addCommand("changel", ChangeLanguageCommand.class);

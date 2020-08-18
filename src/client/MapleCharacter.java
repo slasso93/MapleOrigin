@@ -353,6 +353,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public boolean invite = false;
     private boolean pendingNameChange; //only used to change name on logout, not to be relied upon elsewhere
     private long loginTime;
+    private long playTime;
+    private long createdTime; // keep track of when they first logged in to the character
     private boolean usedFullSpReset;
 
     // for DPS checking
@@ -7394,6 +7396,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
             ret.name = rs.getString("name");
             ret.level = rs.getInt("level");
+            ret.playTime = rs.getLong("playtime");
+            ret.createdTime = rs.getTimestamp("createdtime") != null ? rs.getTimestamp("createdtime").getTime() :-1;
             ret.fame = rs.getInt("fame");
             ret.quest_fame = rs.getInt("fquest");
             ret.str = rs.getInt("str");
@@ -8772,7 +8776,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
 
             PreparedStatement ps;
-            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, gachaexp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpMpUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness= ?, equipslots = ?, useslots = ?, setupslots = ?, etcslots = ?,  monsterbookcover = ?, vanquisherStage = ?, dojoPoints = ?, lastDojoStage = ?, finishedDojoTutorial = ?, vanquisherKills = ?, matchcardwins = ?, matchcardlosses = ?, matchcardties = ?, omokwins = ?, omoklosses = ?, omokties = ?, dataString = ?, fquest = ?, jailexpire = ?, partnerId = ?, marriageItemId = ?, lastExpGainTime = ?, ariantPoints = ?, partySearch = ?, used_sp_reset = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, gachaexp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpMpUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness= ?, equipslots = ?, useslots = ?, setupslots = ?, etcslots = ?,  monsterbookcover = ?, vanquisherStage = ?, dojoPoints = ?, lastDojoStage = ?, finishedDojoTutorial = ?, vanquisherKills = ?, matchcardwins = ?, matchcardlosses = ?, matchcardties = ?, omokwins = ?, omoklosses = ?, omokties = ?, dataString = ?, fquest = ?, jailexpire = ?, partnerId = ?, marriageItemId = ?, lastExpGainTime = ?, ariantPoints = ?, partySearch = ?, used_sp_reset = ?, createdtime = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, level);    // thanks CanIGetaPR for noticing an unnecessary "level" limitation when persisting DB data
             ps.setInt(2, fame);
             
@@ -8885,7 +8889,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.setInt(54, ariantPoints);
             ps.setBoolean(55, canRecvPartySearchInvite);
             ps.setBoolean(56, usedFullSpReset);
-            ps.setInt(57, id);
+            ps.setTimestamp(57, new Timestamp(createdTime));
+            ps.setInt(58, id);
 
             int updateRows = ps.executeUpdate();
             ps.close();
@@ -11010,9 +11015,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public void logOff() {
         this.loggedIn = false;
 
-        try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement("UPDATE characters SET lastLogoutTime=? WHERE id=?")) {
+        try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(
+                "UPDATE characters SET lastLogoutTime=?, playtime=? WHERE id=?")) {
             ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-            ps.setInt(2, getId());
+            ps.setLong(2, this.playTime + getLoggedInTime());
+            ps.setInt(3, getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -11033,6 +11040,26 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public boolean isLoggedin() {
         return loggedIn;
+    }
+
+    public void setPlayTime(long time) {
+        this.playTime = time;
+    }
+
+    public long getPlayTime() {
+        return playTime;
+    }
+
+    public long getActualPlayTime() {
+        return playTime + getLoggedInTime();
+    }
+
+    public void setCreatedTime(long time) {
+        this.createdTime = time;
+    }
+
+    public long getCreatedTime() {
+        return createdTime;
     }
 
     public void setMapId(int mapid) {
