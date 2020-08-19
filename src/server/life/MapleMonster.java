@@ -543,7 +543,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         MapleCharacter participationMvp = null;
         int attackerInterval = YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL;
         for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
-            if (checkExpedition) { // only check once
+            /*if (checkExpedition) { // only check once
                 for (MapleExpedition exped : e.getKey().getClient().getChannelServer().getExpeditions()) {
                     if (exped.contains(e.getKey())) {
                         if (exped.isInProgress()) {
@@ -553,7 +553,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                     }
                 }
                 checkExpedition = false;
-            }
+            }*/
 
             long entryDamage = e.getValue();
             partyDamage += entryDamage;
@@ -575,11 +575,21 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         // thanks G h o s t, Alfred, Vcoc, BHB for poiting out a bug in detecting party members after membership transactions in a party took place
         if (YamlConfig.config.server.USE_ENFORCE_MOB_LEVEL_RANGE) {
             for (MapleCharacter member : partyParticipation.keySet().iterator().next().getPartyMembersOnSameMap()) {
-                if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
-                    member.getLevel() >= highestParticipant - attackerInterval &&
-                    member.getLevel() <= highestParticipant + attackerInterval)) {
-                    underleveled.add(member);
-                    continue;
+                if (member.getLevel() < 120) {
+                    if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
+                            member.getLevel() >= highestParticipant - attackerInterval &&
+                            member.getLevel() <= highestParticipant + attackerInterval)) {
+                        underleveled.add(member);
+                        continue;
+                    }
+                } else {
+                    if (member.getLevel() < this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL + 10) {
+                        if (member.getLevel() < highestParticipant - attackerInterval ||
+                                member.getLevel() > highestParticipant + attackerInterval) {
+                            underleveled.add(member);
+                            continue;
+                        }
+                    }
                 }
 
                 totalPartyLevel += member.getLevel();

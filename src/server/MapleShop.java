@@ -54,9 +54,10 @@ public class MapleShop {
         for (int i = 2070000; i < 2070017; i++) {
             rechargeableItems.add(i);
         }
-        rechargeableItems.add(2331000);//Blaze Capsule
-        rechargeableItems.add(2332000);//Glaze Capsule
+        rechargeableItems.add(2331000); //Blaze Capsule
+        rechargeableItems.add(2332000); //Glaze Capsule
         rechargeableItems.add(2070018);
+        rechargeableItems.add(2330008); // giant bullet
         rechargeableItems.remove(2070014); // doesn't exist
         for (int i = 2330000; i <= 2330005; i++) {
             rechargeableItems.add(i);

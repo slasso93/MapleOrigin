@@ -30,8 +30,10 @@ import client.inventory.Item;
 import client.inventory.MapleInventoryType;
 import client.inventory.MaplePet;
 import config.YamlConfig;
+import constants.game.GameConstants;
 import constants.inventory.ItemConstants;
 import server.MapleItemInformationProvider;
+import tools.FilePrinter;
 
 public class ItemDropCommand extends Command {
     {
@@ -99,18 +101,19 @@ public class ItemDropCommand extends Command {
         } else {
             toDrop = new Item(itemId, (short) 0, quantity);
         }
+
 		
-        /*toDrop.setOwner(player.getName()); */
-		
-        if(player.gmLevel() < 3) {
+        if (player.gmLevel() < 3) {
             short f = toDrop.getFlag();
-            f |= ItemConstants.ACCOUNT_SHARING;
             f |= ItemConstants.UNTRADEABLE;
             f |= ItemConstants.SANDBOX;
 
             toDrop.setFlag(f);
-            toDrop.setOwner("TRIAL-MODE");
+            toDrop.setOwner(player.getName());
         }
+
+        if (player.gmLevel() < 6)
+            FilePrinter.print(FilePrinter.GM_DROP, player.getName() + " used !drop " + itemId + " " + quantity + " on map: " + player.getMap().getMapName());
 
         c.getPlayer().getMap().spawnItemDrop(c.getPlayer(), c.getPlayer(), toDrop, c.getPlayer().getPosition(), true, true);
     }

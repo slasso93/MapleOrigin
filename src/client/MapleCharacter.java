@@ -7958,7 +7958,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             MapleInventoryManipulator.removeById(client, ItemConstants.getInventoryType(charmID[i]), charmID[i], 1, true, false);
             usedSafetyCharm = true;
         } else if (getJob() != MapleJob.BEGINNER) { //Hmm...
-            if (!FieldLimit.NO_EXP_DECREASE.check(getMap().getFieldLimit())) {  // thanks Conrad for noticing missing FieldLimit check
+            if (getMap().getId() != 109020001 && !FieldLimit.NO_EXP_DECREASE.check(getMap().getFieldLimit())) {  // thanks Conrad for noticing missing FieldLimit check
                 int XPdummy = ExpTable.getExpNeededForLevel(getLevel());
                 
                 if (getMap().isTown()) {    // thanks MindLove, SIayerMonkey, HaItsNotOver for noting players only lose 1% on town maps

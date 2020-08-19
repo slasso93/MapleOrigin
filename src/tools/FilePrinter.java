@@ -15,6 +15,7 @@ public class FilePrinter {
             AUTOBAN_DC = "game/AutoBanDC.txt",
             ACCOUNT_STUCK = "players/AccountStuck.txt",
             COMMAND_GM = "reports/Gm.txt",
+            GM_DROP = "reports/GM_drop.txt",
             COMMAND_BUG = "reports/Bug.txt",
             LOG_TRADE = "interactions/Trades.txt",
             LOG_EXPEDITION = "interactions/Expeditions.txt",
