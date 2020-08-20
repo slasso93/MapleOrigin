@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class UnHideCommand extends Command {
     {
-        setDescription("");
+        setDescription("Toggle hide");
     }
 
     @Override

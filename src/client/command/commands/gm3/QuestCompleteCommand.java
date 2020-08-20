@@ -30,7 +30,7 @@ import server.quest.MapleQuest;
 
 public class QuestCompleteCommand extends Command {
     {
-        setDescription("");
+        setDescription("Complete a quest");
     }
 
     @Override

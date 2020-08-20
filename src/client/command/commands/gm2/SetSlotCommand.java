@@ -28,7 +28,7 @@ import client.command.Command;
 
 public class SetSlotCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set inventory slots");
     }
 
     @Override

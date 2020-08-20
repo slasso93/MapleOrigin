@@ -32,7 +32,7 @@ import java.awt.*;
 
 public class SeedCommand extends Command {
     {
-        setDescription("");
+        setDescription("HPQ thing");
     }
 
     @Override

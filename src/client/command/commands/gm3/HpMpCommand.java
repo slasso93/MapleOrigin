@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class HpMpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set HP and MP");
     }
 
     @Override

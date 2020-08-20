@@ -31,7 +31,7 @@ import server.life.MapleMonster;
 
 public class SpawnCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn a mob");
     }
 
     @Override

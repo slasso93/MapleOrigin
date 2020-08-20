@@ -36,7 +36,7 @@ import java.util.List;
 
 public class KillAllCommand extends Command {
     {
-        setDescription("");
+        setDescription("Kill all monsters in map");
     }
 
     @Override

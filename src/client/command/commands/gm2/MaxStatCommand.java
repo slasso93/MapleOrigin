@@ -31,7 +31,7 @@ import config.YamlConfig;
 
 public class MaxStatCommand extends Command {
     {
-        setDescription("");
+        setDescription("Maxes your stats");
     }
 
     @Override

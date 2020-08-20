@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class MaxEnergyCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set max dojo energy");
     }
 
     @Override

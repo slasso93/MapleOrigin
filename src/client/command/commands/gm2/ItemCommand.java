@@ -37,7 +37,7 @@ import server.MapleItemInformationProvider;
 
 public class ItemCommand extends Command {
     {
-        setDescription("");
+        setDescription("Creates an item");
     }
 
     @Override

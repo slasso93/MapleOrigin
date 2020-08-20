@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class EmpowerMeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give self all buffs");
     }
 
     @Override

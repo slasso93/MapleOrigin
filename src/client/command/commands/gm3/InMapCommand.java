@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class InMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("List players in map");
     }
 
     @Override

@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class SetGmLevelCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set player's GM level");
     }
 
     @Override

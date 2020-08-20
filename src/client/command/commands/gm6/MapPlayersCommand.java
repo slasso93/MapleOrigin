@@ -31,7 +31,7 @@ import net.server.world.World;
 
 public class MapPlayersCommand extends Command {
     {
-        setDescription("");
+        setDescription("Display players on map");
     }
 
     @Override

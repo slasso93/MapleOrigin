@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class BombCommand extends Command {
     {
-        setDescription("");
+        setDescription("Bombs a player");
     }
 
     @Override

@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class StartEventCommand extends Command {
     {
-        setDescription("");
+        setDescription("Start an event");
     }
 
     @Override

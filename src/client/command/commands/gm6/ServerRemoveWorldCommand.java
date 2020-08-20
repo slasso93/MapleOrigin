@@ -31,7 +31,7 @@ import server.ThreadManager;
 
 public class ServerRemoveWorldCommand extends Command {
     {
-        setDescription("");
+        setDescription("Remove a world from the server");
     }
 
     @Override

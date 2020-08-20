@@ -38,7 +38,7 @@ import java.util.List;
 
 public class ForceVacCommand extends Command {
     {
-        setDescription("");
+        setDescription("Force item loot");
     }
 
     @Override

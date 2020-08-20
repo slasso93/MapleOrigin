@@ -30,7 +30,7 @@ import server.MapleShopFactory;
 
 public class ReloadShopsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reload all shops");
     }
 
     @Override

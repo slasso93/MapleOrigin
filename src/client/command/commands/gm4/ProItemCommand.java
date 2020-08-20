@@ -35,7 +35,7 @@ import server.MapleItemInformationProvider;
 
 public class ProItemCommand extends Command {
     {
-        setDescription("");
+        setDescription("Create an item with any stats");
     }
 
     @Override

@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class TimerMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set a map timer");
     }
 
     @Override

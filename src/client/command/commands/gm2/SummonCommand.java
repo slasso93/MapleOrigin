@@ -32,7 +32,7 @@ import net.server.channel.Channel;
 
 public class SummonCommand extends Command {
     {
-        setDescription("");
+        setDescription("Warp a player to you");
     }
 
     @Override

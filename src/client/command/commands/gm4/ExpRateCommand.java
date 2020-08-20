@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class ExpRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set EXP rate");
     }
 
     @Override

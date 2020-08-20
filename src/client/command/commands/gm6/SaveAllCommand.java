@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class SaveAllCommand extends Command {
     {
-        setDescription("");
+        setDescription("Save all characters");
     }
 
     @Override

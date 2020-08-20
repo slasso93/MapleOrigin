@@ -28,7 +28,7 @@ import client.command.Command;
 
 public class ReEnterRaid extends Command {
     {
-        setDescription("");
+        setDescription("Open raid dc npc");
     }
 
     @Override

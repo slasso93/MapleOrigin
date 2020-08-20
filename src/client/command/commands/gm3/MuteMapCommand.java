@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class MuteMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Mute/unmute all players");
     }
 
     @Override

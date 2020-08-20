@@ -28,7 +28,7 @@ import tools.MaplePacketCreator;
 
 public class SayCommand extends Command {
     {
-        setDescription("");
+        setDescription("Broadcast message with your ign");
     }
 
     @Override

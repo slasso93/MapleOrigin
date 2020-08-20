@@ -31,7 +31,7 @@ import server.maps.MapleMap;
 
 public class JailCommand extends Command {
     {
-        setDescription("");
+        setDescription("Send a player to jail");
     }
 
     @Override

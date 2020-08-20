@@ -30,7 +30,7 @@ import net.server.Server;
 
 public class FlyCommand extends Command {
     {
-        setDescription("");
+        setDescription("Toggle GM fly");
     }
 
     @Override

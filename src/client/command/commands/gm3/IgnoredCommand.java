@@ -30,7 +30,7 @@ import tools.MapleLogger;
 
 public class IgnoredCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show your ignore list");
     }
 
     @Override

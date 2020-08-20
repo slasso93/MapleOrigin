@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class IgnoreCommand extends Command {
     {
-        setDescription("");
+        setDescription("Add a player to ignore");
     }
 
     @Override

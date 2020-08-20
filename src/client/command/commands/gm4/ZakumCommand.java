@@ -30,7 +30,7 @@ import server.life.MapleLifeFactory;
 
 public class ZakumCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn zakum");
     }
 
     @Override

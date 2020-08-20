@@ -33,7 +33,7 @@ import server.MapleItemInformationProvider;
 
 public class RechargeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Recharge throwing stars and bullets");
     }
 
     @Override

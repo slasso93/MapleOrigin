@@ -30,7 +30,7 @@ import scripting.portal.PortalScriptManager;
 
 public class ReloadPortalsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reload all portals");
     }
 
     @Override

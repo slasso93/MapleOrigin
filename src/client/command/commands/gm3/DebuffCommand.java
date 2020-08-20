@@ -36,7 +36,7 @@ import java.util.Arrays;
 
 public class DebuffCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give a debuff to all players on the map");
     }
 
     @Override

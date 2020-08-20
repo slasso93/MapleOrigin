@@ -30,7 +30,7 @@ import config.YamlConfig;
 
 public class ShowRatesCommand extends Command {
     {
-        setDescription("");
+        setDescription("Display server rates");
     }
 
     @Override

@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class HideCommand extends Command {
     {
-        setDescription("");
+        setDescription("Toggle GM hide");
     }
 
     @Override

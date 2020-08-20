@@ -37,7 +37,7 @@ import tools.FilePrinter;
 
 public class ItemDropCommand extends Command {
     {
-        setDescription("");
+        setDescription("Drop an item");
     }
 
     @Override

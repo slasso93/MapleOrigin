@@ -42,7 +42,7 @@ import java.util.Properties;
 
 public class PeCommand extends Command {
     {
-        setDescription("");
+        setDescription("pe");
     }
 
     @Override

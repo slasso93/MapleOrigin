@@ -45,7 +45,7 @@ public class SearchCommand extends Command {
     private static MapleData mapStringData;
     
     {
-        setDescription("");
+        setDescription("Search for any game id");
         
         MapleDataProvider dataProvider = MapleDataProviderFactory.getDataProvider(new File("wz/String.wz"));
         npcStringData = dataProvider.getData("Npc.img");

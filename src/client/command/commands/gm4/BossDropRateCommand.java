@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
  */
 public class BossDropRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set boss drop rate");
     }
 
     @Override

@@ -30,7 +30,7 @@ import client.MapleClient;
 
 public class BuffMeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Buffs self with a few skills");
     }
 
     @Override

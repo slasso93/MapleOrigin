@@ -32,7 +32,7 @@ import server.maps.MapleMiniDungeonInfo;
 
 public class WarpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Warp to a map");
     }
 
     @Override

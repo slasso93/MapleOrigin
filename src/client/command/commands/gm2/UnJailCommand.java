@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class UnJailCommand extends Command {
     {
-        setDescription("");
+        setDescription("Unjail a player");
     }
 
     @Override

@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class KillMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Kill all players in map");
     }
 
     @Override

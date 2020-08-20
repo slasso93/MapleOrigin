@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class UnBugCommand extends Command {
     {
-        setDescription("");
+        setDescription("Unstuck self");
     }
 
     @Override

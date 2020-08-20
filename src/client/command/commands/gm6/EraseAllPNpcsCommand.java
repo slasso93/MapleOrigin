@@ -29,7 +29,7 @@ import server.life.MaplePlayerNPC;
 
 public class EraseAllPNpcsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Removes all player NPCs");
     }
 
     @Override
