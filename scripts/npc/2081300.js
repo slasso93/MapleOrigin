@@ -49,7 +49,7 @@ function action(mode, type, selection) {
                         if(cm.getLevel() < 120 || Math.floor(cm.getJobId() / 100) != 3) {
                                 cm.sendOk("Please don't bother me right now, I am trying to concentrate.");
                                 cm.dispose();
-                        } else if (cm.isQuestCompleted(6924)) {
+                        } else if (!cm.isQuestCompleted(6924)) {
                                 cm.sendOk("You have not yet passed my trials. I can not advance you until you do so.");
                                 cm.dispose();
                         } else if ( cm.getJobId() % 100 % 10 != 2) {
