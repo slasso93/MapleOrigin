@@ -30,7 +30,7 @@ import config.YamlConfig;
 
 public class LevelCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set a player's level");
     }
 
     @Override

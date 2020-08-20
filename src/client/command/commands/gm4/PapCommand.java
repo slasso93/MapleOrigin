@@ -30,7 +30,7 @@ import server.life.MapleLifeFactory;
 
 public class PapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn pap");
     }
 
     @Override

@@ -30,7 +30,7 @@ import net.server.Server;
 
 public class ToggleCouponCommand extends Command {
     {
-        setDescription("");
+        setDescription("Toggle a coupon");
     }
 
     @Override

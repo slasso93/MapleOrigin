@@ -41,7 +41,7 @@ import tools.Pair;
 
 public class PnpcRemoveCommand extends Command {
     {
-        setDescription("");
+        setDescription("Remove a perma NPC");
     }
 
     @Override

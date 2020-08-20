@@ -32,7 +32,7 @@ import java.util.Collection;
 
 public class ReloadMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reload map");
     }
 
     @Override

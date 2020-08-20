@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class MesoRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set meso rate");
     }
 
     @Override

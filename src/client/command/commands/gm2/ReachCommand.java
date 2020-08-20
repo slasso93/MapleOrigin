@@ -38,7 +38,7 @@ import java.util.List;
 
 public class ReachCommand extends Command {
     {
-        setDescription("");
+        setDescription("Warp to a target player");
     }
 
     @Override

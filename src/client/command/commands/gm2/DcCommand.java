@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class DcCommand extends Command {
     {
-        setDescription("");
+        setDescription("Disconnect a player");
     }
 
     @Override

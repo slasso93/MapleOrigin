@@ -31,7 +31,7 @@ import net.server.world.World;
 
 public class DCAllCommand extends Command {
     {
-        setDescription("");
+        setDescription("Disconnect all players");
     }
 
     @Override

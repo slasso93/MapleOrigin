@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class MonitorCommand extends Command {
     {
-        setDescription("");
+        setDescription("Monitor a player");
     }
 
     @Override

@@ -30,7 +30,7 @@ import server.life.MapleMonsterInformationProvider;
 
 public class ReloadDropsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reload all server drops");
     }
 
     @Override

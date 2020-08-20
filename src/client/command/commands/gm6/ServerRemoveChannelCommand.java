@@ -31,7 +31,7 @@ import server.ThreadManager;
 
 public class ServerRemoveChannelCommand extends Command {
     {
-        setDescription("");
+        setDescription("Remove a channel from the world");
     }
 
     @Override

@@ -31,7 +31,7 @@ import tools.MaplePacketCreator;
 
 public class RipCommand extends Command {
     {
-        setDescription("");
+        setDescription("Broadcast RIP");
     }
 
     @Override

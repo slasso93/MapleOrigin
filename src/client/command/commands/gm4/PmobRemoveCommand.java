@@ -41,7 +41,7 @@ import tools.Pair;
 
 public class PmobRemoveCommand extends Command {
     {
-        setDescription("");
+        setDescription("Remove pmob");
     }
 
     @Override

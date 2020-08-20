@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class TravelRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set travel rate");
     }
 
     @Override

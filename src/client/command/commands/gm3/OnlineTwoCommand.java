@@ -31,7 +31,7 @@ import net.server.channel.Channel;
 
 public class OnlineTwoCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show online players by channel");
     }
 
     @Override

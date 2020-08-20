@@ -31,7 +31,7 @@ import server.life.MapleMonster;
 
 public class CakeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn cake boss");
     }
 
     @Override

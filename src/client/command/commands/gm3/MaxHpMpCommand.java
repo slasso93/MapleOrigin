@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class MaxHpMpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Max HP/MP");
     }
 
     @Override

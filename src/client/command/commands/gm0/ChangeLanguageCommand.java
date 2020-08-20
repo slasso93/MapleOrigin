@@ -28,7 +28,7 @@ import client.MapleClient;
 
 public class ChangeLanguageCommand extends Command {
     {
-        setDescription("");
+        setDescription("Change language of the server");
     }
 
     @Override

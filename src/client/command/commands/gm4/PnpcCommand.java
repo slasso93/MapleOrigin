@@ -40,7 +40,7 @@ import tools.MaplePacketCreator;
 
 public class PnpcCommand extends Command {
     {
-        setDescription("");
+        setDescription("Create a perma NPC");
     }
 
     @Override

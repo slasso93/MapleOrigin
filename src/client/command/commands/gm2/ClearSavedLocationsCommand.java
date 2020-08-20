@@ -30,7 +30,7 @@ import server.maps.SavedLocationType;
 
 public class ClearSavedLocationsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Clear cache save locations");
     }
 
     @Override

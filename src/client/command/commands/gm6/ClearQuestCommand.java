@@ -30,7 +30,7 @@ import server.quest.MapleQuest;
 
 public class ClearQuestCommand extends Command {
     {
-        setDescription("");
+        setDescription("Clear quest cache");
     }
 
     @Override

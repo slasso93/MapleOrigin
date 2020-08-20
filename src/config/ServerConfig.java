@@ -310,4 +310,6 @@ public class ServerConfig {
     public boolean USE_MONSTERBOOK_COMPLETE_BOOK_BONUS;
     public int MONSTERBOOK_COMPLTE_BONUS;
 
+    public int MAX_ALLOWED_VOTES;
+
 }

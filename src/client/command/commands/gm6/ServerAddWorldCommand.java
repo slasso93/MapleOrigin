@@ -31,7 +31,7 @@ import server.ThreadManager;
 
 public class ServerAddWorldCommand extends Command {
     {
-        setDescription("");
+        setDescription("Add a world to the server");
     }
 
     @Override

@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class HealMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Heals map");
     }
 
     @Override

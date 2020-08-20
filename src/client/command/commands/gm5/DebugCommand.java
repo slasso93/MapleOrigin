@@ -44,7 +44,7 @@ public class DebugCommand extends Command {
     private final static String debugTypes[] = {"monster", "packet", "portal", "spawnpoint", "pos", "map", "mobsp", "event", "areas", "reactors", "servercoupons", "playercoupons", "timer", "marriage", "buff", "npc", ""};
     
     {
-        setDescription("");
+        setDescription("Debug various things");
     }
 
     @Override

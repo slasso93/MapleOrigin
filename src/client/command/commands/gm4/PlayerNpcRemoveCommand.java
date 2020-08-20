@@ -30,7 +30,7 @@ import server.life.MaplePlayerNPC;
 
 public class PlayerNpcRemoveCommand extends Command {
     {
-        setDescription("");
+        setDescription("Remove a player NPC");
     }
 
     @Override

@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 public class GotoCommand extends Command {
     
     {
-        setDescription("");
+        setDescription("Go to a map");
         
         List<Entry<String, Integer>> towns = new ArrayList<>(GameConstants.GOTO_TOWNS.entrySet());
         sortGotoEntries(towns);

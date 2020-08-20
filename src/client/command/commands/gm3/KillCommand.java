@@ -31,7 +31,7 @@ import tools.MaplePacketCreator;
 
 public class KillCommand extends Command {
     {
-        setDescription("");
+        setDescription("Kill a player");
     }
 
     @Override

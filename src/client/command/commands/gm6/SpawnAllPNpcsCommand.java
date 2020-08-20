@@ -30,7 +30,7 @@ import server.life.MaplePlayerNPC;
 
 public class SpawnAllPNpcsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn all PNPC");
     }
 
     @Override

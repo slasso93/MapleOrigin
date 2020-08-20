@@ -31,7 +31,7 @@ import net.server.channel.Channel;
 
 public class ReloadEventCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reload an event");
     }
 
     @Override

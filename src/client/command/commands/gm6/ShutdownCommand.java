@@ -32,7 +32,7 @@ import server.TimerManager;
 
 public class ShutdownCommand extends Command {
     {
-        setDescription("");
+        setDescription("Shutdown the server");
     }
 
     @Override

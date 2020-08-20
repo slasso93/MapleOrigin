@@ -32,7 +32,7 @@ import java.awt.*;
 
 public class HorntailCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn horntail");
     }
 
     @Override

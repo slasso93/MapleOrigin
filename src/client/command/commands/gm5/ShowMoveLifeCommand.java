@@ -29,7 +29,7 @@ import config.YamlConfig;
 
 public class ShowMoveLifeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Debug move life");
     }
 
     @Override

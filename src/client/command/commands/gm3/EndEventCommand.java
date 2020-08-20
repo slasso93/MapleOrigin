@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class EndEventCommand extends Command {
     {
-        setDescription("");
+        setDescription("End event");
     }
 
     @Override

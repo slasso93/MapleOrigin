@@ -30,7 +30,7 @@ import server.quest.MapleQuest;
 
 public class QuestStartCommand extends Command {
     {
-        setDescription("");
+        setDescription("Start a quest");
     }
 
     @Override

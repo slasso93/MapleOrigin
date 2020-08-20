@@ -1,5 +1,6 @@
 package net.server.services;
 
+import config.YamlConfig;
 import net.server.Server;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -15,7 +16,7 @@ import java.util.*;
 
 public class HttpHandler extends IoHandlerAdapter {
 
-    public void messageReceived(IoSession session, Object message) {
+    public synchronized void messageReceived(IoSession session, Object message) {
         try {
             if (message instanceof HttpEndOfContent)
                 return;
@@ -39,6 +40,7 @@ public class HttpHandler extends IoHandlerAdapter {
                 int siteId = -1;
                 long time = System.currentTimeMillis() / 1000;
 
+                boolean allowedVote = true;
                 try (Connection c = DatabaseConnection.getConnection()) {
                     try (PreparedStatement ps = c.prepareStatement("SELECT * FROM bit_vote WHERE name like '%GTOP%'")) {
                         try (ResultSet rs = ps.executeQuery()) {
@@ -49,18 +51,36 @@ public class HttpHandler extends IoHandlerAdapter {
                             }
                         }
                     }
-                    try (PreparedStatement ps = c.prepareStatement(
-                            "INSERT INTO bit_votingrecords (siteid, ip, account, date, times) " +
-                                    "SELECT ?, ?, a.name, ?, 1 FROM accounts a where a.id=? " +
-                                    " on duplicate key update ip=VALUES(ip), date=VALUES(date), times=VALUES(times)")) {
-                        ps.setInt(1, siteId);
-                        ps.setString(2, voterIP);
-                        ps.setLong(3, time);
-                        ps.setInt(4, Integer.parseInt(account));
-                        ps.executeUpdate();
+                    int timesVoted = 0;
+                    try (PreparedStatement ps = c.prepareStatement("SELECT vr.date, vr.times FROM bit_votingrecords vr JOIN " +
+                            "accounts a on a.name=vr.account where a.id= ?")) {
+                        ps.setInt(1, Integer.parseInt(account));
+                        try (ResultSet rs = ps.executeQuery()) {
+                            if (rs.next()) {
+                                long lastVote = rs.getLong("date");
+                                long resetTime = System.currentTimeMillis() + Server.getTimeLeftForNextDay() - 24 * 60 * 60 * 1000;
+                                if (lastVote * 1000 > resetTime) { // last voted some time today
+                                    timesVoted = rs.getInt("times");
+                                    allowedVote = timesVoted < YamlConfig.config.server.MAX_ALLOWED_VOTES;
+                                }
+                            }
+                        }
+                    }
+                    if (allowedVote) {
+                        try (PreparedStatement ps = c.prepareStatement(
+                                "INSERT INTO bit_votingrecords (siteid, ip, account, date, times) " +
+                                        "SELECT ?, ?, a.name, ?, ? FROM accounts a where a.id=? " +
+                                        " on duplicate key update ip=VALUES(ip), date=VALUES(date), times=VALUES(times)")) {
+                            ps.setInt(1, siteId);
+                            ps.setString(2, voterIP);
+                            ps.setLong(3, time);
+                            ps.setInt(4, timesVoted + 1);
+                            ps.setInt(5, Integer.parseInt(account));
+                            ps.executeUpdate();
+                        }
                     }
                 }
-                if (vpGain > -1 && nxGain > -1)
+                if (allowedVote && vpGain > -1 && nxGain > -1)
                     Server.getInstance().updateAccountNX(Integer.parseInt(account), nxGain, vpGain);
             } else {
                 // already voted

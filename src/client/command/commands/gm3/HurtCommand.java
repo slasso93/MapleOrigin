@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class HurtCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reduce a player to 1 HP");
     }
 
     @Override

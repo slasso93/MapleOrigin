@@ -30,7 +30,7 @@ import server.quest.MapleQuest;
 
 public class QuestResetCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reset a quest");
     }
 
     @Override

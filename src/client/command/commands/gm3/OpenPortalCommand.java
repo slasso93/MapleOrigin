@@ -31,7 +31,7 @@ import server.maps.MaplePortal;
 
 public class OpenPortalCommand extends Command {
     {
-        setDescription("");
+        setDescription("Enable a portal");
     }
 
     @Override
