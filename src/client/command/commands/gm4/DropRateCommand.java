@@ -42,8 +42,9 @@ public class DropRateCommand extends Command {
         }
 
         int droprate = Math.max(Integer.parseInt(params[0]), 1);
+        int oldRate = c.getWorldServer().getDropRate();
         c.getWorldServer().setDropRate(droprate);
-        c.getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, "[Rate] Drop Rate has been changed to " + droprate + "x."));
+        c.getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, "[Rate] Drop Rate has been changed to " + (droprate * oldRate) + "x."));
 
     }
 }
