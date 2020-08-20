@@ -23,22 +23,22 @@
 */
 package client.command.commands.gm3;
 
-import client.command.Command;
-import client.MapleClient;
 import client.MapleCharacter;
+import client.MapleClient;
+import client.command.Command;
+import scripting.portal.PortalScriptManager;
 import scripting.reactor.ReactorScriptManager;
-import server.life.MapleMonsterInformationProvider;
 
-public class ReloadDropsCommand extends Command {
+public class ReloadReactorsCommand extends Command {
     {
-        setDescription("Reload all server drops");
+        setDescription("Reload all reactors");
     }
 
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
-        MapleMonsterInformationProvider.getInstance().clearDrops();
-        ReactorScriptManager.getInstance().clearDrops();
-        player.dropMessage(5, "Reloaded Drops");
+        ReactorScriptManager.getInstance().reloadReactorScripts();
+        player.dropMessage(5, "Reloaded Reactors");
     }
+
 }

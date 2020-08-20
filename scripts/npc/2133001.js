@@ -16,8 +16,13 @@ function start() {
 }
 
 function action(mode, type, selection) {
-        if (mode == -1) {
+        if (mapid == 930000300) { // maze map, you have to be in the bottom right room
+            if (cm.getPlayer().getPosition().getX() < 1389.0 || cm.getPlayer().getPosition().getY() < 1550.0) {
                 cm.dispose();
+            }
+        }
+        if (mode == -1) {
+            cm.dispose();
         } else {
                 if (mode == 0 && status == 0) {
                         cm.dispose();
@@ -36,11 +41,15 @@ function action(mode, type, selection) {
                         } else if(mapid == 930000300) {
                             var eim = cm.getEventInstance();
                             
-                            if(eim.getIntProperty("statusStg4") == 0) {
+                            if(eim.getIntProperty("statusStg3") == 0) {
                                 eim.showClearEffect(cm.getMap().getId());
-                                eim.setIntProperty("statusStg4", 1);
+
+                                eim.setProperty(3 + "stageclear", "true");
+                                eim.showClearEffect(true);
+                                eim.giveEventPlayersStageReward(3);
+                                eim.setIntProperty("statusStg3", 1);
                             }
-                            
+
                             cm.sendNext(ellinStr);
                         } else if(mapid == 930000400) {
                             if (cm.haveItem(4001169, 20)) {
@@ -73,15 +82,17 @@ function action(mode, type, selection) {
                                                 return;
                                             }
                                         } else {
-                                            cm.sendYesNo(ellinStr + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
+                                            cm.sendYesNo("It may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
                                         }
                                     } else {
                                         cm.sendYesNo("You guys caught all the #o9300174#. Let the party leader hand all #b20 #t4001169##k to me to proceed." + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
                                     }
                                 }
                             }
+                        } else if (mapid == 930000700) {
+                            cm.sendNext(ellinStr);
                         } else {
-                            cm.sendYesNo(ellinStr + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
+                            cm.sendYesNo("It may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
                         }
                 } else if(status == 1) {
                         if(mapid == 930000000) {
@@ -92,6 +103,14 @@ function action(mode, type, selection) {
                                 cm.gainItem(4001169, -20);
                                 cm.getEventInstance().warpEventTeam(930000500);
                             } else {
+                                cm.warp(930000800, 0);
+                            }
+                        } else if (mapid == 930000700) {
+                            if (cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+                                cm.sendNext("Please make room on your inventory first!");
+                            } else {
+                                cm.getEventInstance().giveEventReward(cm.getPlayer());
+                                cm.gainItem(4001198, 1);
                                 cm.warp(930000800, 0);
                             }
                         } else {
@@ -124,7 +143,7 @@ function ellinMapMessage(mapid) {
 	    return "The root of all problems of the forest! Place the obtained Magic Stone on the Altar and prepare yourselves!";
 	    
 	case 930000700:
-	    return "This is it, you guys did it! Thank you so much for purifying the forest!!";
+	    return "This is it, you guys did it! Thank you so much for purifying the forest!! Take these rewards as a token of our appreciation!";
 	    
     }
 }

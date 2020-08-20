@@ -50,10 +50,11 @@ public class ReactorScriptManager extends AbstractScriptManager {
     }
     
     private Map<Integer, List<ReactorDropEntry>> drops = new HashMap<>();
+    private Map<String, NashornScriptEngine> scripts = new HashMap<>();
     
     public void onHit(MapleClient c, MapleReactor reactor) {
         try {
-            NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
+            NashornScriptEngine iv = getReactorScript(reactor.getId(), c);
             if (iv == null) return;
             
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
@@ -68,7 +69,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
 
     public void act(MapleClient c, MapleReactor reactor) {
         try {
-            NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
+            NashornScriptEngine iv = getReactorScript(reactor.getId(), c);
             if (iv == null) return;
             
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
@@ -117,7 +118,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
 
     private void touching(MapleClient c, MapleReactor reactor, boolean touching) {
         try {
-            NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
+            NashornScriptEngine iv = getReactorScript(reactor.getId(), c);
             if (iv == null) return;
             
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
@@ -131,4 +132,25 @@ public class ReactorScriptManager extends AbstractScriptManager {
             FilePrinter.printError(FilePrinter.REACTOR + reactor.getId() + ".txt", ute);
         }
     }
+
+    private NashornScriptEngine getReactorScript(int reactorId, MapleClient c) {
+        String scriptPath = "reactor/" + reactorId + ".js";
+        NashornScriptEngine iv = scripts.get(scriptPath);
+        if (iv != null) {
+            return iv;
+        }
+
+        iv = getScriptEngine(scriptPath, c);
+        if (iv == null) {
+            return null;
+        }
+
+        scripts.put(scriptPath, iv);
+        return iv;
+    }
+
+    public void reloadReactorScripts() {
+        scripts.clear();
+    }
+
 }

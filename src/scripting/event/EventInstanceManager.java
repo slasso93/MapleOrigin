@@ -1228,9 +1228,10 @@ public class EventInstanceManager {
         eventCleared = true;
 
         for (MapleCharacter chr : getPlayers()) {
-            chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
             if (type != null)
                 chr.setExpeditionCompleted(type);
+            else // award quest points for PQ completion. TODO: change to PQ points (counter for rankings, or full pq_leaderboard table with timing)
+                chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
         }
 
         sL.lock();
