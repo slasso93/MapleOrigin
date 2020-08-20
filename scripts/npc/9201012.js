@@ -107,12 +107,12 @@ function action(mode, type, selection) {
                 if(wid == cserv.getOngoingWedding(cathedralWedding)) {
                     var partner = cserv.getPlayerStorage().getCharacterById(cm.getPlayer().getPartnerId());
                     if(!(partner == null || !cm.getMap().equals(partner.getMap()))) {
-                        if(!cm.canHold(4000313)) {
-                            cm.sendOk("Please have a free ETC slot available to get the #b#t4000313##k.");
+                        if(!cm.canHold(4031217)) {
+                            cm.sendOk("Please have a free ETC slot available to get the #b#t4031217##k.");
                             cm.dispose();
                             return;
-                        } else if(!partner.canHold(4000313)) {
-                            cm.sendOk("Please let your partner know they must have a free ETC slot available to get the #b#t4000313##k.");
+                        } else if(!partner.canHold(4031217)) {
+                            cm.sendOk("Please let your partner know they must have a free ETC slot available to get the #b#t4031217##k.");
                             cm.dispose();
                             return;
                         } else if(!isSuitedForWedding(cm.getPlayer(), false)) {

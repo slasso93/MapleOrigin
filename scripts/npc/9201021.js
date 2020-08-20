@@ -38,8 +38,8 @@ function action(mode, type, selection) {
         status--;
     if (status == 1) {
         if (selection < 1) {
-            if(!cm.haveItem(4000313, 1)) {
-                cm.sendOk("It seems like you lost your #b#t4000313##k. I'm sorry, but I can't let you proceed to the hunting grounds without that.");
+            if(!cm.haveItem(4031217, 1)) {
+                cm.sendOk("It seems like you lost your #b#t4031217##k. I'm sorry, but I can't let you proceed to the hunting grounds without that.");
                 cm.dispose();
                 return;
             }

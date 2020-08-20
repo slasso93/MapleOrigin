@@ -86,9 +86,9 @@ function isSuitedForWedding(player, equipped) {
 }
 
 function getWeddingPreparationStatus(player, partner) {
-    if (!player.haveItem(4000313))
+    if (!player.haveItem(4031217))
         return -3;
-    if (!partner.haveItem(4000313))
+    if (!partner.haveItem(4031217))
         return 3;
 
     if (!isSuitedForWedding(player, true))
@@ -182,12 +182,12 @@ function action(mode, type, selection) {
                     if (wid == cserv.getOngoingWedding(cathedralWedding)) {
                         var partner = cserv.getPlayerStorage().getCharacterById(cm.getPlayer().getPartnerId());
                         if (!(partner == null || !cm.getMap().equals(partner.getMap()))) {
-                            if (!cm.canHold(4000313)) {
-                                cm.sendOk("Please have a free ETC slot available to get the #b#t4000313##k.");
+                            if (!cm.canHold(4031217)) {
+                                cm.sendOk("Please have a free ETC slot available to get the #b#t4031217##k.");
                                 cm.dispose();
                                 return;
-                            } else if (!partner.canHold(4000313)) {
-                                cm.sendOk("Please let your partner know they must have a free ETC slot available to get the #b#t4000313##k.");
+                            } else if (!partner.canHold(4031217)) {
+                                cm.sendOk("Please let your partner know they must have a free ETC slot available to get the #b#t4031217##k.");
                                 cm.dispose();
                                 return;
                             } else if (!isSuitedForWedding(cm.getPlayer(), false)) {
@@ -383,7 +383,7 @@ function action(mode, type, selection) {
                                     break;
 
                                 case -3:
-                                    cm.sendOk("It seems you don't have the #r#t4000313##k given at the entrance... Please find it, I can't marry you without that item in hands.");
+                                    cm.sendOk("It seems you don't have the #r#t4031217##k given at the entrance... Please find it, I can't marry you without that item in hands.");
                                     break;
 
                                 case -4:
@@ -399,7 +399,7 @@ function action(mode, type, selection) {
                                     break;
 
                                 case 3:
-                                    cm.sendOk("It seems your partner don't have the #r#t4000313##k given at the entrance... Please find it, I can't marry you without that item in hands.");
+                                    cm.sendOk("It seems your partner don't have the #r#t4031217##k given at the entrance... Please find it, I can't marry you without that item in hands.");
                                     break;
 
                                 case 4:

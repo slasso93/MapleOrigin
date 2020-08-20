@@ -69,8 +69,8 @@ function isSuitedForWedding(player, equipped) {
 }
 
 function getWeddingPreparationStatus(player, partner) {
-    if(!player.haveItem(4000313)) return -3;
-    if(!partner.haveItem(4000313)) return 3;
+    if(!player.haveItem(4031217)) return -3;
+    if(!partner.haveItem(4031217)) return 3;
     
     if(!isSuitedForWedding(player, true)) return -4;
     if(!isSuitedForWedding(partner, true)) return 4;
@@ -253,7 +253,7 @@ function action(mode, type, selection) {
                                 break;
 
                             case -3:
-                                cm.sendOk("Well, it seems you don't have the #r#t4000313##k given at the entrance... Please find it, baby~");
+                                cm.sendOk("Well, it seems you don't have the #r#t4031217##k given at the entrance... Please find it, baby~");
                                 break;
 
                             case -4:
@@ -269,7 +269,7 @@ function action(mode, type, selection) {
                                 break;
 
                             case 3:
-                                cm.sendOk("Well, it seems your partner don't have the #r#t4000313##k given at the entrance... Please find it, I can't call the finally without it.");
+                                cm.sendOk("Well, it seems your partner doesn't have the #r#t4000313##k given at the entrance...");
                                 break;
 
                             case 4:
