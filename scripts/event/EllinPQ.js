@@ -24,7 +24,7 @@
 */
 
 var isPq = true;
-var minPlayers = 4, maxPlayers = 6;
+var minPlayers = 1, maxPlayers = 6;
 var minLevel = 44, maxLevel = 250;
 var entryMap = 930000000;
 var exitMap = 930000800;
@@ -77,7 +77,7 @@ function setEventRewards(eim) {
     itemSet = [4310000, 4310000, 4310000, 4310000];
     itemQty = [2, 3, 4, 5];
     eim.setEventRewards(evLevel, itemSet, itemQty);
-    var expStages = [2 * 2500, 2 * 2500, 2 * 2500, 2 * 2500, 2 * 2500, 2 * 10000];    //bonus exp given on CLEAR stage signal
+    var expStages = [2 * 4000, 2 * 4000, 2 * 4000, 2 * 4000, 2 * 4000, 2 * 15000];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
@@ -91,7 +91,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for(var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel && Math.floor(ch.getJob().getId() / 1000) == 0) {  //only adventurers
+            if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
                 if(ch.isLeader()) hasLeader = true;
                 eligible.push(ch);
             }
@@ -106,7 +106,7 @@ function setup(level, lobbyid) {
     var eim = em.newInstance("Ellin" + lobbyid);
     eim.setProperty("level", level);
 
-    eim.setProperty("statusStg4", 0);
+    eim.setProperty("statusStg3", 0);
 
     eim.getInstanceMap(930000000).resetPQ(level);
 	eim.getInstanceMap(930000100).resetPQ(level);
@@ -218,6 +218,10 @@ function end(eim) {
     eim.dispose();
 }
 
+function giveRandomEventReward(eim, player) {
+    eim.giveEventReward(player);
+}
+
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
@@ -230,17 +234,23 @@ function isPoisonGolem(mob) {
 
 function monsterKilled(mob, eim, hasKiller) {
     var map = mob.getMap();
+    var stage = ((map.getId() % 1000) / 100);
 
     if(isPoisonGolem(mob)) {
-        eim.showClearEffect(map.getId());
+        clearStage(stage, eim, map.getId());
         eim.clearPQ();
     } else if(map.countMonsters() == 0) {
-        var stage = ((map.getId() % 1000) / 100);
-
-        if(stage == 1 || (stage == 4 && !hasKiller)) {
-            eim.showClearEffect(map.getId());
+        if (stage == 1 || (stage == 4 && !hasKiller)) {
+            clearStage(stage, eim, map.getId());
         }
     }
+}
+
+function clearStage(stage, eim, curMap) {
+    eim.setProperty(stage + "stageclear", "true");
+    eim.showClearEffect(true);
+
+    eim.giveEventPlayersStageReward(stage);
 }
 
 function allMonstersDead(eim) {}

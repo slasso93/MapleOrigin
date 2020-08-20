@@ -22,7 +22,7 @@
  * @author: Ronan
  * @npc: Ellin
  * @map: 300030100 - Deep Fairy Forest
- * @func: Ellin PQ
+ * @func: Ellin PQ start
 */
 
 var status = 0;
@@ -52,12 +52,12 @@ function action(mode, type, selection) {
                                 cm.sendOk("The Ellin PQ has encountered an error.");
                                 cm.dispose();
                                 return;
-                        } else if(cm.isUsingOldPqNpcStyle()) {
-                                action(1, 0, 0);
-                                return;
                         }
-                    
-                        cm.sendSimple("#e#b<Party Quest: Forest of Poison Haze>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble or join a team to solve the puzzles of the #bForest of Poison Haze#k? Have your #bparty leader#k talk to me or make yourself a party.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.\r\n#L3#I would like to reclaim a prize.");
+
+                        if (!cm.isLeader())
+                            cm.sendSimple("#e#b<Party Quest: Forest of Poison Haze>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble or join a team to solve the puzzles of the #bForest of Poison Haze#k? Have your #bparty leader#k talk to me or make yourself a party.#b\r\n#L0#I want to participate in the party quest.\r\n#L2#I would like to hear more details.\r\n#L3#I would like to claim a prize.");
+                        else
+                            cm.sendSimple("#e#b<Party Quest: Forest of Poison Haze>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble or join a team to solve the puzzles of the #bForest of Poison Haze#k?#b\r\n#L0#My party is ready, let's go.\r\n#L2#I would like to hear more details.\r\n#L3#I would like to claim a prize.");
                 } else if (status == 1) {
                         if (selection == 0) {
                                 if (cm.getParty() == null) {
@@ -88,13 +88,22 @@ function action(mode, type, selection) {
                                 cm.dispose();
                         }
                         else {
-                                cm.sendSimple("So, what prize do you want to obtain?\r\n#b#L0#Give me Altaire Earrings.\r\n#L1#Give me Glittering Altaire Earrings.\r\n#L2#Give me Brilliant Altaire Earrings");
+                                cm.sendSimple("So, what prize do you want to obtain?\r\n" +
+                                        "#k#L0##v1032060# #e#b#z1032060##n#k for #r5 #e#b#z4001198##k#n\r\n" +
+                                        "#k#L1##v1032061# #e#b#z1032061##n#k for #r10 #e#b#z4001198##k#n (plus previous)\r\n" +
+                                        "#k#L2##v1032101# #e#b#z1032101##n#k for #r20 #e#b#z4001198##k#n (plus previous)\r\n" +
+                                        "#k#L3##v1032186# #e#b#z1032186##n#k for #r30 #e#b#z4001198##k#n (plus previous)\r\n"
+                                );
                         }
                 } else if (status == 2) {
+                    if (cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(0)) {
+                        cm.sendNext("Please make room on your inventory first!");
+                        cm.dispose();
+                    } else {
                         if (selection == 0) {
-                                if (!cm.haveItem(1032060) && cm.haveItem(4001198, 10)) {
-                                        cm.gainItem(1032060,1);
-                                        cm.gainItem(4001198, -10);
+                                if (!cm.haveItem(1032060) && cm.haveItem(4001198, 5)) {
+                                        cm.gainItem(4001198, -5);
+                                        cm.gainItem(1032060, 1);
                                         cm.dispose();
                                 } else {
                                         cm.sendOk("You either have Altair Earrings already or you do not have 10 Altair Fragments.");
@@ -102,25 +111,36 @@ function action(mode, type, selection) {
                                 }
                         } else if (selection == 1){
                                 if (cm.haveItem(1032060) && !cm.haveItem(1032061) && cm.haveItem(4001198, 10)) {
+                                        cm.gainItem(4001198, -10);
                                         cm.gainItem(1032060,-1);
                                         cm.gainItem(1032061, 1);
-                                        cm.gainItem(4001198, -10);
                                         cm.dispose();
                                 } else {
-                                       cm.sendOk("You either don't have Altair Earrings already or you do not have 10 Altair Fragments.");
+                                       cm.sendOk("You either already have Glittering Altair Earrings or you do not have 10 Altair Fragments.");
                                        cm.dispose();
                                 }
                         } else if (selection == 2){
-                                if (cm.haveItem(1032061) && !cm.haveItem(1032072) && cm.haveItem(4001198, 10)) {
+                                if (cm.haveItem(1032061) && !cm.haveItem(1032101) && cm.haveItem(4001198, 20)) {
+                                        cm.gainItem(4001198, -20);
                                         cm.gainItem(1032061,-1);
-                                        cm.gainItem(1032072, 1);    // thanks yuxaij for noticing unexpected itemid here
-                                        cm.gainItem(4001198, -10);
+                                        cm.gainItem(1032101, 1);
                                         cm.dispose();
                                 } else {
-                                        cm.sendOk("You either don't have Glittering Altair Earrings already or you do not have 10 Altair Fragments.");
+                                        cm.sendOk("You either already have Brilliant Altair Earrings or you do not have 20 Altair Fragments.");
+                                        cm.dispose();
+                                }
+                        } else if (selection == 3){
+                                if (cm.haveItem(1032101) && !cm.haveItem(1032186) && cm.haveItem(4001198, 30)) {
+                                        cm.gainItem(4001198, -30);
+                                        cm.gainItem(1032101,-1);
+                                        cm.gainItem(1032186, 1);
+                                        cm.dispose();
+                                } else {
+                                        cm.sendOk("You either already have Bright Altair Earrings or you do not have 30 Altair Fragments.");
                                         cm.dispose();
                                 }
                         }
+                    }
                 }
         }
 }
