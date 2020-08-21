@@ -86,7 +86,10 @@ public class Equip extends Item {
         this.upgradeSlots = (byte) slots;
         this.itemExp = 0;
         this.itemLevel = 1;
-        
+
+        if (!ItemConstants.isHammerEnabled(id))
+            this.vicious = 13;
+
         this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
     }
 
@@ -95,6 +98,9 @@ public class Equip extends Item {
         this.upgradeSlots = (byte) slots;
         this.itemExp = 0;
         this.itemLevel = 1;
+
+        if (!ItemConstants.isHammerEnabled(id))
+            this.vicious = 13;
 
         this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
     }

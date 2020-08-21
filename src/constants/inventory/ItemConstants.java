@@ -83,7 +83,11 @@ public final class ItemConstants {
         int useType = itemId / 1000;
         return useType == 2022 || useType == 2010 || useType == 2020;
     }
-    
+
+    public static boolean isHammerEnabled(int itemId) {
+        return itemId != 1082399; // super scg
+    }
+
     public static boolean isConsumable(int itemId) {
         return isPotion(itemId) || isFood(itemId);
     }
