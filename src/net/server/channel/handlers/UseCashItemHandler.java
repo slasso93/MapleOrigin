@@ -75,9 +75,15 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         short position = slea.readShort();
         int itemId = slea.readInt();
         int itemType = itemId / 10000;
-		
-		        long timeNow = currentServerTime();
-        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < 10000) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
+
+        if (player.getMapId() == 300000012 && player.gmLevel() < 2) {
+            player.dropMessage(1, "You cannot use megaphones in jail.");
+            c.announce(MaplePacketCreator.enableActions());
+            return;
+        }
+
+        long timeNow = currentServerTime();
+        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < 30000) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
             player.dropMessage(1, "You have used a cash item or smega recently. Wait a moment, then try again.");
             c.announce(MaplePacketCreator.enableActions());
             return;
