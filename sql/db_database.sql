@@ -50,6 +50,19 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   INDEX (id, nxCredit, maplePoint, nxPrepaid)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE if not exists activity_tracker (
+	id int(11) NOT NULL AUTO_INCREMENT,
+    character_id INT(11) NOT NULL,
+    activity_name VARCHAR(64),
+    party_size INT(11) NOT NULL DEFAULT 1,
+    duration BIGINT NOT NULL DEFAULT 0,
+    completed_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    party_id varchar(36),
+    activity_type enum('BOSS','PQ','JQ') NOT NULL,
+	PRIMARY KEY (id),
+    FOREIGN KEY (character_id) REFERENCES characters (id)
+);
+
 CREATE TABLE IF NOT EXISTS `alliance` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(13) NOT NULL,

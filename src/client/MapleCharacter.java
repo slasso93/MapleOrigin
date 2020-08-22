@@ -85,6 +85,7 @@ import server.events.MapleEvents;
 import server.events.RescueGaga;
 import server.events.gm.MapleFitness;
 import server.events.gm.MapleOla;
+import server.expeditions.MapleExpedition;
 import server.expeditions.MapleExpeditionBossLog;
 import server.expeditions.MapleExpeditionType;
 import server.life.MapleMonster;
@@ -11920,6 +11921,24 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void setExpeditionCompleted(MapleExpeditionType type) {
         MapleExpeditionBossLog.setExpeditionCompleted(getId(), type);
+    }
+
+    public void logActivity(String activityName, int partySize, long startTime, String partyUUID, String type) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO activity_tracker VALUE (DEFAULT, ?, ?, ?, ?, ?, ?, ?)")) {
+                ps.setInt(1, getId());
+                ps.setString(2, activityName);
+                ps.setInt(3, partySize);
+                ps.setLong(4, System.currentTimeMillis() - startTime);
+                ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+                ps.setString(6, partyUUID);
+                ps.setString(7, type);
+
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<MapleCharacter> getCharactersByHWID() {

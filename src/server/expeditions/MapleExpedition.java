@@ -155,7 +155,7 @@ public class MapleExpedition {
                 if (schedule != null){
 			schedule.cancel(false);
 		}
-		if (log && !registering){
+		if (log && !registering) {
 			LogHelper.logExpedition(this);
 		}
 	}
