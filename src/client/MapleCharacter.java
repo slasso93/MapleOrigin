@@ -30,22 +30,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Comparator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -302,6 +288,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private ScheduledFuture<?> chairRecoveryTask = null;
     private ScheduledFuture<?> pendantOfSpirit = null; //1122017
     private ScheduledFuture<?> cpqSchedule = null;
+    private ScheduledFuture<?> jailedScheduledFuture = null;
     private Lock chrLock = MonitoredReentrantLockFactory.createLock(MonitoredLockType.CHARACTER_CHR, true);
     private Lock evtLock = MonitoredReentrantLockFactory.createLock(MonitoredLockType.CHARACTER_EVT, true);
     private Lock petLock = MonitoredReentrantLockFactory.createLock(MonitoredLockType.CHARACTER_PET, true);
@@ -3242,6 +3229,24 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         if (itemExpireTask != null) {
             itemExpireTask.cancel(false);
             itemExpireTask = null;
+        }
+    }
+
+    public void jailTask(long time) {
+        if (time > 0 || getJailExpirationTimeLeft() > 0) {
+            if (itemExpireTask != null) {
+                itemExpireTask.cancel(true);
+            }
+            long countdown = time > 0 ? time : getJailExpirationTimeLeft();
+            announce(MaplePacketCreator.getClock((int) (countdown / 1000L)));
+            jailedScheduledFuture = TimerManager.getInstance().schedule(() ->
+                    changeMap(100000000), time > 0 ? time : getJailExpirationTimeLeft());
+        }
+    }
+
+    public void cancelJailTask() {
+        if (jailedScheduledFuture != null) {
+            jailedScheduledFuture.cancel(true);
         }
     }
 
@@ -10950,6 +10955,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         cancelDiseaseExpireTask();
         cancelSkillCooldownTask();
         cancelExpirationTask();
+        cancelJailTask();
+
+        if (jailedScheduledFuture != null) {
+            jailedScheduledFuture = null;
+        }
 
         if (questExpireTask != null) { questExpireTask.cancel(true); }
         questExpireTask = null;
@@ -11126,7 +11136,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     
     public long getJailExpirationTimeLeft() {
-        return jailExpiration - System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
+        return jailExpiration > currentTime ? jailExpiration - System.currentTimeMillis() : 0;
     }
     
     private void setFutureJailExpiration(long time) {
@@ -11136,15 +11147,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public void addJailExpirationTime(long time) {
         long timeLeft = getJailExpirationTimeLeft();
 
-        if(timeLeft <= 0) {
-            setFutureJailExpiration(time);
-        } else {
-            setFutureJailExpiration(timeLeft + time);
-        }
+        setFutureJailExpiration(timeLeft + time);
+        jailTask(timeLeft + time);
     }
     
     public void removeJailExpirationTime() {
         jailExpiration = 0;
+        if (jailedScheduledFuture != null)
+            jailedScheduledFuture.cancel(true);
     }
     
     public boolean registerNameChange(String newName) {

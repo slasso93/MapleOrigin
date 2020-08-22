@@ -40,6 +40,7 @@ public class MapleGachapon {
 
 		GLOBAL(-1, -1, -1, -1, new Global()),
 		HENESYS(9100100, 90, 8, 2, new Henesys()),
+		LITH_HARBOR(999, 90, 8, 2, new LithHarbor()),
 		ELLINIA(9100101, 90, 8, 2, new Ellinia()),
 		PERION(9100102, 90, 8, 2, new Perion()),
 		KERNING_CITY(9100103, 90, 8, 2, new KerningCity()),

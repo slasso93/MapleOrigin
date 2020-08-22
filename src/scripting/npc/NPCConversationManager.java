@@ -426,13 +426,13 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     public void doGachapon() {
         int[] maps = {100000000, 101000000, 102000000, 103000000, 105040300, 800000000, 809000101, 809000201, 600000000, 120000000};
 
-        MapleGachaponItem item = MapleGachapon.getInstance().process(npc);
+        MapleGachaponItem item = MapleGachapon.getInstance().process( getPlayer().getMapId() == 104000000 ? 999 : npc);
 
         Item itemGained = gainItem(item.getId(), (short) (item.getId() / 10000 == 200 ? 100 : 1), true, true); // For normal potions, make it give 100.
 
         sendNext("You have obtained a #b#t" + item.getId() + "##k.");
 
-        String map = c.getChannelServer().getMapFactory().getMap(maps[(getNpc() != 9100117 && getNpc() != 9100109) ? (getNpc() - 9100100) : getNpc() == 9100109 ? 8 : 9]).getMapName();
+        String map = getPlayer().getMapId() == 104000000 ? "Lith Harbor" : c.getChannelServer().getMapFactory().getMap(maps[(getNpc() != 9100117 && getNpc() != 9100109) ? (getNpc() - 9100100) : getNpc() == 9100109 ? 8 : 9]).getMapName();
 
         LogHelper.logGacha(getPlayer(), item.getId(), map);
 

@@ -394,6 +394,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 player.skillCooldownTask();
                 player.expirationTask();
                 player.questExpirationTask();
+                player.jailTask(-1);
                 if (GameConstants.hasSPTable(player.getJob()) && player.getJob().getId() != 2001) {
                     player.createDragon();
                 }

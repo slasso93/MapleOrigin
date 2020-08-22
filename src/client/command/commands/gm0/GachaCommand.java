@@ -38,8 +38,8 @@ public class GachaCommand extends Command {
         MapleGachapon.Gachapon gacha = null;
         String search = c.getPlayer().getLastCommandMessage();
         String gachaName = "";
-        String [] names = {"Henesys", "Ellinia", "Perion", "Kerning City", "Sleepywood", "Mushroom Shrine", "Showa Spa Male", "Showa Spa Female", "New Leaf City", "Nautilus Harbor"};
-        int [] ids = {9100100, 9100101, 9100102, 9100103, 9100104, 9100105, 9100106, 9100107, 9100109, 9100117};
+        String [] names = {"Henesys", "Ellinia", "Perion", "Kerning City", "Sleepywood", "Mushroom Shrine", "Showa Spa Male", "Showa Spa Female", "New Leaf City", "Nautilus Harbor", "Lith Harbor"};
+        int [] ids = {9100100, 9100101, 9100102, 9100103, 9100104, 9100105, 9100106, 9100107, 9100109, 9100117, 999};
         for (int i = 0; i < names.length; i++){
             if (search.equalsIgnoreCase(names[i])){
                 gachaName = names[i];
