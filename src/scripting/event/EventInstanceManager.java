@@ -290,12 +290,19 @@ public class EventInstanceManager {
     }
 
     public void exitPlayer(MapleCharacter chr, int map) {
+        exitPlayer(chr, map, null);
+    }
+
+    public void exitPlayer(MapleCharacter chr, int map, String targetPortal) {
         if (chr == null) {
             return;
         }
         if (chr == this.getLeader()) {
             this.unregisterPlayer(chr);
-            chr.changeMap(map, 0);
+            if (targetPortal != null)
+                chr.changeMap(map, targetPortal);
+            else
+                chr.changeMap(map, 0);
             if (!this.getPlayers().isEmpty()) {
                 this.setLeader(this.getRandomPlayer());
                 this.dropMessage(5, "Event Leader changed to " + this.getLeader().getName());
@@ -432,7 +439,6 @@ public class EventInstanceManager {
 
         event_schedule = null;
         eventTime = 0;
-        timeStarted = 0;
     }
 
     public void stopEventTimer() {
@@ -1227,11 +1233,14 @@ public class EventInstanceManager {
     public final void setEventCleared(MapleExpeditionType type) {
         eventCleared = true;
 
+        String partyId = java.util.UUID.randomUUID().toString();
         for (MapleCharacter chr : getPlayers()) {
             if (type != null)
                 chr.setExpeditionCompleted(type);
-            else // award quest points for PQ completion. TODO: change to PQ points (counter for rankings, or full pq_leaderboard table with timing)
+            else // award quest points for PQ completion.
                 chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
+            if (type != null || name.toUpperCase().contains("PQ"))
+                chr.logActivity(name, getPlayers().size(), timeStarted, partyId, type != null ? "BOSS" : "PQ");
         }
 
         sL.lock();

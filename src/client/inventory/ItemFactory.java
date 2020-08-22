@@ -144,6 +144,21 @@ public enum ItemFactory {
         equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
         equip.setLvlJump((short) rs.getInt("lvl_jump"));
 
+        equip.setScrollStr((short) rs.getInt("scroll_str"));
+        equip.setScrollDex((short) rs.getInt("scroll_dex"));
+        equip.setScrollInt((short) rs.getInt("scroll_int"));
+        equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+        equip.setScrollHp((short) rs.getInt("scroll_hp"));
+        equip.setScrollMp((short) rs.getInt("scroll_mp"));
+        equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+        equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+        equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+        equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+        equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+        equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+        equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+        equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
         return equip;
     }
     
@@ -243,7 +258,8 @@ public enum ItemFactory {
         final String updateItemsQuery = "UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
                 "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
                 "WHERE inventoryitemid=?";
-        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // TODO: ON DUPLICATE KEY UPDATE may be faster, but either way we are not updating many rows
+        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // TODO: ON DUPLICATE KEY UPDATE may be faster, but either way we are not updating many rows
         final String insertMerchantQuery = "INSERT INTO inventorymerchant VALUES (DEFAULT, ?, ?, ?) ON DUPLICATE KEY UPDATE bundles=VALUES(bundles)";
         try (PreparedStatement psNew = con.prepareStatement(insertItemsQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
@@ -486,6 +502,7 @@ public enum ItemFactory {
             ps.setInt(21, equip.getItemLevel());
             ps.setInt(22, equip.getItemExp());
             ps.setInt(23, equip.getRingId());
+
             ps.setInt(24, equip.getLvlStr());
             ps.setInt(25, equip.getLvlDex());
             ps.setInt(26, equip.getLvlInt());
@@ -500,6 +517,22 @@ public enum ItemFactory {
             ps.setInt(35, equip.getLvlAvoid());
             ps.setInt(36, equip.getLvlSpeed());
             ps.setInt(37, equip.getLvlJump());
+
+            ps.setInt(38, equip.getScrollStr());
+            ps.setInt(39, equip.getScrollDex());
+            ps.setInt(40, equip.getScrollInt());
+            ps.setInt(41, equip.getScrollLuk());
+            ps.setInt(42, equip.getScrollHp());
+            ps.setInt(43, equip.getScrollMp());
+            ps.setInt(44, equip.getScrollWatk());
+            ps.setInt(45, equip.getScrollMatk());
+            ps.setInt(46, equip.getScrollWdef());
+            ps.setInt(47, equip.getScrollMdef());
+            ps.setInt(48, equip.getScrollAcc());
+            ps.setInt(49, equip.getScrollAvoid());
+            ps.setInt(50, equip.getScrollSpeed());
+            ps.setInt(51, equip.getScrollJump());
+
             ps.addBatch();
             ps.executeBatch();
         }

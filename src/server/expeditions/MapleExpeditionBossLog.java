@@ -44,7 +44,7 @@ public class MapleExpeditionBossLog {
         PINKBEAN(1, 1, false),
         SCARGA(1, 1, false),
         PAPULATUS(2, 1, false),
-        VONLEON(2, 1, false),
+        VONLEON(1, 1, false),
         KREXEL(2, 1, false);
         //EMPRESS(1, 1, false);
 
@@ -255,7 +255,7 @@ public class MapleExpeditionBossLog {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         if (boss == null)
             return false;
-        return countPlayerEntriesByHwid(cid, boss) > 3 * boss.entries;
+        return countPlayerEntriesByHwid(cid, boss) > YamlConfig.config.server.EXPEDITION_HWID_LIMIT * boss.entries;
     }
 
     public static boolean attemptBoss(int cid, int channel, MapleExpeditionType type, boolean log) {

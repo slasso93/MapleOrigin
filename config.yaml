@@ -318,6 +318,7 @@ server:
     NAME_CHANGE_COOLDOWN: 2592000000      # (30*24*60*60*1000) Cooldown for name changes, default (GMS) is 30 days.
     WORLD_TRANSFER_COOLDOWN: 2592000000  # (30*24*60*60*1000) Cooldown for world tranfers, default is same as name change (30 days).
     INSTANT_NAME_CHANGE: false              #Whether or not to wait for server restart to apply name changes. Does on reconnect otherwise (requires queries on every login).
+    MEGAPHONE_COOLDOWN: 20000            # Milliseconds before being able to use another megaphone
 
     #Dangling Items/Locks Configuration
     ITEM_EXPIRE_TIME: 180000    # (3 * 60 * 1000) Time before items start disappearing. Recommended to be set up to 3 minutes.
@@ -327,7 +328,7 @@ server:
 
     #Map Monitor Configuration
     ITEM_EXPIRE_CHECK: 10000        # (10 * 10000) Interval between item expiring tasks on maps, which checks and makes disappear expired items.
-    ITEM_LIMIT_ON_MAP: 200              #Max number of items allowed on a map.
+    ITEM_LIMIT_ON_MAP: 400              #Max number of items allowed on a map.
     MAP_VISITED_SIZE: 5                 #Max length for last mapids visited by a player. This is used to recover and update drops on these maps accordingly with player actions.
     MAP_DAMAGE_OVERTIME_INTERVAL: 5000  #Interval in milliseconds between map environment damage (e.g. El Nath and Aqua Road surrondings).
 
@@ -373,7 +374,7 @@ server:
     QUEST_POINT_REPEATABLE_INTERVAL: 24  #Minimum interval between repeatable quest completions for quest points to be awarded.
     QUEST_POINT_REQUIREMENT: 16          #Exchange factor between N quest points to +1 fame, set 0 to disable the entire quest point mechanism.
     QUEST_POINT_PER_QUEST_COMPLETE: 4    #Each completed quest awards N quest points, set 0 to disable.
-    QUEST_POINT_PER_EVENT_CLEAR: 1       #Each completed event instance awards N quest points, set 0 to disable.
+    QUEST_POINT_PER_EVENT_CLEAR: 0       #Each completed event instance awards N quest points, set 0 to disable.
 
     #Guild Configuration
     CREATE_GUILD_MIN_PARTNERS: 1         #Minimum number of members on Guild Headquarters to establish a new guild.
@@ -467,3 +468,5 @@ server:
     MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
 
     MAX_ALLOWED_VOTES: 2                # Allow up to 2 votes per account (votes still need to be fulfilled by gtop100
+
+    EXPEDITION_HWID_LIMIT: 2                # Number of characters that can receive expedition rewards on the same HWID

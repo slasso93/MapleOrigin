@@ -31,7 +31,10 @@ var curMapName = "";
 
 function start() {
     status = -1;
-	curMapName = mapName[(cm.getNpc() != 9100117 && cm.getNpc() != 9100109) ? (cm.getNpc() - 9100100) : cm.getNpc() == 9100109 ? 9 : 11];
+    if (cm.getPlayer().getMapId() == 104000000)
+        curMapName = "Lith Harbor"
+    else
+	    curMapName = mapName[(cm.getNpc() != 9100117 && cm.getNpc() != 9100109) ? (cm.getNpc() - 9100100) : cm.getNpc() == 9100109 ? 9 : 11];
 	
     action(1, 0, 0);
 }

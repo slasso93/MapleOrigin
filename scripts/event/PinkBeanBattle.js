@@ -29,7 +29,7 @@ importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
-var minLevel = 120, maxLevel = 255;
+var minLevel = 150, maxLevel = 255;
 var entryMap = 270050100;
 var exitMap = 270050300;
 var recruitMap = 270050000;
@@ -76,8 +76,8 @@ function setEventRewards(eim) {
         var itemSet, itemQty, evLevel, expStages, mesoStages;
 
         evLevel = 1;    //Rewards at clear PQ
-        itemSet = [];
-        itemQty = [];
+        itemSet = [4000313];
+        itemQty = [6];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
         expStages = [];    //bonus exp given on CLEAR stage signal

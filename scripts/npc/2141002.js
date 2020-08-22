@@ -48,19 +48,17 @@ function action(mode, type, selection) {
     else if(!cm.getEventInstance().isEventCleared())
     {
         cm.warp(270050000);
-        //cm.gainItem(4000313, 1);
         cm.dispose();
     }
     else {
         if (cm.reachedRewardLimit(MapleExpeditionType.PINKBEAN)) {
             cm.warp(270050000);
             cm.dispose();
-        } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
-            cm.warp(270050000);
-            cm.gainItem(4000313, 3);
+        } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {
+            cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
-            cm.sendOk("Please make space in your inventory");
+            cm.warp(270050000);
             cm.dispose();
         }
     }

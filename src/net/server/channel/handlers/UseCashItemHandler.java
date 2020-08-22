@@ -75,9 +75,15 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         short position = slea.readShort();
         int itemId = slea.readInt();
         int itemType = itemId / 10000;
-		
-		        long timeNow = currentServerTime();
-        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < 10000) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
+
+        if (player.getMapId() == 300000012 && player.gmLevel() < 2) {
+            player.dropMessage(1, "You cannot use megaphones in jail.");
+            c.announce(MaplePacketCreator.enableActions());
+            return;
+        }
+
+        long timeNow = currentServerTime();
+        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < YamlConfig.config.server.MEGAPHONE_COOLDOWN) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
             player.dropMessage(1, "You have used a cash item or smega recently. Wait a moment, then try again.");
             c.announce(MaplePacketCreator.enableActions());
             return;
@@ -111,7 +117,8 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         if (itemType == 504) { // vip teleport rock
             String error1 = "Either the player could not be found or you were trying to teleport to an illegal location.";
             boolean vip = slea.readByte() == 1 && itemId / 1000 >= 5041;
-            remove(c, position, itemId);
+            if (itemId != 5041001) // dont remove Hyper tele rock
+                remove(c, position, itemId);
             boolean success = false;
             if (!vip) {
                 int mapId = slea.readInt();

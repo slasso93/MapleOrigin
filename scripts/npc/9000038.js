@@ -97,7 +97,7 @@ function action(mode, type, selection) {
                         
                         var sendStr = "The following items are being awarded at #b" + levels[selection] + "#k:\r\n\r\n";
                         for(var i = 0; i < lvTarget.length; i++) {
-                            sendStr += "  #L" + i + "# #i" + lvTarget[i] + "#  #t" + lvTarget[i] + "#";
+                            sendStr += "  #L" + i + "# #i" + lvTarget[i] + "#  #v" + lvTarget[i] + "#";
                             if(lvQty[i] > 1) sendStr += " (" + lvQty[i] + ")";
                             sendStr += "#l\r\n";
                         }

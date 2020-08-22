@@ -177,6 +177,21 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                         equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
                         equip.setLvlJump((short) rs.getInt("lvl_jump"));
 
+                        equip.setScrollStr((short) rs.getInt("scroll_str"));
+                        equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                        equip.setScrollInt((short) rs.getInt("scroll_int"));
+                        equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                        equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                        equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                        equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                        equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                        equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                        equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                        equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                        equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                        equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                        equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
                         items.add(new MTSItemInfo((Item) equip, rs.getInt("price") + 100 + (int) (rs.getInt("price") * 0.1), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                     }
                 }
@@ -256,6 +271,21 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                             equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
                             equip.setLvlJump((short) rs.getInt("lvl_jump"));
 
+                            equip.setScrollStr((short) rs.getInt("scroll_str"));
+                            equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                            equip.setScrollInt((short) rs.getInt("scroll_int"));
+                            equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                            equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                            equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                            equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                            equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                            equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                            equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                            equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                            equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                            equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                            equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
                             items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                         }
                     }
@@ -323,6 +353,21 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                             equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
                             equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
                             equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
+                            equip.setScrollStr((short) rs.getInt("scroll_str"));
+                            equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                            equip.setScrollInt((short) rs.getInt("scroll_int"));
+                            equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                            equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                            equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                            equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                            equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                            equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                            equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                            equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                            equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                            equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                            equip.setScrollJump((short) rs.getInt("scroll_jump"));
 
                             items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                         }

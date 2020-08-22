@@ -144,7 +144,6 @@ function action(mode, type, selection) {
                 status = 6;
             } else if (selection == 2) {
                 var min = exped.getMinSize();
-                
                 var size = expedition.getMemberList().size();
                 if (size < min) {
                     cm.sendOk("You need at least " + min + " players registered in your expedition.");

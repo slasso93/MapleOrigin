@@ -97,7 +97,7 @@ public class CommandsExecutor {
     }
     
     private void handleInternal(MapleClient client, String message){
-        if (client.getPlayer().getMapId() == 300000012) {
+        if (client.getPlayer().getMapId() == 300000012 && client.getPlayer().gmLevel() < 2) {
             client.getPlayer().yellowMessage("You do not have permission to use commands while in jail.");
             return;
         }

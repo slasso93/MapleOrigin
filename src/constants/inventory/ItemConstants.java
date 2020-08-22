@@ -83,7 +83,11 @@ public final class ItemConstants {
         int useType = itemId / 1000;
         return useType == 2022 || useType == 2010 || useType == 2020;
     }
-    
+
+    public static boolean isHammerEnabled(int itemId) {
+        return itemId != 1082399; // super scg
+    }
+
     public static boolean isConsumable(int itemId) {
         return isPotion(itemId) || isFood(itemId);
     }
@@ -162,10 +166,12 @@ public final class ItemConstants {
     public static boolean isChaosScroll(int scrollId) {
     	return scrollId >= 2049100 && scrollId <= 2049103;
     }
-    
+
+    // use this for blocking cash shop items
     public static boolean isRateCoupon(int itemId) {
         int itemType = itemId / 1000;
-        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220 || itemType == 5451;
+        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220 || itemType == 5451
+                || itemType == 5450 || itemType == 5520 || itemType == 5050 || itemType == 5510 || itemType == 5130;
     }
     
     public static boolean isExpCoupon(int couponId) {
