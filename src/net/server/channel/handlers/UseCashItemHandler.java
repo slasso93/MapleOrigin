@@ -111,7 +111,8 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         if (itemType == 504) { // vip teleport rock
             String error1 = "Either the player could not be found or you were trying to teleport to an illegal location.";
             boolean vip = slea.readByte() == 1 && itemId / 1000 >= 5041;
-            remove(c, position, itemId);
+            if (itemId != 5041001) // dont remove Hyper tele rock
+                remove(c, position, itemId);
             boolean success = false;
             if (!vip) {
                 int mapId = slea.readInt();

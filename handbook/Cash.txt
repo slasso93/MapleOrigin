@@ -89,6 +89,7 @@
 5040000 - The Teleport Rock - Remembers 5 maps of your choice. This rock will enable you to #cteleport to the map you remembered#. It can even allow you to #cmove to the map where a certain character is#, provided that the person is in the same channel at the same world. This item cannot be used to teleport in between continents.
 5040001 - Teleport Coke - By drinking sweet refreshing #cCoca-Cola#, it ables you to #cteleport to one of the remembered maps#. You can also #cteleport to the map where specific character is located# in the same channel.  Unable the teleport to the maps where teleport is limited.
 5041000 - VIP Teleport Rock - This Teleport Rock enables one to #cteleport between continents#. It also enables the user to teleport to a specific character from the same channel. Up to #c10# maps, excluding the maps that cannot be reached through teleport, can be registered for this.
+5041001 - Hyper Teleport Rock - Allows you to #cteleport to most other locations through the World Map [W]#. \nAlso allows you to #cmove to a map where a specified character is# if they are in the same world and channel. Excluding maps that are restricted from teleporting into, up to #c13# maps can be registered.\n#c&amp;lt;Towns that you can teleport to&amp;gt;#\n#cHenesys, Ellinia, Perion, Kerning City, Nautilus, Orbis, Ludibrium, Aquarium, Leafre, Mu Lung, Ariant, Edelstein#.
 5050000 - AP Reset - This is the #cscroll that allows you to reset 1 AP from the ability stat#. Choose one AP from HP, MP, STR, DEX, INT, or LUK , and allocate it to the desired category. The lowest an AP level can reach on any category is 4.
 5050001 - SP Reset (1st job) - This scroll allows you to #creset 1 SP from a 1st-job skill#. The SP that's been reset may NOT be applied to 2nd or 3rd job skills.
 5050002 - SP Reset (2nd job) - This scroll allows you to #creset 1 SP from a 2nd-level skill#. The 1st job SP raised AFTER the 2nd job adv. can also be reset and applied to a 2nd job skill. The SP that's been reset may NOT be applied to 1st or 3rd job skills.
@@ -264,7 +265,7 @@
 5160006 - Sparkling Eyes - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display sparkling eyes.
 5160007 - Flaming - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display the look of rage.
 5160008 - Ray - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display beaming eyes.
-5160009 - Goo Goo - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display the look of “awesome!!!”
+5160009 - Goo Goo - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display the look of ï¿½awesome!!!ï¿½
 5160010 - Whoa Whoa - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display the look of being flustered.
 5160011 - Constant Sigh - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character display the thinking look.
 5160012 - Drool - On the KeyConfig, configure this expression on a button of your choice. Press the button and watch your character act like falling asleep.
@@ -479,9 +480,9 @@
 5610001 - Vega's Spell(60%) - This winning spell from Vega enables a 90% success rate on a 60% scroll. Please check the scroll description to confirm that Vega's Spell is available for the scroll you choose.
 5590000 - High-Five Stamp - Can equip items that are 5 levels above your current level.
 5021026 - Gift Box Throwing Stars - A gift box that can be freely thrown around. Using the #cThrowing Star# will create an orbital effect.\n\nThis item cannot be deleted.
-5010073 - Miss Popular - Well, lookie here. Someone’s certainly become popular with the guys. Turn this effect on and off by assigning it to a shortcut key from the keyboard settings menu.
+5010073 - Miss Popular - Well, lookie here. Someoneï¿½s certainly become popular with the guys. Turn this effect on and off by assigning it to a shortcut key from the keyboard settings menu.
 
-5010074 - Mr. Popular - Well, lookie here. Someone’s certainly become popular with the girls. Turn this effect on and off by assigning it to a shortcut key from the keyboard settings menu.
+5010074 - Mr. Popular - Well, lookie here. Someoneï¿½s certainly become popular with the girls. Turn this effect on and off by assigning it to a shortcut key from the keyboard settings menu.
 
 5240027 - Golden Drumstick - A drumstick that can be consumed only by #cBaby Tiger#. It recovers hunger and #cincreases Closeness by 100.#
 5390005 - Cute Tiger Messenger - Shout to everyone in the world your character is on with this megaphone. Now available with your avatar on the top of everyone's screen! Comes with a tiger background for your avatar.
