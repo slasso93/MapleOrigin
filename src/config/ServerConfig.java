@@ -312,4 +312,7 @@ public class ServerConfig {
 
     public int MAX_ALLOWED_VOTES;
 
+    // amount of characters that can receive expedition rewards on the same HWID
+    public int EXPEDITION_HWID_LIMIT;
+
 }

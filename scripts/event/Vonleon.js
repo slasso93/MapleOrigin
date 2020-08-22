@@ -31,7 +31,7 @@ importPackage(Packages.server.expeditions);
 
 
 var isPq = true;
-var minPlayers = 6, maxPlayers = 12;
+var minPlayers = 1, maxPlayers = 12;
 var minLevel = 200, maxLevel = 255;
 
 var exitMap = 82100;
@@ -70,18 +70,21 @@ function setEventRequirements() {
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
     var eligible = [];
+    var hasLeader = false;
 
-    if (party.size() > 0) {
+    if(party.size() > 0) {
         var partyList = party.toArray();
 
         for(var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
-            if (!ch.getPlayer().haveItem(4000313)) {
-                return [];
+            if(ch.getMapId() == exitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+                if(ch.isLeader()) hasLeader = true;
+                eligible.push(ch);
             }
-            eligible.push(ch);
         }
     }
+
+    if(!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers)) eligible = [];
     return eligible;
 }
 
@@ -164,7 +167,7 @@ function playerLeft(eim, player) {
 
 function changedMap(eim, player, mapid) {
     if (mapid != eventMapId) {
-        eim.exitPlayer(player, exitMap);
+        eim.exitPlayer(player, exitMap, "von02");
     }
 }
 
@@ -249,11 +252,6 @@ function monsterKilled(killedMob, eim) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared(MapleExpeditionType.VONLEON);
-    var party = eim.getPlayers();
-    for (var i = 0; i < party.size(); i++) {
-        if (!party.get(i).reachedRewardLimit(MapleExpeditionType.VONLEON))
-            eim.giveEventReward(party.get(i));
-    }
 }
 
 function finish(eim) {

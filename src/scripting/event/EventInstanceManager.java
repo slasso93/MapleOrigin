@@ -290,12 +290,19 @@ public class EventInstanceManager {
     }
 
     public void exitPlayer(MapleCharacter chr, int map) {
+        exitPlayer(chr, map, null);
+    }
+
+    public void exitPlayer(MapleCharacter chr, int map, String targetPortal) {
         if (chr == null) {
             return;
         }
         if (chr == this.getLeader()) {
             this.unregisterPlayer(chr);
-            chr.changeMap(map, 0);
+            if (targetPortal != null)
+                chr.changeMap(map, targetPortal);
+            else
+                chr.changeMap(map, 0);
             if (!this.getPlayers().isEmpty()) {
                 this.setLeader(this.getRandomPlayer());
                 this.dropMessage(5, "Event Leader changed to " + this.getLeader().getName());

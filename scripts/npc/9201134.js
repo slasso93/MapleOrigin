@@ -62,15 +62,13 @@ function action(mode, type, selection) {
                 if (cm.reachedRewardLimit(MapleExpeditionType.SCARGA)) {
                     cm.warp(551030100, 2);
                     cm.dispose();
-                } else if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
-                    cm.warp(551030100, 2);
-                    cm.gainItem(4000313, 1);
+                } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {
+                    cm.sendNext("Please make room in your inventory first!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("Please make space in your inventory");
+                    cm.warp(551030100, 2);
                     cm.dispose();
                 }
-                cm.dispose();
             }
         }
     }
