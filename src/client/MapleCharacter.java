@@ -6341,22 +6341,23 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
     }
     
-    public void handleEnergyChargeGain(int mobsAttacked) { // to get here energychargelevel has to be > 0
+    public synchronized void handleEnergyChargeGain() { // to get here energychargelevel has to be > 0
         Skill energycharge = isCygnus() ? SkillFactory.getSkill(ThunderBreaker.ENERGY_CHARGE) : SkillFactory.getSkill(Marauder.ENERGY_CHARGE);
         MapleStatEffect ceffect;
         ceffect = energycharge.getEffect(getSkillLevel(energycharge));
         TimerManager tMan = TimerManager.getInstance();
         if (energybar < 10000) {
-            energybar += (612 / mobsAttacked); // always give 612 no matter what because this function is called 'mobsAttacked' times, more useful for single target
+            energybar += 102;
             if (energybar > 10000) {
                 energybar = 10000;
             }
             List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<>(MapleBuffStat.ENERGY_CHARGE, energybar));
             setBuffedValue(MapleBuffStat.ENERGY_CHARGE, energybar);
+
             client.announce(MaplePacketCreator.giveBuff(energybar, 0, stat));
             client.announce(MaplePacketCreator.showOwnBuffEffect(energycharge.getId(), 2));
-            getMap().broadcastMessage(this, MaplePacketCreator.showBuffeffect(id, energycharge.getId(), 2));
             getMap().broadcastMessage(this, MaplePacketCreator.giveForeignBuff(energybar, stat));
+            getMap().broadcastMessage(this, MaplePacketCreator.showBuffeffect(id, energycharge.getId(), 2));
         }
         if (energybar >= 10000 && energybar < 11000) {
             energybar = 15000;
