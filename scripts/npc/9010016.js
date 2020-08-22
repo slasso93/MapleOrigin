@@ -13,16 +13,17 @@ var items = [
       { id: 2022282, cost: 5 }, // Naricain's
       { id: 2022283, cost: 5 }, // Subani's
       { id: 2049115, cost: 20 }, // innocence scroll 40%
+      { id: 5041001, cost: 15, expiration: 7 }, // Hyper Teleport Rock
+      { id: 5450000, cost: 1, expiration: 14 }, // miu miu 7 days
+      { id: 5520000, cost: 1, expiration: 90 }, // SoK
+      { id: 5130000, cost: 2, expiration: 90 }, // charm
+      { id: 5130000, cost: 8, expiration: 90, quantity: 5 }, // charm x5
+      { id: 5510000, cost: 2, expiration: 90 }, // wheel
       { id: 5050000, cost: 2, expiration: 90 }, // ap reset
       { id: 5050001, cost: 1, expiration: 90 }, // sp reset 1st
       { id: 5050002, cost: 1, expiration: 90 }, // sp reset 2nd
       { id: 5050003, cost: 2, expiration: 90 }, // sp reset 3rd
-      { id: 5050004, cost: 3, expiration: 90 }, // sp reset 4th
-      { id: 5130000, cost: 2, expiration: 90 }, // charm
-      { id: 5130000, cost: 8, expiration: 90, quantity: 5 }, // charm x5
-      { id: 5450000, cost: 1, expiration: 14 }, // miu miu 7 days
-      { id: 5510000, cost: 2, expiration: 90 }, // wheel
-      { id: 5520000, cost: 1, expiration: 90 } // SoK
+      { id: 5050004, cost: 3, expiration: 90 } // sp reset 4th
   ];
 
 function start() {
