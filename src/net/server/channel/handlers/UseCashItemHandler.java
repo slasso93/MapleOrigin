@@ -83,7 +83,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         }
 
         long timeNow = currentServerTime();
-        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < 30000) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
+        if ((itemType == 507 && timeNow - player.getLastUsedCashItem() < YamlConfig.config.server.MEGAPHONE_COOLDOWN) || (itemType != 507 && timeNow - player.getLastUsedCashItem() < 3000)) {
             player.dropMessage(1, "You have used a cash item or smega recently. Wait a moment, then try again.");
             c.announce(MaplePacketCreator.enableActions());
             return;
