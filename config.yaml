@@ -467,3 +467,5 @@ server:
     MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
 
     MAX_ALLOWED_VOTES: 2                # Allow up to 2 votes per account (votes still need to be fulfilled by gtop100
+
+    EXPEDITION_HWID_LIMIT: 2                # Number of characters that can receive expedition rewards on the same HWID
