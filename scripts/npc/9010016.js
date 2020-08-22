@@ -13,13 +13,14 @@ var items = [
       { id: 2022282, cost: 5 }, // Naricain's
       { id: 2022283, cost: 5 }, // Subani's
       { id: 2049115, cost: 20 }, // innocence scroll 40%
-      { id: 5041001, cost: 15, expiration: 7 }, // Hyper Teleport Rock
-      { id: 5450000, cost: 1, expiration: 14 }, // miu miu 7 days
+      { id: 5041001, cost: 2, expiration: 1 }, // Hyper Teleport Rock 1 day
+      { id: 5041001, cost: 10, expiration: 7 }, // Hyper Teleport Rock 7 day
+      { id: 5450000, cost: 2, expiration: 7 }, // miu miu 7 days
       { id: 5520000, cost: 1, expiration: 90 }, // SoK
-      { id: 5130000, cost: 2, expiration: 90 }, // charm
-      { id: 5130000, cost: 8, expiration: 90, quantity: 5 }, // charm x5
-      { id: 5510000, cost: 2, expiration: 90 }, // wheel
-      { id: 5050000, cost: 2, expiration: 90 }, // ap reset
+      { id: 5130000, cost: 1, expiration: 90 }, // charm
+      { id: 5130000, cost: 4, expiration: 90, quantity: 5 }, // charm x5
+      { id: 5510000, cost: 1, expiration: 90 }, // wheel
+      { id: 5050000, cost: 1, expiration: 90 }, // ap reset
       { id: 5050001, cost: 1, expiration: 90 }, // sp reset 1st
       { id: 5050002, cost: 1, expiration: 90 }, // sp reset 2nd
       { id: 5050003, cost: 2, expiration: 90 }, // sp reset 3rd
@@ -51,7 +52,7 @@ function action(mode, type, selection) {
 			    var item = items[i];
 
 			    var expStr = "";
-			    if (item.id == 5450000) // miu add (7 day)
+			    if (item.id == 5450000 || item.id == 5041001) // miu add (7 day) / hyper rock
 			        expStr = "[" + item.expiration + " Day] ";
 			    shopStr += "#L" + (i+1) + "# Buy #r" + (item.quantity || 1) + " #b#e" + expStr + "#z" + item.id + "##n#k for #r" + item.cost + "#k votepoints#l\r\n";
 			}
