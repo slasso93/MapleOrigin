@@ -65,7 +65,7 @@ var vipMats = {
 var vip = [
     { id: 1332120, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1332050 }, // VIP Dagger (LUK)
     { id: 1332125, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1332049}, // VIP Dagger (STR)
-    { id: 1472117, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1472050 }, // VIP Claw (LUK)
+    { id: 1472117, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1472052}, // VIP Claw (LUK)
 
     { id: 1432081, cost: vipGmlCost, mats: vipMats['warrior'], dragon: 1432038 }, // VIP Spear
     { id: 1442111, cost: vipGmlCost, mats: vipMats['warrior'], dragon: 1442045 }, // VIP Polearm
