@@ -2847,7 +2847,9 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     if (mbsvh.effect.getBuffSourceId() != Aran.COMBO_ABILITY
                             && mbsvh.effect.getBuffSourceId() != Buccaneer.SUPER_TRANSFORMATION
                             && mbsvh.effect.getBuffSourceId() != ThunderBreaker.TRANSFORMATION
-                            && mbsvh.effect.getBuffSourceId() != Magician.MAGIC_GUARD) { // check discovered thanks to Croosade dev team
+                            && mbsvh.effect.getBuffSourceId() != Magician.MAGIC_GUARD
+                            && mbsvh.effect.getBuffSourceId() != BlazeWizard.MAGIC_GUARD
+                    ) { // check discovered thanks to Croosade dev team
                         cancelEffect(mbsvh.effect, false, mbsvh.startTime);
                     }
                 }
