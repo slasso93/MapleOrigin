@@ -542,7 +542,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         long maxDamage = 0, partyDamage = 0;
         MapleCharacter participationMvp = null;
         int attackerInterval = YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL;
-        for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
+            for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
             /*if (checkExpedition) { // only check once
                 for (MapleExpedition exped : e.getKey().getClient().getChannelServer().getExpeditions()) {
                     if (exped.contains(e.getKey())) {
@@ -575,14 +575,15 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         // thanks G h o s t, Alfred, Vcoc, BHB for poiting out a bug in detecting party members after membership transactions in a party took place
         if (YamlConfig.config.server.USE_ENFORCE_MOB_LEVEL_RANGE) {
             for (MapleCharacter member : partyParticipation.keySet().iterator().next().getPartyMembersOnSameMap()) {
+                // less than 120 must be at least EXP_SPLIT_MOB_INTERVAL levels below the mob or within EXP_SPLIT_ATTACKER_INTERVAL levels of the attacker
                 if (member.getLevel() < 120) {
-                    if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
-                            member.getLevel() >= highestParticipant - attackerInterval &&
-                            member.getLevel() <= highestParticipant + attackerInterval)) {
+                    if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL ||
+                            (member.getLevel() >= highestParticipant - attackerInterval &&
+                            member.getLevel() <= highestParticipant + attackerInterval) )) {
                         underleveled.add(member);
                         continue;
                     }
-                } else {
+                } else { // 120+ within 20 levels of attacker needed if youre more than (EXP_SPLIT_MOB_INTERVAL-10) below mob
                     if (member.getLevel() < this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL + 10) {
                         if (member.getLevel() < highestParticipant - attackerInterval ||
                                 member.getLevel() > highestParticipant + attackerInterval) {
