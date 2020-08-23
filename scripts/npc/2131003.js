@@ -15,19 +15,19 @@ function action(mode, type, selection) {
     if (status == 0) {
         cm.sendSimple("So many injuries, so little medicine...#b\r\n#L0#Hey, take these black spores. You can make better medicine with them.#l");
     } else if (status == 1) {
-	if (!cm.haveItem(exchangeItem, 100)) {
-	    cm.sendNext("You don't have enough... I need at least 100.");
-	    cm.dispose();
-	} else {
-	    cm.sendGetNumber("Hey, that's a good idea! I can give you #i4310000#Perfect Pitch for each 100 #i" + exchangeItem + "##t" + exchangeItem + "# you give me. How many do you want? (Current Items: " + cm.itemQuantity(exchangeItem) + ")", Math.min(300, cm.itemQuantity(exchangeItem) / 100), 1, Math.min(300, cm.itemQuantity(exchangeItem) / 100));
-	}
+        if (!cm.haveItem(exchangeItem, 500)) {
+            cm.sendNext("You don't have enough... I need at least 500.");
+            cm.dispose();
+        } else {
+            cm.sendGetNumber("Hey, that's a good idea! I can give you #i2049001##v2049001# for each 500 #i" + exchangeItem + "##t" + exchangeItem + "# you give me. How many do you want? (Current Items: " + cm.itemQuantity(exchangeItem) + ")", Math.min(300, cm.itemQuantity(exchangeItem) / 500), 1, Math.min(300, cm.itemQuantity(exchangeItem) / 500));
+        }
     } else if (status == 2) { 
-	if (selection >= 1 && selection <= cm.itemQuantity(exchangeItem) / 100) {
-	    if (!cm.canHold(4310000, selection)) {
+	if (selection >= 1 && selection <= cm.itemQuantity(exchangeItem) / 500) {
+	    if (!cm.canHold(2049001, selection)) {
 		cm.sendOk("Please make some space in ETC tab.");
 	    } else {
-		cm.gainItem(4310000, selection);
-		cm.gainItem(exchangeItem, -(selection * 100));
+		cm.gainItem(2049001, selection);
+		cm.gainItem(exchangeItem, -(selection * 500));
 		cm.sendOk("Thanks!");
 	    }
 	}

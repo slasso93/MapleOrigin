@@ -30,7 +30,7 @@ import server.life.MapleLifeFactory;
 
 public class PianusCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn pianus");
     }
 
     @Override

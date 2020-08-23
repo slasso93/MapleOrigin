@@ -30,14 +30,14 @@ import server.life.MapleMonster;
 
 public class BossHpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Shows boss HP remaining");
     }
 
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         for(MapleMonster monster : player.getMap().getAllMonsters()) {
-            if(monster != null && monster.isBoss() && monster.getHp() > 0) {
+            if(monster != null && monster.isBoss() && monster.getHp() > 0 && !monster.isFake()) {
                 long percent = monster.getHp() * 100L / monster.getMaxHp();
                 String bar = "[";
                 for (int i = 0; i < 100; i++){

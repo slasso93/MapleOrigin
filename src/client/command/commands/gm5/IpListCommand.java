@@ -35,7 +35,7 @@ import net.server.world.World;
  */
 public class IpListCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show all player IPs");
     }
 
     @Override

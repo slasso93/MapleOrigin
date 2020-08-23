@@ -144,14 +144,19 @@ function action(mode, type, selection) {
                 status = 6;
             } else if (selection == 2) {
                 var min = exped.getMinSize();
-                
                 var size = expedition.getMemberList().size();
                 if (size < min) {
                     cm.sendOk("You need at least " + min + " players registered in your expedition.");
                     cm.dispose();
                     return;
                 }
-                
+                var eli = em.getEligibleParty(cm.getParty());
+                if (eli.size() == 0) {
+                    cm.sendOk("Someone in your expedition is not eligible, check if they have a GML before entering");
+                    cm.dispose();
+                    return;
+                }
+
                 cm.sendOk("The expedition will begin and you will now be escorted to the #b" + expedMap + "#k.");
                 status = 4;
             } else if (selection == 3) {

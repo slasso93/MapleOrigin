@@ -28,10 +28,11 @@ import client.MapleClient;
 import client.MapleCharacter;
 import server.maps.MaplePortal;
 import server.maps.MapleMap;
+import tools.MaplePacketCreator;
 
 public class JailCommand extends Command {
     {
-        setDescription("");
+        setDescription("Send a player to jail");
     }
 
     @Override
@@ -53,7 +54,6 @@ public class JailCommand extends Command {
 
         MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
         if (victim != null) {
-            victim.addJailExpirationTime(minutesJailed * 60 * 1000);
 
             int mapid = 300000012;
 
@@ -62,9 +62,13 @@ public class JailCommand extends Command {
                 MaplePortal targetPortal = target.getPortal(0);
                 victim.saveLocationOnWarp();
                 victim.changeMap(target, targetPortal);
+                victim.addJailExpirationTime(minutesJailed * 60 * 1000);
                 player.message(victim.getName() + " was jailed for " + minutesJailed + " minutes.");
+                victim.message("You have been jailed for " + minutesJailed + " minutes. You will be automatically released when the timer is up.");
             } else {
+                victim.addJailExpirationTime(minutesJailed * 60 * 1000);
                 player.message(victim.getName() + "'s time in jail has been extended for " + minutesJailed + " minutes.");
+                victim.message("Your jail time has been extended for another " + minutesJailed + " minutes.");
             }
 
         } else {

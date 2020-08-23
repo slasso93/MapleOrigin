@@ -13,7 +13,7 @@ import server.ThreadManager;
 
 public class IdCommand extends Command {
     {
-        setDescription("");
+        setDescription("Find item ID through handbook");
     }
 
     private final Map<String, String> handbookDirectory = new HashMap<>();

@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class ExpRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set EXP rate");
     }
 
     @Override
@@ -42,7 +42,8 @@ public class ExpRateCommand extends Command {
         }
 
         int exprate = Math.max(Integer.parseInt(params[0]), 1);
+        int oldExpRate = c.getWorldServer().getExpRate();
         c.getWorldServer().setExpRate(exprate);
-        c.getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, "[Rate] Exp Rate has been changed to " + exprate + "x."));
+        c.getWorldServer().broadcastPacket(MaplePacketCreator.serverNotice(6, "[Rate] Exp Rate has been changed to " + (exprate * oldExpRate) + "x."));
     }
 }

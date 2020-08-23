@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class FameCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set a player's fame level");
     }
 
     @Override

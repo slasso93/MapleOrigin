@@ -97,7 +97,7 @@ public class CommandsExecutor {
     }
     
     private void handleInternal(MapleClient client, String message){
-        if (client.getPlayer().getMapId() == 300000012) {
+        if (client.getPlayer().getMapId() == 300000012 && client.getPlayer().gmLevel() < 2) {
             client.getPlayer().yellowMessage("You do not have permission to use commands while in jail.");
             return;
         }
@@ -139,8 +139,15 @@ public class CommandsExecutor {
 
     private void addCommandInfo(String name, Class<? extends Command> commandClass) {
         try {
-            levelCommandsCursor.getRight().add(commandClass.newInstance().getDescription());
-            levelCommandsCursor.getLeft().add(name);
+            String description = commandClass.newInstance().getDescription();
+            if (levelCommandsCursor.getRight().contains(description)) {
+                int idx = levelCommandsCursor.getRight().indexOf(description);
+                String left = levelCommandsCursor.getLeft().get(idx);
+                levelCommandsCursor.getLeft().set(idx, left + "/" + name);
+            } else {
+                levelCommandsCursor.getRight().add(commandClass.newInstance().getDescription());
+                levelCommandsCursor.getLeft().add(name);
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -198,6 +205,7 @@ public class CommandsExecutor {
         //addCommand("credits", StaffCommand.class);
         //addCommand("buyback", BuyBackCommand.class);
         addCommand("uptime", UptimeCommand.class);
+        addCommand("playtime", PlaytimeCommand.class);
         //addCommand("gacha", GachaCommand.class);
         addCommand("dispose", DisposeCommand.class);
        // addCommand("changel", ChangeLanguageCommand.class);
@@ -216,17 +224,18 @@ public class CommandsExecutor {
         addCommand("int", StatIntCommand.class);
         addCommand("luk", StatLukCommand.class);
         //addCommand("enableauth", EnableAuthCommand.class);
-        addCommand("toggleexp", ToggleExpCommand.class);
+        //addCommand("toggleexp", ToggleExpCommand.class);
         addCommand("mylawn", MapOwnerClaimCommand.class);
         addCommand("bosshp", BossHpCommand.class);
         addCommand("mobhp", MobHpCommand.class);
-        addCommand("Raid", RaidCommand.class);
-        addCommand("whatdropsfrom", WhatDropsFromCommand.class);
-        addCommand("whodrops", WhoDropsCommand.class);
+        addCommand("raid", RaidCommand.class);
+        addCommand(new String[]{"whatdropsfrom", "from"}, WhatDropsFromCommand.class);
+        addCommand(new String[]{"whodrops", "whatdrops"}, WhoDropsCommand.class);
         //addCommand("RaidDC", ReEnterRaid.class);
         addCommand(new String[]{"help","commands"}, HelpCommand.class);
         addCommand("svtime", ServerTimeCommand.class);
         addCommand(new String[]{"checkdps", "dpscheck"}, CheckDpsCommand.class);
+        addCommand("gachalist", GachaListCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 
@@ -278,8 +287,7 @@ public class CommandsExecutor {
         addCommand("job", 2, JobCommand.class);
         addCommand("unbug", 2, UnBugCommand.class);
         addCommand("id", 2, IdCommand.class);
-        addCommand("gachalist", GachaListCommand.class);
-        addCommand("loot", LootCommand.class);
+        addCommand("loot", 2, LootCommand.class);
         addCommand("awardToMap", 2, AwardToMapCommand.class);
         addCommand("spreset", 2, SPReset.class);
         
@@ -296,8 +304,11 @@ public class CommandsExecutor {
         addCommand("checkdmg", 3, CheckDmgCommand.class);
         addCommand("inmap", 3, InMapCommand.class);
         addCommand("reloadevents", 3, ReloadEventsCommand.class);
+        addCommand("reloadevent", 3, ReloadEventCommand.class);
         addCommand("reloaddrops", 3, ReloadDropsCommand.class);
         addCommand("reloadportals", 3, ReloadPortalsCommand.class);
+        addCommand("reloadreactors", 3, ReloadReactorsCommand.class);
+        addCommand("reloadskills", 3, ReloadSkillsCommand.class);
         addCommand("reloadmap", 3, ReloadMapCommand.class);
         addCommand("reloadshops", 3, ReloadShopsCommand.class);
         addCommand("hpmp", 3, HpMpCommand.class);
@@ -348,7 +359,8 @@ public class CommandsExecutor {
         addCommand("timerall", 3, TimerAllCommand.class);
         addCommand("warpmap", 3, WarpMapCommand.class);
         addCommand("warparea", 3, WarpAreaCommand.class);
-	addCommand("say", 3, SayCommand.class);
+        addCommand("say", 3, SayCommand.class);
+        addCommand("setbosscount", 3, SetBossCountCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }

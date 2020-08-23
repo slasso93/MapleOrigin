@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class ClearDropsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Clears items on the ground");
     }
 
     @Override

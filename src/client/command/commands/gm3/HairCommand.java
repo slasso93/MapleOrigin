@@ -33,7 +33,7 @@ import tools.FilePrinter;
 
 public class HairCommand extends Command {
     {
-        setDescription("");
+        setDescription("Change a player's hair");
     }
 
     @Override

@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class GiveMesosCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give a player mesos");
     }
 
     @Override

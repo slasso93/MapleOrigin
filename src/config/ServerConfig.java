@@ -141,8 +141,9 @@ public class ServerConfig {
     public double EQUIP_EXP_RATE;
     public double PQ_BONUS_EXP_RATE;
 
-    public byte EXP_SPLIT_LEVEL_INTERVAL;
-    public byte EXP_SPLIT_LEECH_INTERVAL;
+    public byte EXP_SPLIT_MOB_INTERVAL;
+    public byte EXP_SPLIT_ATTACKER_INTERVAL;
+    public byte EXP_SPLIT_EXPEDITION_INTERVAL;
     public float EXP_SPLIT_MVP_MOD;
     public float EXP_SPLIT_COMMON_MOD;
     public float PARTY_BONUS_EXP_RATE;
@@ -161,6 +162,7 @@ public class ServerConfig {
     public long NAME_CHANGE_COOLDOWN;
     public long WORLD_TRANSFER_COOLDOWN=NAME_CHANGE_COOLDOWN;//Cooldown for world tranfers, default is same as name change (30 days).
     public boolean INSTANT_NAME_CHANGE;
+    public long MEGAPHONE_COOLDOWN;
 
     //Dangling Items/Locks Configuration
     public int ITEM_EXPIRE_TIME ;
@@ -308,5 +310,10 @@ public class ServerConfig {
     public boolean USE_MONSTERBOOK_TIER_BONUS;
     public boolean USE_MONSTERBOOK_COMPLETE_BOOK_BONUS;
     public int MONSTERBOOK_COMPLTE_BONUS;
+
+    public int MAX_ALLOWED_VOTES;
+
+    // amount of characters that can receive expedition rewards on the same HWID
+    public int EXPEDITION_HWID_LIMIT;
 
 }

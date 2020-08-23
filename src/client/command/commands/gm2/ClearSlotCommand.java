@@ -32,7 +32,7 @@ import client.inventory.manipulator.MapleInventoryManipulator;
 
 public class ClearSlotCommand extends Command {
     {
-        setDescription("");
+        setDescription("Clear an inventory tab");
     }
 
     @Override

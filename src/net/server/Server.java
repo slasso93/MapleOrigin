@@ -1436,6 +1436,9 @@ public class Server {
 
             worldChars.put(chrid, world);
 
+            if (accChars.size() == 1) // first character, load storage
+                loadAccountStorages(chr.getClient());
+
             MapleCharacter chrView = chr.generateCharacterEntry();
 
             World wserv = this.getWorld(chrView.getWorld());

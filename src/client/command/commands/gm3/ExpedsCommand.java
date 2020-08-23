@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 
 public class ExpedsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show active expeditions");
     }
 
     @Override

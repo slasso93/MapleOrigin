@@ -42,11 +42,12 @@ public enum MapleExpeditionType {
     ARIANT(2, 7, 20, 30, 5),
     ARIANT1(2, 7, 20, 30, 5),
     ARIANT2(2, 7, 20, 30, 5),
-    PINKBEAN(6, 30, 120, 255, 5),
+    PINKBEAN(6, 30, 150, 255, 5),
     CWKPQ(6, 30, 90, 255, 5),   // CWKPQ min-level 90, found thanks to Cato
     PAPULATUS(1, 6, 115, 255, 5),
-    VONLEON(4, 30, 200, 255, 5);
-  //EMPRESS(1, 6, 200, 255, 5);	
+    KREXEL(1, 6, 120, 255, 5),
+    VONLEON(6, 12, 200, 255, 5);
+  //EMPRESS(1, 6, 200, 255, 5);
     
     private int minSize;
     private int maxSize;

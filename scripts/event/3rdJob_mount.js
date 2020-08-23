@@ -52,7 +52,7 @@ function checkHogHealth(eim) {
         if (oldHp - hp > 1000) {    // or 800, if using mobHP / eventTime
             eim.dropMessage(6, "Please protect the pig from the aliens!");  // thanks Vcoc
         }
-        eim.setIntProperty("whog_hp", hp);
+        eim.setProperty("whog_hp", "" + hp);
     }
 }
 

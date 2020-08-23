@@ -65,7 +65,7 @@ function start() {
             cm.dispose();
         } else if (cm.haveItem(4031059) && cm.getPlayer().gotPartyQuestItem("JBP")){
             actionx["3thJobC"] = true;
-            cm.sendNext("Wow... You beat my the other self and brought #b#t4031059##k to me. Good! this surely proves your strength. In terms of strength, you are ready to advance to 3th job. As I promised, I will give #b#t4031057##k to you. Give this necklace to #b#p2020008##k in Ossyria and you will be able to take second test of 3rd job advancement. Good Luck~");
+            cm.sendNext("Wow... You beat my the other self and brought #b#t4031059##k to me. Good! this surely proves your strength. In terms of strength, you are ready to advance to 3rd job. As I promised, I will give #b#t4031057##k to you. Give this necklace to #b#p2020008##k in Ossyria and you will be able to take second test of 3rd job advancement. Good Luck~");
         } else {
             cm.sendOk("You have chosen wisely.");
             cm.dispose();
@@ -213,6 +213,6 @@ function action(mode, type, selection) {
     }
 }
 
-/* 3th Job Part
+/* 3rd Job Part
 	PORTAL 20 MINUTES.
  */

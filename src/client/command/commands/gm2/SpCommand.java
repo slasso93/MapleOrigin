@@ -30,7 +30,7 @@ import config.YamlConfig;
 
 public class SpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set a player's SP");
     }
 
     @Override

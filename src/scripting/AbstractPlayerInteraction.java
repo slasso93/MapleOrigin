@@ -52,6 +52,7 @@ import server.maps.MapleMapObjectType;
 import server.partyquest.PartyQuest;
 import server.partyquest.Pyramid;
 import server.quest.MapleQuest;
+import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import client.MapleCharacter;
 import client.MapleCharacter.DelayedQuestUpdate;
@@ -673,7 +674,8 @@ public class AbstractPlayerInteraction {
         if (showMessage) {
             c.announce(MaplePacketCreator.getShowItemGain(id, quantity, true));
         }
-
+        if (item != null)
+            FilePrinter.print(FilePrinter.ITEM, c.getPlayer().getName() + " received " + item.getQuantity() + " " + item.getItemId());
         return item;
     }
 
@@ -1120,6 +1122,11 @@ public class AbstractPlayerInteraction {
         } else {
             return -1;
         }
+    }
+
+    public boolean reachedRewardLimit(MapleExpeditionType type) {
+        MapleCharacter player = getPlayer();
+        return MapleExpeditionBossLog.reachedBossRewardLimit(player.getId(), type);
     }
 
     public void endExpedition(MapleExpedition exped) {

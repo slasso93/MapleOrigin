@@ -30,7 +30,7 @@ import server.life.MapleLifeFactory;
 
 public class PinkbeanCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn pink bean");
     }
 
     @Override

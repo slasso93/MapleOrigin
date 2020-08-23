@@ -31,7 +31,7 @@ import tools.MaplePacketCreator;
 
 public class NoticeCommand extends Command {
     {
-        setDescription("");
+        setDescription("Broadcast a notice to the server");
     }
 
     @Override

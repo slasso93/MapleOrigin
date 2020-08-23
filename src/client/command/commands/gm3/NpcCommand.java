@@ -32,7 +32,7 @@ import tools.MaplePacketCreator;
 
 public class NpcCommand extends Command {
     {
-        setDescription("");
+        setDescription("Spawn an NPC until the map is reloaded");
     }
 
     @Override

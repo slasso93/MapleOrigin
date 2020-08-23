@@ -25,10 +25,11 @@
 
 importPackage(Packages.server.life);
 importPackage(Packages.client.inventory);
+importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
-var minLevel = 120, maxLevel = 255;
+var minLevel = 150, maxLevel = 255;
 var entryMap = 270050100;
 var exitMap = 270050300;
 var recruitMap = 270050000;
@@ -75,8 +76,8 @@ function setEventRewards(eim) {
         var itemSet, itemQty, evLevel, expStages, mesoStages;
 
         evLevel = 1;    //Rewards at clear PQ
-        itemSet = [];
-        itemQty = [];
+        itemSet = [4000313];
+        itemQty = [6];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
         expStages = [];    //bonus exp given on CLEAR stage signal
@@ -148,7 +149,7 @@ function playerDead(eim, player) {
     
     eim.setIntProperty("fallenPlayers", count);
     
-    if(count == 10) {
+    if(count == 5) {
         eim.dropMessage(5, "[Expedition] Too many players have fallen, Pink Bean is now deemed undefeatable; the expedition is over.");
         end(eim);
     } else if(count == 4) {
@@ -209,7 +210,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.PINKBEAN);
 }
 
 function isPinkBean(mob) {

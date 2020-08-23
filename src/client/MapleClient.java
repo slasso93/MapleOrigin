@@ -703,7 +703,7 @@ public class MapleClient {
         return ipAddress;
     }
 
-    private String convertHWID(String newHwid) {
+    public String convertHWID(String newHwid) {
         StringBuilder hwid = new StringBuilder();
         String[] split = newHwid.split("_");
         if (split.length > 1 && split[1].length() == 8) {
@@ -1274,14 +1274,14 @@ public class MapleClient {
         saveVotePoints();
     }
 
-    public void useVotePoints(int points) {
+    public void useVotePoints(int points, int itemid) {
         if (points > votePoints) {
             //Should not happen, should probably log this
             return;
         }
         votePoints -= points;
         saveVotePoints();
-        LogHelper.logLeaf(player, false, Integer.toString(points));
+        LogHelper.logVPShopPurchase(player, points, itemid);
     }
 
     private void saveVotePoints() {

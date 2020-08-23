@@ -31,7 +31,7 @@ import server.ThreadManager;
 
 public class ServerAddChannelCommand extends Command {
     {
-        setDescription("");
+        setDescription("Add a channel to the world");
     }
 
     @Override

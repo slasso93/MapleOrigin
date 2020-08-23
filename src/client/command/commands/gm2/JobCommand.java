@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class JobCommand extends Command {
     {
-        setDescription("");
+        setDescription("Change a player's job");
     }
 
     @Override

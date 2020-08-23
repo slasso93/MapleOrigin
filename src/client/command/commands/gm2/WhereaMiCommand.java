@@ -34,7 +34,7 @@ import java.util.HashSet;
 
 public class WhereaMiCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show current map info");
     }
 
     @Override

@@ -21,18 +21,25 @@
 package server.life;
 
 /**
- *
  * @author LightPepsi
  */
 public class MonsterGlobalDropEntry {
-    public MonsterGlobalDropEntry(int itemId, int chance, int continent, int Minimum, int Maximum, short questid) {
-    this.itemId = itemId;
-    this.chance = chance;
-    this.questid = questid;
-    this.continentid = continent;
-    this.Minimum = Minimum;
-    this.Maximum = Maximum;
+
+    public MonsterGlobalDropEntry(int itemId, int chance, int continent, int Minimum, int Maximum, short questid, boolean shouldStack) {
+        this.itemId = itemId;
+        this.chance = chance;
+        this.questid = questid;
+        this.continentid = continent;
+        this.Minimum = Minimum;
+        this.Maximum = Maximum;
+        this.shouldStack = shouldStack;
     }
+
+    public MonsterGlobalDropEntry(int itemId, int chance, int continent, int Minimum, int Maximum, short questid) {
+        this(itemId, chance, continent, Minimum, Maximum, questid, true);
+    }
+
     public int itemId, chance, Minimum, Maximum, continentid;
+    public boolean shouldStack;
     public short questid;
 }

@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class QuestRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set quest rates");
     }
 
     @Override

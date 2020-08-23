@@ -4,8 +4,8 @@
 worlds:
     #Properties for Scania 0
   - flag: 3
-    server_message: Welcome back to Maple Origin! @commands - list of usable player commands. @tele - Lost Memories is the home hubmap! Enjoy the server! 
-    event_message: Welcome to MO!
+    server_message: Welcome back to Maple Origin! @commands - list of usable player commands. @tele - Lost Memories is the home hubmap! Enjoy the server! Summer Updated is now live, patching is required.
+    event_message: Welcome to MO Under the Sea!
     why_am_i_recommended: Welcome to MapleOrigin!!
     channels: 6
     exp_rate: 1
@@ -297,8 +297,9 @@ server:
     EQUIP_EXP_RATE: 0.25                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
     PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
-    EXP_SPLIT_LEVEL_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
-    EXP_SPLIT_LEECH_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
+    EXP_SPLIT_MOB_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
+    EXP_SPLIT_ATTACKER_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
+    EXP_SPLIT_EXPEDITION_INTERVAL: 40            #Non-contributing players must be within N level between any contributing party member to receive EXP during an expedition.
     EXP_SPLIT_MVP_MOD: 0.2
     EXP_SPLIT_COMMON_MOD: 0.8
     PARTY_BONUS_EXP_RATE: 6.0            #Rate for the party exp bonus reward.
@@ -317,6 +318,7 @@ server:
     NAME_CHANGE_COOLDOWN: 2592000000      # (30*24*60*60*1000) Cooldown for name changes, default (GMS) is 30 days.
     WORLD_TRANSFER_COOLDOWN: 2592000000  # (30*24*60*60*1000) Cooldown for world tranfers, default is same as name change (30 days).
     INSTANT_NAME_CHANGE: false              #Whether or not to wait for server restart to apply name changes. Does on reconnect otherwise (requires queries on every login).
+    MEGAPHONE_COOLDOWN: 20000            # Milliseconds before being able to use another megaphone
 
     #Dangling Items/Locks Configuration
     ITEM_EXPIRE_TIME: 180000    # (3 * 60 * 1000) Time before items start disappearing. Recommended to be set up to 3 minutes.
@@ -326,7 +328,7 @@ server:
 
     #Map Monitor Configuration
     ITEM_EXPIRE_CHECK: 10000        # (10 * 10000) Interval between item expiring tasks on maps, which checks and makes disappear expired items.
-    ITEM_LIMIT_ON_MAP: 200              #Max number of items allowed on a map.
+    ITEM_LIMIT_ON_MAP: 400              #Max number of items allowed on a map.
     MAP_VISITED_SIZE: 5                 #Max length for last mapids visited by a player. This is used to recover and update drops on these maps accordingly with player actions.
     MAP_DAMAGE_OVERTIME_INTERVAL: 5000  #Interval in milliseconds between map environment damage (e.g. El Nath and Aqua Road surrondings).
 
@@ -372,7 +374,7 @@ server:
     QUEST_POINT_REPEATABLE_INTERVAL: 24  #Minimum interval between repeatable quest completions for quest points to be awarded.
     QUEST_POINT_REQUIREMENT: 16          #Exchange factor between N quest points to +1 fame, set 0 to disable the entire quest point mechanism.
     QUEST_POINT_PER_QUEST_COMPLETE: 4    #Each completed quest awards N quest points, set 0 to disable.
-    QUEST_POINT_PER_EVENT_CLEAR: 1       #Each completed event instance awards N quest points, set 0 to disable.
+    QUEST_POINT_PER_EVENT_CLEAR: 0       #Each completed event instance awards N quest points, set 0 to disable.
 
     #Guild Configuration
     CREATE_GUILD_MIN_PARTNERS: 1         #Minimum number of members on Guild Headquarters to establish a new guild.
@@ -392,7 +394,7 @@ server:
     USE_EQUIPMNT_LVLUP_SLOTS: false  #Equips can upgrade slots at level up.
     USE_EQUIPMNT_LVLUP_POWER: true  #Enable more powerful stat upgrades at equip level up.
     USE_EQUIPMNT_LVLUP_CASH: true   #Enable equip leveling up on cash equipments as well.
-    USE_SPIKES_AVOID_BANISH: true   #Shoes equipped with spikes prevents mobs from banishing wearer.
+    USE_SPIKES_AVOID_BANISH: false   #Shoes equipped with spikes prevents mobs from banishing wearer.
     MAX_EQUIPMNT_LVLUP_STAT_UP: 5   #Max stat upgrade an equipment can have on a levelup.
     EQUIPMNT_LVLUP_HP_MP_MULTIPLIER: 5  # HP will gain X times more stats when leveling. 5 = [0, 1, 2, 3, 4, 5]
     MAX_EQUIPMNT_STAT: 32767            #Max stat on an equipment by leveling up.
@@ -447,8 +449,8 @@ server:
 
     #Buyback Configuration
     USE_BUYBACK_WITH_MESOS: true    #Enables usage of either mesos or NX for the buyback fee.
-    BUYBACK_FEE: 77.70               #Sets the base amount needed to buyback (level 30 or under will use the base value).
-    BUYBACK_LEVEL_STACK_FEE: 85.47   #Sets the level-stacking portion of the amount needed to buyback (fee will sum up linearly until level 120, when it reaches the peak).
+    BUYBACK_FEE: 100.0               #Sets the base amount needed to buyback (level 30 or under will use the base value).
+    BUYBACK_LEVEL_STACK_FEE: 132.22   #Sets the level-stacking portion of the amount needed to buyback (fee will sum up linearly until level 120, when it reaches the peak).
     BUYBACK_MESO_MULTIPLIER: 100       #Sets a multiplier for the fee when using meso as the charge unit.
     BUYBACK_RETURN_MINUTES: 1           #Sets the maximum amount of time the player can wait before decide to buyback.
     BUYBACK_COOLDOWN_MINUTES: 5         #Sets the time the player must wait before using buyback again.
@@ -464,3 +466,7 @@ server:
     USE_MONSTERBOOK_TIER_BONUS: true              # Gives bonus HP when a full tier is completed
     USE_MONSTERBOOK_COMPLETE_BOOK_BONUS: true     # Give a bonus on completing the entire book
     MONSTERBOOK_COMPLTE_BONUS: 500                # Amount to award when completing the book
+
+    MAX_ALLOWED_VOTES: 2                # Allow up to 2 votes per account (votes still need to be fulfilled by gtop100
+
+    EXPEDITION_HWID_LIMIT: 2                # Number of characters that can receive expedition rewards on the same HWID

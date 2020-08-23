@@ -33,7 +33,7 @@ import constants.inventory.ItemConstants;
 
 public class SetEqStatCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set all equip stats");
     }
 
     @Override

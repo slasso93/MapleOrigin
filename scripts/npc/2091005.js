@@ -45,7 +45,7 @@ function start() {
         return;
     }
     
-    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 5000, 7500, 10000) : Array(200, 1800, 4000, 9200, 17000, 1500, 2000, 2500);
+    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 2000, 4000, 7500) : Array(200, 1800, 4000, 9200, 17000, 5000, 7500, 10000);
     
     belt_on_inventory = new Array();
     for (var i = 0; i < belts.length; i++) {
@@ -76,7 +76,7 @@ function action(mode, type, selection) {
                 cm.sendSimple(text);
             } else if (cm.getPlayer().getLevel() >= 25) {
                 if (cm.getPlayer().getMap().getId() == 925020001) {
-                    cm.sendSimple("My master is the strongest person in Mu Lung, and you want to challenge him? Fine, but you'll regret it later.\r\n\r\n#b#L0#I want to challenge him alone.#l\r\n#L1#I want to challenge him with a party.#l\r\n\r\n#L2#I want to recieve rewards.#l\r\n#L3#I want to reset my training points.#l\r\n#L4#I want to receive a medal.#l\r\n#L5#What is a Mu Lung Dojo?#l");
+                    cm.sendSimple("My master is the strongest person in Mu Lung, and you want to challenge him? Fine, but you'll regret it later.\r\n\r\n#b#L0#I want to challenge him alone.#l\r\n#L1#I want to challenge him with a party.#l\r\n\r\n#L2#I want to receive rewards.#l\r\n#L3#I want to reset my training points.#l\r\n#L4#I want to receive a medal.#l\r\n#L5#What is a Mu Lung Dojo?#l");
                 } else {
                     cm.sendYesNo("What, you're giving up? You just need to get to the next level! Do you really want to quit and leave?");
                 }
@@ -195,7 +195,7 @@ function action(mode, type, selection) {
                             var selStr = "You have #b" + cm.getPlayer().getDojoPoints() + "#k training points. Master prefers those with great talent. If you obtain more points than the average, you can receive a belt depending on your score.\r\n";
                             for (var i = 0; i < belts.length; i++) {
                                 if (belt_on_inventory[i]) {
-                                    selStr += "\r\n#L" + i + "##i" + belts[i] + "# #t" + belts[i] + "# (Already on inventory)";
+                                    selStr += "\r\n#L" + i + "##i" + belts[i] + "# #t" + belts[i] + "# (Already in inventory)";
                                 } else
                                     selStr += "\r\n#L" + i + "##i" + belts[i] + "# #t" + belts[i] + "#";
                             }

@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class NightCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set night mode background");
     }
 
     @Override

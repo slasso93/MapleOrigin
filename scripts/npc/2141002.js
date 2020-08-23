@@ -28,6 +28,7 @@
  * Zakum Quest NPC 
  * Helps players leave the map
  */
+ 
  importPackage(Packages.server.expeditions);
  
 function start() {
@@ -45,18 +46,19 @@ function action(mode, type, selection) {
         cm.dispose();
         
     else if(!cm.getEventInstance().isEventCleared())
-{  
-        cm.warp(211042300);
-        //cm.gainItem(4000313, 1);
+    {
+        cm.warp(270050000);
         cm.dispose();
-}
+    }
     else {
-        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
+        if (cm.reachedRewardLimit(MapleExpeditionType.PINKBEAN)) {
             cm.warp(270050000);
-            cm.gainItem(4000313, 5);
+            cm.dispose();
+        } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {
+            cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
-            cm.sendOk("Please make space in your inventory");
+            cm.warp(270050000);
             cm.dispose();
         }
     }

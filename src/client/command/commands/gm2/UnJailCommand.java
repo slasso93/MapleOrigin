@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class UnJailCommand extends Command {
     {
-        setDescription("");
+        setDescription("Unjail a player");
     }
 
     @Override
@@ -47,6 +47,7 @@ public class UnJailCommand extends Command {
                 return;
             }
             victim.removeJailExpirationTime();
+            victim.changeMap(100000000);
             victim.message("By lack of concrete proof you are now unjailed. Enjoy freedom!");
             player.message(victim.getName() + " was unjailed.");
         } else {

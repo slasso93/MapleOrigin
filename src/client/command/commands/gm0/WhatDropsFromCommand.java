@@ -58,7 +58,7 @@ public class WhatDropsFromCommand extends Command {
                 String mobName = data.getRight();
                 List<MonsterDropEntry> drops = MapleMonsterInformationProvider.getInstance().retrieveDrop(mobId);
                 if (!drops.isEmpty()) {
-                    output += mobName + " drops the following items:\r\n\r\n";
+                    output += mobName + " drops the following items:\r\n\r\n#e";
                     for (MonsterDropEntry drop : MapleMonsterInformationProvider.getInstance().retrieveDrop(mobId)) {
                         try {
                             String name = MapleItemInformationProvider.getInstance().getName(drop.itemId);
@@ -66,14 +66,23 @@ public class WhatDropsFromCommand extends Command {
                                 continue;
                             }
                             float chance = Math.max(1000000 / drop.chance / (!MapleMonsterInformationProvider.getInstance().isBoss(mobId) ? player.getDropRate() : player.getBossDropRate()), 1);
-                            output += "- " + name + " (1/" + (int) chance + ")\r\n";
+                            output += "#v" + drop.itemId + "# #z" + drop.itemId + "# (1/" + (int) chance + ")";
+                            if (!drop.shouldStack || drop.Minimum != drop.Maximum) {
+                                if (drop.Minimum != drop.Maximum)
+                                    output += " [" + drop.Minimum + "-" + drop.Maximum + "]";
+                                else
+                                    output += " [x" + drop.Minimum + "]";
+
+                            }
+                            output += "\r\n";
                         } catch (Exception ex) {
                             ex.printStackTrace();
                             continue;
                         }
                     }
                     output += "\r\n";
-                }
+                } else
+                    i--;
             }
         }
         

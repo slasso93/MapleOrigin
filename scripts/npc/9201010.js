@@ -69,7 +69,7 @@ function action(mode, type, selection) {
                     }
                 }
 
-                if (cm.haveItem(4000313) && isMarrying) {
+                if (cm.haveItem(4031217) && isMarrying) {
                     if(eim.getIntProperty("weddingStage") == 3) {
                         cm.sendOk("You guys totally rocked the stage!!! Go go, talk to #b#p9201007##k to start the afterparty.");
                         cm.dispose();

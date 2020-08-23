@@ -194,7 +194,7 @@ public class MakerProcessor {
                             
                             for (Pair<Integer, Integer> p : recipe.getGainItems()) {
                                 c.getPlayer().setCS(true);
-                                c.getAbstractPlayerInteraction().gainItem(p.getLeft(), p.getRight().shortValue(), false);
+                                c.getAbstractPlayerInteraction().gainItem(p.getLeft(), (short) (p.getRight().shortValue() * 2), false);
                                 c.getPlayer().setCS(false);
                             }
                         } else {
@@ -217,7 +217,11 @@ public class MakerProcessor {
                         } else if (type == 4) {
                             c.announce(MaplePacketCreator.makerResultDesynth(recipe.getReqItems().get(0).getLeft(), recipe.getCost(), recipe.getGainItems()));
                         } else {
-                            c.announce(MaplePacketCreator.makerResult(makerSucceeded, recipe.getGainItems().get(0).getLeft(), recipe.getGainItems().get(0).getRight(), recipe.getCost(), recipe.getReqItems(), stimulantid, new LinkedList<>(reagentids.keySet())));
+                            if (stimulantid == -1 && reagentids.isEmpty()) {
+                                c.announce(MaplePacketCreator.makerResult(makerSucceeded, recipe.getGainItems().get(0).getLeft(), recipe.getGainItems().get(0).getRight() * 2, recipe.getCost(), recipe.getReqItems(), stimulantid, new LinkedList<>(reagentids.keySet())));
+                            } else {
+                                c.announce(MaplePacketCreator.makerResult(makerSucceeded, recipe.getGainItems().get(0).getLeft(), recipe.getGainItems().get(0).getRight(), recipe.getCost(), recipe.getReqItems(), stimulantid, new LinkedList<>(reagentids.keySet())));
+                            }
                         }
                         
                         c.announce(MaplePacketCreator.showMakerEffect(makerSucceeded));

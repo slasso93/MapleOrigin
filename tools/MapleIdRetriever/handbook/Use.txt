@@ -912,6 +912,8 @@
 2049002 - Clean Slate Scroll 5% - Recovers the lost number of upgrades due to failed scroll by 1. Success rate:5%, If failed, the item will be destroyed at a 10% rate..
 2049003 - Clean Slate Scroll 20% - Recovers the lost number of upgrades due to failed scroll by 1. Success rate:20%, If failed, the item will be destroyed at a 50% rate..
 2049100 - Chaos Scroll 60% - Alters the equipment for better or worse. Not available on Cash Items.\nSuccess rate:60%
+2049115 - Innocence Scroll 40% - Resets all stats from an item gained from leveling. Can only be used on equipment. Consumes no slots and the item will return to level 1.\nSuccess rate:40%
+2049117 - Innocence Scroll 90% - Resets all stats from an item gained from leveling. Can only be used on equipment. Consumes no slots and the item will return to level 1.\nSuccess rate:90%
 2049101 - Liar Tree Sap 100% - Use this on Pinocchio's nose to improve or downgrade the item options.\nSuccess rate:100%
 2049102 - Maple Syrup 100% - Use it on Maple Leaf to improve or downgrade the item option. Success rate:100%
 2049104 - Agent Equipment Scroll 100% - Can be used on an agent equipment to either enhance or worsen the function.\nSuccess rate:100%

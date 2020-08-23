@@ -52,6 +52,10 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
         if(!chr.isAlive() && YamlConfig.config.server.USE_BUYBACK_SYSTEM) {
             BuybackProcessor.processBuyback(c);
             c.announce(MaplePacketCreator.enableActions());
+        } else if (chr.isAlive() && YamlConfig.config.server.USE_BUYBACK_SYSTEM) {
+            c.announce(MaplePacketCreator.serverNotice(1, "You may use this to resurrect yourself if you die. This costs " +
+                    c.getPlayer().getBuybackFee() + " mesos, cooldown " + YamlConfig.config.server.BUYBACK_COOLDOWN_MINUTES + " min."));
+            c.announce(MaplePacketCreator.enableActions());
         } else {
             if (!YamlConfig.config.server.USE_MTS) {
                 c.announce(MaplePacketCreator.enableActions());
@@ -157,7 +161,37 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                         equip.setRingId(rs.getInt("ringid"));
                         equip.setExpiration(rs.getLong("expiration"));
                         equip.setGiftFrom(rs.getString("giftFrom"));
-                        
+
+                        equip.setLvlStr((short) rs.getInt("lvl_str"));
+                        equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                        equip.setLvlInt((short) rs.getInt("lvl_int"));
+                        equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                        equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                        equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                        equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                        equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                        equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                        equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                        equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                        equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                        equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                        equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
+                        equip.setScrollStr((short) rs.getInt("scroll_str"));
+                        equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                        equip.setScrollInt((short) rs.getInt("scroll_int"));
+                        equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                        equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                        equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                        equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                        equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                        equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                        equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                        equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                        equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                        equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                        equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
                         items.add(new MTSItemInfo((Item) equip, rs.getInt("price") + 100 + (int) (rs.getInt("price") * 0.1), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                     }
                 }
@@ -221,6 +255,37 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                             equip.setFlag((short) rs.getInt("flag"));
                             equip.setExpiration(rs.getLong("expiration"));
                             equip.setGiftFrom(rs.getString("giftFrom"));
+
+                            equip.setLvlStr((short) rs.getInt("lvl_str"));
+                            equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                            equip.setLvlInt((short) rs.getInt("lvl_int"));
+                            equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                            equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                            equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                            equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                            equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                            equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                            equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                            equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                            equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                            equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                            equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
+                            equip.setScrollStr((short) rs.getInt("scroll_str"));
+                            equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                            equip.setScrollInt((short) rs.getInt("scroll_int"));
+                            equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                            equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                            equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                            equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                            equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                            equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                            equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                            equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                            equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                            equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                            equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
                             items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                         }
                     }
@@ -273,6 +338,37 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
                             equip.setFlag((short) rs.getInt("flag"));
                             equip.setExpiration(rs.getLong("expiration"));
                             equip.setGiftFrom(rs.getString("giftFrom"));
+
+                            equip.setLvlStr((short) rs.getInt("lvl_str"));
+                            equip.setLvlDex((short) rs.getInt("lvl_dex"));
+                            equip.setLvlInt((short) rs.getInt("lvl_int"));
+                            equip.setLvlLuk((short) rs.getInt("lvl_luk"));
+                            equip.setLvlHp((short) rs.getInt("lvl_hp"));
+                            equip.setLvlMp((short) rs.getInt("lvl_mp"));
+                            equip.setLvlWatk((short) rs.getInt("lvl_watk"));
+                            equip.setLvlMatk((short) rs.getInt("lvl_matk"));
+                            equip.setLvlWdef((short) rs.getInt("lvl_wdef"));
+                            equip.setLvlMdef((short) rs.getInt("lvl_mdef"));
+                            equip.setLvlAcc((short) rs.getInt("lvl_acc"));
+                            equip.setLvlAvoid((short) rs.getInt("lvl_avoid"));
+                            equip.setLvlSpeed((short) rs.getInt("lvl_speed"));
+                            equip.setLvlJump((short) rs.getInt("lvl_jump"));
+
+                            equip.setScrollStr((short) rs.getInt("scroll_str"));
+                            equip.setScrollDex((short) rs.getInt("scroll_dex"));
+                            equip.setScrollInt((short) rs.getInt("scroll_int"));
+                            equip.setScrollLuk((short) rs.getInt("scroll_luk"));
+                            equip.setScrollHp((short) rs.getInt("scroll_hp"));
+                            equip.setScrollMp((short) rs.getInt("scroll_mp"));
+                            equip.setScrollWatk((short) rs.getInt("scroll_watk"));
+                            equip.setScrollMatk((short) rs.getInt("scroll_matk"));
+                            equip.setScrollWdef((short) rs.getInt("scroll_wdef"));
+                            equip.setScrollMdef((short) rs.getInt("scroll_mdef"));
+                            equip.setScrollAcc((short) rs.getInt("scroll_acc"));
+                            equip.setScrollAvoid((short) rs.getInt("scroll_avoid"));
+                            equip.setScrollSpeed((short) rs.getInt("scroll_speed"));
+                            equip.setScrollJump((short) rs.getInt("scroll_jump"));
+
                             items.add(new MTSItemInfo((Item) equip, rs.getInt("price"), rs.getInt("id"), rs.getInt("seller"), rs.getString("sellername"), rs.getString("sell_ends")));
                         }
                     }

@@ -83,7 +83,11 @@ public final class ItemConstants {
         int useType = itemId / 1000;
         return useType == 2022 || useType == 2010 || useType == 2020;
     }
-    
+
+    public static boolean isHammerEnabled(int itemId) {
+        return itemId != 1082399; // super scg
+    }
+
     public static boolean isConsumable(int itemId) {
         return isPotion(itemId) || isFood(itemId);
     }
@@ -144,7 +148,11 @@ public final class ItemConstants {
     public static boolean isCleanSlate(int scrollId) {
         return scrollId > 2048999 && scrollId < 2049004;
     }
-    
+
+    public static boolean isResetScroll(int scrollId) {
+        return scrollId == 2049115 || scrollId == 2049117;
+    }
+
     public static boolean isModifierScroll(int scrollId) {
         return scrollId == 2040727 || scrollId == 2041058;
     }
@@ -158,10 +166,12 @@ public final class ItemConstants {
     public static boolean isChaosScroll(int scrollId) {
     	return scrollId >= 2049100 && scrollId <= 2049103;
     }
-    
+
+    // use this for blocking cash shop items
     public static boolean isRateCoupon(int itemId) {
         int itemType = itemId / 1000;
-        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220 || itemType == 5451;
+        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220 || itemType == 5451
+                || itemType == 5450 || itemType == 5520 || itemType == 5050 || itemType == 5510 || itemType == 5130;
     }
     
     public static boolean isExpCoupon(int couponId) {
@@ -257,4 +267,45 @@ public final class ItemConstants {
     public static boolean isChair(int itemId) {
         return itemId / 10000 == 301;
     }
+
+    public static boolean isTimelessWeapon(int itemid) {
+        return itemid == 1302081 ||
+            itemid == 1312037 ||
+            itemid == 1322060 ||
+            itemid == 1402046 ||
+            itemid == 1412033 ||
+            itemid == 1422037 ||
+            itemid == 1442063 ||
+            itemid == 1482023 ||
+            itemid == 1332073 ||
+            itemid == 1332074 ||
+            itemid == 1372044 ||
+            itemid == 1382057 ||
+            itemid == 1432047 ||
+            itemid == 1452057 ||
+            itemid == 1462050 ||
+            itemid == 1472068 ||
+            itemid == 1492023;
+    }
+
+    public static boolean isReverseWeapon(int itemid) {
+        return itemid == 1302086 ||
+                itemid == 1312038 ||
+                itemid == 1322061 ||
+                itemid == 1332075 ||
+                itemid == 1332076 ||
+                itemid == 1372045 ||
+                itemid == 1382059 ||
+                itemid == 1402047 ||
+                itemid == 1412034 ||
+                itemid == 1422038 ||
+                itemid == 1432049 ||
+                itemid == 1442067 ||
+                itemid == 1452059 ||
+                itemid == 1462051 ||
+                itemid == 1472071 ||
+                itemid == 1482024 ||
+                itemid == 1492025;
+    }
+
 }

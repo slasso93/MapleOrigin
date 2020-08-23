@@ -34,7 +34,7 @@ import java.net.UnknownHostException;
 
 public class WarpWorldCommand extends Command {
     {
-        setDescription("");
+        setDescription("Warp to another world");
     }
 
     @Override

@@ -31,7 +31,7 @@ import client.MapleCharacter;
 
 public class BuffCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give yourself a specific buff");
     }
 
     @Override

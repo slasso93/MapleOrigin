@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class PosCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show position on map");
     }
 
     @Override

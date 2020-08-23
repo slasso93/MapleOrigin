@@ -56,7 +56,13 @@ public class Equip extends Item {
         incDEX(0), incSTR(1), incINT(2), incLUK(3),
         incMHP(4), incMMP(5), incPAD(6), incMAD(7),
         incPDD(8), incMDD(9), incEVA(10), incACC(11),
-        incSpeed(12), incJump(13), incVicious(14), incSlot(15);
+        incSpeed(12), incJump(13), incVicious(14), incSlot(15),
+        lvlDEX(16), lvlSTR(17), lvlINT(18), lvlLUK(19),
+        lvlMHP(20), lvlMMP(21), lvlPAD(22), lvlMAD(23),
+        lvlPDD(24), lvlMDD(25), lvlEVA(26), lvlACC(27), lvlSpeed(28), lvlJump(29),
+        scrollDEX(30), scrollSTR(31), scrollINT(32), scrollLUK(33),
+        scrollMHP(34), scrollMMP(35), scrollPAD(36), scrollMAD(37),
+        scrollPDD(38), scrollMDD(39), scrollEVA(40), scrollACC(41), scrollSpeed(42), scrollJump(43);
         private int value = -1;
 
         private StatUpgrade(int value) {
@@ -67,7 +73,9 @@ public class Equip extends Item {
     private byte upgradeSlots;
     private byte level, itemLevel;
     private short flag;
-    private short str, dex, _int, luk, hp, mp, watk, matk, wdef, mdef, acc, avoid, hands, speed, jump, vicious;
+    private short str, dex, _int, luk, hp, mp, watk, matk, wdef, mdef, acc, avoid, hands, speed, jump, vicious; // base stats
+    private short lvlStr, lvlDex, lvlInt, lvlLuk, lvlHp, lvlMp, lvlWatk, lvlMatk, lvlWdef, lvlMdef, lvlAcc, lvlAvoid, lvlSpeed, lvlJump; // stats from item level
+    private short scrollStr, scrollDex, scrollInt, scrollLuk, scrollHp, scrollMp, scrollWatk, scrollMatk, scrollWdef, scrollMdef, scrollAcc, scrollAvoid, scrollSpeed, scrollJump; // stats from scrolling
     private float itemExp;
     private int ringid = -1;
     private boolean wear = false;
@@ -82,7 +90,10 @@ public class Equip extends Item {
         this.upgradeSlots = (byte) slots;
         this.itemExp = 0;
         this.itemLevel = 1;
-        
+
+        if (!ItemConstants.isHammerEnabled(id))
+            this.vicious = 13;
+
         this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
     }
 
@@ -91,6 +102,9 @@ public class Equip extends Item {
         this.upgradeSlots = (byte) slots;
         this.itemExp = 0;
         this.itemLevel = 1;
+
+        if (!ItemConstants.isHammerEnabled(id))
+            this.vicious = 13;
 
         this.isElemental = (MapleItemInformationProvider.getInstance().getEquipLevel(id, false) > 1);
     }
@@ -116,6 +130,37 @@ public class Equip extends Item {
         ret.flag = flag;
         ret.vicious = vicious;
         ret.upgradeSlots = upgradeSlots;
+
+        ret.lvlStr = lvlStr;
+        ret.lvlDex = lvlDex;
+        ret.lvlInt = lvlInt;
+        ret.lvlLuk = lvlLuk;
+        ret.lvlHp = lvlHp;
+        ret.lvlMp = lvlMp;
+        ret.lvlMatk = lvlMatk;
+        ret.lvlMdef = lvlMdef;
+        ret.lvlWatk = lvlWatk;
+        ret.lvlWdef = lvlWdef;
+        ret.lvlAcc = lvlAcc;
+        ret.lvlAvoid = lvlAvoid;
+        ret.lvlSpeed = lvlSpeed;
+        ret.lvlJump = lvlJump;
+
+        ret.scrollStr = scrollStr;
+        ret.scrollDex = scrollDex;
+        ret.scrollInt = scrollInt;
+        ret.scrollLuk = scrollLuk;
+        ret.scrollHp = scrollHp;
+        ret.scrollMp = scrollMp;
+        ret.scrollMatk = scrollMatk;
+        ret.scrollMdef = scrollMdef;
+        ret.scrollWatk = scrollWatk;
+        ret.scrollWdef = scrollWdef;
+        ret.scrollAcc = scrollAcc;
+        ret.scrollAvoid = scrollAvoid;
+        ret.scrollSpeed = scrollSpeed;
+        ret.scrollJump = lvlJump;
+
         ret.itemLevel = itemLevel;
         ret.itemExp = itemExp;
         ret.level = level;
@@ -203,6 +248,230 @@ public class Equip extends Item {
 
     public short getVicious() {
         return vicious;
+    }
+
+    public short getLvlStr() {
+        return lvlStr;
+    }
+
+    public void setLvlStr(short lvlStr) {
+        this.lvlStr = lvlStr;
+    }
+
+    public short getLvlDex() {
+        return lvlDex;
+    }
+
+    public void setLvlDex(short lvlDex) {
+        this.lvlDex = lvlDex;
+    }
+
+    public short getLvlInt() {
+        return lvlInt;
+    }
+
+    public void setLvlInt(short lvlInt) {
+        this.lvlInt = lvlInt;
+    }
+
+    public short getLvlLuk() {
+        return lvlLuk;
+    }
+
+    public void setLvlLuk(short lvlLuk) {
+        this.lvlLuk = lvlLuk;
+    }
+
+    public short getLvlHp() {
+        return lvlHp;
+    }
+
+    public void setLvlHp(short lvlHp) {
+        this.lvlHp = lvlHp;
+    }
+
+    public short getLvlMp() {
+        return lvlMp;
+    }
+
+    public void setLvlMp(short lvlMp) {
+        this.lvlMp = lvlMp;
+    }
+
+    public short getLvlWatk() {
+        return lvlWatk;
+    }
+
+    public void setLvlWatk(short lvlWatk) {
+        this.lvlWatk = lvlWatk;
+    }
+
+    public short getLvlMatk() {
+        return lvlMatk;
+    }
+
+    public void setLvlMatk(short lvlMatk) {
+        this.lvlMatk = lvlMatk;
+    }
+
+    public short getLvlWdef() {
+        return lvlWdef;
+    }
+
+    public void setLvlWdef(short lvlWdef) {
+        this.lvlWdef = lvlWdef;
+    }
+
+    public short getLvlMdef() {
+        return lvlMdef;
+    }
+
+    public void setLvlMdef(short lvlMdef) {
+        this.lvlMdef = lvlMdef;
+    }
+
+    public short getLvlAcc() {
+        return lvlAcc;
+    }
+
+    public void setLvlAcc(short lvlAcc) {
+        this.lvlAcc = lvlAcc;
+    }
+
+    public short getLvlAvoid() {
+        return lvlAvoid;
+    }
+
+    public void setLvlAvoid(short lvlAvoid) {
+        this.lvlAvoid = lvlAvoid;
+    }
+
+    public short getLvlSpeed() {
+        return lvlSpeed;
+    }
+
+    public void setLvlSpeed(short lvlSpeed) {
+        this.lvlSpeed = lvlSpeed;
+    }
+
+    public short getLvlJump() {
+        return lvlJump;
+    }
+
+    public void setLvlJump(short lvlJump) {
+        this.lvlJump = lvlJump;
+    }
+
+    public short getScrollStr() {
+        return scrollStr;
+    }
+
+    public void setScrollStr(short scrollStr) {
+        this.scrollStr = scrollStr;
+    }
+
+    public short getScrollDex() {
+        return scrollDex;
+    }
+
+    public void setScrollDex(short scrollDex) {
+        this.scrollDex = scrollDex;
+    }
+
+    public short getScrollInt() {
+        return scrollInt;
+    }
+
+    public void setScrollInt(short scrollInt) {
+        this.scrollInt = scrollInt;
+    }
+
+    public short getScrollLuk() {
+        return scrollLuk;
+    }
+
+    public void setScrollLuk(short scrollLuk) {
+        this.scrollLuk = scrollLuk;
+    }
+
+    public short getScrollHp() {
+        return scrollHp;
+    }
+
+    public void setScrollHp(short scrollHp) {
+        this.scrollHp = scrollHp;
+    }
+
+    public short getScrollMp() {
+        return scrollMp;
+    }
+
+    public void setScrollMp(short scrollMp) {
+        this.scrollMp = scrollMp;
+    }
+
+    public short getScrollWatk() {
+        return scrollWatk;
+    }
+
+    public void setScrollWatk(short scrollWatk) {
+        this.scrollWatk = scrollWatk;
+    }
+
+    public short getScrollMatk() {
+        return scrollMatk;
+    }
+
+    public void setScrollMatk(short scrollMatk) {
+        this.scrollMatk = scrollMatk;
+    }
+
+    public short getScrollWdef() {
+        return scrollWdef;
+    }
+
+    public void setScrollWdef(short scrollWdef) {
+        this.scrollWdef = scrollWdef;
+    }
+
+    public short getScrollMdef() {
+        return scrollMdef;
+    }
+
+    public void setScrollMdef(short scrollMdef) {
+        this.scrollMdef = scrollMdef;
+    }
+
+    public short getScrollAcc() {
+        return scrollAcc;
+    }
+
+    public void setScrollAcc(short scrollAcc) {
+        this.scrollAcc = scrollAcc;
+    }
+
+    public short getScrollAvoid() {
+        return scrollAvoid;
+    }
+
+    public void setScrollAvoid(short scrollAvoid) {
+        this.scrollAvoid = scrollAvoid;
+    }
+
+    public short getScrollSpeed() {
+        return scrollSpeed;
+    }
+
+    public void setScrollSpeed(short scrollSpeed) {
+        this.scrollSpeed = scrollSpeed;
+    }
+
+    public short getScrollJump() {
+        return scrollJump;
+    }
+
+    public void setScrollJump(short scrollJump) {
+        this.scrollJump = scrollJump;
     }
 
     @Override
@@ -388,7 +657,37 @@ public class Equip extends Item {
         if(acc > 0) stats.put(StatUpgrade.incACC, acc);
         if(speed > 0) stats.put(StatUpgrade.incSpeed, speed);
         if(jump > 0) stats.put(StatUpgrade.incJump, jump);
-        
+
+        if(lvlDex > 0) stats.put(StatUpgrade.lvlDEX, dex);
+        if(lvlStr > 0) stats.put(StatUpgrade.lvlSTR, str);
+        if(lvlInt > 0) stats.put(StatUpgrade.lvlINT,_int);
+        if(lvlLuk > 0) stats.put(StatUpgrade.lvlLUK, luk);
+        if(lvlHp > 0) stats.put(StatUpgrade.lvlMHP, hp);
+        if(lvlMp > 0) stats.put(StatUpgrade.lvlMMP, mp);
+        if(lvlWatk > 0) stats.put(StatUpgrade.lvlPAD, watk);
+        if(lvlMatk > 0) stats.put(StatUpgrade.lvlMAD, matk);
+        if(lvlWdef > 0) stats.put(StatUpgrade.lvlPDD, wdef);
+        if(lvlMdef > 0) stats.put(StatUpgrade.lvlMDD, mdef);
+        if(lvlAvoid > 0) stats.put(StatUpgrade.lvlEVA, avoid);
+        if(lvlAcc > 0) stats.put(StatUpgrade.lvlACC, acc);
+        if(lvlSpeed > 0) stats.put(StatUpgrade.lvlSpeed, speed);
+        if(lvlJump > 0) stats.put(StatUpgrade.lvlJump, jump);
+
+        if(scrollDex > 0) stats.put(StatUpgrade.scrollDEX, dex);
+        if(scrollStr > 0) stats.put(StatUpgrade.scrollSTR, str);
+        if(scrollInt > 0) stats.put(StatUpgrade.scrollINT,_int);
+        if(scrollLuk > 0) stats.put(StatUpgrade.scrollLUK, luk);
+        if(scrollHp > 0) stats.put(StatUpgrade.scrollMHP, hp);
+        if(scrollMp > 0) stats.put(StatUpgrade.scrollMMP, mp);
+        if(scrollWatk > 0) stats.put(StatUpgrade.scrollPAD, watk);
+        if(scrollMatk > 0) stats.put(StatUpgrade.scrollMAD, matk);
+        if(scrollWdef > 0) stats.put(StatUpgrade.scrollPDD, wdef);
+        if(scrollMdef > 0) stats.put(StatUpgrade.scrollMDD, mdef);
+        if(scrollAvoid > 0) stats.put(StatUpgrade.scrollEVA, avoid);
+        if(scrollAcc > 0) stats.put(StatUpgrade.scrollACC, acc);
+        if(scrollSpeed > 0) stats.put(StatUpgrade.scrollSpeed, speed);
+        if(scrollJump > 0) stats.put(StatUpgrade.scrollJump, jump);
+
         return stats;
     }
     
@@ -401,71 +700,85 @@ public class Equip extends Item {
                 case incDEX:
                     statUp = Math.min(stat.getRight(), maxStat - dex);
                     dex += statUp;
+                    lvlDex += statUp;
                     lvupStr += "+" + statUp + "DEX ";
                     break;
                 case incSTR:
                     statUp = Math.min(stat.getRight(), maxStat - str);
                     str += statUp;
+                    lvlStr += statUp;
                     lvupStr += "+" + statUp + "STR ";
                     break;
                 case incINT:
                     statUp = Math.min(stat.getRight(), maxStat - _int);
                     _int += statUp;
+                    lvlInt += statUp;
                     lvupStr += "+" + statUp + "INT ";
                     break;
                 case incLUK:
                     statUp = Math.min(stat.getRight(), maxStat - luk);
                     luk += statUp;
+                    lvlLuk += statUp;
                     lvupStr += "+" + statUp + "LUK ";
                     break;
                 case incMHP:
                     statUp = Math.min(stat.getRight(), maxStat - hp);
                     hp += statUp;
+                    lvlHp += statUp;
                     lvupStr += "+" + statUp + "HP ";
                     break;
                 case incMMP:
                     statUp = Math.min(stat.getRight(), maxStat - mp);
                     mp += statUp;
+                    lvlMp += statUp;
                     lvupStr += "+" + statUp + "MP ";
                     break;
                 case incPAD:
                     statUp = Math.min(stat.getRight(), maxStat - watk);
                     watk += statUp;
+                    lvlWatk += statUp;
                     lvupStr += "+" + statUp + "WATK ";
                     break;
                 case incMAD:
                     statUp = Math.min(stat.getRight(), maxStat - matk);
                     matk += statUp;
+                    lvlMatk += statUp;
                     lvupStr += "+" + statUp + "MATK ";
                     break;
                 case incPDD:
                     statUp = Math.min(stat.getRight(), maxStat - wdef);
                     wdef += statUp;
+                    lvlWdef += statUp;
                     lvupStr += "+" + statUp + "WDEF ";
                     break;
                 case incMDD:
                     statUp = Math.min(stat.getRight(), maxStat - mdef);
                     mdef += statUp;
+                    lvlMdef += statUp;
                     lvupStr += "+" + statUp + "MDEF ";
                     break;
                 case incEVA:
                     statUp = Math.min(stat.getRight(), maxStat - avoid);
                     avoid += statUp;
+                    lvlAvoid += statUp;
                     lvupStr += "+" + statUp + "AVOID ";
                     break;
                 case incACC:
                     statUp = Math.min(stat.getRight(), maxStat - acc);
                     acc += statUp;
+                    lvlAcc += statUp;
                     lvupStr += "+" + statUp + "ACC ";
                     break;
                 case incSpeed:
                     statUp = Math.min(stat.getRight(), maxStat - speed);
                     speed += statUp;
+                    lvlSpeed += statUp;
                     lvupStr += "+" + statUp + "SPEED ";
                     break;
                 case incJump:
                     statUp = Math.min(stat.getRight(), maxStat - jump);
                     jump += statUp;
+                    lvlJump += statUp;
                     lvupStr += "+" + statUp + "JUMP ";
                     break;
                     
@@ -575,7 +888,15 @@ public class Equip extends Item {
             return;
         }
         
-        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true), ItemConstants.isOverall(getItemId()) ? YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL: YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
+        int equipMaxLevel = Math.min(30, Math.max(ii.getEquipLevel(this.getItemId(), true),
+                ItemConstants.isOverall(getItemId()) ? YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL : YamlConfig.config.server.USE_EQUIPMNT_LVLUP));
+
+        // TODO: should be config yaml flag
+        if (ItemConstants.isReverseWeapon(getItemId()))
+            equipMaxLevel = 8;
+        if (ItemConstants.isTimelessWeapon(getItemId()))
+            equipMaxLevel = 10;
+
         if (itemLevel >= equipMaxLevel) {
             return;
         }
@@ -619,6 +940,10 @@ public class Equip extends Item {
 
         if (ItemConstants.isOverall(getItemId())) {
             return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP_OVERALL;
+        } else if (ItemConstants.isReverseWeapon(getItemId())) {
+            return itemLevel >= 8;
+        } else if (ItemConstants.isTimelessWeapon(getItemId())) {
+            return itemLevel >= 10;
         } else
             return itemLevel >= YamlConfig.config.server.USE_EQUIPMNT_LVLUP;
     }

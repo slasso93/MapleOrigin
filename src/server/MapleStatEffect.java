@@ -668,7 +668,6 @@ public class MapleStatEffect {
                     statups.add(new Pair<>(MapleBuffStat.DASH2, Integer.valueOf(ret.x)));
                     statups.add(new Pair<>(MapleBuffStat.DASH, Integer.valueOf(ret.y)));
                     break;
-                case Corsair.SPEED_INFUSION:
                 case Buccaneer.SPEED_INFUSION:
                 case ThunderBreaker.SPEED_INFUSION:
                     statups.add(new Pair<>(MapleBuffStat.SPEED_INFUSION, Integer.valueOf(x)));
@@ -766,8 +765,13 @@ public class MapleStatEffect {
                     monsterStatus.put(MonsterStatus.NINJA_AMBUSH, Integer.valueOf(ret.damage));
                     break;
                 case Page.THREATEN:
-                    monsterStatus.put(MonsterStatus.WATK, Integer.valueOf(ret.x));
-                    monsterStatus.put(MonsterStatus.WDEF, Integer.valueOf(ret.y));
+                    // keep monsterStatus a value Integers but we will multiple the % reduction by 100 and handle it later as a %
+                    monsterStatus.put(MonsterStatus.WATK, Integer.valueOf((int) (ret.prop * 100.0)));
+
+                    monsterStatus.put(MonsterStatus.WDEF, Integer.valueOf(ret.x));
+                    monsterStatus.put(MonsterStatus.MDEF, Integer.valueOf(ret.y));
+
+                    monsterStatus.put(MonsterStatus.SEAL, Integer.valueOf(1));
                     break;
                 case DragonKnight.DRAGON_ROAR:
                     ret.hpR = -x / 100.0;
@@ -1199,7 +1203,7 @@ public class MapleStatEffect {
             } else if (isSeal() && monster.isBoss()) {  // thanks IxianMace for noticing seal working on bosses
                 // do nothing
             } else {
-                if (makeChanceResult()) {
+                if (makeChanceResult() || isThreaten()) {
                     monster.applyStatus(applyfrom, new MonsterStatusEffect(getMonsterStati(), skill_, null, false), isPoison(), getDuration());
                     if (isCrash()) {
                         monster.debuffMob(skill_.getId());
@@ -1717,6 +1721,10 @@ public class MapleStatEffect {
         return skill && (sourceid == Priest.DISPEL || sourceid == SuperGM.HEAL_PLUS_DISPEL);
     }
 
+    private boolean isThreaten() {
+        return skill && sourceid == Page.THREATEN;
+    }
+
     private boolean isCureAllAbnormalStatus() {
         if (skill) {
             return isHerosWill(sourceid);
@@ -1740,6 +1748,7 @@ public class MapleStatEffect {
             case NightLord.HEROS_WILL:
             case Shadower.HEROS_WILL:
             case Buccaneer.PIRATES_RAGE:
+            case Corsair.PIRATES_RAGE:
             case Aran.HEROS_WILL:
                 return true;
 
@@ -1771,7 +1780,7 @@ public class MapleStatEffect {
     }
 
     private boolean isInfusion() {
-        return skill && (sourceid == Buccaneer.SPEED_INFUSION || sourceid == Corsair.SPEED_INFUSION || sourceid == ThunderBreaker.SPEED_INFUSION);
+        return skill && (sourceid == Buccaneer.SPEED_INFUSION || sourceid == ThunderBreaker.SPEED_INFUSION);
     }
 
     private boolean isCygnusFA() {

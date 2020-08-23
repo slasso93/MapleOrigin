@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class CheckDmgCommand extends Command {
     {
-        setDescription("");
+        setDescription("Display a player's current expected damage");
     }
 
     @Override

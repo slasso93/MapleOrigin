@@ -29,7 +29,7 @@ import config.YamlConfig;
 
 public class ShowPacketsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Toggle packet logs");
     }
 
     @Override

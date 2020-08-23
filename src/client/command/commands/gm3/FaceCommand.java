@@ -32,7 +32,7 @@ import server.MapleItemInformationProvider;
 
 public class FaceCommand extends Command {
     {
-        setDescription("");
+        setDescription("Change your face");
     }
 
     @Override

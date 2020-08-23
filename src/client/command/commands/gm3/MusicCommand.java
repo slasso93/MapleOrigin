@@ -31,7 +31,7 @@ import tools.MaplePacketCreator;
 
 public class MusicCommand extends Command {
     {
-        setDescription("");
+        setDescription("List all BGM");
     }
 
     private static String getSongList() {

@@ -29,7 +29,7 @@ import constants.net.ServerConstants;
 
 public class SetCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set debug values");
     }
 
     @Override

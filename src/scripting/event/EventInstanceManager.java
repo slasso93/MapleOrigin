@@ -290,12 +290,19 @@ public class EventInstanceManager {
     }
 
     public void exitPlayer(MapleCharacter chr, int map) {
+        exitPlayer(chr, map, null);
+    }
+
+    public void exitPlayer(MapleCharacter chr, int map, String targetPortal) {
         if (chr == null) {
             return;
         }
         if (chr == this.getLeader()) {
             this.unregisterPlayer(chr);
-            chr.changeMap(map, 0);
+            if (targetPortal != null)
+                chr.changeMap(map, targetPortal);
+            else
+                chr.changeMap(map, 0);
             if (!this.getPlayers().isEmpty()) {
                 this.setLeader(this.getRandomPlayer());
                 this.dropMessage(5, "Event Leader changed to " + this.getLeader().getName());
@@ -432,7 +439,6 @@ public class EventInstanceManager {
 
         event_schedule = null;
         eventTime = 0;
-        timeStarted = 0;
     }
 
     public void stopEventTimer() {
@@ -692,9 +698,11 @@ public class EventInstanceManager {
             int inc;
 
             if (ServerConstants.JAVA_8) {
-                inc = (int) invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                Object res = invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                inc = res == null ? 1 : (int) res;
             } else {
-                inc = ((Double) invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId())).intValue();
+                Object res = invokeScriptFunction("monsterValue", EventInstanceManager.this, mob.getId());
+                inc = res == null ? 1 : ((Double) res).intValue();
             }
 
             if (inc != 0) {
@@ -1219,10 +1227,20 @@ public class EventInstanceManager {
     }
 
     public final void setEventCleared() {
+        setEventCleared(null);
+    }
+
+    public final void setEventCleared(MapleExpeditionType type) {
         eventCleared = true;
 
+        String partyId = java.util.UUID.randomUUID().toString();
         for (MapleCharacter chr : getPlayers()) {
-            chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
+            if (type != null)
+                chr.setExpeditionCompleted(type);
+            else // award quest points for PQ completion.
+                chr.awardQuestPoint(YamlConfig.config.server.QUEST_POINT_PER_EVENT_CLEAR);
+            if (type != null || name.toUpperCase().contains("PQ"))
+                chr.logActivity(name, getPlayers().size(), timeStarted, partyId, type != null ? "BOSS" : "PQ");
         }
 
         sL.lock();
@@ -1524,4 +1542,9 @@ public class EventInstanceManager {
             MapleExpeditionBossLog.registerBossEntry(player.getId(), type);
         }
     }
+
+    public boolean isExpeditionInProgress() {
+        return expedition != null && expedition.isInProgress();
+    }
+
 }

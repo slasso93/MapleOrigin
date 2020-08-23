@@ -30,7 +30,7 @@ import tools.MaplePacketCreator;
 
 public class FishingRateCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set fishing rates");
     }
 
     @Override

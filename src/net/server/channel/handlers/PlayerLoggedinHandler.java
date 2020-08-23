@@ -394,6 +394,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 player.skillCooldownTask();
                 player.expirationTask();
                 player.questExpirationTask();
+                player.jailTask(-1);
                 if (GameConstants.hasSPTable(player.getJob()) && player.getJob().getId() != 2001) {
                     player.createDragon();
                 }
@@ -431,7 +432,11 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     c.announce(MaplePacketCreator.setNPCScriptable(ScriptableNPCConstants.SCRIPTABLE_NPCS));
                 }
                 
-                if(newcomer) player.setLoginTime(System.currentTimeMillis());
+                if (newcomer) {
+                    player.setLoginTime(System.currentTimeMillis());
+                    if (player.getCreatedTime() == -1) // createdTime is the first logged in time.
+                        player.setCreatedTime(player.getLoginTime());
+                }
             } catch(Exception e) {
                 e.printStackTrace();
             } finally {

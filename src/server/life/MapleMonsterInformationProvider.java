@@ -109,7 +109,8 @@ public class MapleMonsterInformationProvider {
                                 rs.getByte("continent"),
                                 rs.getInt("minimum_quantity"),
                                 rs.getInt("maximum_quantity"),
-                                rs.getShort("questid")));
+                                rs.getShort("questid"),
+                                rs.getBoolean("should_stack")));
             }
 
             rs.close();
@@ -188,12 +189,12 @@ public class MapleMonsterInformationProvider {
         Connection con = null;
         try {
             con = DatabaseConnection.getConnection();
-            ps = con.prepareStatement("SELECT itemid, chance, minimum_quantity, maximum_quantity, questid FROM drop_data WHERE dropperid = ?");
+            ps = con.prepareStatement("SELECT itemid, chance, minimum_quantity, maximum_quantity, questid, should_stack FROM drop_data WHERE dropperid = ?");
             ps.setInt(1, monsterId);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                ret.add(new MonsterDropEntry(rs.getInt("itemid"), rs.getInt("chance"), rs.getInt("minimum_quantity"), rs.getInt("maximum_quantity"), rs.getShort("questid")));
+                ret.add(new MonsterDropEntry(rs.getInt("itemid"), rs.getInt("chance"), rs.getInt("minimum_quantity"), rs.getInt("maximum_quantity"), rs.getShort("questid"), rs.getBoolean("should_stack")));
             }
 
             con.close();

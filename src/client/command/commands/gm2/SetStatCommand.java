@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class SetStatCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set all stats to specified value");
     }
 
     @Override

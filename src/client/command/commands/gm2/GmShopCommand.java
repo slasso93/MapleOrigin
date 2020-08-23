@@ -30,7 +30,7 @@ import server.MapleShopFactory;
 
 public class GmShopCommand extends Command {
     {
-        setDescription("");
+        setDescription("Open the GM Shop");
     }
 
     @Override

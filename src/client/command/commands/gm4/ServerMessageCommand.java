@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class ServerMessageCommand extends Command {
     {
-        setDescription("");
+        setDescription("Set the scrolling server message");
     }
 
     @Override

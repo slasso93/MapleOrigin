@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ItemVacCommand extends Command {
     {
-        setDescription("");
+        setDescription("Loot all items on map");
     }
 
     @Override

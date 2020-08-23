@@ -31,7 +31,7 @@ import server.maps.MaplePortal;
 
 public class ClosePortalCommand extends Command {
     {
-        setDescription("");
+        setDescription("Disable a portal");
     }
 
     @Override

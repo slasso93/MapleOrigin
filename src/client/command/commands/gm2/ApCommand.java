@@ -30,7 +30,7 @@ import config.YamlConfig;
 
 public class ApCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give a player AP");
     }
 
     @Override

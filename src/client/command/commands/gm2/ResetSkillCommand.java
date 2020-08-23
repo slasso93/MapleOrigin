@@ -32,7 +32,7 @@ import java.io.File;
 
 public class ResetSkillCommand extends Command {
     {
-        setDescription("");
+        setDescription("Reset skills");
     }
 
     @Override

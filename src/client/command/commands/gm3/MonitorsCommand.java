@@ -30,7 +30,7 @@ import tools.MapleLogger;
 
 public class MonitorsCommand extends Command {
     {
-        setDescription("");
+        setDescription("Show players being monitored");
     }
 
     @Override

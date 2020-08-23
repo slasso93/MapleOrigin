@@ -59,13 +59,20 @@ function action(mode, type, selection) {
                                 //cm.dispose();
                         }
                 } else if(status == 1) {
+
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
+                            if (cm.getPlayer().getRemainingSp() > 0) {
+                                if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
+                                    cm.sendNext("Please, use all your SP before continuing.");
+                                    cm.dispose();
+                                    return;
+                                }
+                            }
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 412) {
                                         cm.teachSkill(4120002, 0, 10, -1);
                                         cm.teachSkill(4120005, 0, 10, -1);
                                         cm.teachSkill(4121006, 0, 10, -1);
-										cm.teachSkill(4121007, 0, 10, -1);
                                 } else if(cm.getJobId() == 422) {
                                         cm.teachSkill(4220002, 0, 10, -1);
                                         cm.teachSkill(4220005, 0, 10, -1);

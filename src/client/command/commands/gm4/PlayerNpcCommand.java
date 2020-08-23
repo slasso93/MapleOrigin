@@ -30,7 +30,7 @@ import server.life.MaplePlayerNPC;
 
 public class PlayerNpcCommand extends Command {
     {
-        setDescription("");
+        setDescription("Create a player NPC");
     }
 
     @Override

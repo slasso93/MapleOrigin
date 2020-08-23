@@ -14,11 +14,15 @@ function action(mode, type, selection) {
         else if(mode < 0)
             cm.dispose();
         if (status == 1) {
-            if (cm.getGiftLog('FreeGift') >= 1 && cm.haveItem(4001190)) {
-                cm.sendOk("I'm sorry, You have already recieved your hammer for the day!! Please come back later!! ");
+            if (cm.getGiftLog('FreeGift') >= 1) {
+                cm.sendOk("I'm sorry, You have already received your hammer for the day!! Please come back later!! ");
                 cm.dispose();
-            }else
+            } else if (cm.haveItem(4001190)) {
                 cm.sendYesNo("Wow really?! Thank you so much! If you're 100% sure lets trade!");
+			} else {
+                cm.sendOk("I'm sorry, You don't have any marbles to trade!! Please come back with a marble! ");
+                cm.dispose();
+			}
         }else if (status == 2) {
 			cm.gainItem(4001190,-1);
             cm.gainItem(5570000, 1); //Vicious Hammer

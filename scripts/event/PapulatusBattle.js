@@ -22,6 +22,7 @@
  * @author: Ronan
  * @event: Vs Papulatus
 */
+
 importPackage(Packages.server.expeditions);
 importPackage(Packages.client);
 
@@ -75,8 +76,8 @@ function setEventRewards(eim) {
         var itemSet, itemQty, evLevel, expStages;
 
         evLevel = 1;    //Rewards at clear PQ
-        itemSet = [];
-        itemQty = [];
+        itemSet = [4000313];
+        itemQty = [1];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
         expStages = [];    //bonus exp given on CLEAR stage signal
@@ -126,6 +127,7 @@ function setup(level, lobbyid) {
 }
 
 function afterSetup(eim) {
+	eim.registerBossEntry(exped);
     updateGateState(1);
 }
 
@@ -209,7 +211,7 @@ function giveRandomEventReward(eim, player) {
 
 function clearPQ(eim) {
     eim.stopEventTimer();
-    eim.setEventCleared();
+    eim.setEventCleared(MapleExpeditionType.PAPULATUS);
     updateGateState(0);
 }
 
@@ -222,7 +224,6 @@ function monsterKilled(mob, eim) {
     if(isPapulatus(mob)) {
         eim.showClearEffect();
         eim.clearPQ();
-        eim.registerBossEntry(exped)
     }
 }
 

@@ -29,7 +29,7 @@ import client.MapleCharacter;
 
 public class GiveVpCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give a player votepoints");
     }
 
     @Override

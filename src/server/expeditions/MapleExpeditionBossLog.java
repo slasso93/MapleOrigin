@@ -36,25 +36,27 @@ import tools.Pair;
  * @author Ronan
  */
 public class MapleExpeditionBossLog {
-    
+
     public enum BossLogEntry {
         ZAKUM(2, 1, false),
+        SHOWA(999, 1, false),
         HORNTAIL(2, 1, false),
         PINKBEAN(1, 1, false),
         SCARGA(1, 1, false),
         PAPULATUS(2, 1, false),
-        VONLEON(2, 1, false);
+        VONLEON(1, 1, false),
+        KREXEL(2, 1, false);
         //EMPRESS(1, 1, false);
-        
+
         private int entries;
         private int timeLength;
         private int minChannel, maxChannel;
         private boolean week;
-        
+
         private BossLogEntry(int entries, int timeLength, boolean week) {
             this(entries, 0, Integer.MAX_VALUE, timeLength, week);
         }
-        
+
         private BossLogEntry(int entries, int minChannel, int maxChannel, int timeLength, boolean week) {
             this.entries = entries;
             this.minChannel = minChannel;
@@ -62,66 +64,66 @@ public class MapleExpeditionBossLog {
             this.timeLength = timeLength;
             this.week = week;
         }
-        
+
         private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(Calendar timeNow, boolean week) {
             List<Pair<Timestamp, BossLogEntry>> resetTimestamps = new LinkedList<>();
-            
+
             Timestamp ts = new Timestamp(timeNow.getTime().getTime());  // reset all table entries actually, thanks Conrad
             for (BossLogEntry b : BossLogEntry.values()) {
                 if (b.week == week) {
                     resetTimestamps.add(new Pair<>(ts, b));
                 }
             }
-            
+
             return resetTimestamps;
         }
-        
+
         private static BossLogEntry getBossEntryByName(String name) {
             for (BossLogEntry b : BossLogEntry.values()) {
                 if (name.contentEquals(b.name())) {
                     return b;
                 }
             }
-            
+
             return null;
         }
-        
+
     }
-    
+
     public static void resetBossLogTable() {
         /*
         Boss logs resets 12am, weekly thursday 12AM - thanks Smitty Werbenjagermanjensen (superadlez) - https://www.reddit.com/r/Maplestory/comments/61tiup/about_reset_time/
         */
-        
+
         Calendar thursday = Calendar.getInstance();
         thursday.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
         thursday.set(Calendar.HOUR, 0);
         thursday.set(Calendar.MINUTE, 0);
         thursday.set(Calendar.SECOND, 0);
-        
+
         Calendar now = Calendar.getInstance();
-        
+
         long weekLength = 7 * 24 * 60 * 60 * 1000;
         long halfDayLength = 12 * 60 * 60 * 1000;
-        
+
         long deltaTime = now.getTime().getTime() - thursday.getTime().getTime();    // 2x time: get Date into millis
         deltaTime += halfDayLength;
         deltaTime %= weekLength;
         deltaTime -= halfDayLength;
-        
+
         if (deltaTime < halfDayLength) {
             MapleExpeditionBossLog.resetBossLogTable(true, thursday);
         }
-        
+
         MapleExpeditionBossLog.resetBossLogTable(false, now);
     }
-    
+
     private static void resetBossLogTable(boolean week, Calendar c) {
         List<Pair<Timestamp, BossLogEntry>> resetTimestamps = BossLogEntry.getBossLogResetTimestamps(c, week);
-        
+
         try {
             Connection con = DatabaseConnection.getConnection();
-            
+
             for (Pair<Timestamp, BossLogEntry> p : resetTimestamps) {
                 PreparedStatement ps = con.prepareStatement("DELETE FROM " + getBossLogTable(week) + " WHERE attempttime <= ? AND bosstype LIKE ?");
                 ps.setTimestamp(1, p.getLeft());
@@ -129,18 +131,50 @@ public class MapleExpeditionBossLog {
                 ps.executeUpdate();
                 ps.close();
             }
-            
+
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     private static String getBossLogTable(boolean week) {
         return week ? "bosslog_weekly" : "bosslog_daily";
     }
 
-    private static int countPlayerEntries(int cid, BossLogEntry boss) {
+    /**
+     * Count successful boss encounters for use of GML reward limitation
+     *
+     * @param cid
+     * @param boss
+     * @return
+     */
+    public static int countPlayerEntriesByHwid(int cid, BossLogEntry boss) {
+        int count;
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement(
+                    "SELECT COUNT(*) FROM " + getBossLogTable(boss.week) + " WHERE " +
+                            "characterid IN (SELECT c.id FROM characters c JOIN accounts a ON c.accountid=a.id WHERE " +
+                            "a.hwid = (SELECT a1.hwid FROM accounts a1 JOIN characters c1 ON c1.accountid=a1.id WHERE " +
+                            "c1.id=? and bosstype LIKE ?)) AND completed=1")) {
+                ps.setInt(1, cid);
+                ps.setString(2, boss.name());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        count = rs.getInt(1);
+                    } else {
+                        count = -1;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return count;
+    }
+
+    public static int countPlayerEntries(int cid, BossLogEntry boss) {
         int ret_count = 0;
         try {
             Connection con = DatabaseConnection.getConnection();
@@ -164,7 +198,7 @@ public class MapleExpeditionBossLog {
         }
     }
 
-    private static void insertPlayerEntry(int cid, BossLogEntry boss) {
+    public static void insertPlayerEntry(int cid, BossLogEntry boss) {
         try {
             Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement("INSERT INTO " + getBossLogTable(boss.week) + " (characterid, bosstype) VALUES (?,?)");
@@ -177,29 +211,51 @@ public class MapleExpeditionBossLog {
             e.printStackTrace();
         }
     }
-    
+
+    public static void removePlayerEntry(int cid, BossLogEntry boss, int removeCount) {
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement("DELETE FROM " + getBossLogTable(boss.week) + " WHERE characterid = ? and bosstype LIKE ? LIMIT ?");
+            ps.setInt(1, cid);
+            ps.setString(2, boss.name());
+            ps.setInt(3, removeCount);
+            ps.executeUpdate();
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean attemptBoss(int cid, int channel, MapleExpedition exped, boolean log) {
         if (!YamlConfig.config.server.USE_ENABLE_DAILY_EXPEDITIONS) {
             return true;
         }
-        
+
         BossLogEntry boss = BossLogEntry.getBossEntryByName(exped.getType().name());
         if (boss == null) {
             return true;
         }
-        
+
         if (channel < boss.minChannel || channel > boss.maxChannel) {
             return false;
         }
-        
+
         if (countPlayerEntries(cid, boss) >= boss.entries) {
             return false;
         }
-        
+
         if (log) {
             insertPlayerEntry(cid, boss);
         }
         return true;
+    }
+
+    public static boolean reachedBossRewardLimit(int cid, MapleExpeditionType type) {
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+        if (boss == null)
+            return false;
+        return countPlayerEntriesByHwid(cid, boss) > YamlConfig.config.server.EXPEDITION_HWID_LIMIT * boss.entries;
     }
 
     public static boolean attemptBoss(int cid, int channel, MapleExpeditionType type, boolean log) {
@@ -230,47 +286,66 @@ public class MapleExpeditionBossLog {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         insertPlayerEntry(cid, boss);
     }
-    public static Map<String, String> getDailyBossEntries(int cid) {
 
-        Map<String,String> dailyBossLog = new HashMap<String,String>();
-        int zakumCount = 0;
-        int horntailCount = 0;
-        int pinkbeanCount = 0;
-        int scargaCount = 0;
-        int papulatusCount = 0;
+    public static Map<String, String> getDailyBossEntries(int cid, boolean showZeros) {
 
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT bosstype FROM bosslog_daily WHERE characterid = ?" );
-            ps.setInt(1, cid);
-            ResultSet rs = ps.executeQuery();
+        Map<String,String> dailyBossLog = new HashMap<>();
+        // initialize all to 0
+        for (BossLogEntry e : BossLogEntry.values()) {
+            dailyBossLog.put(e.name(), "0/" + e.entries + " (failed: 0)");
+        }
 
-            while(rs.next()) {
-                String boss = rs.getString("bosstype");
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT bosstype, completed FROM bosslog_daily WHERE characterid = ?" )) {
+                ps.setInt(1, cid);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        String boss = rs.getString("bosstype");
+                        boolean completed = rs.getBoolean("completed");
 
-                if(boss.equals("ZAKUM")){
-                    zakumCount++;
-                } else if(boss.equals("HORNTAIL")){
-                    horntailCount++;
-                } else if(boss.equals("PINKBEAN")){
-                    pinkbeanCount++;
-                } else if(boss.equals("SCARGA")){
-                    scargaCount++;
-                } else if(boss.equals("PAPULATUS")){
-                    papulatusCount++;
+                        String text = dailyBossLog.get(boss);
+                        int count = Integer.parseInt(text.substring(0, text.indexOf("/")));
+                        if (!completed) {
+                            int failedCount = Integer.parseInt(text.substring(text.indexOf("failed:") + 8, text.length() - 1));
+                            text = text.substring(0, text.indexOf("failed:") + 8) + (1 + failedCount) + ")";
+                        }
+                        dailyBossLog.put(boss, (1 + count) + text.substring(text.indexOf("/")));
+                    }
                 }
             }
-            ps.close();
-            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        dailyBossLog.put("Zakum",Integer.toString(zakumCount)+"/2");
-        dailyBossLog.put("Horntail", Integer.toString(horntailCount)+"/2");
-        dailyBossLog.put("Pink Bean",Integer.toString(pinkbeanCount)+"/1");
-        dailyBossLog.put("Scarga", Integer.toString(scargaCount)+"/1");
-        dailyBossLog.put("Papulatus",Integer.toString(papulatusCount)+"/2");
 
+        if (!showZeros) { // remove entries if all have 0 count
+            int zeroCount = 0;
+            for (Map.Entry<String, String> entry : dailyBossLog.entrySet()) {
+                if (entry.getValue().startsWith("0"))
+                    zeroCount++;
+            }
+            if (zeroCount == dailyBossLog.size())
+                return null;
+        }
         return dailyBossLog;
     }
+
+    public static void setExpeditionCompleted(int id, MapleExpeditionType type) {
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+
+        if (boss != null) {
+            try (Connection con = DatabaseConnection.getConnection()) {
+                try (PreparedStatement ps = con.prepareStatement(
+                        "UPDATE " + getBossLogTable(boss.week) + " SET COMPLETED=1 WHERE " +
+                                "characterid = ? and bosstype LIKE ? ORDER BY attempttime DESC LIMIT 1")) {
+                    ps.setInt(1, id);
+                    ps.setString(2, boss.name());
+                    ps.executeUpdate();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 }

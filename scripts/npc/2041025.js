@@ -21,6 +21,8 @@
 */
 //By Moogra
 
+importPackage(Packages.server.expeditions);
+
 function start() {
     cm.sendYesNo("Beep... beep... you can make your escape to a safer place through me. Beep... beep... would you like to leave this place?");
 }
@@ -33,12 +35,14 @@ function action(mode, type, selection) {
         cm.warp(220080000);
         cm.dispose();
     } else {
-        if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)) {
+        if (cm.reachedRewardLimit(MapleExpeditionType.PAPULATUS)) {
             cm.warp(220080000);
-            cm.gainItem(4000038, 25);
+            cm.dispose();
+        } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {
+            cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
-            cm.sendOk("Please make space in your inventory");
+            cm.warp(220080000);
             cm.dispose();
         }
     }

@@ -31,16 +31,8 @@ import client.SkillFactory;
 import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import config.YamlConfig;
-import constants.skills.DragonKnight;
-import constants.skills.Crusader;
-import constants.skills.FPMage;
-import constants.skills.Hermit;
-import constants.skills.ILMage;
-import constants.skills.NightLord;
-import constants.skills.NightWalker;
-import constants.skills.Priest;
-import constants.skills.Shadower;
-import constants.skills.WhiteKnight;
+import constants.skills.*;
+
 import java.awt.Point;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -63,6 +55,7 @@ import net.server.world.MapleParty;
 import net.server.world.MaplePartyCharacter;
 import scripting.event.EventInstanceManager;
 import server.TimerManager;
+import server.expeditions.MapleExpedition;
 import server.life.MapleLifeFactory.BanishInfo;
 import server.maps.MapleMap;
 import server.maps.MapleMapObjectType;
@@ -543,12 +536,25 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
     
     private void distributePartyExperience(Map<MapleCharacter, Long> partyParticipation, float expPerDmg, Set<MapleCharacter> underleveled, Map<Integer, Float> personalRatio, double sdevRatio) {
-        IntervalBuilder leechInterval = new IntervalBuilder();
-        leechInterval.addInterval(this.getLevel() - YamlConfig.config.server.EXP_SPLIT_LEVEL_INTERVAL, this.getLevel() + YamlConfig.config.server.EXP_SPLIT_LEVEL_INTERVAL);
-        
+        int highestParticipant = -1;
+        boolean checkExpedition = true;
+
         long maxDamage = 0, partyDamage = 0;
         MapleCharacter participationMvp = null;
+        int attackerInterval = YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL;
         for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
+            /*if (checkExpedition) { // only check once
+                for (MapleExpedition exped : e.getKey().getClient().getChannelServer().getExpeditions()) {
+                    if (exped.contains(e.getKey())) {
+                        if (exped.isInProgress()) {
+                            attackerInterval = YamlConfig.config.server.EXP_SPLIT_EXPEDITION_INTERVAL;
+                        }
+                        break;
+                    }
+                }
+                checkExpedition = false;
+            }*/
+
             long entryDamage = e.getValue();
             partyDamage += entryDamage;
             
@@ -559,18 +565,31 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             
             // thanks Thora for pointing out leech level limitation
             int chrLevel = e.getKey().getLevel();
-            leechInterval.addInterval(chrLevel - YamlConfig.config.server.EXP_SPLIT_LEECH_INTERVAL, chrLevel + YamlConfig.config.server.EXP_SPLIT_LEECH_INTERVAL);
+            if (chrLevel > highestParticipant)
+                highestParticipant = chrLevel;
         }
-        
+
         List<MapleCharacter> expMembers = new LinkedList<>();
         int totalPartyLevel = 0;
         
         // thanks G h o s t, Alfred, Vcoc, BHB for poiting out a bug in detecting party members after membership transactions in a party took place
         if (YamlConfig.config.server.USE_ENFORCE_MOB_LEVEL_RANGE) {
             for (MapleCharacter member : partyParticipation.keySet().iterator().next().getPartyMembersOnSameMap()) {
-                if (!leechInterval.inInterval(member.getLevel())) {
-                    underleveled.add(member);
-                    continue;
+                if (member.getLevel() < 120) {
+                    if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
+                            member.getLevel() >= highestParticipant - attackerInterval &&
+                            member.getLevel() <= highestParticipant + attackerInterval)) {
+                        underleveled.add(member);
+                        continue;
+                    }
+                } else {
+                    if (member.getLevel() < this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL + 10) {
+                        if (member.getLevel() < highestParticipant - attackerInterval ||
+                                member.getLevel() > highestParticipant + attackerInterval) {
+                            underleveled.add(member);
+                            continue;
+                        }
+                    }
                 }
 
                 totalPartyLevel += member.getLevel();
@@ -671,9 +690,11 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         for (Map<MapleCharacter, Long> partyParticipation : partyExpDist.values()) {
             distributePartyExperience(partyParticipation, expPerDmg, underleveled, personalRatio, sdevRatio);
         }
-        
+
+        boolean isExpedition = false;
         EventInstanceManager eim = getMap().getEventInstance();
         if (eim != null) {
+            isExpedition = eim.isExpeditionInProgress();
             MapleCharacter chr = mapPlayers.get(killerId);
             if (chr != null) {
                 eim.monsterKilled(chr, this);
@@ -681,7 +702,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         
         for(MapleCharacter mc : underleveled) {
-            mc.showUnderleveledInfo(this);
+            mc.showUnderleveledInfo(this, isExpedition);
         }
         
     }
@@ -1189,7 +1210,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
 
         final Map<MonsterStatus, Integer> statis = status.getStati();
-        if (stats.isBoss()) {
+        if (stats.isBoss() && status.getSkill().getId() != Page.THREATEN) {
             if (!(statis.containsKey(MonsterStatus.SPEED)
                     && statis.containsKey(MonsterStatus.NINJA_AMBUSH)
                     && statis.containsKey(MonsterStatus.WATK))) {
@@ -1300,6 +1321,11 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             
             overtimeAction = new DamageTask(damage, from, status, 2);
             overtimeDelay = 1000;
+        } else if (status.getSkill().getId() == Page.THREATEN) {
+            int watkDecrease = (int) (getStats().getPADamage() * (status.getStati().get(MonsterStatus.WATK) / 100.0));
+            status.setValue(MonsterStatus.WATK, -watkDecrease);
+
+            animationTime = broadcastStatusEffect(status);
         } else {
             animationTime = broadcastStatusEffect(status);
         }
@@ -1333,25 +1359,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
     
     public void applyMonsterBuff(final Map<MonsterStatus, Integer> stats, final int x, int skillId, long duration, MobSkill skill, final List<Integer> reflection) {
-        final Runnable cancelTask = new Runnable() {
 
-            @Override
-            public void run() {
-                if (isAlive()) {
-                    byte[] packet = MaplePacketCreator.cancelMonsterStatus(getObjectId(), stats);
-                    broadcastMonsterStatusMessage(packet);
-                    
-                    statiLock.lock();
-                    try {
-                        for (final MonsterStatus stat : stats.keySet()) {
-                            stati.remove(stat);
-                        }
-                    } finally {
-                        statiLock.unlock();
-                    }
-                }
-            }
-        };
         final MonsterStatusEffect effect = new MonsterStatusEffect(stats, null, skill, true);
         byte[] packet = MaplePacketCreator.applyMonsterStatus(getObjectId(), effect, reflection);
         broadcastMonsterStatusMessage(packet);
@@ -1367,7 +1375,28 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         
         MobStatusService service = (MobStatusService) map.getChannelServer().getServiceAccess(ChannelServices.MOB_STATUS);
-        service.registerMobStatus(map.getId(), effect, cancelTask, duration);
+        if (duration != -1) {
+            final Runnable cancelTask = new Runnable() {
+
+                @Override
+                public void run() {
+                    if (isAlive()) {
+                        byte[] packet = MaplePacketCreator.cancelMonsterStatus(getObjectId(), stats);
+                        broadcastMonsterStatusMessage(packet);
+
+                        statiLock.lock();
+                        try {
+                            for (final MonsterStatus stat : stats.keySet()) {
+                                stati.remove(stat);
+                            }
+                        } finally {
+                            statiLock.unlock();
+                        }
+                    }
+                }
+            };
+            service.registerMobStatus(map.getId(), effect, cancelTask, duration);
+        }
     }
     
     public void refreshMobPosition() {
@@ -1384,7 +1413,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         aggroUpdateController();
     }
 
-    private void debuffMobStat(MonsterStatus stat) {
+    public void debuffMobStat(MonsterStatus stat) {
         MonsterStatusEffect oldEffect;
         statiLock.lock();
         try {

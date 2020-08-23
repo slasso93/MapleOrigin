@@ -30,7 +30,7 @@ import client.MapleCharacter;
 
 public class BuffMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Buff map with GM buffs");
     }
 
     @Override

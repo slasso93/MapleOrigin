@@ -28,7 +28,7 @@ import client.command.Command;
 
 public class StartMapEventCommand extends Command {
     {
-        setDescription("");
+        setDescription("Start map event");
     }
 
     @Override

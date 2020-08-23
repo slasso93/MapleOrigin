@@ -92,7 +92,7 @@ function action(mode, type, selection) {
     }
     
     if (status == 0) {
-        var hasGoldenLeaf = cm.haveItem(4000313);
+        var hasGoldenLeaf = cm.haveItem(4031217);
         
         if (hasGoldenLeaf && hasEngage) {
             cm.sendOk("You can't leave yet! You need to click High Priest John and get married before I can let you leave.");

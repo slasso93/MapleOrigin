@@ -39,7 +39,7 @@ import tools.DatabaseConnection;
 
 public class PmobCommand extends Command {
     {
-        setDescription("");
+        setDescription("Create a mob spawn");
     }
 
     @Override
