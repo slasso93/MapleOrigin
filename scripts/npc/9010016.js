@@ -70,7 +70,7 @@ function action(mode, type, selection) {
                 cm.sendOk("Your inventory is full! Please make room and try again.");
             } else {
                 cm.getPlayer().getClient().useVotePoints(selectedItem.cost, selectedItem.id);
-                cm.gainItem(selectedItem.id, selectedItem.quantity || 1);
+                cm.gainItem(selectedItem.id, selectedItem.quantity || 1, false, true, (selectedItem.expiration * 1000 * 60 * 60 * 24) || -1);
 
                 cm.sendOk("Thank you for spending your votepoints, remember to keep voting :)\r\nYou have #r" +
                         cm.getPlayer().getClient().getVotePoints() + " #b#e votepoints#n#k remaining." );
