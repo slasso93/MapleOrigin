@@ -297,7 +297,7 @@ server:
     EQUIP_EXP_RATE: 0.25                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
     PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
-    EXP_SPLIT_MOB_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
+    EXP_SPLIT_MOB_INTERVAL: 10            #Non-contributing players must be within N level between the mob to receive EXP.
     EXP_SPLIT_ATTACKER_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
     EXP_SPLIT_EXPEDITION_INTERVAL: 40            #Non-contributing players must be within N level between any contributing party member to receive EXP during an expedition.
     EXP_SPLIT_MVP_MOD: 0.2

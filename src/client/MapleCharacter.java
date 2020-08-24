@@ -3236,8 +3236,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void jailTask(long time) {
         if (time > 0 || getJailExpirationTimeLeft() > 0) {
-            if (itemExpireTask != null) {
-                itemExpireTask.cancel(true);
+            if (jailedScheduledFuture != null) {
+                jailedScheduledFuture.cancel(true);
             }
             long countdown = time > 0 ? time : getJailExpirationTimeLeft();
             announce(MaplePacketCreator.getClock((int) (countdown / 1000L)));
@@ -10070,13 +10070,24 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         if(nextWarningTime < curTime) {
             nextWarningTime = curTime + (60 * 1000);   // show underlevel info again after 1 minute
 
-            showHint(String.format("You have gained #rno experience#k from defeating #e#b%s#k#n (lv. #b%d#k)! " +
-                            "Take note you must be at least %s levels below the mob AND within %s levels of all " +
-                            "participants to earn EXP from it.",
-                    mob.getName(),
-                    mob.getLevel(),
-                    YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL,
-                    isExpedition ? YamlConfig.config.server.EXP_SPLIT_EXPEDITION_INTERVAL : YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL));
+            String hint;
+            if (getLevel() < 120) {
+                hint = String.format("You have gained #rno experience#k from defeating #e#b%s#k#n (lv. #b%d#k)! " +
+                                "Take note, you must be within %d levels of all " +
+                                "participants to earn EXP from it.",
+                        mob.getName(),
+                        mob.getLevel(),
+                        YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL);
+            } else {
+                hint = String.format("You have gained #rno experience#k from defeating #e#b%s#k#n (lv. #b%d#k)! " +
+                                "Take note, you must be at least %d levels below the mob OR within %d levels of all " +
+                                "participants to earn EXP from it.",
+                        mob.getName(),
+                        mob.getLevel(),
+                        YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL,
+                        YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL);
+            }
+            showHint(hint);
         }
     }
     
@@ -11155,8 +11166,9 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     
     public void removeJailExpirationTime() {
         jailExpiration = 0;
-        if (jailedScheduledFuture != null)
+        if (jailedScheduledFuture != null) {
             jailedScheduledFuture.cancel(true);
+        }
     }
     
     public boolean registerNameChange(String newName) {
