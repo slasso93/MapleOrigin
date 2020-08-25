@@ -75,7 +75,7 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
     public MapleMap getMap() {
         return map;
     }
-    
+
     public int getStr() {
         statRlock.lock();
         try {
@@ -566,15 +566,15 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
     private void setStr(int str) {
         this.str = str;
     }
-    
+
     private void setDex(int dex) {
         this.dex = dex;
     }
-    
+
     private void setInt(int int_) {
         this.int_ = int_;
     }
-    
+
     private void setLuk(int luk) {
         this.luk = luk;
     }
@@ -709,7 +709,7 @@ public abstract class AbstractMapleCharacterObject extends AbstractAnimatedMaple
         }
     }
     
-    protected void updateStrDexIntLuk(int str, int dex, int int_, int luk, int remainingAp) {
+    public void updateStrDexIntLuk(int str, int dex, int int_, int luk, int remainingAp) {
         changeStrDexIntLuk(str, dex, int_, luk, remainingAp, false);
     }
     

@@ -259,6 +259,8 @@ public class CommandsExecutor {
         addCommand("unhide", 2, UnHideCommand.class);
         addCommand("sp", 2, SpCommand.class);
         addCommand("ap", 2, ApCommand.class);
+        addCommand("gender", 2, GenderCommand.class);
+        addCommand("copy", 2, CopyCharacter.class);
         addCommand("empowerme", 2, EmpowerMeCommand.class);
         addCommand("buffmap", 2, BuffMapCommand.class);
         addCommand("buff", 2, BuffCommand.class);
