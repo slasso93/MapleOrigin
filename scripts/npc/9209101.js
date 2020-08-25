@@ -1,4 +1,5 @@
 /*
+@author slasso
 Light GML Exchange NPC
 */
 

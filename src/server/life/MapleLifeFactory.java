@@ -97,7 +97,8 @@ public class MapleLifeFactory {
         private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid) {
         return getMonsterStats(mid, false);
     }
-     private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid, boolean linked) {
+
+    private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid, boolean linked) {
         MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(Integer.toString(mid) + ".img", '0', 11));
         if (monsterData == null) {
             return null;
@@ -119,22 +120,12 @@ public class MapleLifeFactory {
             stats = linkStats.getLeft();
             attackInfos.addAll(linkStats.getRight());
         }
-        //stats.setBoss(MapleDataTool.getIntConvert(("boss"), monsterInfoData, 0) > 0);
-        //stats.setLevel(Rank.getMobLevel(mid));
-        //if (mid == 9500317 || mid == 9500318 || mid == 9500319) {
-       //     HP = (long) (Math.pow(stats.getLevel(), 2) * 10);
-       // }
-        //if (mid == 9500532) {
-        //    HP = (long) (Math.pow(stats.getLevel(), 4) * 10);
-       // }
-        //stats.setHp((int) Randomizer.MaxLong(HP, Long.MAX_VALUE));
-        if (mid == 8510100) {
+
+        if (mid == 8510100) { // why is this here?? it gets overwritten 12 lines down
             stats.setExp(0);
-        } else {
-            int exp = (int) (Math.pow(stats.getLevel() * Rank.getMobRank(mid), 2));
-            stats.setExp(Rank.getMobRank(mid) > 0 ? Randomizer.Min(exp, 1) : 0);
         }
-       stats.setHp((long) MapleDataTool.getIntConvert("maxHP", monsterInfoData) * ((long) Rank.getMobRank(mid) + 1L));
+
+        stats.setHp((long) MapleDataTool.getIntConvert("maxHP", monsterInfoData) * ((long) Rank.getMobRank(mid) + 1L));
         //stats.setHp(MapleDataTool.getIntConvert("maxHP", monsterInfoData)); - Original Code
         stats.setFriendly(MapleDataTool.getIntConvert("damagedByMob", monsterInfoData, stats.isFriendly() ? 1 : 0) == 1);
         stats.setPADamage(MapleDataTool.getIntConvert("PADamage", monsterInfoData));

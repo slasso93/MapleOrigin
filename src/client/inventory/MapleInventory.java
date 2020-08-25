@@ -190,8 +190,10 @@ public class MapleInventory implements Iterable<Item> {
     public List<Item> listById(int itemId) {
         List<Item> ret = new ArrayList<>();
         for (Item item : list()) {
-            if (item.getItemId() == itemId) {
-                ret.add(item);
+            if (item.getExpiration() == -1) {
+                if (item.getItemId() == itemId) {
+                    ret.add(item);
+                }
             }
         }
         

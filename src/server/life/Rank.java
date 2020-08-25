@@ -37,6 +37,7 @@ public class Rank {
             case 8880000://Magnus - end game
             case 9300534://Baby lotus - end game
             case 8840000://Von Leon - lion form
+            case 9300028:// Ergoth -GPQ
 
             case 8870000://Hilla
             case 8880004://baby magnus
