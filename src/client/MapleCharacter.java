@@ -344,6 +344,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private long playTime;
     private long createdTime; // keep track of when they first logged in to the character
     private boolean usedFullSpReset;
+    private boolean tempChar = false; // use this for temporary disable of saveCharToDB (used for copy char command)
 
     // for DPS checking
     private long damageDealt = 0;
@@ -1481,6 +1482,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void setUsedFullSpReset(boolean used) {
         usedFullSpReset = used;
+    }
+
+    public boolean isTempChar() {
+        return tempChar;
+    }
+
+    public void setTempChar(boolean tempChar) {
+        this.tempChar = tempChar;
     }
 
     public void changeMap(int map) {
@@ -8762,7 +8771,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     //ItemFactory saveItems and monsterbook.saveCards are the most time consuming here.
     public synchronized void saveCharToDB(boolean notAutosave, Connection con) {
-        if (!loggedIn) {
+        if (!loggedIn || isTempChar()) {
             return;
         }
         
