@@ -31,6 +31,11 @@ public class CopyCharacter extends Command {
                 return;
             }
 
+            if (user.isTempChar()) {
+                user.yellowMessage("Please relog before attempting this again!");
+                return;
+            }
+
             target = client.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
             if (target == null) {
                 user.yellowMessage(String.format("Player '%s' could not be found", params[0]));
