@@ -16,7 +16,7 @@ var n5 = 20; //50
 
 var cpqMap = 980000000;
 var cpqMinLvl = 30;
-var cpqMaxLvl = 255;
+var cpqMaxLvl = 60;
 var cpqMinAmt = 2;
 var cpqMaxAmt = 6;
 
@@ -251,7 +251,7 @@ function action(mode, type, selection) {
                         cm.dispose();
                         return;
                     } else {
-                        cm.sendOk("I'm sorry, but only players of level 30+ can participate in the Monster Carnival.");
+                        cm.sendOk("I'm sorry, but only players of level 30 ~ 60 can participate in the Monster Carnival.");
                         cm.dispose();
                         return;
                     }

@@ -4402,8 +4402,10 @@ public class MapleMap {
     }
 
     public Point getRandomSP(int team) {
+        List<SpawnPoint> shuffledSpawns = new ArrayList<>(monsterSpawn);
+        Collections.shuffle(shuffledSpawns);
         if (takenSpawns.size() > 0) {
-            for (SpawnPoint sp : monsterSpawn) {
+            for (SpawnPoint sp : shuffledSpawns) {
                 for (Point pt : takenSpawns) {
                     if ((sp.getPosition().x == pt.x && sp.getPosition().y == pt.y) || (sp.getTeam() != team && !this.isBlueCPQMap())) {
                         continue;
@@ -4414,7 +4416,7 @@ public class MapleMap {
                 }
             }
         } else {
-            for (SpawnPoint sp : monsterSpawn) {
+            for (SpawnPoint sp : shuffledSpawns) {
                 if (sp.getTeam() == team || this.isBlueCPQMap()) {
                     takenSpawns.add(sp.getPosition());
                     return sp.getPosition();
