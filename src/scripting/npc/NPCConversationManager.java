@@ -101,6 +101,11 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     private Map<Integer, String> npcDefaultTalks = new HashMap<>();
 
+    private static final int CPQ1_MIN_LVL = 30;
+    private static final int CPQ1_MAX_LVL = 60;
+    private static final int CPQ2_MIN_LVL = 51;
+    private static final int CPQ2_MAX_LVL = 90;
+
     private String getDefaultTalk(int npcid) {
         String talk = npcDefaultTalks.get(npcid);
         if (talk == null) {
@@ -744,19 +749,19 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
     private int isCPQParty(MapleMap lobby, MapleParty party) {
-        int cpqMinLvl, cpqMaxLvl;
+        int minLvl, maxLvl;
 
         if (lobby.isCPQLobby()) {
-            cpqMinLvl = 30;
-            cpqMaxLvl = 50;
+            minLvl = CPQ1_MIN_LVL;
+            maxLvl = CPQ1_MAX_LVL;
         } else {
-            cpqMinLvl = 51;
-            cpqMaxLvl = 70;
+            minLvl = CPQ2_MIN_LVL;
+            maxLvl = CPQ2_MAX_LVL;
         }
 
         List<MaplePartyCharacter> partyMembers = party.getPartyMembers();
         for (MaplePartyCharacter pchr : partyMembers) {
-            if (pchr.getLevel() >= cpqMinLvl && pchr.getLevel() <= cpqMaxLvl) {
+            if (pchr.getLevel() >= minLvl && pchr.getLevel() <= maxLvl) {
                 if (lobby.getCharacterById(pchr.getId()) == null) {
                     return 1;  // party member detected out of area
                 }
