@@ -6888,12 +6888,13 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
 
         }
+        int currRate = getExpRate();
+        revertLastPlayerRates();
+        setPlayerRates();
+        int newRate = getExpRate();
 
-        if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) { //For the rate upgrade
-            revertLastPlayerRates();
-            setPlayerRates();
+        if (newRate < currRate)
             this.yellowMessage("You managed to get level " + level + "! Getting experience may seem a little harder now ;)");
-        }
 
         if (YamlConfig.config.server.USE_PERFECT_PITCH && level >= 30) {
             //milestones?
