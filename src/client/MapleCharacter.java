@@ -2482,7 +2482,12 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                                     }
                             }
                     }
-                    
+
+                try (PreparedStatement ps = con.prepareStatement("DELETE FROM activity_tracker WHERE characterid = ?")) {
+                    ps.setInt(1, cid);
+                    ps.executeUpdate();
+                }
+
                     try (PreparedStatement ps = con.prepareStatement("SELECT buddyid FROM buddies WHERE characterid = ?")) {
                             ps.setInt(1, cid);
 
