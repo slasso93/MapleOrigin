@@ -1,6 +1,6 @@
----- HeavenMS MySQL Database ----
+---- MapleOrigin MySQL Database ----
 
-These SQL files must be executed IN ORDER to set up the database:
-	- db_database.sql
-	- db_drops.sql
-	- db_shopupdate.sql (optional & require provided WZs)
+Just execute db_create.sql and it will create everything needed to run MapleOrigin
+
+To wipe a server run the wipe.sql. It will keep GM characters and give player's a rewardpoint on their
+most voted account with more than 3 votepoints
