@@ -23,6 +23,8 @@ TRUNCATE hwidaccounts;
 -- TRUNCATE hwidbans;
 DELETE i FROM inventoryitems i JOIN characters c ON c.id=i.characterid WHERE c.gm < 2; -- This cascades the delete to inventoryequipment and inventorymerchant tables
 DELETE i FROM inventoryitems i JOIN accounts a ON a.id=i.accountid join characters c on a.id=c.accountid WHERE c.gm < 2;
+DELETE FROM inventoryitems WHERE characterid is not null and characterid NOT IN (select id from characters); -- delete dangling items that are not tied to a char/account
+DELETE FROM inventoryitems WHERE accountid is not null and accountid NOT IN (select id from accounts);
 -- TRUNCATE ipbans;
 DELETE k FROM keymap k JOIN characters c ON c.id=k.characterid WHERE c.gm < 2;
 -- TRUNCATE macbans;
@@ -38,7 +40,7 @@ TRUNCATE notes;
 TRUNCATE nxcode;
 TRUNCATE nxcode_items;
 TRUNCATE petignores;
-TRUNCATE pets;
+DELETE FROM pets;
 TRUNCATE playerdiseases;
 DELETE FROM playernpcs;
 TRUNCATE playernpcs_equip;
