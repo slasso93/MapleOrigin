@@ -139,7 +139,9 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                 
                 if (victim != null) {
                     MapleMap targetMap = victim.getMap();
-                   if (!FieldLimit.CANNOTVIPROCK.check(targetMap.getFieldLimit()) && (targetMap.getForcedReturnId() == 999999999 || targetMap.getId() < 100000000) && targetMap.getId() != 240040510) { // skeles map apparently crashing due to VIP rock. can be abused to dupe
+                   if (!FieldLimit.CANNOTVIPROCK.check(targetMap.getFieldLimit()) &&
+                           (targetMap.getForcedReturnId() == 999999999 || targetMap.getId() < 100000000)
+                           && targetMap.getId() != 240040510) { // skeles map apparently crashing due to VIP rock. can be abused to dupe
                         if (!victim.isGM() || victim.gmLevel() <= player.gmLevel()) {   // thanks Yoboes for noticing non-GM's being unreachable through rocks
                             player.forceChangeMap(targetMap, targetMap.findClosestPlayerSpawnpoint(victim.getPosition()));
                             success = true;
@@ -153,11 +155,14 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                     player.dropMessage(1, "Player could not be found in this channel.");
                 }
             }
-            
+
             if (!success) {
+                if (itemId != 5041001) { // dont add another hyper telerock
+                    c.announce(MaplePacketCreator.enableActions());
+                }
                 MapleInventoryManipulator.addById(c, itemId, (short) 1);
-                c.announce(MaplePacketCreator.enableActions());
             }
+
         } else if (itemType == 505) { // AP/SP reset
             if(!player.isAlive()) {
                 c.announce(MaplePacketCreator.enableActions());
