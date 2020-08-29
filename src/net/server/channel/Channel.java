@@ -207,7 +207,12 @@ public final class Channel {
             System.out.println("Shutting down Channel " + channel + " on World " + world);
             
             closeAllMerchants();
-            disconnectAwayPlayers();
+            try {
+                disconnectAwayPlayers();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             players.disconnectAll();
             
             eventSM.dispose();
