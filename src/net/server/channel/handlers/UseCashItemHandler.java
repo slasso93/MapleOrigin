@@ -158,9 +158,9 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
 
             if (!success) {
                 if (itemId != 5041001) { // dont add another hyper telerock
-                    c.announce(MaplePacketCreator.enableActions());
+                    MapleInventoryManipulator.addById(c, itemId, (short) 1);
                 }
-                MapleInventoryManipulator.addById(c, itemId, (short) 1);
+                c.announce(MaplePacketCreator.enableActions());
             }
 
         } else if (itemType == 505) { // AP/SP reset
