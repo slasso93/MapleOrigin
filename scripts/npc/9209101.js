@@ -66,7 +66,7 @@ var vipMats = {
 var vip = [
     { id: 1332120, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1332050 }, // VIP Dagger (LUK)
     { id: 1332125, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1332049}, // VIP Dagger (STR)
-    { id: 1472117, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1472052}, // VIP Claw (LUK)
+    { id: 1472117, cost: vipGmlCost, mats: vipMats['thief'], dragon: 1472052}, // VIP Claw
 
     { id: 1432081, cost: vipGmlCost, mats: vipMats['warrior'], dragon: 1432038 }, // VIP Spear
     { id: 1442111, cost: vipGmlCost, mats: vipMats['warrior'], dragon: 1442045 }, // VIP Polearm
@@ -115,7 +115,7 @@ function action(mode, type, selection) {
             cm.sendSimple(welcomeStr);
         } else if (status == 1) { // specific shop page
             var shopStr = " Exchange:#n#k\r\nYou currently have #r#c" + gml + "# #b#e#z" + gml + "##k#n\r\nWhat would you like to buy?\r\n";
-		    if (selection == 1) {
+		    if (selection == 1 || (selection == -1 && selectedType == 'itcg')) {
                 shopStr = "#d#eiTCG" + shopStr;
                 selectedType = "itcg";
                 for (var i = 0; i < itcg.length; i++) {
@@ -123,7 +123,7 @@ function action(mode, type, selection) {
 
                     shopStr += "#L" + (i+1) + "##n#k Buy #r" + (item.quantity || 1) + " #b#e#z" + item.id + "##n#k (#r" + item.cost + " GML)#l\r\n";
                 }
-            } else if (selection == 2) {
+            } else if (selection == 2 || (selection == -1 && selectedType == 'vip')) {
                 shopStr = "#d#eVIP Exchange:#n#k\r\nVIP Weapons are very powerful and will require you to gather specific items. You can " +
                         "click on a weapon to view the materials needed. You currently have #r#c" + gml + "# #b#e#z" + gml + "##k#n\r\nWhat would you like to buy?\r\n";
 
@@ -132,7 +132,7 @@ function action(mode, type, selection) {
                     var item = vip[i];
                     shopStr += "#L" + (i+1) + "##v" + item.id + "##b#e#z" + item.id + "##n#k#l\r\n";
                }
-		    } else if (selection == 3) {
+		    } else if (selection == 3 || (selection == -1 && selectedType == 'vegas')) {
                 shopStr = "#d#eVega's Spell" + shopStr;
                 selectedType = "vegas";
                 for (var i = 0; i < vegas.length; i++) {

@@ -51,7 +51,7 @@ function action(mode, type, selection) {
 			} else if (selection == 2) {
 			    cm.sendYesNo("Are you sure you want to buy #r5,000 #b#eNX#n#k for #r5mil #b#eMesos#n#k?")
 			} else if (selection == 3) {
-			    cm.sendYesNo("Are you sure you want to buy #r1 #b#e#z5072000##n#k for #r1mil #b#eMesos#n#k?")
+			    cm.sendYesNo("Are you sure you want to buy a #b#erandom chair#n#k for #r2.5mil #b#eMesos#n#k?")
             } else if (selection == 4) {
 			    cm.sendYesNo("Are you sure you want to buy #r1 #b#e#z5072000##n#k for #r1mil #b#eMesos#n#k?")
             } else if (selection == 5) {
@@ -176,8 +176,8 @@ function action(mode, type, selection) {
                         cm.sendOk("Here is your #e#bwipe hype#n#k reward package! Enjoy your time here at MapleOrigin!\r\n" + itemStr);
                     }
                 }
-                cm.dispose();
             }
+			cm.dispose();
         }
     }
 }

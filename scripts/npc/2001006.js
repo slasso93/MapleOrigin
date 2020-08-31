@@ -16,7 +16,7 @@ var items = [
       { id: 2049003, cost: 45 }, // CSS 20%
       { id: 4001017, cost: 30 }, // Eye of Fire
       { id: 4031179, cost: 30 }, // Piece of Cracked dimension
-      { id: 5041001, cost: 5, expiration: 90 }, // VIP Teleport Rock
+      { id: 5041000, cost: 5, expiration: 90 }, // VIP Teleport Rock
       { id: 5130000, cost: 8, expiration: 90 }, // charm
       { id: 5510000, cost: 10, expiration: 90 }, // wheel
       { id: 5030000, cost: 15, expiration: 7 }, // Mushroom House Elf 7 day
