@@ -602,6 +602,7 @@ public class MapleItemInformationProvider {
              ret.put(data.getName(), MapleDataTool.getInt(data.getName(), info, 0));*/
         }
         ret.put("reqJob", MapleDataTool.getInt("reqJob", info, 0));
+        ret.put("elemDefault", MapleDataTool.getInt("elemDefault", info, 100));
         ret.put("reqLevel", MapleDataTool.getInt("reqLevel", info, 0));
         ret.put("reqDEX", MapleDataTool.getInt("reqDEX", info, 0));
         ret.put("reqSTR", MapleDataTool.getInt("reqSTR", info, 0));

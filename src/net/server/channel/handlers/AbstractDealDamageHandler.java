@@ -28,8 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import client.inventory.Equip;
+import client.inventory.MapleInventoryType;
 import config.YamlConfig;
+import constants.inventory.ItemConstants;
 import net.AbstractMaplePacketHandler;
+import server.MapleItemInformationProvider;
 import server.MapleStatEffect;
 import server.TimerManager;
 import server.life.Element;
@@ -664,9 +668,17 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
         // Find the base damage to base futher calculations on.
         // Several skills have their own formula in this section.
         long calcDmgMax;
-        
-        if(magic && ret.skill != 0) {   // thanks onechord for noticing a few false positives stemming from maxdmg as 0
-            calcDmgMax = (long) (Math.ceil((chr.getTotalMagic() * Math.ceil(chr.getTotalMagic() / 1000.0) + chr.getTotalMagic()) / 30.0) + Math.ceil(chr.getTotalInt() / 200.0));
+        if(magic && ret.skill != 0) {
+            Equip weapon = (Equip) chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -11);
+            Map<String, Integer> weaponStats = MapleItemInformationProvider.getInstance().getEquipStats(weapon.getItemId());
+            Skill skill = SkillFactory.getSkill(ret.skill);
+            double elem = 1.5; // assume the max in case skill is null for some reason (this is hardcoded for items such as ele staff 5+ and VL)
+            if (skill != null && weaponStats != null)
+                getElementalMultiplier(weaponStats, skill.getElement()); // elemental damage multiplier
+
+            double tma = chr.getTotalMagic();
+            double intStat = chr.getTotalInt();
+            calcDmgMax = (long) Math.ceil((((tma * tma / 1000.0) + tma) / 30.0 + intStat / 200.0) * elem);
         } else if(ret.skill == 4001344 || ret.skill == NightWalker.LUCKY_SEVEN || ret.skill == NightLord.TRIPLE_THROW) {
             calcDmgMax = (long) ((chr.getTotalLuk() * 5) * Math.ceil(chr.getTotalWatk() / 100.0));
         } else if(ret.skill == DragonKnight.DRAGON_ROAR) {
@@ -775,7 +787,14 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
         }
 
         boolean canCrit = false;
-        if(chr.getJob().isA((MapleJob.BOWMAN)) || chr.getJob().isA(MapleJob.THIEF) || chr.getJob().isA(MapleJob.NIGHTWALKER1) || chr.getJob().isA(MapleJob.WINDARCHER1) || chr.getJob() == MapleJob.ARAN3 || chr.getJob() == MapleJob.ARAN4 || chr.getJob() == MapleJob.MARAUDER || chr.getJob() == MapleJob.BUCCANEER) {
+        if(chr.getJob().isA((MapleJob.BOWMAN)) ||
+                chr.getJob().isA(MapleJob.THIEF) ||
+                chr.getJob().isA(MapleJob.NIGHTWALKER1) ||
+                chr.getJob().isA(MapleJob.WINDARCHER1) ||
+                chr.getJob() == MapleJob.ARAN3 ||
+                chr.getJob() == MapleJob.ARAN4 ||
+                chr.getJob() == MapleJob.MARAUDER ||
+                chr.getJob() == MapleJob.BUCCANEER) {
             canCrit = true;
         }
         
@@ -892,16 +911,17 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     }
 
                     long maxWithCrit = hitDmgMax;
-                    if(canCrit) // They can crit, so up the max.
+                    // TODO: not sure why we are doubling damage here. I don't think this is how crit is calced. We also should base it on the critical damage of the skill used
+                    if(canCrit && !magic) // They can crit, so up the max.
                             maxWithCrit *= 2;
                     
                     // Warn if the damage is over 1.5x what we calculated above.
-                    if(damage > maxWithCrit * 2.5) {
+                    if((magic && damage > maxWithCrit * 1.025) || damage > maxWithCrit * 2.5) {
                         AutobanFactory.DAMAGE_HACK.alert(chr, "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                     }
 
                     // Add a ab point if its over 5x what we calculated.
-                    if(damage > maxWithCrit  * 5) {
+                    if((magic && damage > maxWithCrit * 1.05) || damage > maxWithCrit  * 5) {
                             AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                     }
 
@@ -927,4 +947,30 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
     private static int rand(int l, int u) {
         return (int) ((Math.random() * (u - l + 1)) + l);
     }
+
+    private double getElementalMultiplier(Map<String, Integer> stats, Element elem) {
+        double mult = 1.0;
+
+        if (elem == Element.FIRE && stats.containsKey("RMAF")) {
+            mult = stats.get("RMAF") / 100.0;
+        }
+        if (elem == Element.POISON && stats.containsKey("RMAS")) {
+            mult = stats.get("RMAS") / 100.0;
+        }
+        if (elem == Element.ICE && stats.containsKey("RMAI")) {
+            mult = stats.get("RMAI") / 100.0;
+        }
+        if (elem == Element.LIGHTING && stats.containsKey("RMAL")) {
+            mult = stats.get("RMAL") / 100.0;
+        }
+        if (elem == Element.HOLY && stats.containsKey("RMAH")) {
+            mult = stats.get("RMAH") / 100.0;
+        }
+
+        if (mult == 1.0 && stats.containsKey("elemDefault"))
+            mult = stats.get("elemDefault") / 100.0;
+
+        return mult;
+    }
+
 }
