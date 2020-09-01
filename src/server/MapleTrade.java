@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import client.autoban.AutobanFactory;
 import config.YamlConfig;
 import tools.LogHelper;
 import tools.MaplePacketCreator;
@@ -125,6 +126,10 @@ public class MapleTrade {
         }
         
         if (exchangeMeso > 0) {
+            if ((exchangeItems == null && exchangeMeso > 15000000) || exchangeMeso > 25000000) {
+                AutobanFactory.GENERAL.alert(chr, "trade without items (IP: " + chr.getClient().getSession().getRemoteAddress() + "): Gained " +
+                        GameConstants.numberWithCommas(exchangeMeso) + " mesos from trade with " + partner.getChr().getName() + " (IP: " + partner.getChr().getClient().getSession().getRemoteAddress() + ")");
+            }
             int fee = getFee(exchangeMeso);
             
             chr.gainMeso(exchangeMeso - fee, show, true, show);
