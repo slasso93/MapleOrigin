@@ -674,7 +674,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
             Skill skill = SkillFactory.getSkill(ret.skill);
             double elem = 1.5; // assume the max in case skill is null for some reason (this is hardcoded for items such as ele staff 5+ and VL)
             if (skill != null && weaponStats != null)
-                getElementalMultiplier(weaponStats, skill.getElement()); // elemental damage multiplier
+                elem = getElementalMultiplier(weaponStats, skill.getElement()); // elemental damage multiplier
 
             double tma = chr.getTotalMagic();
             double intStat = chr.getTotalInt();
