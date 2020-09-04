@@ -527,6 +527,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                         if(!monster.isBoss()) {
                             int monsterHp = monster.getHp() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) monster.getHp();
                             damageMonsterWithSkill(player, map, monster,(int) monsterHp, attack.skill, 0);
+                            monster.setFake(true);
                         } else {
                             int TmpDmg = (player.calculateMaxBaseDamage(player.getTotalWatk()) * (SkillFactory.getSkill(Aran.COMBO_TEMPEST).getEffect(player.getSkillLevel(SkillFactory.getSkill(Aran.COMBO_TEMPEST))).getDamage() / 100));
                             damageMonsterWithSkill(player, map, monster, (int) (Math.floor(Math.random() * (TmpDmg / 5) + TmpDmg * .8)), attack.skill, 0);
@@ -925,8 +926,8 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                             AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                     }
 
-                    if (ret.skill == Marksman.SNIPE || (canCrit && damage > hitDmgMax)) {
-                            // If the skill is a crit, inverse the damage to make it show up on clients.
+                if (canCrit && damage > hitDmgMax) {
+                    // If the skill is a crit, inverse the damage to make it show up onutobanManager(), "DMG: "  clients.
                             damage = -Integer.MAX_VALUE + damage - 1;
                     }
 

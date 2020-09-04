@@ -812,14 +812,20 @@ public class World {
         Set<Integer> guests = marriageGuests.get(marriageId);
         if(guests != null) {
             if(guests.contains(playerId)) return false;
-            
+
             guests.add(playerId);
             return true;
         }
-        
+
         return false;
     }
-    
+
+    public boolean removeMarriageGuest(int marriageId, int playerId) {
+        Set<Integer> guests = marriageGuests.get(marriageId);
+
+        return guests != null && guests.remove(playerId);
+    }
+
     public Pair<Integer, Integer> getWeddingCoupleForGuest(int guestId, Boolean cathedral) {
         for(Channel ch : getChannels()) {
             Pair<Integer, Integer> p = ch.getWeddingCoupleForGuest(guestId, cathedral);
