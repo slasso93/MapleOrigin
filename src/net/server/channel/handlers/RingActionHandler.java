@@ -34,6 +34,7 @@ import client.inventory.Item;
 import client.inventory.MapleInventoryType;
 import client.inventory.manipulator.MapleInventoryManipulator;
 import client.processor.npc.DueyProcessor;
+import config.YamlConfig;
 import net.AbstractMaplePacketHandler;
 import net.server.world.World;
 import net.server.channel.Channel;
@@ -413,17 +414,26 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
                                 MapleCharacter guestChr = c.getWorldServer().getPlayerStorage().getCharacterById(guest);
                                 if(guestChr != null && MapleInventoryManipulator.checkSpace(guestChr.getClient(), newItemId, 1, "") && MapleInventoryManipulator.addById(guestChr.getClient(), newItemId, (short) 1, expiration)) {
                                     guestChr.dropMessage(6, "[Wedding] You've been invited to " + groom + " and " + bride + "'s Wedding!");
+
+                                    c.getAbstractPlayerInteraction().gainItem(itemId, (short) -1);
                                 } else {
-                                    if(guestChr != null && guestChr.isLoggedinWorld()) {
-                                        guestChr.dropMessage(6, "[Wedding] You've been invited to " + groom + " and " + bride + "'s Wedding! Receive your invitation from Duey!");
+                                    if (YamlConfig.config.server.USE_DUEY) {
+                                        if (guestChr != null && guestChr.isLoggedinWorld()) {
+                                            guestChr.dropMessage(6, "[Wedding] You've been invited to " + groom + " and " + bride + "'s Wedding! Receive your invitation from Duey!");
+                                        } else {
+                                            c.getPlayer().sendNote(name, "You've been invited to " + groom + " and " + bride + "'s Wedding! Receive your invitation from Duey!", (byte) 0);
+                                        }
+
+                                        Item weddingTicket = new Item(newItemId, (short) 0, (short) 1);
+                                        weddingTicket.setExpiration(expiration);
+
+                                        c.getAbstractPlayerInteraction().gainItem(itemId, (short) -1);
+                                        DueyProcessor.dueyCreatePackage(weddingTicket, 0, groom, guest);
                                     } else {
-                                        c.getPlayer().sendNote(name, "You've been invited to " + groom + " and " + bride + "'s Wedding! Receive your invitation from Duey!", (byte) 0);
+                                        c.getPlayer().dropMessage(5, "Unable to invite " + name + ". Their inventory may be full!");
+                                        guestChr.dropMessage(5, "[Wedding] Your inventory is full! Make room to receive an invite to " + groom + " and " + bride + "'s Wedding!");
+                                        wserv.removeMarriageGuest(marriageId, guest);
                                     }
-                                    
-                                    Item weddingTicket = new Item(newItemId, (short) 0, (short) 1);
-                                    weddingTicket.setExpiration(expiration);
-                                    
-                                    DueyProcessor.dueyCreatePackage(weddingTicket, 0, groom, guest);
                                 }
                             } else {
                                 c.getPlayer().dropMessage(5, "Wedding is already under way. You cannot invite any more guests for the event.");
@@ -439,8 +449,7 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
                     ex.printStackTrace();
                     return;
                 }
-                
-                c.getAbstractPlayerInteraction().gainItem(itemId, (short) -1);
+
                 break;
                 
             case 6: // Open Wedding Invitation

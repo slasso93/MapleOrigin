@@ -6377,7 +6377,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
             client.announce(MaplePacketCreator.giveBuff(energybar, 0, stat));
             client.announce(MaplePacketCreator.showOwnBuffEffect(energycharge.getId(), 2));
-            getMap().broadcastMessage(this, MaplePacketCreator.giveForeignBuff(energybar, stat));
+            //getMap().broadcastMessage(this, MaplePacketCreator.giveForeignBuff(energybar, stat));
             getMap().broadcastMessage(this, MaplePacketCreator.showBuffeffect(id, energycharge.getId(), 2));
         }
         if (energybar >= 10000 && energybar < 11000) {
