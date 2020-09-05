@@ -8187,6 +8187,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localdex += getDex() * mwarr / 100;
                 localint_ += getInt() * mwarr / 100;
                 localluk += getLuk() * mwarr / 100;
+                localmagic += getInt() * mwarr / 100;
             }
             if (job.isA(MapleJob.BOWMAN)) {
                 Skill expert = null;
