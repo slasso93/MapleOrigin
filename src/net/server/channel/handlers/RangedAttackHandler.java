@@ -149,7 +149,10 @@ public final class RangedAttackHandler extends AbstractDealDamageHandler {
                                 break;
                             }
                         } else if ((type == MapleWeaponType.GUN && ItemConstants.isBullet(id))) {
-                            if (id == 2331000 && id == 2332000) {
+                            if (id == 2330008 && chr.getLevel() > 129) {
+                                projectile = id;
+                                break;
+                            } else if (id == 2331000 || id == 2332000) {
                                 if (chr.getLevel() > 69) {
                                     projectile = id;
                                     break;

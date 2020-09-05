@@ -6231,6 +6231,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         return skills.get(skill).skillevel;
     }
 
+    public boolean hasSkill(Skill skill) {
+        return skills.containsKey(skill);
+    }
+
     public long getSkillExpiration(int skill) {
         SkillEntry ret = skills.get(SkillFactory.getSkill(skill));
         if (ret == null) {
@@ -8187,6 +8191,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localdex += getDex() * mwarr / 100;
                 localint_ += getInt() * mwarr / 100;
                 localluk += getLuk() * mwarr / 100;
+                localmagic += getInt() * mwarr / 100;
             }
             if (job.isA(MapleJob.BOWMAN)) {
                 Skill expert = null;
