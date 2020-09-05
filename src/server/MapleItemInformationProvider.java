@@ -351,9 +351,17 @@ public class MapleItemInformationProvider {
         // thanks GMChuck for detecting player sensitive data being cached into getSlotMax
         if (ItemConstants.isThrowingStar(itemId)) {
             if(c.getPlayer().getJob().isA(MapleJob.NIGHTWALKER1)) {
-                ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(NightWalker.CLAW_MASTERY)) * 10;
+                Skill mastery = SkillFactory.getSkill(NightWalker.CLAW_MASTERY);
+                if (mastery != null && c.getPlayer().getSkillLevel(mastery) > 0) {
+                    MapleStatEffect eff = mastery.getEffect(c.getPlayer().getSkillLevel(mastery));
+                    ret += eff.getY();
+                }
             } else {
-                ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(Assassin.CLAW_MASTERY)) * 10;
+                Skill mastery = SkillFactory.getSkill(Assassin.CLAW_MASTERY);
+                if (mastery != null && c.getPlayer().getSkillLevel(mastery) > 0) {
+                    MapleStatEffect eff = mastery.getEffect(c.getPlayer().getSkillLevel(mastery));
+                    ret += eff.getY();
+                }
             }
         } else if (ItemConstants.isBullet(itemId)) {
             ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(Gunslinger.GUN_MASTERY)) * 10;
