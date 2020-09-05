@@ -121,6 +121,7 @@ public class SkillFactory {
         boolean isBuff = false;
         int skillType = MapleDataTool.getInt("skillType", data, -1);
         String elem = MapleDataTool.getString("elemAttr", data, null);
+        ret.setInvisible(MapleDataTool.getInt("invisible", data, 0) == 1);
         if (elem != null) {
             ret.setElement(Element.getFromChar(elem.charAt(0)));
         } else {
