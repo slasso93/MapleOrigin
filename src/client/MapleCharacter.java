@@ -6659,10 +6659,12 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private int getUsedSp(MapleJob job) {
         int jobId = job.getId();
         int spUsed = 0;
-        
+
         for (Entry<Skill, SkillEntry> s : this.getSkills().entrySet()) {
             Skill skill = s.getKey();
             if (GameConstants.isInJobTree(skill.getId(), jobId) && !skill.isBeginnerSkill()) {
+                if (skill.getId() == 21110007 || skill.getId() == 21110008) // don't count hidden skills from aran
+                    continue;
                 spUsed += s.getValue().skillevel;
             }
         }
