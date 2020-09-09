@@ -8429,7 +8429,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public synchronized void resetStats() {
-        if(!YamlConfig.config.server.USE_AUTOASSIGN_STARTERS_AP) {
+        if(!YamlConfig.config.server.USE_AUTOASSIGN_STARTERS_AP && !YamlConfig.config.server.USE_STARTERS_AP_RESET) {
             return;
         }
         
