@@ -70,6 +70,7 @@ public class GiveMesosCommand extends Command {
         if (victim != null) {
             victim.gainMeso((int) mesos_, true);
             player.message("MESO given.");
+            victim.message("Received " + mesos_ + " mesos.");
         } else {
             player.message("Player '" + recv_ + "' could not be found.");
         }
