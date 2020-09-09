@@ -85,8 +85,14 @@ public class CheckDpsCommand extends Command {
         MapleMonsterStats stats = new MapleMonsterStats(); // create simple stats
         stats.setName("Mesos Bag");
         stats.setHp(Integer.MAX_VALUE);
+        if (mobId == 9400625) {
+            stats.setEffectiveness(Element.FIRE, ElementalEffectiveness.WEAK);
+            stats.setEffectiveness(Element.POISON, ElementalEffectiveness.WEAK);
+            stats.setEffectiveness(Element.ICE, ElementalEffectiveness.WEAK);
+            stats.setEffectiveness(Element.LIGHTING, ElementalEffectiveness.WEAK);
+            stats.setEffectiveness(Element.HOLY, ElementalEffectiveness.WEAK);
+        }
         stats.setBoss(true);
-
         MapleMonster monster = new MapleMonster(mobId, stats); // money sack stationary mob copied from leprechaun
 
         monster.addListener(new MonsterListener() {
