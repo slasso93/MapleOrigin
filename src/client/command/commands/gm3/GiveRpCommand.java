@@ -22,6 +22,7 @@ public class GiveRpCommand extends Command {
             victim.setRewardPoints(victim.getRewardPoints() + Integer.parseInt(params[1]));
             player.message("RP given. Player " + params[0] + " now has " + victim.getRewardPoints()
                     + " reward points." );
+            victim.message("Received " + Integer.parseInt(params[1]) + " reward points.");
         } else {
             player.message("Player '" + params[0] + "' could not be found.");
         }
