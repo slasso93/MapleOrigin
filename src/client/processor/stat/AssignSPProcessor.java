@@ -81,20 +81,19 @@ public class AssignSPProcessor {
             if ((remainingSp > 0 && curLevel + 1 <= (skill.isFourthJob() ? player.getMasterLevel(skill) : skill.getMaxLevel()))) {
                 if (isBeginnerSkill) {
                     player.announce(MaplePacketCreator.enableActions());
-                } else {
-                    if (!skill.isInvisible() || player.hasSkill(skill)) {
-                        player.gainSp(-1, GameConstants.getSkillBook(skillid / 10000), false);
-                        if (skill.getId() == Aran.FULL_SWING) {
-                            player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                            player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                            player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                        } else if (skill.getId() == Aran.OVER_SWING) {
-                            player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                            player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                            player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                        } else {
-                            player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                        }
+                }
+                if (!skill.isInvisible() || player.hasSkill(skill)) {
+                    player.gainSp(-1, GameConstants.getSkillBook(skillid / 10000), false);
+                    if (skill.getId() == Aran.FULL_SWING) {
+                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                        player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                        player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                    } else if (skill.getId() == Aran.OVER_SWING) {
+                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                        player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                        player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                    } else {
+                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                     }
                 }
             }
