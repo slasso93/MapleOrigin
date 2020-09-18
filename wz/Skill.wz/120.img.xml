@@ -1030,6 +1030,7 @@
             <imgdir name="action">
                 <string name="0" value="alert2"/>
             </imgdir>
+            <string name="elemAttr" value="d"/>
             <imgdir name="level">
                 <imgdir name="1">
                     <string name="hs" value="h1"/>
