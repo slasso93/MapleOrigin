@@ -55,6 +55,8 @@ import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
+
+import constants.skills.Page;
 import net.server.audit.locks.MonitoredLockType;
 import net.server.audit.locks.MonitoredReadLock;
 import net.server.audit.locks.MonitoredReentrantReadWriteLock;
@@ -661,11 +663,11 @@ public class MapleMap {
         }
         
         Collections.shuffle(dropEntry);
-        
-        Item idrop;
+
         MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-        
+
         for (final MonsterDropEntry de : dropEntry) {
+            Item idrop = null;
             float cardRate = chr.getCardRate(de.itemId);
             int dropChance = (int) Math.min((float) de.chance * chRate * cardRate, Integer.MAX_VALUE);
             
@@ -690,16 +692,16 @@ public class MapleMap {
                         d++;
                     }
                 } else {
-                    if (ItemConstants.getInventoryType(de.itemId) == MapleInventoryType.EQUIP) {
-                        idrop = ii.randomizeStats((Equip) ii.getEquipById(de.itemId));
-                    } else {
-                        short quantity = (short) (de.Maximum > de.Minimum ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : de.Minimum);
-                        idrop = new Item(de.itemId, (short) 0, quantity);
-                    }
                     int count = 1;
-                    if (!de.shouldStack) {
-                        count = idrop.getQuantity();
-                        idrop.setQuantity((short) 1);
+                    short quantity = (short) (de.Maximum > de.Minimum ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : de.Minimum);
+                    if (ItemConstants.getInventoryType(de.itemId) != MapleInventoryType.EQUIP) {
+                        idrop = new Item(de.itemId, (short) 0, quantity);
+                        if (!de.shouldStack) {
+                            count = quantity;
+                            idrop.setQuantity((short) 1);
+                        }
+                    } else {
+                        count = quantity;
                     }
                     for (int i = 0; i < count; i++, d++) {
                         if (droptype == 3) {
@@ -707,7 +709,7 @@ public class MapleMap {
                         } else {
                             pos.x = (int) (mobpos + ((d % 2 == 0) ? (25 * (d + 1) / 2) : -(25 * (d / 2))));
                         }
-                        spawnDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
+                        spawnDrop(idrop == null ? ii.randomizeStats((Equip) ii.getEquipById(de.itemId)) : idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
                     }
                 }
             }

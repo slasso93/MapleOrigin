@@ -162,30 +162,25 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                 }
 
                 if (player.getMp() < attackEffect.getMpCon()) {
+                    if (!(player.getMapId() == 801040100 || player.getMapId() == 280030000))
                     AutobanFactory.MPCON.addPoint(player.getAutobanManager(), "Skill: " + attack.skill + "; Player MP: " + player.getMp() + "; MP Needed: " + attackEffect.getMpCon());
                 }
 
                 int mobCount = attackEffect.getMobCount();
                 if (attack.skill != Cleric.HEAL) {
+                    if (attack.skill == DawnWarrior.FINAL_ATTACK || attack.skill == WindArcher.FINAL_ATTACK || attack.skill == Page.FINAL_ATTACK_BW || attack.skill == Page.FINAL_ATTACK_SWORD || attack.skill == Fighter.FINAL_ATTACK_SWORD
+                            || attack.skill == Fighter.FINAL_ATTACK_AXE || attack.skill == Spearman.FINAL_ATTACK_SPEAR || attack.skill == Spearman.FINAL_ATTACK_POLEARM
+                            || attack.skill == Hunter.FINAL_ATTACK || attack.skill == Crossbowman.FINAL_ATTACK) {
+
+                        mobCount = 15;
+                    } else if (attack.skill == Aran.HIDDEN_FULL_DOUBLE || attack.skill == Aran.HIDDEN_FULL_TRIPLE || attack.skill == Aran.HIDDEN_OVER_DOUBLE || attack.skill == Aran.HIDDEN_OVER_TRIPLE) {
+                        mobCount = 12;
+                    }
                     if (player.isAlive()) {
-                        if(attack.skill == Aran.BODY_PRESSURE || attack.skill == Marauder.ENERGY_CHARGE || attack.skill == ThunderBreaker.ENERGY_CHARGE) {  // thanks IxianMace for noticing Energy Charge skills refreshing on touch, leading to misleading buff applies
-                            // prevent touch dmg skills refreshing
-                        } else if(attack.skill == DawnWarrior.FINAL_ATTACK || attack.skill == WindArcher.FINAL_ATTACK) {
-                            // prevent cygnus FA refreshing
-                            mobCount = 15;
-                        } else if(attack.skill == NightWalker.POISON_BOMB) {// Poison Bomb
+                        if(attack.skill == NightWalker.POISON_BOMB) {// Poison Bomb
                             attackEffect.applyTo(player, new Point(attack.position.x, attack.position.y));
                         } else {
                             attackEffect.applyTo(player);
-                            
-                            if (attack.skill == Page.FINAL_ATTACK_BW || attack.skill == Page.FINAL_ATTACK_SWORD || attack.skill == Fighter.FINAL_ATTACK_SWORD
-                                    || attack.skill == Fighter.FINAL_ATTACK_AXE || attack.skill == Spearman.FINAL_ATTACK_SPEAR || attack.skill == Spearman.FINAL_ATTACK_POLEARM
-                                    || attack.skill == Hunter.FINAL_ATTACK || attack.skill == Crossbowman.FINAL_ATTACK) {
-                                
-                                mobCount = 15;//:(
-                            } else if (attack.skill == Aran.HIDDEN_FULL_DOUBLE || attack.skill == Aran.HIDDEN_FULL_TRIPLE || attack.skill == Aran.HIDDEN_OVER_DOUBLE || attack.skill == Aran.HIDDEN_OVER_TRIPLE) {
-                                mobCount = 12;
-                            }
                         }
                     } else {
                         player.announce(MaplePacketCreator.enableActions());
@@ -193,7 +188,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                 }
                 
                 if (attack.numAttacked > mobCount) {
-                    AutobanFactory.MOB_COUNT.autoban(player, "Skill: " + attack.skill + "; Count: " + attack.numAttacked + " Max: " + attackEffect.getMobCount());
+                    AutobanFactory.MOB_COUNT.autoban(player, "Skill: " + attack.skill + "; Count: " + attack.numAttacked + " Max: " + mobCount);
                     return;
                 }
             }
@@ -250,7 +245,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                 final MapleMonster monster = map.getMonsterByOid(oned.intValue());
                 if (monster != null) { 
                     double distance = player.getPosition().distanceSq(monster.getPosition());
-                    double distanceToDetect = 350000.0;
+                    double distanceToDetect = 400000.0;
                     
                     if(attack.ranged)
                         distanceToDetect += 450000;
@@ -260,6 +255,9 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     
                     if(player.getJob().isA(MapleJob.ARAN1))
                         distanceToDetect += 250000; // Arans have extra range over normal warriors.
+
+                    if(player.getJob().isA(MapleJob.CORSAIR))
+                        distanceToDetect += 500000;
                     
                     if(attack.skill == Aran.COMBO_SMASH || attack.skill == Aran.BODY_PRESSURE)
                         distanceToDetect += 45000;
@@ -674,8 +672,13 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
             Map<String, Integer> weaponStats = MapleItemInformationProvider.getInstance().getEquipStats(weapon.getItemId());
             Skill skill = SkillFactory.getSkill(ret.skill);
             double elem = 1.5; // assume the max in case skill is null for some reason (this is hardcoded for items such as ele staff 5+ and VL)
-            if (skill != null && weaponStats != null)
-                elem = getElementalMultiplier(weaponStats, skill.getElement()); // elemental damage multiplier
+
+            if (skill != null) {
+                if (skill.getElement() == Element.NEUTRAL)
+                    elem = 1.0;
+                else if (weaponStats != null)
+                    elem = getElementalMultiplier(weaponStats, skill.getElement()); // elemental damage multiplier
+            }
 
             double tma = chr.getTotalMagic();
             double intStat = chr.getTotalInt();
@@ -923,7 +926,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
 
                     // Add a ab point if its over 5x what we calculated.
                     if((magic && damage > maxWithCrit * 1.05) || damage > maxWithCrit  * 5) {
-                            AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
+                        AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                     }
 
                 if (canCrit && damage > hitDmgMax) {

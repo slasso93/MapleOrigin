@@ -1026,7 +1026,7 @@ public class MapleClient {
 
                     player.saveCooldowns();
                     player.cancelAllDebuffs();
-                    player.saveCharToDB(true);
+                    player.saveCharToDB(true, YamlConfig.config.server.MAX_SAVE_TRIES);
 
                     player.logOff();
                     if (YamlConfig.config.server.INSTANT_NAME_CHANGE) player.doPendingNameChange();

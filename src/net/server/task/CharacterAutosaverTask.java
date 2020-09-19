@@ -37,7 +37,7 @@ public class CharacterAutosaverTask implements Runnable {  // thanks Alex (Alex0
         PlayerStorage ps = cserv.getPlayerStorage();
         for(MapleCharacter chr: ps.getAllCharacters()) {
             if(chr != null && chr.isLoggedin()) {
-                chr.saveCharToDB(false);
+                chr.saveCharToDB(false, YamlConfig.config.server.MAX_SAVE_TRIES);
             }
         }
     }

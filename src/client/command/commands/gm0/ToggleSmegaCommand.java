@@ -19,31 +19,27 @@
 */
 
 /*
-   @Author: Arthur L - Refactored command content into modules
-   @ Author: Jay Friestad - Player Teleport Commands lol
-   @Autho: slasso - use old @fm functionality to open mirror
+   @Author: Ronan
 */
-
 package client.command.commands.gm0;
 
-import client.MapleCharacter;
 import client.MapleClient;
 import client.command.Command;
 
-public class MirrorCommand extends Command {
+public class ToggleSmegaCommand extends Command {
     {
-        setDescription("Opens up the dimensional mirror");
+        setDescription("Use this command to turn smegas on/off. Smegas will be on by default when you relog");
     }
 
     @Override
-    public void execute(MapleClient client, String[] params) {
-        MapleCharacter player = client.getPlayer();
-        if (player.getEventInstance() != null) {
-            player.dropMessage(1, "This command cannot be used in expeditions or special instances");
-            return;
+    public void execute(MapleClient c, String[] params) {
+        if (c.tryacquireClient()) {
+            try {
+                String toggled = c.getPlayer().toggleSmega() ? "on" : "off";
+                c.getPlayer().dropMessage(6, "Smegas are now " + toggled);
+            } finally {
+                c.releaseClient();
+            }
         }
-
-        client.getAbstractPlayerInteraction().openNpc(9010022);
     }
-
 }

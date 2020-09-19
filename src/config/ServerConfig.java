@@ -81,6 +81,7 @@ public class ServerConfig {
     public boolean USE_AUTOBAN;
     public boolean USE_AUTOBAN_LOG;
     public boolean USE_AUTOSAVE;
+    public int MAX_SAVE_TRIES;
     public boolean USE_SERVER_AUTOASSIGNER;
     public boolean USE_REFRESH_RANK_MOVE;
     public boolean USE_ENFORCE_ADMIN_ACCOUNT;

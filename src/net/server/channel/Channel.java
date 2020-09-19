@@ -344,7 +344,14 @@ public final class Channel {
             chr.announce(data);
         }
     }
-    
+
+    public void broadcastSmegaPacket(final byte[] data) {
+        for (MapleCharacter chr : players.getAllCharacters()) {
+            if (chr.allowSmega())
+                chr.announce(data);
+        }
+    }
+
     public final int getId() {
         return channel;
     }

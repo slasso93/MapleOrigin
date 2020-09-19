@@ -53,7 +53,7 @@ public enum AutobanFactory {
 	ITEM_VAC,
 	FAST_ITEM_PICKUP(5, 30000),
 	FAST_ATTACK(10, 30000),
-	MPCON(25, 30000);
+	MPCON(50, 60000);
 
 	private int points;
 	private long expiretime;

@@ -513,7 +513,7 @@ public class CashShop {
         notes--;
     }
 
-    public void save(Connection con) throws SQLException {
+    public synchronized void save(Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement("UPDATE `accounts` SET `nxCredit` = ?, `maplePoint` = ?, `nxPrepaid` = ? WHERE `id` = ?");
         ps.setInt(1, nxCredit);
         ps.setInt(2, maplePoint);

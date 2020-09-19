@@ -213,24 +213,28 @@ public class MonsterCarnival {
             out = cs.getMapFactory().getMap(980000010);
         }
         for (MaplePartyCharacter mpc : leader1.getParty().getMembers()) {
-            MapleCharacter mc = mpc.getPlayer();
-            if (mc != null) {
-                mc.resetCP();
-                mc.setTeam(-1);
-                mc.setMonsterCarnival(null);
-                if (warpout) {
-                    mc.changeMap(out, out.getPortal(0));
+            if (mpc.getMapId() == map.getId()) {
+                MapleCharacter mc = mpc.getPlayer();
+                if (mc != null) {
+                    mc.resetCP();
+                    mc.setTeam(-1);
+                    mc.setMonsterCarnival(null);
+                    if (warpout) {
+                        mc.changeMap(out, out.getPortal(0));
+                    }
                 }
             }
         }
         for (MaplePartyCharacter mpc : leader2.getParty().getMembers()) {
-            MapleCharacter mc = mpc.getPlayer();
-            if (mc != null) {
-                mc.resetCP();
-                mc.setTeam(-1);
-                mc.setMonsterCarnival(null);
-                if (warpout) {
-                    mc.changeMap(out, out.getPortal(0));
+            if (mpc.getMapId() == map.getId()) {
+                MapleCharacter mc = mpc.getPlayer();
+                if (mc != null) {
+                    mc.resetCP();
+                    mc.setTeam(-1);
+                    mc.setMonsterCarnival(null);
+                    if (warpout) {
+                        mc.changeMap(out, out.getPortal(0));
+                    }
                 }
             }
         }
@@ -269,60 +273,68 @@ public class MonsterCarnival {
             Channel cs = map.getChannelServer();
             if (winningTeam == 0) {
                 for (MaplePartyCharacter mpc : leader1.getParty().getMembers()) {
-                    MapleCharacter mc = mpc.getPlayer();
-                    if (mc != null) {
-                        mc.gainFestivalPoints(this.redTotalCP);
-                        mc.setMonsterCarnival(null);
-                        if (cpq1) {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 2), cs.getMapFactory().getMap(map.getId() + 2).getPortal(0));
-                        } else {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 200), cs.getMapFactory().getMap(map.getId() + 200).getPortal(0));
+                    if (mpc.getMapId() == map.getId()) {
+                        MapleCharacter mc = mpc.getPlayer();
+                        if (mc != null) {
+                            mc.gainFestivalPoints(this.redTotalCP);
+                            mc.setMonsterCarnival(null);
+                            if (cpq1) {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 2), cs.getMapFactory().getMap(map.getId() + 2).getPortal(0));
+                            } else {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 200), cs.getMapFactory().getMap(map.getId() + 200).getPortal(0));
+                            }
+                            mc.setTeam(-1);
+                            mc.dispelDebuffs();
                         }
-                        mc.setTeam(-1);
-                        mc.dispelDebuffs();
                     }
                 }
                 for (MaplePartyCharacter mpc : leader2.getParty().getMembers()) {
-                    MapleCharacter mc = mpc.getPlayer();
-                    if (mc != null) {
-                        mc.gainFestivalPoints(this.blueTotalCP);
-                        mc.setMonsterCarnival(null);
-                        if (cpq1) {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 3), cs.getMapFactory().getMap(map.getId() + 3).getPortal(0));
-                        } else {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 300), cs.getMapFactory().getMap(map.getId() + 300).getPortal(0));
+                    if (mpc.getMapId() == map.getId()) {
+                        MapleCharacter mc = mpc.getPlayer();
+                        if (mc != null) {
+                            mc.gainFestivalPoints(this.blueTotalCP);
+                            mc.setMonsterCarnival(null);
+                            if (cpq1) {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 3), cs.getMapFactory().getMap(map.getId() + 3).getPortal(0));
+                            } else {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 300), cs.getMapFactory().getMap(map.getId() + 300).getPortal(0));
+                            }
+                            mc.setTeam(-1);
+                            mc.dispelDebuffs();
                         }
-                        mc.setTeam(-1);
-                        mc.dispelDebuffs();
                     }
                 }
             } else if (winningTeam == 1) {
                 for (MaplePartyCharacter mpc : leader2.getParty().getMembers()) {
-                    MapleCharacter mc = mpc.getPlayer();
-                    if (mc != null) {
-                        mc.gainFestivalPoints(this.blueTotalCP);
-                        mc.setMonsterCarnival(null);
-                        if (cpq1) {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 2), cs.getMapFactory().getMap(map.getId() + 2).getPortal(0));
-                        } else {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 200), cs.getMapFactory().getMap(map.getId() + 200).getPortal(0));
+                    if (mpc.getMapId() == map.getId()) {
+                        MapleCharacter mc = mpc.getPlayer();
+                        if (mc != null) {
+                            mc.gainFestivalPoints(this.blueTotalCP);
+                            mc.setMonsterCarnival(null);
+                            if (cpq1) {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 2), cs.getMapFactory().getMap(map.getId() + 2).getPortal(0));
+                            } else {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 200), cs.getMapFactory().getMap(map.getId() + 200).getPortal(0));
+                            }
+                            mc.setTeam(-1);
+                            mc.dispelDebuffs();
                         }
-                        mc.setTeam(-1);
-                        mc.dispelDebuffs();
                     }
                 }
                 for (MaplePartyCharacter mpc : leader1.getParty().getMembers()) {
-                    MapleCharacter mc = mpc.getPlayer();
-                    if (mc != null) {
-                        mc.gainFestivalPoints(this.redTotalCP);
-                        mc.setMonsterCarnival(null);
-                        if (cpq1) {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 3), cs.getMapFactory().getMap(map.getId() + 3).getPortal(0));
-                        } else {
-                            mc.changeMap(cs.getMapFactory().getMap(map.getId() + 300), cs.getMapFactory().getMap(map.getId() + 300).getPortal(0));
+                    if (mpc.getMapId() == map.getId()) {
+                        MapleCharacter mc = mpc.getPlayer();
+                        if (mc != null) {
+                            mc.gainFestivalPoints(this.redTotalCP);
+                            mc.setMonsterCarnival(null);
+                            if (cpq1) {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 3), cs.getMapFactory().getMap(map.getId() + 3).getPortal(0));
+                            } else {
+                                mc.changeMap(cs.getMapFactory().getMap(map.getId() + 300), cs.getMapFactory().getMap(map.getId() + 300).getPortal(0));
+                            }
+                            mc.setTeam(-1);
+                            mc.dispelDebuffs();
                         }
-                        mc.setTeam(-1);
-                        mc.dispelDebuffs();
                     }
                 }
             }

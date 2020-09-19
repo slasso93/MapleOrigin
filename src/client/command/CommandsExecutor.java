@@ -236,6 +236,7 @@ public class CommandsExecutor {
         addCommand("svtime", ServerTimeCommand.class);
         addCommand(new String[]{"checkdps", "dpscheck"}, CheckDpsCommand.class);
         addCommand("gachalist", GachaListCommand.class);
+        addCommand("togglesmega", ToggleSmegaCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 
