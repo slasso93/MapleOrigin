@@ -307,6 +307,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private boolean isbanned = false;
     private boolean blockCashShop = false;
     private boolean allowExpGain = true;
+    private boolean allowSmega = true;
     private byte pendantExp = 0, lastmobcount = 0, doorSlot = -1;
     private List<Integer> trockmaps = new ArrayList<>();
     private List<Integer> viptrockmaps = new ArrayList<>();
@@ -961,6 +962,15 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     
     public void toggleExpGain() {
         allowExpGain = !allowExpGain;
+    }
+
+    public boolean toggleSmega() {
+        allowSmega = !allowSmega;
+        return allowSmega;
+    }
+
+    public boolean allowSmega() {
+        return allowSmega;
     }
 
     public void setClient(MapleClient c) {

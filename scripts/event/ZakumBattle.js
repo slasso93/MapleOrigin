@@ -92,7 +92,7 @@ function afterSetup(eim) {
 
 function setup(channel) {
     var eim = em.newInstance("Zakum" + channel);
-    eim.setProperty("canJoin", 1);
+    eim.setProperty("canJoin", 0);
     eim.setProperty("defeatedBoss", 0);
 
     var level = 1;

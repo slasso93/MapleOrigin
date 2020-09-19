@@ -1328,6 +1328,12 @@ public class Server {
         }
     }
 
+    public void broadcastSmegaMessage(int world, final byte[] packet) {
+        for (Channel ch : getChannelsFromWorld(world)) {
+            ch.broadcastSmegaPacket(packet);
+        }
+    }
+
     public void broadcastGMMessage(int world, final byte[] packet) {
         for (Channel ch : getChannelsFromWorld(world)) {
             ch.broadcastGMPacket(packet);
