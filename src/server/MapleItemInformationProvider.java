@@ -786,7 +786,7 @@ public class MapleItemInformationProvider {
         nEquip.setSpeed((short) (curSpeed - nEquip.getLvlSpeed()));
         nEquip.setJump((short) (curJump - nEquip.getLvlJump()));
         nEquip.setHp((short) (curHp - nEquip.getLvlHp()));
-        nEquip.setMp((short) (curMp - nEquip.getLvlMdef()));
+        nEquip.setMp((short) (curMp - nEquip.getLvlMp()));
 
         nEquip.setLvlStr((short) 0);
         nEquip.setLvlDex((short) 0);
