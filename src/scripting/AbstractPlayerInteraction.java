@@ -1314,6 +1314,7 @@ public class AbstractPlayerInteraction {
                 if (res == 0) // inserted nothing
                     return false;
             }
+            getPlayer().setGroupId(groupName);
             getPlayer().changeSkillLevel(SkillFactory.getSkill(10000000 * getPlayer().getJobType() + 12), (byte) 0, 20, -1);
             return true;
         } catch (Exception e) {

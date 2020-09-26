@@ -82,7 +82,7 @@ function action(mode, type, selection) {
         }
     } else if (status == 7) { // valid group name
        var validName = cm.getText() && validate(cm.getText());
-       if (!validName) {
+       if (!validName /*|| cm.getPlayer().isBannedName(cm.getText())*/) {
             var str = "Only alphabet, numbers, and spaces are allowed. Group name must be between 5-10 characters.";
             status = 6;
             cm.sendGetText(isLeader ? str + " Please enter your desired group name." : str + " Please enter your partner's group name.");

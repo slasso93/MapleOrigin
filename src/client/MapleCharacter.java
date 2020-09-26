@@ -175,9 +175,15 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private static final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
     private static final String LEVEL_200 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
     private static final String LEVEL_250 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
-    private static final String[] BLOCKED_NAMES = {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert", "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole", "gay",
-        "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape", "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster", "cock", "gaay", "gm",
-        "operate", "master", "sysop", "party", "GameMaster", "community", "message", "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys"};
+    private static final String[] BLOCKED_NAMES =
+            {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert",
+                    "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole",
+                    "gay", "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape",
+                    "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster",
+                    "cock", "gaay", "gm", "operate", "master", "sysop", "party", "GameMaster", "community", "message",
+                    "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys", "slut", "whore", "n1g", "nig",
+                    "trans", "transgender", "vagina", "niggr", "transphobic", "dick", "retard", "moron", "homosexual",
+                    "boobs", "tits", "titty", "tittie"};
     
     private int world;
     private int accountid, id, level;
@@ -11995,7 +12001,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public void setExpeditionCompleted(MapleExpeditionType type) {
-        MapleExpeditionBossLog.setExpeditionCompleted(getId(), type);
+        MapleExpeditionBossLog.setExpeditionCompleted(getClient(), type);
     }
 
     public void logActivity(String activityName, int partySize, long startTime, String partyUUID, String type) {
@@ -12083,6 +12089,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 if (res == 0) // inserted nothing
                     return false;
             }
+            setGroupId(groupName);
             changeSkillLevel(SkillFactory.getSkill(10000000 * getJobType() + 12), (byte) 0, 20, -1);
             return true;
         } catch (Exception e) {

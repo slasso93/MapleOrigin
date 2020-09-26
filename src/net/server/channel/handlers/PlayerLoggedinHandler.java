@@ -40,6 +40,7 @@ import net.server.guild.MapleGuild;
 import net.server.world.MaplePartyCharacter;
 import net.server.world.PartyOperation;
 import net.server.world.World;
+import server.expeditions.MapleExpeditionType;
 import tools.DatabaseConnection;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
@@ -426,6 +427,8 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     if (eim != null) {
                         eim.registerPlayer(player);
                     }
+                    if (wserv.hasUnclaimedExpedition(cid))
+                        player.dropMessage(6, "You have unclaimed GML! Please use @claimgml to receive your GML.");
                 }
                 
                 if (YamlConfig.config.server.USE_NPCS_SCRIPTABLE) {

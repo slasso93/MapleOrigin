@@ -499,7 +499,7 @@ public class MapleItemInformationProvider {
         int pEntry = -1;
         MapleData pData = item.getChildByPath("info/price");
         if (pData != null) {
-            pEntry = MapleDataTool.getInt(pData);
+            pEntry = MapleDataTool.getIntConvert(pData);
         }
 
         double fEntry = 0.0f;

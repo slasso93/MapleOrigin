@@ -54,6 +54,7 @@ function action(mode, type, selection) {
             cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
+            cm.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.ZAKUM, cm.getPlayer().getId());
             cm.warp(211042300);
             cm.dispose();
         }

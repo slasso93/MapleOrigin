@@ -11,6 +11,7 @@ importPackage(Packages.server.expeditions);
         } else if (!eim.giveEventReward(pi.getPlayer())) {
             pi.playerMessage(5, "Please make room in your inventory before leaving this place!");
         } else {
+            pi.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.VONLEON, pi.getPlayer().getId());
             pi.getPlayer().changeMap(82100, "von02");
         }
     } else if (!eim) {
