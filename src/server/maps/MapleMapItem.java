@@ -159,7 +159,7 @@ public class MapleMapItem extends AbstractMapleMapObject {
     }
 
     public final boolean isPlayerDrop() {
-	return playerDrop;
+        return playerDrop;
     }
 
     public final boolean isPickedUp() {

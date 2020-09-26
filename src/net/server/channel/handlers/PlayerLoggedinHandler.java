@@ -434,8 +434,10 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 
                 if (newcomer) {
                     player.setLoginTime(System.currentTimeMillis());
-                    if (player.getCreatedTime() == -1) // createdTime is the first logged in time.
+                    if (player.getCreatedTime() == -1) { // createdTime is the first logged in time.
                         player.setCreatedTime(player.getLoginTime());
+                        player.setNewcomer(true); // "newcomer" means first login
+                    }
                 }
             } catch(Exception e) {
                 e.printStackTrace();

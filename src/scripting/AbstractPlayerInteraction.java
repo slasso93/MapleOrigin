@@ -22,6 +22,10 @@
 package scripting;
 
 import java.awt.Point;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +56,7 @@ import server.maps.MapleMapObjectType;
 import server.partyquest.PartyQuest;
 import server.partyquest.Pyramid;
 import server.quest.MapleQuest;
+import tools.DatabaseConnection;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import client.MapleCharacter;
@@ -1232,4 +1237,89 @@ public class AbstractPlayerInteraction {
     public long getCurrentTime() {
         return Server.getInstance().getCurrentTime();
     }
+
+    public boolean hasLevel30Character() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getConnection();
+            ps = con.prepareStatement("SELECT `level` FROM `characters` WHERE accountid = ?");
+            ps.setInt(1, getPlayer().getAccountID());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getInt("level") >= 30) {
+                    ps.close();
+                    rs.close();
+                    return true;
+                }
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            try {
+                if (ps != null && !ps.isClosed()) {
+                    ps.close();
+                }
+                if (rs != null && !rs.isClosed()) {
+                    rs.close();
+                }
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return getPlayer().getLevel() >= 30;
+    }
+
+    public String getActiveLeague() {
+        String name = null;
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM leagues where active=1")) {
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next())
+                        name = rs.getString("name");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    public boolean createLeagueGroup(String leagueName, String groupName) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM characters where group_id=?")) {
+                ps.setString(1, groupName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next())
+                        return false;
+                }
+            }
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET group_id=? where id=?")) {
+                ps.setString(1, groupName);
+                ps.setInt(2, getPlayer().getId());
+                int res = ps.executeUpdate();
+                if (res == 0) // updated nothing
+                    return false;
+            }
+            try (PreparedStatement ps2 = con.prepareStatement("INSERT INTO character_league (id, league_id, group_id, character_id) VALUES (NULL, (SELECT id from leagues where name=?), ?, ?)")) {
+                ps2.setString(1, leagueName);
+                ps2.setString(2, groupName);
+                ps2.setInt(3, getPlayer().getId());
+                int res = ps2.executeUpdate();
+                if (res == 0) // inserted nothing
+                    return false;
+            }
+            getPlayer().changeSkillLevel(SkillFactory.getSkill(10000000 * getPlayer().getJobType() + 12), (byte) 0, 20, -1);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
