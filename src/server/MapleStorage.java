@@ -240,7 +240,13 @@ public class MapleStorage {
             c.announce(MaplePacketCreator.enableActions());
             return;
         }
-        
+
+        if (c.getPlayer().hasGroup()) { // group/league characters cant access storage
+            c.getPlayer().dropMessage(1, "League characters may not use storage.");
+            c.announce(MaplePacketCreator.enableActions());
+            return;
+        }
+
         lock.lock();
         try {
             Collections.sort(items, new Comparator<Item>() {

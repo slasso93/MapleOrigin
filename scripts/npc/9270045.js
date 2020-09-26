@@ -34,6 +34,7 @@ function action(mode, type, selection) {
             cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
+            cm.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.KREXEL, cm.getPlayer().getId());
             cm.warp(541020700, "boss00");
             cm.dispose();
         }

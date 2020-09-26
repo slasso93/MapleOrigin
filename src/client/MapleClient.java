@@ -1489,7 +1489,8 @@ public class MapleClient {
     public void announce(final byte[] packet) {     // thanks GitGud for noticing an opportunity for improvement by overcoming "synchronized announce"
         announcerLock.lock();
         try {
-            session.write(packet);
+            if (packet.length > 0)
+                session.write(packet);
         } finally {
             announcerLock.unlock();
         }

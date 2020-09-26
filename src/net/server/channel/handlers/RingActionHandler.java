@@ -430,8 +430,11 @@ public final class RingActionHandler extends AbstractMaplePacketHandler {
                                         c.getAbstractPlayerInteraction().gainItem(itemId, (short) -1);
                                         DueyProcessor.dueyCreatePackage(weddingTicket, 0, groom, guest);
                                     } else {
-                                        c.getPlayer().dropMessage(5, "Unable to invite " + name + ". Their inventory may be full!");
-                                        guestChr.dropMessage(5, "[Wedding] Your inventory is full! Make room to receive an invite to " + groom + " and " + bride + "'s Wedding!");
+                                        if (guestChr != null) {
+                                            c.getPlayer().dropMessage(5, "Unable to invite " + name + ". Their inventory may be full!");
+                                            guestChr.dropMessage(5, "[Wedding] Your inventory is full! Make room to receive an invite to " + groom + " and " + bride + "'s Wedding!");
+                                        } else
+                                            c.getPlayer().dropMessage(5, "Unable to find " + name + ".");
                                         wserv.removeMarriageGuest(marriageId, guest);
                                     }
                                 }

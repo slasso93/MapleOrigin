@@ -96,6 +96,18 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                             party = player.getParty();
                         }
                         if (party.getMembers().size() < 6) {
+                            if (invited.hasGroup() && player.hasGroup()) { // both in group but they are not the same
+                                if (!invited.getGroupId().equals(player.getGroupId())) {
+                                    player.dropMessage(1, "You cannot party with anyone outside your group!");
+                                    c.announce(MaplePacketCreator.enableActions());
+                                    return;
+                                }
+                            }
+                            if ((invited.hasGroup() && !player.hasGroup()) || (!invited.hasGroup() && player.hasGroup())) { // one in group and not the other
+                                player.dropMessage(1, "You cannot party between standard and league!");
+                                c.announce(MaplePacketCreator.enableActions());return;
+                            }
+
                             if (MapleInviteCoordinator.createInvite(InviteType.PARTY, player, party.getId(), invited.getId())) {
                                 invited.getClient().announce(MaplePacketCreator.partyInvite(player));
                             } else {

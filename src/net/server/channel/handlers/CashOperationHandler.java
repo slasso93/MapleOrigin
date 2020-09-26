@@ -252,6 +252,11 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         return;
                     }
                 } else if (action == 0x0D) { // Take from Cash Inventory
+                    if (chr.hasGroup()) { // group/league characters cant access cash shop
+                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "You cannot access the Cash Shop inventory on a league character."));
+                        c.enableCSActions();
+                        return;
+                    }
                     Item item = cs.findByCashId(slea.readInt());
                     if (item == null) {
                         c.enableCSActions();
@@ -270,6 +275,11 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         }
                     }
                 } else if (action == 0x0E) { // Put into Cash Inventory
+                    if (chr.hasGroup()) { // group/league characters cant access cash shop
+                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "You cannot access the Cash Shop inventory on a league character."));
+                        c.enableCSActions();
+                        return;
+                    }
                     int cashId = slea.readInt();
                     slea.skip(4);
 

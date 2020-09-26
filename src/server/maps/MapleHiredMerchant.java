@@ -285,7 +285,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                         announceItemSold(newItem, price, getQuantityLeft(pItem.getItem().getItemId()));
                     }
 
-                    MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterByName(ownerName);
+                    MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterById(ownerId);
                     if (owner != null) {
                         owner.addMerchantMesos(price);
                     } else {
@@ -480,7 +480,41 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 chr.announce(MaplePacketCreator.getMiniRoomError(2));
                 return;
             } else {
-                chr.announce(MaplePacketCreator.getHiredMerchant(chr, this, false));
+                MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterById(ownerId);
+                boolean ownerHasGroup;
+                if (owner == null) {
+                    try (Connection c = DatabaseConnection.getConnection()) {
+                        try (PreparedStatement ps = c.prepareStatement("SELECT group_id from characters where id=?")) {
+                            ps.setInt(1, this.getOwnerId());
+                            try (ResultSet rs = ps.executeQuery()) {
+                                if (rs.next())
+                                    ownerHasGroup = rs.getString("group_id") != null && !rs.getString("group_id").isEmpty();
+                                else {
+                                    chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
+                                    chr.announce(MaplePacketCreator.enableActions());
+                                    removeVisitor(chr);
+                                    return;
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
+                        chr.announce(MaplePacketCreator.enableActions());
+                        removeVisitor(chr);
+                        return;
+                    }
+                } else {
+                    ownerHasGroup = owner.hasGroup();
+                }
+
+                if ((chr.hasGroup() && !ownerHasGroup) || (!chr.hasGroup() && ownerHasGroup)) {
+                    chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
+                    chr.announce(MaplePacketCreator.enableActions());
+                    removeVisitor(chr);
+                    return;
+                } else {
+                    chr.announce(MaplePacketCreator.getHiredMerchant(chr, this, false));
+                }
             }
             chr.setHiredMerchant(this);
         } finally {

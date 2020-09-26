@@ -175,9 +175,15 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private static final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
     private static final String LEVEL_200 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
     private static final String LEVEL_250 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
-    private static final String[] BLOCKED_NAMES = {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert", "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole", "gay",
-        "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape", "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster", "cock", "gaay", "gm",
-        "operate", "master", "sysop", "party", "GameMaster", "community", "message", "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys"};
+    private static final String[] BLOCKED_NAMES =
+            {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert",
+                    "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole",
+                    "gay", "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape",
+                    "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster",
+                    "cock", "gaay", "gm", "operate", "master", "sysop", "party", "GameMaster", "community", "message",
+                    "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys", "slut", "whore", "n1g", "nig",
+                    "trans", "transgender", "vagina", "niggr", "transphobic", "dick", "retard", "moron", "homosexual",
+                    "boobs", "tits", "titty", "tittie"};
     
     private int world;
     private int accountid, id, level;
@@ -352,6 +358,9 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private long dpsStart = -1;
     private boolean dpsCalcInProgress = false;
     private ScheduledFuture<?> dpsCheckFuture;
+
+    private String groupId;
+    private boolean newcomer = false; // (first login)
 
     private MapleCharacter() {
         super.setListener(new AbstractCharacterListener() {
@@ -2569,6 +2578,10 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     try (PreparedStatement ps = con.prepareStatement("DELETE FROM monsterbook WHERE charid = ?")) {
                             ps.setInt(1, cid);
                             ps.executeUpdate();
+                    }
+                    try (PreparedStatement ps = con.prepareStatement("DELETE FROM character_league WHERE character_id = ?")) {
+                        ps.setInt(1, cid);
+                        ps.executeUpdate();
                     }
                     try (PreparedStatement ps = con.prepareStatement("DELETE FROM characters WHERE id = ?")) {
                             ps.setInt(1, cid);
@@ -7345,7 +7358,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ret.rankMove = rs.getInt("rankMove");
             ret.jobRank = rs.getInt("jobRank");
             ret.jobRankMove = rs.getInt("jobRankMove");
-            
+            ret.groupId = rs.getString("group_id");
+
             if(equipped != null) {  // players can have no equipped items at all, ofc
                 MapleInventory inv = ret.inventory[MapleInventoryType.EQUIPPED.ordinal()];
                 for (Item item : equipped) {
@@ -7500,6 +7514,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ret.lastExpGainTime = rs.getTimestamp("lastExpGainTime").getTime();
             ret.canRecvPartySearchInvite = rs.getBoolean("partySearch");
             ret.usedFullSpReset = rs.getBoolean("used_sp_reset");
+            ret.groupId = rs.getString("group_id");
             
             ret.getInventory(MapleInventoryType.EQUIP).setSlotLimit(rs.getByte("equipslots"));
             ret.getInventory(MapleInventoryType.USE).setSlotLimit(rs.getByte("useslots"));
@@ -7670,16 +7685,18 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.close();
             ret.cashshop = new CashShop(ret.accountid, ret.id, ret.getJobType());
             ret.autoban = new AutobanManager(ret);
-            ps = con.prepareStatement("SELECT name, level FROM characters WHERE accountid = ? AND id != ? ORDER BY level DESC limit 1");
-            ps.setInt(1, ret.accountid);
-            ps.setInt(2, charid);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                ret.linkedName = rs.getString("name");
-                ret.linkedLevel = rs.getInt("level");
+            if (!ret.hasGroup()) {
+                ps = con.prepareStatement("SELECT name, level FROM characters WHERE accountid = ? AND id != ? ORDER BY level DESC limit 1");
+                ps.setInt(1, ret.accountid);
+                ps.setInt(2, charid);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    ret.linkedName = rs.getString("name");
+                    ret.linkedLevel = rs.getInt("level");
+                }
+                rs.close();
+                ps.close();
             }
-            rs.close();
-            ps.close();
             if (channelserver) {
                 ps = con.prepareStatement("SELECT * FROM queststatus WHERE characterid = ?");
                 ps.setInt(1, charid);
@@ -8172,7 +8189,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
             recalcEquipStats();
 
-            localmagic = Math.min(localmagic, 2000);
+            //localmagic = Math.min(localmagic, 2000);
 
             Integer hbhp = getBuffedValue(MapleBuffStat.HYPERBODYHP);
             if (hbhp != null) {
@@ -11984,7 +12001,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public void setExpeditionCompleted(MapleExpeditionType type) {
-        MapleExpeditionBossLog.setExpeditionCompleted(getId(), type);
+        MapleExpeditionBossLog.setExpeditionCompleted(getClient(), type);
     }
 
     public void logActivity(String activityName, int partySize, long startTime, String partyUUID, String type) {
@@ -12024,6 +12041,61 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             e.printStackTrace();
         }
         return characters;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public boolean hasGroup() {
+        return this.groupId != null && !groupId.isEmpty();
+    }
+
+    public void setNewcomer(boolean newcomer) {
+        this.newcomer = newcomer;
+    }
+
+    public boolean isNewcomer() {
+        return newcomer;
+    }
+
+    public boolean joinGroup(String leagueName, String groupName) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM characters where group_id=?")) {
+                ps.setString(1, groupName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        return false;
+                    if (rs.getInt(1) != 1)
+                        return false;
+                }
+            }
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET group_id=? where id=?")) {
+                ps.setString(1, groupName);
+                ps.setInt(2, getId());
+                int res = ps.executeUpdate();
+                if (res == 0) // updated nothing
+                    return false;
+            }
+            try (PreparedStatement ps2 = con.prepareStatement("INSERT INTO character_league (id, league_id, group_id, character_id) VALUES (NULL, (SELECT id from leagues where name=?), ?, ?)")) {
+                ps2.setString(1, leagueName);
+                ps2.setString(2, groupName);
+                ps2.setInt(3, getId());
+                int res = ps2.executeUpdate();
+                if (res == 0) // inserted nothing
+                    return false;
+            }
+            setGroupId(groupName);
+            changeSkillLevel(SkillFactory.getSkill(10000000 * getJobType() + 12), (byte) 0, 20, -1);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

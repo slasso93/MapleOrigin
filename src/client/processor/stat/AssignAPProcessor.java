@@ -364,6 +364,7 @@ public class AssignAPProcessor {
                 
                 chr.assignStrDexIntLuk(statGain[0], statGain[1], statGain[3], statGain[2]);
                 c.announce(MaplePacketCreator.enableActions());
+
             }
         } finally {
             c.unlockClient();
