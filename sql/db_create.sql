@@ -431,8 +431,10 @@ CREATE TABLE `characters` (
   `used_sp_reset` tinyint(1) NOT NULL DEFAULT '0',
   `playtime` bigint(20) DEFAULT '0',
   `createdtime` timestamp NULL DEFAULT NULL,
+  `group_id` VARCHAR(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `accountid` (`accountid`),
+  KEY `groupid` (`group_id`),
   KEY `party` (`party`),
   KEY `ranking1` (`level`,`exp`),
   KEY `ranking2` (`gm`,`job`),
@@ -2338,5 +2340,28 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE leagues (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(64) NOT NULL,
+  starttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  endttime TIMESTAMP DEFAULT NULL,
+  active tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (id),
+  UNIQUE KEY (name)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE character_league (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  league_id int(11) NOT NULL,
+  group_id varchar(20) NOT NULL,
+  character_id int(11) NOT NULL,
+  PRIMARY KEY (id),
+  KEY (league_id),
+  KEY (group_id),
+  key (character_id),
+  CONSTRAINT leaguefk foreign key (league_id) REFERENCES leagues (id),
+  CONSTRAINT charfk foreign key (character_id) REFERENCES characters (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dump completed on 2020-08-28  0:23:18
