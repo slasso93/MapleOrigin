@@ -150,7 +150,7 @@ public final class MoveLifeHandler extends AbstractMovementPacketHandler {
         Point serverStartPos = new Point(monster.getPosition());
 
         Boolean aggro = monster.aggroMoveLifeUpdate(player);
-        if (aggro == null) aggro = false;
+        if (aggro == null) return;
 
         if (nextUse != null) {
             c.announce(MaplePacketCreator.moveMonsterResponse(objectid, moveid, mobMp, aggro, nextSkillId, nextSkillLevel));
