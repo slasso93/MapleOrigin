@@ -61,8 +61,8 @@ public class GenderCommand extends Command {
                         return;
                     }
 
-                    victim.getClient().setGender((byte) (params[0].equals("male") ? 0 : 1));
-                    victim.setGender(params[0].equals("male") ? 0 : 1);
+                    victim.getClient().setGender((byte) (params[1].equals("male") ? 0 : 1));
+                    victim.setGender(params[1].equals("male") ? 0 : 1);
                     //MaplePacketCreator.getAuthSuccess(victim.getClient());
                     player.message(victim.getName() + "'s gender has been changed. Allow them to CC for it to take effect");
                     victim.message("Your gender has been changed, please CC for it to take effect.");
