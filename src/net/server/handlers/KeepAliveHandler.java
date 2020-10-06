@@ -22,12 +22,16 @@
 package net.server.handlers;
 
 import client.MapleClient;
+import config.YamlConfig;
 import net.MaplePacketHandler;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 public class KeepAliveHandler implements MaplePacketHandler {
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+        if (YamlConfig.config.server.USE_DEBUG_SHOW_RCVD_PACKET) {
+            System.out.println("Keep alive: " + c.getAccountName());
+        }
         c.pongReceived();
     }
 
