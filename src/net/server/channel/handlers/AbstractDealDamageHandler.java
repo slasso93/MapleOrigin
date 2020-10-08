@@ -781,9 +781,6 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                 // Normal damage formula for skills
                 calcDmgMax *= (effect.getDamage() / 100.0) + critDamage;
             }
-            if (chr.getJob().isA(MapleJob.PIRATE)) {
-
-            }
         } else {
             calcDmgMax *= 1 + critDamage;
         }
