@@ -6837,9 +6837,9 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
         if (YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
             if (getJobStyle() == MapleJob.MAGICIAN) {
-                addmp += localint_ / 20;
+                addmp += localint_ * .075;
             } else {
-                addmp += localint_ / 10;
+                addmp += localint_ * .1;
             }
         }
 
