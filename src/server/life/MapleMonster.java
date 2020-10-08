@@ -91,6 +91,8 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     private MapleMap map;
     private int VenomMultiplier = 0;
     private boolean fake = false;
+    private boolean isTempestFreeze = false;
+    private boolean hasBeacon = false;
     private boolean dropsDisabled = false;
     private List<Pair<Integer, Integer>> usedSkills = new ArrayList<>();
     private Map<Pair<Integer, Integer>, Integer> skillsUsed = new HashMap<>();
@@ -295,6 +297,22 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
     public boolean isBoss() {
         return stats.isBoss();
+    }
+
+    public boolean hasBeacon() {
+        return hasBeacon;
+    }
+
+    public void setBeacon(boolean hasBeacon) {
+        this.hasBeacon = hasBeacon;
+    }
+
+    public void setTempestFreeze(boolean freeze) {
+        this.isTempestFreeze = freeze;
+    }
+
+    public boolean isTempestFreeze() {
+        return isTempestFreeze;
     }
 
     public int getAnimationTime(String name) {
