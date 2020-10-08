@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import config.YamlConfig;
+import constants.skills.*;
 import net.server.PlayerBuffValueHolder;
 import net.server.PlayerCoolDownValueHolder;
 import net.server.Server;
@@ -134,35 +135,6 @@ import constants.game.ExpTable;
 import constants.game.GameConstants;
 import constants.inventory.ItemConstants;
 import constants.net.ServerConstants;
-import constants.skills.Aran;
-import constants.skills.Beginner;
-import constants.skills.Bishop;
-import constants.skills.BlazeWizard;
-import constants.skills.Bowmaster;
-import constants.skills.Brawler;
-import constants.skills.Buccaneer;
-import constants.skills.Corsair;
-import constants.skills.Crusader;
-import constants.skills.DarkKnight;
-import constants.skills.DawnWarrior;
-import constants.skills.Evan;
-import constants.skills.FPArchMage;
-import constants.skills.Hermit;
-import constants.skills.Hero;
-import constants.skills.ILArchMage;
-import constants.skills.Legend;
-import constants.skills.Magician;
-import constants.skills.Marauder;
-import constants.skills.Marksman;
-import constants.skills.NightLord;
-import constants.skills.Noblesse;
-import constants.skills.Paladin;
-import constants.skills.Priest;
-import constants.skills.Ranger;
-import constants.skills.Shadower;
-import constants.skills.Sniper;
-import constants.skills.Warrior;
-import constants.skills.ThunderBreaker;
 import net.server.services.type.ChannelServices;
 import net.server.services.task.channel.FaceExpressionService;
 import net.server.services.task.world.CharacterSaveService;
@@ -8128,7 +8100,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     return;
                 }
                 
-                addHP(-bloodEffect.getX());
+                if (getHp() > bloodEffect.getX())
+                    addHP(-bloodEffect.getX());
                 announce(MaplePacketCreator.showOwnBuffEffect(bloodEffect.getSourceId(), 5));
                 getMap().broadcastMessage(MapleCharacter.this, MaplePacketCreator.showBuffeffect(getId(), bloodEffect.getSourceId(), 5), false);
             }
@@ -8226,21 +8199,6 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localmagic += getInt() * mwarr / 100;
             }
 
-            if (job.isA(MapleJob.BOWMAN)) {
-                Skill expert = null;
-                if (job.isA(MapleJob.MARKSMAN)) {
-                    expert = SkillFactory.getSkill(3220004);
-                } else if (job.isA(MapleJob.BOWMASTER)) {
-                    expert = SkillFactory.getSkill(3120005);
-                }
-                if (expert != null) {
-                    int boostLevel = getSkillLevel(expert);
-                    if (boostLevel > 0) {
-                        localwatk += expert.getEffect(boostLevel).getX();
-                    }
-                }
-            }
-
             Integer watkbuff = getBuffedValue(MapleBuffStat.WATK);
             if (watkbuff != null) {
                 localwatk += watkbuff.intValue();
@@ -8268,12 +8226,27 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
 
             MapleStatEffect masteryEff = null;
+            Skill expert = null;
             if (getJob() == MapleJob.ARAN4) { // add watk from high mastery
-                masteryEff = SkillFactory.getSkill(Aran.HIGH_MASTERY).getEffect(getSkillLevel(Aran.HIGH_MASTERY));
+                expert = SkillFactory.getSkill(Aran.HIGH_MASTERY);
+                int expLevel = getSkillLevel(Aran.HIGH_MASTERY);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
             } else if (getJob() == MapleJob.BOWMASTER) {
-                masteryEff = SkillFactory.getSkill(Bowmaster.BOW_EXPERT).getEffect(getSkillLevel(Bowmaster.BOW_EXPERT));
+                expert = SkillFactory.getSkill(Bowmaster.BOW_EXPERT);
+                int expLevel = getSkillLevel(Bowmaster.BOW_EXPERT);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
             } else if (getJob() == MapleJob.MARKSMAN) {
-                masteryEff = SkillFactory.getSkill(Marksman.MARKSMAN_BOOST).getEffect(getSkillLevel(Marksman.MARKSMAN_BOOST));
+                expert = SkillFactory.getSkill(Marksman.MARKSMAN_BOOST);
+                int expLevel = getSkillLevel(Marksman.MARKSMAN_BOOST);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
+            } else if (getJob() == MapleJob.WINDARCHER3 || getJob() == MapleJob.WINDARCHER4) {
+                expert = SkillFactory.getSkill(WindArcher.BOW_EXPERT);
+                int expLevel = getSkillLevel(WindArcher.BOW_EXPERT);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
             }
             if (masteryEff != null)
                 localwatk += masteryEff.getX();
