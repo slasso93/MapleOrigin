@@ -167,6 +167,14 @@ public final class ItemConstants {
     	return scrollId >= 2049100 && scrollId <= 2049103;
     }
 
+    public static boolean isWitchChaosScroll(int scrollId) {
+        return scrollId == 2049114;
+    }
+
+    public static boolean isWitchBelt(int itemid) {
+        return itemid >= 1132014 && itemid <= 1132016;
+    }
+
     // use this for blocking cash shop items
     public static boolean isRateCoupon(int itemId) {
         int itemType = itemId / 1000;

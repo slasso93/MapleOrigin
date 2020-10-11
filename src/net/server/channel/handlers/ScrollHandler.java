@@ -89,6 +89,11 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                 } else if (!ItemConstants.isModifierScroll(scroll.getItemId()) && toScroll.getUpgradeSlots() < 1) {
                     announceCannotScroll(c, legendarySpirit);   // thanks onechord for noticing zero upgrade slots freezing Legendary Scroll UI
                     return;
+                } else if (ItemConstants.isChaosScroll(scroll.getItemId())) {
+                    if (ItemConstants.isWitchBelt(toScroll.getItemId())) {
+                        announceCannotScroll(c, legendarySpirit);
+                        return;
+                    }
                 }
 
                 List<Integer> scrollReqs = ii.getScrollReqs(scroll.getItemId());
@@ -103,7 +108,7 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                     }
                 }
 
-                if (!ItemConstants.isResetScroll(scroll.getItemId()) && !ItemConstants.isChaosScroll(scroll.getItemId()) && !ItemConstants.isCleanSlate(scroll.getItemId())) {
+                if (!ItemConstants.isResetScroll(scroll.getItemId()) && !ItemConstants.isChaosScroll(scroll.getItemId()) && !ItemConstants.isCleanSlate(scroll.getItemId()) && !ItemConstants.isWitchChaosScroll(scroll.getItemId())) {
                     if (!canScroll(scroll.getItemId(), toScroll.getItemId())) {
                         announceCannotScroll(c, legendarySpirit);
                         return;
