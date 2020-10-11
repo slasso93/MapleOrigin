@@ -721,7 +721,7 @@ public class AssignAPProcessor {
             
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(16, 20) + (player.getInt() / 20));
+                    MaxMP += (Randomizer.rand(16, 20) + (player.getInt() * .075));
                 } else {
                     MaxMP += 18;
                 }

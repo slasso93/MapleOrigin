@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import config.YamlConfig;
+import constants.skills.*;
 import net.server.PlayerBuffValueHolder;
 import net.server.PlayerCoolDownValueHolder;
 import net.server.Server;
@@ -134,35 +135,6 @@ import constants.game.ExpTable;
 import constants.game.GameConstants;
 import constants.inventory.ItemConstants;
 import constants.net.ServerConstants;
-import constants.skills.Aran;
-import constants.skills.Beginner;
-import constants.skills.Bishop;
-import constants.skills.BlazeWizard;
-import constants.skills.Bowmaster;
-import constants.skills.Brawler;
-import constants.skills.Buccaneer;
-import constants.skills.Corsair;
-import constants.skills.Crusader;
-import constants.skills.DarkKnight;
-import constants.skills.DawnWarrior;
-import constants.skills.Evan;
-import constants.skills.FPArchMage;
-import constants.skills.Hermit;
-import constants.skills.Hero;
-import constants.skills.ILArchMage;
-import constants.skills.Legend;
-import constants.skills.Magician;
-import constants.skills.Marauder;
-import constants.skills.Marksman;
-import constants.skills.NightLord;
-import constants.skills.Noblesse;
-import constants.skills.Paladin;
-import constants.skills.Priest;
-import constants.skills.Ranger;
-import constants.skills.Shadower;
-import constants.skills.Sniper;
-import constants.skills.Warrior;
-import constants.skills.ThunderBreaker;
 import net.server.services.type.ChannelServices;
 import net.server.services.task.channel.FaceExpressionService;
 import net.server.services.task.world.CharacterSaveService;
@@ -352,6 +324,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     private long createdTime; // keep track of when they first logged in to the character
     private boolean usedFullSpReset;
     private boolean tempChar = false; // use this for temporary disable of saveCharToDB (used for copy char command)
+    private int beaconMobId; // keep track of the last mob we tagged with homing beacon
+    private long lastDarkSightTime;
 
     // for DPS checking
     private long damageDealt = 0;
@@ -871,7 +845,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         return false;
     }
     
-    public int calculateMaxBaseDamage(int watk, MapleWeaponType weapon) {
+    public double calculateMaxBaseDamage(int watk, MapleWeaponType weapon) {
         int mainstat, secondarystat;
         if (getJob().isA(MapleJob.THIEF) && weapon == MapleWeaponType.DAGGER_OTHER) {
             weapon = MapleWeaponType.DAGGER_THIEVES;
@@ -887,11 +861,12 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             mainstat = localstr;
             secondarystat = localdex;
         }
-        return (int) Math.ceil(((weapon.getMaxDamageMultiplier() * mainstat + secondarystat) / 100.0) * watk);
+
+        return (weapon.getMaxDamageMultiplier() * mainstat + secondarystat) / 100.0 * watk;
     }
 
-    public int calculateMaxBaseDamage(int watk) {
-        int maxbasedamage;
+    public double calculateMaxBaseDamage(int watk) {
+        double maxbasedamage;
         Item weapon_item = getInventory(MapleInventoryType.EQUIPPED).getItem((short) -11);
         if (weapon_item != null) {
             maxbasedamage = calculateMaxBaseDamage(watk, ii.getWeaponType(weapon_item.getItemId()));
@@ -902,8 +877,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     weapMulti = 4.2;
                 }
 
-                int attack = (int) Math.min(Math.floor((2 * getLevel() + 31) / 3), 31);
-                maxbasedamage = (int) Math.ceil((localstr * weapMulti + localdex) * attack / 100.0);
+                int attack = (int) Math.min(Math.floor((2.0 * getLevel() + 31.0) / 3.0), 31);
+                maxbasedamage = (localstr * weapMulti + localdex) * attack / 100.0;
             } else {
                 maxbasedamage = 1;
             }
@@ -6834,9 +6809,9 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
         if (YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
             if (getJobStyle() == MapleJob.MAGICIAN) {
-                addmp += localint_ / 20;
+                addmp += localint_ * .075;
             } else {
-                addmp += localint_ / 10;
+                addmp += localint_ * .1;
             }
         }
 
@@ -8125,7 +8100,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     return;
                 }
                 
-                addHP(-bloodEffect.getX());
+                if (getHp() > bloodEffect.getX())
+                    addHP(-bloodEffect.getX());
                 announce(MaplePacketCreator.showOwnBuffEffect(bloodEffect.getSourceId(), 5));
                 getMap().broadcastMessage(MapleCharacter.this, MaplePacketCreator.showBuffeffect(getId(), bloodEffect.getSourceId(), 5), false);
             }
@@ -8223,27 +8199,6 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localmagic += getInt() * mwarr / 100;
             }
 
-            Integer echoBuff = getBuffedValue(MapleBuffStat.ECHO_OF_HERO);
-            if (echoBuff != null) {
-                localwatk += localwatk * echoBuff / 100;
-                localmagic += localmagic * echoBuff / 100;
-            }
-
-            if (job.isA(MapleJob.BOWMAN)) {
-                Skill expert = null;
-                if (job.isA(MapleJob.MARKSMAN)) {
-                    expert = SkillFactory.getSkill(3220004);
-                } else if (job.isA(MapleJob.BOWMASTER)) {
-                    expert = SkillFactory.getSkill(3120005);
-                }
-                if (expert != null) {
-                    int boostLevel = getSkillLevel(expert);
-                    if (boostLevel > 0) {
-                        localwatk += expert.getEffect(boostLevel).getX();
-                    }
-                }
-            }
-
             Integer watkbuff = getBuffedValue(MapleBuffStat.WATK);
             if (watkbuff != null) {
                 localwatk += watkbuff.intValue();
@@ -8269,6 +8224,32 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 localwatk += blessing;
                 localmagic += blessing * 2;
             }
+
+            MapleStatEffect masteryEff = null;
+            Skill expert = null;
+            if (getJob() == MapleJob.ARAN4) { // add watk from high mastery
+                expert = SkillFactory.getSkill(Aran.HIGH_MASTERY);
+                int expLevel = getSkillLevel(Aran.HIGH_MASTERY);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
+            } else if (getJob() == MapleJob.BOWMASTER) {
+                expert = SkillFactory.getSkill(Bowmaster.BOW_EXPERT);
+                int expLevel = getSkillLevel(Bowmaster.BOW_EXPERT);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
+            } else if (getJob() == MapleJob.MARKSMAN) {
+                expert = SkillFactory.getSkill(Marksman.MARKSMAN_BOOST);
+                int expLevel = getSkillLevel(Marksman.MARKSMAN_BOOST);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
+            } else if (getJob() == MapleJob.WINDARCHER3 || getJob() == MapleJob.WINDARCHER4) {
+                expert = SkillFactory.getSkill(WindArcher.BOW_EXPERT);
+                int expLevel = getSkillLevel(WindArcher.BOW_EXPERT);
+                if (expert != null && expLevel > 0)
+                    masteryEff = expert.getEffect(expLevel);
+            }
+            if (masteryEff != null)
+                localwatk += masteryEff.getX();
 
             if (job.isA(MapleJob.THIEF) || job.isA(MapleJob.BOWMAN) || job.isA(MapleJob.PIRATE) || job.isA(MapleJob.NIGHTWALKER1) || job.isA(MapleJob.WINDARCHER1)) {
                 Item weapon_item = getInventory(MapleInventoryType.EQUIPPED).getItem((short) -11);
@@ -8296,6 +8277,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     }
                 }
                 // Add throwing stars to dmg.
+            }
+            Integer echoBuff = getBuffedValue(MapleBuffStat.ECHO_OF_HERO);
+            if (echoBuff != null) {
+                localwatk += localwatk * echoBuff / 100;
+                localmagic += localmagic * echoBuff / 100;
             }
         } finally {
             statWlock.unlock();
@@ -8349,7 +8335,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
     }
     
-    private void updateLocalStats() {
+    public void updateLocalStats() {
         prtLock.lock();
         effLock.lock();
         statWlock.lock();
@@ -12091,11 +12077,40 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
             setGroupId(groupName);
             changeSkillLevel(SkillFactory.getSkill(10000000 * getJobType() + 12), (byte) 0, 20, -1);
+            updateLocalStats();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean hasBerserk() {
+        return berserk;
+    }
+
+    public void setBeaconMob(int beaconMobId) {
+        this.beaconMobId = beaconMobId;
+    }
+
+    public int getBeaconMob() {
+        return beaconMobId;
+    }
+
+    /**
+     * Assassinate "charge" levels. starts at 1. every 3 seconds charge increased by 1
+     * Dark Sight doesn't cancel until the 4th hit is dealt, so the 4th hit may have 1 higher charge level
+     * @return
+     */
+    public int getDarkSightCharge() {
+        long timeNow = System.currentTimeMillis();
+        int duration = (int) Math.min((timeNow - lastDarkSightTime) / 1000, 12);
+
+        return duration / 3 + 1;
+    }
+
+    public void setLastDarkSightTime(long time) {
+        this.lastDarkSightTime = time;
     }
 
 }

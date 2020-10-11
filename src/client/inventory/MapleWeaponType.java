@@ -38,10 +38,10 @@ public enum MapleWeaponType {
     POLE_ARM_STAB(3.0),
     SPEAR_STAB(5.0),
     SPEAR_SWING(3.0),
-    STAFF(3.6),
+    STAFF(4.4),
     SWORD1H(4.0),
     SWORD2H(4.6),
-    WAND(3.6);
+    WAND(4.4);
     private double damageMultiplier;
 
     private MapleWeaponType(double maxDamageMultiplier) {

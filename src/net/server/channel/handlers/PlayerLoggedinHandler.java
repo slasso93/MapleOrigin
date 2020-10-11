@@ -442,6 +442,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                         player.setNewcomer(true); // "newcomer" means first login
                     }
                 }
+                player.updateLocalStats();
             } catch(Exception e) {
                 e.printStackTrace();
             } finally {

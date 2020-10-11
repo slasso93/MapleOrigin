@@ -85,9 +85,9 @@ public enum AutobanFactory {
 	}
 	
 	public void alert(MapleCharacter chr, String reason) {
-		if(YamlConfig.config.server.USE_AUTOBAN == true) {
-			if ((chr != null && MapleLogger.ignored.contains(chr.getId()))
-					|| chr.gmLevel() >= 1 || chr.getBuffedValue(MapleBuffStat.BODY_PRESSURE) != null) {
+		if(YamlConfig.config.server.USE_AUTOBAN) {
+			if (chr != null && (MapleLogger.ignored.contains(chr.getId())
+					|| chr.gmLevel() >= 1)) {
 				return;
 			}
 			Server.getInstance().broadcastGMMessage((chr != null ? chr.getWorld() : 0), MaplePacketCreator.sendYellowTip((chr != null ? MapleCharacter.makeMapleReadable(chr.getName()) : "") + " caused " + this.name() + " " + reason));

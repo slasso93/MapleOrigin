@@ -30,6 +30,8 @@ import client.SkillFactory;
 import client.autoban.AutobanFactory;
 import constants.game.GameConstants;
 import constants.skills.Aran;
+import constants.skills.NightWalker;
+import constants.skills.WindArcher;
 import server.ThreadManager;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
@@ -84,17 +86,18 @@ public class AssignSPProcessor {
                 }
                 if (!skill.isInvisible() || player.hasSkill(skill)) {
                     player.gainSp(-1, GameConstants.getSkillBook(skillid / 10000), false);
-                    if (skill.getId() == Aran.FULL_SWING) {
-                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
+                    if (skill.getId() == WindArcher.WIND_WALK) { // wind walk only works if the player has vanish for some reason lol
+                        if (player.getSkillLevel(NightWalker.VANISH) == 0) {
+                            player.changeSkillLevel(SkillFactory.getSkill(NightWalker.VANISH), (byte) 1, 10, -1);
+                        }
+                    } else if (skill.getId() == Aran.FULL_SWING) {
                         player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                         player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_FULL_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                     } else if (skill.getId() == Aran.OVER_SWING) {
-                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                         player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_DOUBLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                         player.changeSkillLevel(SkillFactory.getSkill(Aran.HIDDEN_OVER_TRIPLE), (byte) player.getSkillLevel(skill), player.getMasterLevel(skill), player.getSkillExpiration(skill));
-                    } else {
-                        player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                     }
+                    player.changeSkillLevel(skill, (byte) (curLevel + 1), player.getMasterLevel(skill), player.getSkillExpiration(skill));
                 }
             }
         } finally {
