@@ -6187,8 +6187,7 @@
                 <int name="z" value="0"/>
             </canvas>
             <int name="price" value="1"/>
-            <int name="slotMax" value="100"/>
-            <int name="tradeBlock" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
     </imgdir>
     <imgdir name="04001000">
