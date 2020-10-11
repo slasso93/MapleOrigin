@@ -5821,7 +5821,30 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         
         return list;
     }
-    
+
+    public List<MapleCharacter> getPartyMembersOnlineAndSameChannel() {
+        List<MapleCharacter> list = new LinkedList<>();
+
+        int thisMapHash = this.getMap().hashCode();
+        prtLock.lock();
+        try {
+            if (party != null) {
+                for (MaplePartyCharacter mpc: party.getMembers()) {
+                    MapleCharacter mc = mpc.getPlayer();
+                    if (mc != null) {
+                        if (mc.isLoggedinWorld() && getClient().getChannel() == mc.getClient().getChannel()) {
+                            list.add(mc);
+                        }
+                    }
+                }
+            }
+        } finally {
+            prtLock.unlock();
+        }
+
+        return list;
+    }
+
     public List<MapleCharacter> getPartyMembersOnSameMap() {
         List<MapleCharacter> list = new LinkedList<>();
         int thisMapHash = this.getMap().hashCode();
