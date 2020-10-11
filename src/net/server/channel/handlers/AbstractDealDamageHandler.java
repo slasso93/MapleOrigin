@@ -858,6 +858,10 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
             List<Integer> allDamageNumbers = new ArrayList<>();
             MapleMonster monster = chr.getMap().getMonsterByOid(oid);
 
+            if (ret.skill == Marksman.PIERCING_ARROW) {
+                maxMobDmg *= Math.pow(1.2, i);
+            }
+
             if (oid == chr.getBeaconMob()) {
                 MapleStatEffect beacon = chr.getBuffEffect(MapleBuffStat.HOMING_BEACON);
                 if (monster != null && beacon != null) {

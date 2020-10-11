@@ -795,11 +795,8 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
             for (MapleMapObject mmo : chr.getMap().getMapObjectsInRange(chr.getPosition(), 23000, Arrays.asList(MapleMapObjectType.HIRED_MERCHANT, MapleMapObjectType.PLAYER))) {
                 if (mmo instanceof MapleCharacter) {
                     MapleCharacter mc = (MapleCharacter) mmo;
-                    if (mc.getId() == chr.getId()) {
-                        continue;
-                    }
-
                     MaplePlayerShop shop = mc.getPlayerShop();
+
                     if (shop != null && shop.isOwner(mc)) {
                         chr.announce(MaplePacketCreator.getMiniRoomError(13));
                         return false;
