@@ -159,7 +159,7 @@ public class AbstractPlayerInteraction {
     }
 
     public void warpParty(int id, int portalId, int fromMinId, int fromMaxId) {
-        for (MapleCharacter mc : this.getPlayer().getPartyMembersOnlineAndSameChannelAndMap()) {
+        for (MapleCharacter mc : this.getPlayer().getPartyMembersOnlineAndSameChannel()) {
             if (mc.isLoggedinWorld()) {
                 if (mc.getMapId() >= fromMinId && mc.getMapId() <= fromMaxId) {
                     mc.changeMap(id, portalId);
