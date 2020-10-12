@@ -764,6 +764,13 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
 
                     ret.speed = 7;
                 }
+            } else if (ret.skill == Hunter.ARROW_BOMB) {
+                double seMult = 1.0;
+                if (chr.getBuffEffect(MapleBuffStat.SHARP_EYES) != null) {
+                    seMult = chr.getBuffEffect(MapleBuffStat.SHARP_EYES).getY() / 100.0;
+                    critDamage -= seMult;
+                }
+                calcDmgMax *= 2 * effect.getX() / 100.0 * critDamage * seMult;
             } else if (ret.skill == Hermit.SHADOW_MESO) {
                 // Shadow Meso also has its own formula
                 calcDmgMax = (800 + critDamage * 100) * 10; // hard coding it to the max meso it uses at level 30. (moneycon=570, (340+800)/2=570 )
@@ -924,9 +931,15 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     if (monster != null) {
                         ElementalEffectiveness eff = monster.getElementalEffectiveness(skill.getElement());
                         if (eff == ElementalEffectiveness.WEAK) {
-                            monsterSpecificDmgMult *= 1.5;
+                            if (ret.skill == Sniper.BLIZZARD || ret.skill == Ranger.INFERNO)
+                                monsterSpecificDmgMult *= (1.1 + chr.getSkillLevel(ret.skill) * 0.005);
+                            else
+                                monsterSpecificDmgMult *= 1.5;
                         } else if (eff == ElementalEffectiveness.STRONG) {
-                            monsterSpecificDmgMult *= 0.5;
+                            if (ret.skill == Sniper.BLIZZARD || ret.skill == Ranger.INFERNO)
+                                monsterSpecificDmgMult *= (0.9 - chr.getSkillLevel(ret.skill) * 0.005);
+                            else
+                                monsterSpecificDmgMult *= 0.5;
                         }
                     } else {
                         // Since we already know the skill has an elemental attribute, but we dont know if the monster is weak or not, lets
@@ -999,12 +1012,13 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     }
                 }
 
-                // Warn if the damage is over 1.5x what we calculated above.
+                hitDmg = Math.floor(hitDmg); // round it at the very end only
+                // Warn if the damage is over 2.5% what we calculated above.
                 if (damage > hitDmg * 1.025) {
                     AutobanFactory.DAMAGE_HACK.alert(chr, "DMG: " + damage + " MaxDMG: " + hitDmg + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                 }
 
-                // Add a ab point if its over 5x what we calculated.
+                // Add a ab point if its over 5% what we calculated.
                 if (!skipBan && damage > hitDmg * 1.05) {
                     AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + hitDmg + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                 }

@@ -6418,6 +6418,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     getMap().broadcastMessage(chr, MaplePacketCreator.cancelForeignFirstDebuff(id, ((long) 1) << 50));
                 }
             }, ceffect.getDuration());
+            reapplyLocalStats();
         }
     }
 
