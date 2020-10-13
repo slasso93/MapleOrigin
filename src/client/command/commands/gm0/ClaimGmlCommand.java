@@ -48,17 +48,17 @@ public class ClaimGmlCommand extends Command {
 
         if (c.tryacquireClient()) {
             try {
-                Map<MapleExpeditionBossLog.BossLogEntry, Short> unclaimedGML = c.getWorldServer().removeUnclaimedRewards(player.getId());
-                if (unclaimedGML != null && !unclaimedGML.isEmpty()) {
-                    if (player.getInventory(MapleInventoryType.ETC).isFull()) {
-                        player.message("Please make room in your inventory first!");
-                    } else {
+                if (player.getInventory(MapleInventoryType.ETC).isFull()) {
+                    player.message("Please make room in your inventory first!");
+                } else {
+                    Map<MapleExpeditionBossLog.BossLogEntry, Short> unclaimedGML = c.getWorldServer().removeUnclaimedRewards(player.getId());
+                    if (unclaimedGML != null && !unclaimedGML.isEmpty()) {
                         int amount = unclaimedGML.values().stream().mapToInt(i -> i).sum();
                         MapleInventoryManipulator.addFromDrop(c, new Item(4000313, (byte) 0, (short) amount));
                         player.dropMessage(6, "You have claimed " + amount + " GML!");
+                    } else {
+                        player.message("There's nothing for you to claim!");
                     }
-                } else {
-                    player.message("There's nothing for you to claim!");
                 }
             } finally {
                 c.releaseClient();
