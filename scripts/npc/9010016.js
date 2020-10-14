@@ -13,7 +13,7 @@ var items = [
       { id: 2022282, cost: 5 }, // Naricain's
       { id: 2022283, cost: 5 }, // Subani's
       { id: 1142647, cost: 5 }, // Origin Guardian Medal
-      { id: 2049115, cost: 20 }, // innocence scroll 40%
+      { id: 2049115, cost: 12 }, // innocence scroll 40%
       { id: 5041001, cost: 2, expiration: 1 }, // Hyper Teleport Rock 1 day
       { id: 5041001, cost: 10, expiration: 7 }, // Hyper Teleport Rock 7 day
       { id: 5450000, cost: 2, expiration: 7 }, // miu miu 7 days

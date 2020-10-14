@@ -36,7 +36,7 @@ var maxMapId = 990001101;
 
 var waitTime = 3;       //  3 minutes
 var eventTime = 90;     // 90 minutes
-var bonusTime = 0.5;    // 30 seconds
+var bonusTime = 1;    // 30 seconds
 
 var lobbyRange = [0, 0];
 

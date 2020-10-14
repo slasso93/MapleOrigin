@@ -52,6 +52,7 @@ function action(mode, type, selection) {
     }
     else {
         if (cm.reachedRewardLimit(MapleExpeditionType.PINKBEAN)) {
+			cm.getPlayer().dropMessage(6,"You have already reached your limit on GMLs for this boss");
             cm.warp(270050000);
             cm.dispose();
         } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {

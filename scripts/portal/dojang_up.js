@@ -33,6 +33,9 @@ function enter(pi) {
             pi.goDojoUp();
             pi.getPlayer().getMap().setReactorState();
             var stage = Math.floor(pi.getPlayer().getMapId() / 100) % 100;
+            if (stage == 38) {
+                pi.getClient().getChannelServer().dismissDojoSchedule(pi.getMapId(), pi.getParty());
+			}
             if ((stage - (stage / 6) | 0) == pi.getPlayer().getVanquisherStage() && !GameConstants.isDojoPartyArea(pi.getPlayer().getMapId())) // we can also try 5 * stage / 6 | 0 + 1
                 pi.getPlayer().setVanquisherKills(pi.getPlayer().getVanquisherKills() + 1);
         } else {

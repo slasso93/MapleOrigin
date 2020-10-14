@@ -27,7 +27,7 @@ Save location to return.
 */
 
 function enter(pi) {
-    if (pi.getPlayer().getLevel() <= 30) {
+    if (pi.getPlayer().getLevel() < 120) {
         pi.playPortalSound(); pi.warp(990000640, 1);
         return true;
     } else {

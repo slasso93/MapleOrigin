@@ -48,6 +48,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (cm.reachedRewardLimit(MapleExpeditionType.ZAKUM)) {
+			cm.getPlayer().dropMessage(6,"You have already reached your limit on GMLs for this boss");
             cm.warp(211042300);
             cm.dispose();
         } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {

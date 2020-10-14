@@ -60,6 +60,7 @@ function action(mode, type, selection) {
                 cm.sendNext("You guys defeated both Scarlion and Targa! Wonderful! Take this memento as a prize for your bravery.");
             } else if (status == 1) {
                 if (cm.reachedRewardLimit(MapleExpeditionType.SCARGA)) {
+					cm.getPlayer().dropMessage(6,"You have already reached your limit on GMLs for this boss");
                     cm.warp(551030100, 2);
                     cm.dispose();
                 } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {

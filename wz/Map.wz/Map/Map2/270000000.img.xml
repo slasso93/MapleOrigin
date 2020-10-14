@@ -1357,6 +1357,7 @@
 			<string name="pn" value="tr00"/>
 			<int name="hideTooltip" value="0"/>
 			<int name="onlyOnce" value="0"/>
+			<string name="script" value="door3"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="reactor"/>
