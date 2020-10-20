@@ -45,7 +45,7 @@ function action(mode, type, selection) {
         if (status == 0) {
             if(cm.haveItem(4001086)) {
                 cm.sendYesNo("Do you want to access #b#m240050400##k right now?");
-            } else if(Packages.config.YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS) {
+            } else if(Packages.config.YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS && cm.haveItem(4001086)) {
                 if(canBypassHTPQ()) {
                     cm.sendYesNo("Do you want to access #b#m240050400##k right now?");
                 } else {
@@ -58,7 +58,7 @@ function action(mode, type, selection) {
             }
         }
         else {
-            cm.warp(240050400);
+	    cm.warpParty(240050400);
             cm.dispose();
         }
     }

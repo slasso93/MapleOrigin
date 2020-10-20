@@ -22,6 +22,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 10000000) {
 						cm.gainMeso([-10000000]);
 						cm.gainItem(1902000,1);
+						cm.gainItem(1912000,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 10,000,000 mesos");
@@ -39,6 +40,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 10000000) {
 						cm.gainMeso([-10000000]);
 						cm.gainItem(1902005,1);
+						cm.gainItem(1912005,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 10,000,000 mesos");
@@ -56,6 +58,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 10000000) {
 						cm.gainMeso([-10000000]);
 						cm.gainItem(1902015,1);
+						cm.gainItem(1912011 ,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 10,000,000 mesos");
@@ -73,6 +76,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 25000000) {
 						cm.gainMeso([-25000000]);
 						cm.gainItem(1902001,1);
+						cm.gainItem(1912000 ,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 25,000,000 mesos");
@@ -90,6 +94,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 25000000) {
 						cm.gainMeso([-25000000]);
 						cm.gainItem(1902006,1);
+						cm.gainItem(1912005,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 25,000,000 mesos");
@@ -107,6 +112,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 25000000) {
 						cm.gainMeso([-25000000]);
 						cm.gainItem(1902016,1);
+						cm.gainItem(1912011,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 25,000,000 mesos");
@@ -124,6 +130,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 50000000) {
 						cm.gainMeso([-50000000]);
 						cm.gainItem(1902002,1);
+						cm.gainItem(1912000 ,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 50,000,000 mesos");
@@ -141,6 +148,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 50000000) {
 						cm.gainMeso([-50000000]);
 						cm.gainItem(1902007,1);
+						cm.gainItem(1912005,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 50,000,000 mesos");
@@ -158,6 +166,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 50000000) {
 						cm.gainMeso([-50000000]);
 						cm.gainItem(1902017,1);
+						cm.gainItem(1912011,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 50,000,000 mesos");
@@ -175,6 +184,7 @@ function action(mode, type, selection) {
 					if (cm.getMeso() >= 50000000) {
 						cm.gainMeso([-50000000]);
 						cm.gainItem(1902018,1);
+						cm.gainItem(1912011,1);
 						cm.dispose();
 					} else {
 						cm.sendOk("Sorry you dont have 50,000,000 mesos");

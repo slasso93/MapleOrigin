@@ -160,7 +160,7 @@ function action(mode, type, selection) {
                         //    cm.sendNext("You're going to take on the challenge as a one-man party?");
                         //}
 
-                        else if (!isBetween(party, 30)) {
+                        else if (!validParty(party)) {
                             cm.sendNext("Your partys level ranges are too broad to enter. Please make sure all of your party members are within #r30 levels#k of each other.");
                             cm.dispose();
                             return;
@@ -292,8 +292,8 @@ function action(mode, type, selection) {
                                 return;
                             }
                             
-                            if(!isBetween(cm.getParty(), 35)) {
-                                cm.sendOk("Your partys level ranges are too broad to enter. Please make sure all of your party members are within #r35 levels#k of each other.");
+                            if(!validParty(cm.getParty())) {
+                                cm.sendOk("Your partys level ranges are too broad to enter. Please make sure all of your party members are within #r30 levels#k of each other.");
                                 cm.dispose();
                                 return;
                             }
@@ -381,15 +381,20 @@ function isRestingSpot(id) {
     return (Math.floor(id / 100) % 100) % 6 == 0 && id != 925020001;
 }
 
-function isBetween(party, range) {
-    var lowest = cm.getPlayer().getLevel();
-    var highest = lowest;
+function validParty(party) {
+    var highest = cm.getPlayer().getLevel();
+	
     for (var x = 0; x < party.getMembers().size(); x++) {
         var lvl = party.getMembers().get(x).getLevel();
         if (lvl > highest)
             highest = lvl;
-        else if (lvl < lowest)
-            lowest = lvl;
     }
-    return (highest - lowest) <= range;
+	
+	for (var x = 0; x < party.getMembers().size(); x++) {
+        var lvl = party.getMembers().get(x).getLevel();
+		if (lvl < 120 && highest - lvl > 30)
+			return false;
+			
+	}
+    return true;
 }

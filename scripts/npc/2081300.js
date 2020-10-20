@@ -62,12 +62,10 @@ function action(mode, type, selection) {
 
                         if (mode >= 1 && cm.getJobId() % 100 % 10 != 2) {
                             if (cm.getPlayer().getRemainingSp() > 0) {
-                                if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 120) * 3) {
-                                    cm.sendNext("Please, use all your SP before continuing.");
-                                    cm.dispose();
-                                    return;
-                                }
-                            }
+								cm.sendNext("Please, use all your SP before continuing.");
+								cm.dispose();
+								return;
+							}
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 312) {
                                         cm.teachSkill(3121002, 0, 10, -1);

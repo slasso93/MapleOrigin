@@ -60,7 +60,7 @@ function action(mode, type, selection) {
 			status--;
 
 		if (status == 0) { // first shop page
-		    var welcomeStr = "Hello #b#e#h ##n#k, you can obtain GML by completing boss runs. You currently have #r#c" + trophy + "# #b#e#z" + trophy + "##k#n\r\nWhat would you like to do?\r\n";
+		    var welcomeStr = "Hello #b#e#h ##n#k, you have a chance to obtain Event Trophy from any monster. You currently have #r#c" + trophy + "# #b#e#z" + trophy + "##k#n\r\nWhat would you like to do?\r\n";
 
 			for (var i = 0; i < items.length; i++) {
 			    var item = items[i];

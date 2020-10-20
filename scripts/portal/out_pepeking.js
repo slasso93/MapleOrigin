@@ -12,15 +12,21 @@ function enter(pi) {
  			pi.gainItem(4032388, 1);
  
  			pi.playPortalSound();
-                        pi.warp(106021400, 2);
-                        return true;
+			if (pi.getPlayer().getMapId() == 106021401)
+				pi.warp(106021402, 1);
+			else
+				pi.warp(106021400, 2);
+			return true;
  		} else {
  			pi.getPlayer().message("Please make room in your ETC inventory.");
  			return false;
  		}
  	} else {
  		pi.playPortalSound();
-                pi.warp(106021400, 2);
-                return true;
+		if (pi.getPlayer().getMapId() == 106021401)
+			pi.warp(106021402, 1);
+		else
+			pi.warp(106021400, 2);
+		return true;
  	}
 }

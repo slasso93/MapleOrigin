@@ -43,10 +43,10 @@ public class MapleExpeditionBossLog {
         ZAKUM(2, 1, false, (short) 2),
         SHOWA(999, 1, false, (short) 0),
         HORNTAIL(2, 1, false, (short) 3),
-        PINKBEAN(1, 1, false, (short) 6),
+        PINKBEAN(1, 1, true, (short) 6),
         SCARGA(1, 1, false, (short) 2),
         PAPULATUS(2, 1, false, (short) 1),
-        VONLEON(1, 1, false, (short)  4),
+        VONLEON(1, 1, true, (short)  4),
         KREXEL(2, 1, false, (short) 1);
         //EMPRESS(1, 1, false);
 
