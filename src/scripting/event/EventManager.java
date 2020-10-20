@@ -823,6 +823,7 @@ public class EventManager {
                         lmpc = new ArrayList<>((List<MaplePartyCharacter>) p);
                     }
                     if (!lmpc.stream()
+                            .filter(mpc -> mpc.getPlayer().gmLevel() < 2) // only compare HWID on non GMs (useful for testing)
                             .map(mpc -> mpc.getPlayer().getClient().getHWID())
                             .allMatch(new HashSet<>()::add)
                     ) {

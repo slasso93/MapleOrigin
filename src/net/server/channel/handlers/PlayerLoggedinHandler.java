@@ -111,7 +111,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
             try {
                 World wserv = server.getWorld(c.getWorld());
                 if(wserv == null) {
-                    c.disconnect(true, false);
+                    c.forceDisconnect();
                     return;
                 }
 
@@ -121,7 +121,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     cserv = wserv.getChannel(c.getChannel());
 
                     if(cserv == null) {
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 }
@@ -133,7 +133,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 if (player == null) {
                     remoteHwid = MapleSessionCoordinator.getInstance().pickLoginSessionHwid(session);
                     if (remoteHwid == null) {
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 } else {
@@ -146,7 +146,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 c.setHWID(remoteHwid);
                 
                 if (!server.validateCharacteridInTransition(c, cid)) {
-                    c.disconnect(true, false);
+                    c.forceDisconnect();
                     return;
                 }
                 
@@ -160,7 +160,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     }
                     
                     if (player == null) { //If you are still getting null here then please just uninstall the game >.>, we dont need you fucking with the logs
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 }

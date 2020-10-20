@@ -169,7 +169,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
             } catch (Throwable t) {
                 FilePrinter.printError(FilePrinter.ACCOUNT_STUCK, t);
             } finally {
-                session.close();
+                session.closeNow();
                 session.removeAttribute(MapleClient.CLIENT_KEY);
                 //client.empty();
             }
@@ -178,8 +178,8 @@ public class MapleServerHandler extends IoHandlerAdapter {
     
     @Override
     public void sessionClosed(IoSession session) throws Exception {
-        closeMapleSession(session);
         super.sessionClosed(session);
+        closeMapleSession(session);
     }
 
     @Override

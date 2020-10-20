@@ -878,7 +878,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 }
 
                 int attack = (int) Math.min(Math.floor((2.0 * getLevel() + 31.0) / 3.0), 31);
-                maxbasedamage = (localstr * weapMulti + localdex) * attack / 100.0;
+                maxbasedamage = (localstr * weapMulti + localdex) * (attack + watk) / 100.0;
             } else {
                 maxbasedamage = 1;
             }

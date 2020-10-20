@@ -953,6 +953,8 @@ public class MapleClient {
     }
 
     public final void forceDisconnect() {
+        if (serverTransition)
+            serverTransition = false;
         if (canDisconnect()) {
             disconnectInternal(true, false);
         }
@@ -988,12 +990,12 @@ public class MapleClient {
                             if (messengerid > 0) {
                                 wserv.leaveMessenger(messengerid, chrm);
                             }
-                                                        /*      
-                                                        if (fid > 0) {
-                                                                final MapleFamily family = worlda.getFamily(fid);
-                                                                family.
-                                                        }
-                                                        */
+                            /*
+                            if (fid > 0) {
+                                    final MapleFamily family = worlda.getFamily(fid);
+                                    family.
+                            }
+                            */
 
                             player.forfeitExpirableQuests();    //This is for those quests that you have to stay logged in for a certain amount of time
 
@@ -1546,7 +1548,7 @@ public class MapleClient {
             }
         }
         return reservedName;
-	}
+    }
 
     public boolean updateReservedName(String name) {
         boolean updated = false;
@@ -1567,33 +1569,33 @@ public class MapleClient {
 
     public Pair<String, String> getReservedName() {
         Pair<String, String> reserved = null;
-		try (Connection con = DatabaseConnection.getConnection()) {
-			try (PreparedStatement ps = con.prepareStatement("SELECT a.name as a_name, n.name as reserved_name FROM accounts a join namereserve n on n.accountid=a.id where a.hwid= ?")) {
-				ps.setString(1, convertHWID(getHWID()));
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT a.name as a_name, n.name as reserved_name FROM accounts a join namereserve n on n.accountid=a.id where a.hwid= ?")) {
+                ps.setString(1, convertHWID(getHWID()));
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
                         reserved = new Pair<>(rs.getString("a_name"), rs.getString("reserved_name"));
                     }
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return reserved;
-	}
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reserved;
+    }
 
-	public boolean deleteReservedName() {
+    public boolean deleteReservedName() {
         boolean deleted = false;
-		try (Connection con = DatabaseConnection.getConnection()) {
-			try (PreparedStatement ps = con.prepareStatement("DELETE n FROM namereserve n join accounts a on n.accountid=a.id where a.hwid= ?")) {
-				ps.setString(1, convertHWID(getHWID()));
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("DELETE n FROM namereserve n join accounts a on n.accountid=a.id where a.hwid= ?")) {
+                ps.setString(1, convertHWID(getHWID()));
                 deleted = ps.executeUpdate() > 0;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return deleted;
-	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deleted;
+    }
 
     public void changeChannel(int channel) {
         Server server = Server.getInstance();
