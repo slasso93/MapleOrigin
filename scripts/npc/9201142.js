@@ -16,11 +16,11 @@ var belts = [
 	},
 	{
 		id: 1132015, 
-		cost: [{id: 4000524, quantity: 100}, {id: 1132014, quantity: 1}]
+		cost: [{id: 4000524, quantity: 250}, {id: 1132014, quantity: 1}]
 	},
 	{
 		id: 1132016, 
-		cost: [{id: 4000524, quantity: 200}, {id: 1132015, quantity: 1}]
+		cost: [{id: 4000524, quantity: 250}, {id: 1132014, quantity: 1}]
 	}
 ];
 
@@ -51,8 +51,8 @@ function action(mode, type, selection) {
 		if (selection == 0) {
 			cm.sendSimple("Which belt would you like to purchase?\r\n#r#eNote: Each belt requires the previous tier#n#k" + 
 				"\r\n#L0##b#e#v1132014# #z1132014##n#k (50 #v4000524#)#l\r\n" + 
-				"\r\n#L1##b#e#v1132015# #z1132015##n#k (100 #v4000524# + #v1132014#)#l\r\n" + 
-				"\r\n#L2##b#e#v1132016# #z1132016##n#k (200 #v4000524# + #v1132015#)#l"
+				"\r\n#L1##b#e#v1132015# #z1132015##n#k (250 #v4000524# + #v1132014#)#l\r\n" + 
+				"\r\n#L2##b#e#v1132016# #z1132016##n#k (250 #v4000524# + #v1132014#)#l"
 			);
 		} else if (selection == 1) {
 			selectedType = "scroll";

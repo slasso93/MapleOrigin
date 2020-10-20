@@ -36,7 +36,7 @@ var maxMapId = 990001101;
 
 var waitTime = 3;       //  3 minutes
 var eventTime = 90;     // 90 minutes
-var bonusTime = 1;    // 30 seconds
+var bonusTime = 3;    // 30 seconds
 
 var lobbyRange = [0, 0];
 
@@ -258,7 +258,7 @@ function playerRevive(eim, player) { // player presses ok on the death pop up.
                         end(eim);
                 }
                 else {
-                        player.respawn(eim, exitMap);
+                        player.respawn(eim, entrymap);
                 }
                 
                 return false;
