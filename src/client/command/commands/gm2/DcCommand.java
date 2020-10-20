@@ -51,7 +51,7 @@ public class DcCommand extends Command {
                 victim = player.getMap().getCharacterByName(target);
                 if (victim != null) {
                     try {//sometimes bugged because the map = null
-                        victim.getClient().disconnect(true, false);
+                        victim.getClient().forceDisconnect();
                         player.getMap().removePlayer(victim);
                     } catch (Exception e) {
                         e.printStackTrace();

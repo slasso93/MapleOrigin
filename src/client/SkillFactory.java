@@ -106,6 +106,7 @@ public class SkillFactory {
                     if (data.getName().equals("skill")) {
                         for (MapleData data2 : data) { // Loop thru each jobs
                             if (data2 != null) {
+
                                 skillid = Integer.parseInt(data2.getName());
                                 skills.put(skillid, loadFromData(skillid, data2));
                             }
