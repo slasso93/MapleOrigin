@@ -982,7 +982,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                         hitDmg *= Math.pow(2, (j - 3));
                 }
                 if (ret.skill == Shadower.ASSASSINATE && ret.numDamage == 1) { // 4th nate hit. Formula is still unknown but this slight over estimation still works well
-                    MapleStatEffect nateEffect = SkillFactory.getSkill(Shadower.ASSASSINATE).getEffect(chr.getMasterLevel(Shadower.ASSASSINATE));
+                    MapleStatEffect nateEffect = SkillFactory.getSkill(ret.skill).getEffect(chr.getSkillLevel(ret.skill));
                     hitDmg = chr.getDarkSightCharge() * chr.calculateMaxBaseDamage(chr.getTotalWatk()) *
                             ((canCrit ? chr.getBuffEffect(MapleBuffStat.SHARP_EYES).getY() : 0) +
                                     nateEffect.getDamage() + nateEffect.getCriticalDamage() - 100.0) / 100.0;
@@ -991,7 +991,16 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     // For shadow partner, the second half of the hits only do 50% damage. So calc that
                     // in for the crit effects.
                     if (j >= ret.numDamage / 2) {
-                        hitDmg *= ret.skill == 0 ? 0.8 : 0.5;
+                        double shadowMult = 0.8;
+                        if (ret.skill != 0) {
+                            int spSkillId = -1;
+                            if (chr.getJob().isA(MapleJob.NIGHTWALKER3))
+                                spSkillId = NightWalker.SHADOW_PARTNER;
+                            else
+                                spSkillId = Hermit.SHADOW_PARTNER;
+                            shadowMult = SkillFactory.getSkill(spSkillId).getEffect(chr.getSkillLevel(spSkillId)).getY() / 100.0;
+                        }
+                        hitDmg *= shadowMult;
                     }
                 }
 
@@ -1009,6 +1018,10 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                     if (matkBuff != null && matkBuff.getMobSkill() != null && matkBuff.getMobSkill().getSkillId() == 111) { // mob skill 111 buffs magic attack by x but increases damage taken from physical by 1.3x
                         hitDmg *= matkBuff.getMobSkill().getX() / 100.0;
                         skipBan = true;
+                    }
+
+                    if (monster.getStats().getFixedDamage() > 0) {
+                        hitDmg = monster.getStats().getFixedDamage();
                     }
                 }
 
