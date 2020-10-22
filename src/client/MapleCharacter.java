@@ -10612,7 +10612,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public void announce(final byte[] packet) {
-        client.announce(packet);
+        if (client != null)
+            client.announce(packet);
     }
 
     @Override
