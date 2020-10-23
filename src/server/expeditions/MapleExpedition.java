@@ -184,6 +184,7 @@ public class MapleExpedition {
             return "Sorry, this expedition is full!";
         }
         if (getActiveMembers().stream()
+                .filter(p -> p.gmLevel() < 2) // only compare HWID on non GMs (useful for testing)
                 .map(p -> p.getClient().getHWID())
                 .anyMatch(hwid -> hwid.equals(player.getClient().getHWID())))
             return "Sorry, you cannot register for the expedition on more than one account!";

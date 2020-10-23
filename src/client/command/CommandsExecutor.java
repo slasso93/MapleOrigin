@@ -224,7 +224,7 @@ public class CommandsExecutor {
         addCommand("int", StatIntCommand.class);
         addCommand("luk", StatLukCommand.class);
         //addCommand("enableauth", EnableAuthCommand.class);
-        //addCommand("toggleexp", ToggleExpCommand.class);
+        addCommand("toggleexp", ToggleExpCommand.class);
         addCommand("mylawn", MapOwnerClaimCommand.class);
         addCommand("bosshp", BossHpCommand.class);
         addCommand("mobhp", MobHpCommand.class);
@@ -236,6 +236,9 @@ public class CommandsExecutor {
         addCommand("svtime", ServerTimeCommand.class);
         addCommand(new String[]{"checkdps", "dpscheck"}, CheckDpsCommand.class);
         addCommand("gachalist", GachaListCommand.class);
+        addCommand("togglesmega", ToggleSmegaCommand.class);
+        addCommand("groupinfo", GroupInfoCommand.class);
+        addCommand("claimgml", ClaimGmlCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 
@@ -259,6 +262,8 @@ public class CommandsExecutor {
         addCommand("unhide", 2, UnHideCommand.class);
         addCommand("sp", 2, SpCommand.class);
         addCommand("ap", 2, ApCommand.class);
+        addCommand("gender", 2, GenderCommand.class);
+        addCommand("copy", 2, CopyCharacter.class);
         addCommand("empowerme", 2, EmpowerMeCommand.class);
         addCommand("buffmap", 2, BuffMapCommand.class);
         addCommand("buff", 2, BuffCommand.class);

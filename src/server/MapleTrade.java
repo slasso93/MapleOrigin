@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import client.autoban.AutobanFactory;
 import config.YamlConfig;
 import tools.LogHelper;
 import tools.MaplePacketCreator;
@@ -125,6 +126,10 @@ public class MapleTrade {
         }
         
         if (exchangeMeso > 0) {
+            if ((exchangeItems == null && exchangeMeso > 15000000) || exchangeMeso > 25000000) {
+                AutobanFactory.GENERAL.alert(chr, "trade without items (IP: " + chr.getClient().getSession().getRemoteAddress() + "): Gained " +
+                        GameConstants.numberWithCommas(exchangeMeso) + " mesos from trade with " + partner.getChr().getName() + " (IP: " + partner.getChr().getClient().getSession().getRemoteAddress() + ")");
+            }
             int fee = getFee(exchangeMeso);
             
             chr.gainMeso(exchangeMeso - fee, show, true, show);
@@ -451,19 +456,23 @@ public class MapleTrade {
             } else {
                 c1.message("You are already managing someone's trade invitation.");
             }
-            
+
             return;
         } else if (c1.getTrade().isFullTrade()) {
             c1.message("You are already in a trade.");
             return;
         }
-        
+
         if (MapleInviteCoordinator.createInvite(InviteType.TRADE, c1, c1.getId(), c2.getId())) {
-            if (c2.getTrade() == null) {
+            if ((c1.hasGroup() && !c2.hasGroup()) || (!c1.hasGroup() && c2.hasGroup())) {
+                c1.message("A standard character and league player cannot trade.");
+                cancelTrade(c1, TradeResult.NO_RESPONSE);
+                MapleInviteCoordinator.answerInvite(InviteType.TRADE, c2.getId(), c1.getId(), false);
+            } else if (c2.getTrade() == null) {
                 c2.setTrade(new MapleTrade((byte) 1, c2));
                 c2.getTrade().setPartner(c1.getTrade());
                 c1.getTrade().setPartner(c2.getTrade());
-                
+
                 c1.getClient().announce(MaplePacketCreator.getTradeStart(c1.getClient(), c1.getTrade(), (byte) 0));
                 c2.getClient().announce(MaplePacketCreator.tradeInvite(c1));
             } else {

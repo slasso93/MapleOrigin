@@ -207,7 +207,12 @@ public final class Channel {
             System.out.println("Shutting down Channel " + channel + " on World " + world);
             
             closeAllMerchants();
-            disconnectAwayPlayers();
+            try {
+                disconnectAwayPlayers();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             players.disconnectAll();
             
             eventSM.dispose();
@@ -339,7 +344,14 @@ public final class Channel {
             chr.announce(data);
         }
     }
-    
+
+    public void broadcastSmegaPacket(final byte[] data) {
+        for (MapleCharacter chr : players.getAllCharacters()) {
+            if (chr.allowSmega())
+                chr.announce(data);
+        }
+    }
+
     public final int getId() {
         return channel;
     }

@@ -89,7 +89,7 @@ function afterSetup(eim) {}
 
 function setup(channel) {
     var eim = em.newInstance("Showa" + channel);
-    eim.setProperty("canJoin", 1);
+    eim.setProperty("canJoin", 0);
     eim.setProperty("playerDied", 0);
 
     var level = 1;

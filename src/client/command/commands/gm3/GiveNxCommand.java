@@ -76,6 +76,7 @@ public class GiveNxCommand extends Command {
         if (victim != null) {
             victim.getCashShop().gainCash(type, value);
             player.message(typeStr.toUpperCase() + " given.");
+            victim.message("Received " + value + " " + typeStr.toUpperCase() + ".");
         } else {
             player.message("Player '" + recv + "' could not be found.");
         }

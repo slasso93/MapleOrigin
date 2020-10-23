@@ -254,13 +254,28 @@ public enum ItemFactory {
 
         Lock lock = locks[id % lockCount];
         lock.lock();
-        final String insertItemsQuery = "INSERT INTO inventoryitems VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        final String insertItemsQuery = "INSERT INTO inventoryitems VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         final String updateItemsQuery = "UPDATE inventoryitems SET type=?, characterid=?, accountid=?, itemid=?, " +
                 "inventorytype=?, position=?, quantity=?, owner=?, petid=?, flag=?, expiration=?, giftFrom=? " +
                 "WHERE inventoryitemid=?";
-        final String replaceEquipsQuery = "REPLACE INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // TODO: ON DUPLICATE KEY UPDATE may be faster, but either way we are not updating many rows
-        final String insertMerchantQuery = "INSERT INTO inventorymerchant VALUES (DEFAULT, ?, ?, ?) ON DUPLICATE KEY UPDATE bundles=VALUES(bundles)";
+        final String replaceEquipsQuery = "INSERT INTO inventoryequipment VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE " +
+                "upgradeslots=VALUES(upgradeslots), `level`=VALUES(`level`), str=VALUES(str), dex=VALUES(dex), " +
+                "`int`=VALUES(`int`), luk=VALUES(luk), hp=VALUES(hp), mp=VALUES(mp), watk=VALUES(watk), matk=VALUES(matk), " +
+                "wdef=VALUES(wdef), mdef=VALUES(mdef), acc=VALUES(acc), avoid=VALUES(avoid), hands=VALUES(hands), " +
+                "speed=VALUES(speed), jump=VALUES(jump), vicious=VALUES(vicious), itemlevel=VALUES(itemlevel), " +
+                "itemexp=VALUES(itemexp), ringid=VALUES(ringid), lvl_str=VALUES(lvl_str), lvl_dex=VALUES(lvl_dex), " +
+                "lvl_int=VALUES(lvl_int), lvl_luk=VALUES(lvl_luk), lvl_hp=VALUES(lvl_hp), lvl_mp=VALUES(lvl_mp), " +
+                "lvl_watk=VALUES(lvl_watk), lvl_matk=VALUES(lvl_matk), lvl_wdef=VALUES(lvl_wdef), " +
+                "lvl_mdef=VALUES(lvl_mdef), lvl_acc=VALUES(lvl_acc), lvl_avoid=VALUES(lvl_avoid), " +
+                "lvl_speed=VALUES(lvl_speed), lvl_jump=VALUES(lvl_jump), scroll_str=VALUES(scroll_str), " +
+                "scroll_dex=VALUES(scroll_dex), scroll_int=VALUES(scroll_int), scroll_luk=VALUES(scroll_luk), " +
+                "scroll_hp=VALUES(scroll_hp), scroll_mp=VALUES(scroll_mp), scroll_watk=VALUES(scroll_watk), " +
+                "scroll_matk=VALUES(scroll_matk), scroll_wdef=VALUES(scroll_wdef), scroll_mdef=VALUES(scroll_mdef), " +
+                "scroll_acc=VALUES(scroll_acc), scroll_avoid=VALUES(scroll_avoid), scroll_speed=VALUES(scroll_speed), " +
+                "scroll_jump=VALUES(scroll_jump), locked=VALUES(locked)";
+        final String insertMerchantQuery = "INSERT INTO inventorymerchant VALUES (NULL, ?, ?, ?) ON DUPLICATE KEY UPDATE bundles=VALUES(bundles)";
         try (PreparedStatement psNew = con.prepareStatement(insertItemsQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement psUpdate = con.prepareStatement(updateItemsQuery);
              PreparedStatement psEquip = con.prepareStatement(replaceEquipsQuery);
@@ -327,15 +342,21 @@ public enum ItemFactory {
 
                 // save new items
                 if (hasNewItems) {
-                    psNew.executeBatch();
-                    newItemKeys = psNew.getGeneratedKeys();
+                    int newRetries = 0;
+                    while (newRetries++ < 5) {
+                        psNew.executeBatch();
+                        newItemKeys = psNew.getGeneratedKeys();
 
-                    if (newItemKeys == null)
-                        throw new RuntimeException("Inserting some item failed.");
-                    int i = 0;
-                    while (newItemKeys.next()) {
-                        inventoryItemIds.add(newItemKeys.getInt(1)); // add all new item inventoryItemIds so we have every new item's id
-                        newItems.get(i++).setInventoryItemId(newItemKeys.getInt(1)); // set inventoryItemIds in memory on all new items
+                        int i = 0;
+                        while (newItemKeys.next()) {
+                            inventoryItemIds.add(newItemKeys.getInt(1)); // add all new item inventoryItemIds so we have every new item's id
+                            newItems.get(i++).setInventoryItemId(newItemKeys.getInt(1)); // set inventoryItemIds in memory on all new items
+                        }
+                        if (i == newItems.size()) {
+                            break;
+                        } else if (newRetries == 5) {
+                            throw new RuntimeException("Inserting some item failed. Expected " + newItems.size() + " new items, actual: " + i);
+                        }
                     }
                 }
 

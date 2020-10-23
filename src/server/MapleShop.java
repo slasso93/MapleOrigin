@@ -86,6 +86,10 @@ public class MapleShop {
                 System.out.println("Wrong slot number in shop " + id);
                 return;
             }
+            if ((float) item.getPrice() * quantity > Integer.MAX_VALUE) {
+                System.out.println("Purchasing too many " + id);
+                return;
+            }
         } else {
             return;
         }

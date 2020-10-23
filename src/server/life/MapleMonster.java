@@ -91,6 +91,8 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     private MapleMap map;
     private int VenomMultiplier = 0;
     private boolean fake = false;
+    private boolean isTempestFreeze = false;
+    private boolean hasBeacon = false;
     private boolean dropsDisabled = false;
     private List<Pair<Integer, Integer>> usedSkills = new ArrayList<>();
     private Map<Pair<Integer, Integer>, Integer> skillsUsed = new HashMap<>();
@@ -295,6 +297,22 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
     public boolean isBoss() {
         return stats.isBoss();
+    }
+
+    public boolean hasBeacon() {
+        return hasBeacon;
+    }
+
+    public void setBeacon(boolean hasBeacon) {
+        this.hasBeacon = hasBeacon;
+    }
+
+    public void setTempestFreeze(boolean freeze) {
+        this.isTempestFreeze = freeze;
+    }
+
+    public boolean isTempestFreeze() {
+        return isTempestFreeze;
     }
 
     public int getAnimationTime(String name) {
@@ -542,7 +560,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         long maxDamage = 0, partyDamage = 0;
         MapleCharacter participationMvp = null;
         int attackerInterval = YamlConfig.config.server.EXP_SPLIT_ATTACKER_INTERVAL;
-        for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
+            for (Entry<MapleCharacter, Long> e : partyParticipation.entrySet()) {
             /*if (checkExpedition) { // only check once
                 for (MapleExpedition exped : e.getKey().getClient().getChannelServer().getExpeditions()) {
                     if (exped.contains(e.getKey())) {
@@ -575,15 +593,15 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         // thanks G h o s t, Alfred, Vcoc, BHB for poiting out a bug in detecting party members after membership transactions in a party took place
         if (YamlConfig.config.server.USE_ENFORCE_MOB_LEVEL_RANGE) {
             for (MapleCharacter member : partyParticipation.keySet().iterator().next().getPartyMembersOnSameMap()) {
-                if (member.getLevel() < 120) {
-                    if (!(member.getLevel() >= this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL &&
-                            member.getLevel() >= highestParticipant - attackerInterval &&
-                            member.getLevel() <= highestParticipant + attackerInterval)) {
+                // under 120, you must be within EXP_SPLIT_ATTACKER_INTERVAL levels of the attacker
+                if (member.getLevel() < 120) { // TODO: This could be a config to configure when the turnover of the formula happens
+                    if (member.getLevel() < highestParticipant - attackerInterval ||
+                            member.getLevel() > highestParticipant + attackerInterval) {
                         underleveled.add(member);
                         continue;
                     }
-                } else {
-                    if (member.getLevel() < this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL + 10) {
+                } else { // 120+, you must be within 20 levels of attacker OR at least EXP_SPLIT_MOB_INTERVAL levels below mob
+                    if (member.getLevel() < this.getLevel() - YamlConfig.config.server.EXP_SPLIT_MOB_INTERVAL) {
                         if (member.getLevel() < highestParticipant - attackerInterval ||
                                 member.getLevel() > highestParticipant + attackerInterval) {
                             underleveled.add(member);

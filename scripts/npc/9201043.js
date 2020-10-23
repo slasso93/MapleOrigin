@@ -45,7 +45,10 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 1 && selection == 0) {
-            if (cm.haveItem(4031592, 1)) {
+			if (!cm.isQuestCompleted(8882) || !isMarried(cm.getPlayer())) {
+                cm.sendOk("You will need to talk to my brother Ames and be married before you can take the Amorian Challenge!");
+                cm.dispose();
+			} else if (cm.haveItem(4031592, 1)) {
                 cm.sendYesNo("So you would like to enter the #bEntrance#k?");
                 MySelection = selection;
             } else {
@@ -74,4 +77,14 @@ function action(mode, type, selection) {
             cm.dispose();
         }
     }
+}
+
+function isMarried(player) {
+	var rings = [1112806, 1112803, 1112807, 1112809];
+	for (i = 0; i < rings.length; i++) {
+		if (player.haveItemWithId(rings[i], true)) {
+			return true;
+		}
+	}
+	return false;
 }

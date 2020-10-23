@@ -60,6 +60,8 @@ import net.server.task.*;
 import scripting.event.EventInstanceManager;
 import server.MapleStorage;
 import server.TimerManager;
+import server.expeditions.MapleExpeditionBossLog;
+import server.expeditions.MapleExpeditionType;
 import server.maps.AbstractMapleMapObject;
 import server.maps.MapleHiredMerchant;
 import server.maps.MapleMap;
@@ -177,7 +179,9 @@ public class World {
     private ScheduledFuture<?> fishingSchedule;
     private ScheduledFuture<?> partySearchSchedule;
     private ScheduledFuture<?> timeoutSchedule;
-    
+
+    private Map<Integer, Map<MapleExpeditionBossLog.BossLogEntry, Short>> unclaimedRewards = new HashMap<>();
+
     public World(int world, int flag, String eventmsg, int exprate, int droprate, int bossdroprate, int mesorate, int questrate, int travelrate, int fishingrate) {
         this.id = world;
         this.flag = flag;
@@ -812,14 +816,20 @@ public class World {
         Set<Integer> guests = marriageGuests.get(marriageId);
         if(guests != null) {
             if(guests.contains(playerId)) return false;
-            
+
             guests.add(playerId);
             return true;
         }
-        
+
         return false;
     }
-    
+
+    public boolean removeMarriageGuest(int marriageId, int playerId) {
+        Set<Integer> guests = marriageGuests.get(marriageId);
+
+        return guests != null && guests.remove(playerId);
+    }
+
     public Pair<Integer, Integer> getWeddingCoupleForGuest(int guestId, Boolean cathedral) {
         for(Channel ch : getChannels()) {
             Pair<Integer, Integer> p = ch.getWeddingCoupleForGuest(guestId, cathedral);
@@ -2212,4 +2222,49 @@ public class World {
         clearWorldData();
         System.out.println("Finished shutting down world " + id + "\r\n");
     }
+
+    public boolean hasUnclaimedExpedition(int cid) {
+        Map<MapleExpeditionBossLog.BossLogEntry, Short> unclaimed = unclaimedRewards.get(cid);
+        return unclaimed != null && !unclaimed.isEmpty();
+    }
+
+    public Map<MapleExpeditionBossLog.BossLogEntry, Short> removeUnclaimedRewards(int cid) {
+        return unclaimedRewards.remove(cid);
+    }
+
+    public void addUnclaimed(MapleExpeditionBossLog.BossLogEntry boss, int cid) {
+        Map<MapleExpeditionBossLog.BossLogEntry, Short> chrUnclaimed = unclaimedRewards.get(cid);
+        if (chrUnclaimed != null) {
+            chrUnclaimed.merge(boss, boss.getGml(), (a, b) -> (short) (a + b));
+        } else { // first unclaimed for this char
+            chrUnclaimed = new HashMap<>();
+            chrUnclaimed.put(boss, boss.getGml());
+        }
+        unclaimedRewards.put(cid, chrUnclaimed);
+    }
+
+    /**
+     * Subtract unclaimed GML from a specific boss and characters
+     * @param boss
+     * @param cid
+     */
+    public void removeUnclaimed(MapleExpeditionBossLog.BossLogEntry boss, int cid) {
+        Map<MapleExpeditionBossLog.BossLogEntry, Short> chrUnclaimed = unclaimedRewards.get(cid);
+        if (chrUnclaimed != null) {
+            Short unclaimedAmount = chrUnclaimed.get(boss);
+            if (unclaimedAmount != null) {
+                if (unclaimedAmount >= boss.getGml())
+                    unclaimedAmount = (short) (unclaimedAmount - boss.getGml());
+
+                if (unclaimedAmount == 0) {
+                    chrUnclaimed.remove(boss);
+                    if (chrUnclaimed.size() == 0)
+                        unclaimedRewards.remove(cid);
+                } else
+                    chrUnclaimed.put(boss, unclaimedAmount);
+            }
+        }
+
+    }
+
 }

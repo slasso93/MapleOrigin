@@ -21,10 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package net.server.channel.handlers;
 
-import client.MapleCharacter;
-import client.MapleClient;
-import client.Skill;
-import client.SkillFactory;
+import client.*;
 import client.autoban.AutobanFactory;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
@@ -35,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import server.MapleItemInformationProvider;
 import server.MapleStatEffect;
+import server.life.ElementalEffectiveness;
 import server.life.MapleMonster;
 import server.life.MapleMonsterInformationProvider;
 import server.maps.MapleSummon;
@@ -100,11 +98,17 @@ public final class SummonDamageHandler extends AbstractDealDamageHandler {
         }
         
         boolean magic = summonEffect.getWatk() == 0;
-        int maxDmg = calcMaxDamage(summonEffect, player, magic);    // thanks Darter (YungMoozi) for reporting unchecked max dmg
+        double maxDmg = calcMaxDamage(summonEffect, player, magic);    // thanks Darter (YungMoozi) for reporting unchecked max dmg
         for (SummonAttackEntry attackEntry : allDamage) {
-            int damage = attackEntry.getDamage();
+            double damage = attackEntry.getDamage();
             MapleMonster target = player.getMap().getMonsterByOid(attackEntry.getMonsterOid());
             if (target != null) {
+                if (target.getElementalEffectiveness(summonSkill.getElement()) == ElementalEffectiveness.WEAK) {
+                    maxDmg *= 1.5;
+                } else if (target.getElementalEffectiveness(summonSkill.getElement()) == ElementalEffectiveness.STRONG) {
+                    maxDmg *= .5;
+                }
+
                 if (damage > maxDmg) {
                     //AutobanFactory.DAMAGE_HACK.alert(c.getPlayer(), "Possible packet editing summon damage exploit.");
 
@@ -117,7 +121,7 @@ public final class SummonDamageHandler extends AbstractDealDamageHandler {
                         target.applyStatus(player, new MonsterStatusEffect(summonEffect.getMonsterStati(), summonSkill, null, false), summonEffect.isPoison(), 4000);
                     }
                 }
-                player.getMap().damageMonster(player, target, damage);
+                player.getMap().damageMonster(player, target, (int) damage);
             }
         }
         
@@ -126,27 +130,28 @@ public final class SummonDamageHandler extends AbstractDealDamageHandler {
         }
     }
     
-    private static int calcMaxDamage(MapleStatEffect summonEffect, MapleCharacter player, boolean magic) {
+    private static double calcMaxDamage(MapleStatEffect summonEffect, MapleCharacter player, boolean magic) {
         double maxDamage;
         
         if (magic) {
-            int matk = Math.max(player.getTotalMagic(), 14);
-            maxDamage = player.calculateMaxBaseMagicDamage(matk) * (0.05 * summonEffect.getMatk());
+            double tma = player.getTotalMagic();
+            double intStat = player.getTotalInt();
+            maxDamage = (((tma * tma / 1000.0) + tma) / 30.0 + intStat / 200.0) * summonEffect.getMatk();
         } else {
-            int watk = Math.max(player.getTotalWatk(), 14);
-            Item weapon_item = player.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -11);
-            
-            int maxBaseDmg;  // thanks Conrad, Atoot for detecting some summons legitimately hitting over the calculated limit
-            if (weapon_item != null) {
-                maxBaseDmg = player.calculateMaxBaseDamage(watk, MapleItemInformationProvider.getInstance().getWeaponType(weapon_item.getItemId()));
-            } else {
-                maxBaseDmg = player.calculateMaxBaseDamage(watk, MapleWeaponType.SWORD1H);
+            int mainstat = player.getTotalStr();
+            int secondarystat = player.getTotalDex();
+            if (player.getJob().isA(MapleJob.THIEF) || player.getJob().isA(MapleJob.NIGHTWALKER1)) {
+                mainstat = player.getTotalLuk();
+                secondarystat = player.getTotalDex();
+            } else if (player.getJob().isA(MapleJob.PIRATE) || player.getJob().isA(MapleJob.THUNDERBREAKER1) ||
+                    player.getJob().isA(MapleJob.BOWMAN) || player.getJob().isA(MapleJob.WINDARCHER1)) {
+                mainstat = player.getTotalDex();
+                secondarystat = player.getTotalStr();
             }
             
-            float summonDmgMod = (maxBaseDmg >= 438) ? 0.054f : 0.077f;
-            maxDamage = maxBaseDmg * (summonDmgMod * summonEffect.getWatk());
+            maxDamage = (mainstat * 2.5 + secondarystat) * summonEffect.getWatk() / 100.0;
         }
         
-        return (int) maxDamage;
+        return maxDamage;
     }
 }

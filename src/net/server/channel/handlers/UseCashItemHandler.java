@@ -139,7 +139,9 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                 
                 if (victim != null) {
                     MapleMap targetMap = victim.getMap();
-                   if (!FieldLimit.CANNOTVIPROCK.check(targetMap.getFieldLimit()) && (targetMap.getForcedReturnId() == 999999999 || targetMap.getId() < 100000000) && targetMap.getId() != 240040510) { // skeles map apparently crashing due to VIP rock. can be abused to dupe
+                   if (!FieldLimit.CANNOTVIPROCK.check(targetMap.getFieldLimit()) &&
+                           (targetMap.getForcedReturnId() == 999999999 || targetMap.getId() < 100000000)
+                           && targetMap.getId() != 240040510) { // skeles map apparently crashing due to VIP rock. can be abused to dupe
                         if (!victim.isGM() || victim.gmLevel() <= player.gmLevel()) {   // thanks Yoboes for noticing non-GM's being unreachable through rocks
                             player.forceChangeMap(targetMap, targetMap.findClosestPlayerSpawnpoint(victim.getPosition()));
                             success = true;
@@ -153,11 +155,14 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                     player.dropMessage(1, "Player could not be found in this channel.");
                 }
             }
-            
+
             if (!success) {
-                MapleInventoryManipulator.addById(c, itemId, (short) 1);
+                if (itemId != 5041001) { // dont add another hyper telerock
+                    MapleInventoryManipulator.addById(c, itemId, (short) 1);
+                }
                 c.announce(MaplePacketCreator.enableActions());
             }
+
         } else if (itemType == 505) { // AP/SP reset
             if(!player.isAlive()) {
                 c.announce(MaplePacketCreator.enableActions());
@@ -277,14 +282,14 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
             switch ((itemId / 1000) % 10) {
                 case 1: // Megaphone
                     if (player.getLevel() > 9) {
-                        player.getClient().getChannelServer().broadcastPacket(MaplePacketCreator.serverNotice(2, medal + player.getName() + " : " + slea.readMapleAsciiString()));
+                        player.getClient().getChannelServer().broadcastSmegaPacket(MaplePacketCreator.serverNotice(2, medal + player.getName() + " : " + slea.readMapleAsciiString()));
                     } else {
                         player.dropMessage(1, "You may not use this until you're level 10.");
                         return;
                     }
                     break;
                 case 2: // Super megaphone
-                    Server.getInstance().broadcastMessage(c.getWorld(), MaplePacketCreator.serverNotice(3, c.getChannel(), medal + player.getName() + " : " + slea.readMapleAsciiString(), (slea.readByte() != 0)));
+                    Server.getInstance().broadcastSmegaMessage(c.getWorld(), MaplePacketCreator.serverNotice(3, c.getChannel(), medal + player.getName() + " : " + slea.readMapleAsciiString(), (slea.readByte() != 0)));
                     break;
                 case 5: // Maple TV
                     int tvType = itemId % 10;
@@ -339,7 +344,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                         
                         // thanks Conrad for noticing that untradeable items should be allowed in megas
                     }
-                    Server.getInstance().broadcastMessage(c.getWorld(), MaplePacketCreator.itemMegaphone(msg, whisper, c.getChannel(), item));
+                    Server.getInstance().broadcastSmegaMessage(c.getWorld(), MaplePacketCreator.itemMegaphone(msg, whisper, c.getChannel(), item));
                     break;
                 case 7: //triple megaphone
                     int lines = slea.readByte();

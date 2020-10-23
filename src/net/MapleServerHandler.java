@@ -160,19 +160,19 @@ public class MapleServerHandler extends IoHandlerAdapter {
         }
         
         MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
-        if (client != null) {
-            try {
+        try {
+            if (client != null) {
                 // client freeze issues on session transition states found thanks to yolinlin, Omo Oppa, Nozphex
                 if (!session.containsAttribute(MapleClient.CLIENT_TRANSITION)) {
                     client.disconnect(false, false);
                 }
-            } catch (Throwable t) {
-                FilePrinter.printError(FilePrinter.ACCOUNT_STUCK, t);
-            } finally {
-                session.close();
-                session.removeAttribute(MapleClient.CLIENT_KEY);
-                //client.empty();
             }
+        } catch (Throwable t) {
+            FilePrinter.printError(FilePrinter.ACCOUNT_STUCK, t);
+        } finally {
+            session.closeNow();
+            session.removeAttribute(MapleClient.CLIENT_KEY);
+            //client.empty();
         }
     }
     
@@ -188,10 +188,15 @@ public class MapleServerHandler extends IoHandlerAdapter {
         SeekableLittleEndianAccessor slea = new GenericSeekableLittleEndianAccessor(new ByteArrayByteStream(content));
         short packetId = slea.readShort();
         MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
-        
-        if(YamlConfig.config.server.USE_DEBUG_SHOW_RCVD_PACKET && !ignoredDebugRecvPackets.contains(packetId)) System.out.println("Received packet id " + packetId);
+
         final MaplePacketHandler packetHandler = processor.getHandler(packetId);
-        if (packetHandler != null && packetHandler.validateState(client)) {
+        if(YamlConfig.config.server.USE_DEBUG_SHOW_RCVD_PACKET && !ignoredDebugRecvPackets.contains(packetId)) {
+            String simpleName = packetHandler != null ? packetHandler.getClass().getSimpleName() : "Unknown handler";
+            System.out.println("Received packet " + simpleName + ": 0x" + Integer.toHexString(packetId).toUpperCase());
+            if (packetHandler != null)
+                System.out.println("Valid state: " + (client != null ? packetHandler.validateState(client) : "false"));
+        }
+        if (client != null && packetHandler != null && packetHandler.validateState(client)) {
             try {
             	MapleLogger.logRecv(client, packetId, message);
                 packetHandler.handlePacket(slea, client);
@@ -200,6 +205,10 @@ public class MapleServerHandler extends IoHandlerAdapter {
                 //client.announce(MaplePacketCreator.enableActions());//bugs sometimes
             }
             client.updateLastPacket();
+        }
+        if (client == null) {
+            FilePrinter.printError(FilePrinter.ACCOUNT_STUCK, "Packet sent from unknown client. ip: " + session.getRemoteAddress());
+            closeMapleSession(session);
         }
     }
     

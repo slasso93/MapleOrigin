@@ -295,7 +295,14 @@ public class MaplePartySearchCoordinator {
         if (partyid < 0) {
             return false;
         }
-        
+
+        if (chr.hasGroup() && leader.hasGroup()) { // both in group but they are not the same
+            if (!chr.getGroupId().equals(leader.getGroupId()))
+                return false;
+        }
+        if ((chr.hasGroup() && !leader.hasGroup()) || (!chr.hasGroup() && leader.hasGroup())) // one in group and not the other
+            return false;
+
         if (MapleInviteCoordinator.createInvite(InviteType.PARTY, leader, partyid, chr.getId())) {
             chr.disablePartySearchInvite(leader.getId());
             chr.announce(MaplePacketCreator.partySearchInvite(leader));

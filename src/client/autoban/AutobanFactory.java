@@ -53,7 +53,7 @@ public enum AutobanFactory {
 	ITEM_VAC,
 	FAST_ITEM_PICKUP(5, 30000),
 	FAST_ATTACK(10, 30000),
-	MPCON(25, 30000);
+	MPCON(50, 60000);
 
 	private int points;
 	private long expiretime;
@@ -85,9 +85,9 @@ public enum AutobanFactory {
 	}
 	
 	public void alert(MapleCharacter chr, String reason) {
-		if(YamlConfig.config.server.USE_AUTOBAN == true) {
-			if ((chr != null && MapleLogger.ignored.contains(chr.getId()))
-					|| chr.gmLevel() >= 1 || chr.getBuffedValue(MapleBuffStat.BODY_PRESSURE) != null) {
+		if(YamlConfig.config.server.USE_AUTOBAN) {
+			if (chr != null && (MapleLogger.ignored.contains(chr.getId())
+					|| chr.gmLevel() >= 1)) {
 				return;
 			}
 			Server.getInstance().broadcastGMMessage((chr != null ? chr.getWorld() : 0), MaplePacketCreator.sendYellowTip((chr != null ? MapleCharacter.makeMapleReadable(chr.getName()) : "") + " caused " + this.name() + " " + reason));

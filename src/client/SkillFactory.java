@@ -106,6 +106,7 @@ public class SkillFactory {
                     if (data.getName().equals("skill")) {
                         for (MapleData data2 : data) { // Loop thru each jobs
                             if (data2 != null) {
+
                                 skillid = Integer.parseInt(data2.getName());
                                 skills.put(skillid, loadFromData(skillid, data2));
                             }
@@ -121,6 +122,7 @@ public class SkillFactory {
         boolean isBuff = false;
         int skillType = MapleDataTool.getInt("skillType", data, -1);
         String elem = MapleDataTool.getString("elemAttr", data, null);
+        ret.setInvisible(MapleDataTool.getInt("invisible", data, 0) == 1);
         if (elem != null) {
             ret.setElement(Element.getFromChar(elem.charAt(0)));
         } else {

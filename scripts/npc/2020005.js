@@ -71,7 +71,7 @@ function action(mode, type, selection) {
     }
     else if (status == 1) {
         selected = selection;
-        cm.sendGetNumber("Is #b#t"+item[selected]+"##k really the item that you need? It's the item "+msg[selected]+". It may not be the easiest item to acquire, but I'll give you a good deal on it. It'll cost you #b"+cost[selected]+" mesos#k per item. How many would you like to purchase?", 0, 1, 100);
+        cm.sendGetNumber("Is #b#t"+item[selected]+"##k really the item that you need? It's the item "+msg[selected]+". It may not be the easiest item to acquire, but I'll give you a good deal on it. It'll cost you #b"+cost[selected]+" mesos#k per item. How many would you like to purchase?", 0, 1, 1000);
     }
     else if (status == 2) {
         amount = selection;

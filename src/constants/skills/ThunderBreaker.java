@@ -40,4 +40,5 @@ public class ThunderBreaker {
     public static final int SPARK = 15111006;
     public static final int SHARK_WAVE = 15111007;
     public static final int BARRAGE = 15111004;
+    public static final int CRITICAL_PUNCH = 15110000;
 }

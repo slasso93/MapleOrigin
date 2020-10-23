@@ -28,6 +28,7 @@ import client.MapleClient;
 import client.command.Command;
 import server.expeditions.MapleExpedition;
 import server.expeditions.MapleExpeditionBossLog;
+import server.expeditions.MapleExpeditionType;
 
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class SetBossCountCommand extends Command {
             try {
                 bossType = MapleExpeditionBossLog.BossLogEntry.valueOf(params[target].toUpperCase());
             } catch (Exception e) {
-                player.yellowMessage("Boss type must be one of the following: zakum | horntail | pinkbean | scarga | papulatus | vonleon");
+                player.yellowMessage("Boss type must be one of the following: zakum | horntail | pinkbean | scarga | papulatus | vonleon | krexel");
                 return;
             }
             try {
@@ -74,8 +75,10 @@ public class SetBossCountCommand extends Command {
                 if (newCount < currentCount) { // remove entries
                     MapleExpeditionBossLog.removePlayerEntry(victim.getId(), bossType, currentCount - newCount);
                 } else { // add entries
-                    while (newCount-- > currentCount)
+                    while (newCount-- > currentCount) {
                         MapleExpeditionBossLog.insertPlayerEntry(victim.getId(), bossType);
+                        MapleExpeditionBossLog.setExpeditionCompleted(victim.getId(), MapleExpeditionType.valueOf(bossType.name()));
+                    }
                 }
                 player.message("New boss count set for player: '" + victim.getName());
             } else {

@@ -75,11 +75,13 @@ public class ServerConfig {
     public boolean USE_ITEM_SORT_BY_NAME;
     public boolean USE_PARTY_FOR_STARTERS;
     public boolean USE_AUTOASSIGN_STARTERS_AP;
+    public boolean USE_STARTERS_AP_RESET;
     public boolean USE_AUTOASSIGN_SECONDARY_CAP;
     public boolean USE_STARTING_AP_4;
     public boolean USE_AUTOBAN;
     public boolean USE_AUTOBAN_LOG;
     public boolean USE_AUTOSAVE;
+    public int MAX_SAVE_TRIES;
     public boolean USE_SERVER_AUTOASSIGNER;
     public boolean USE_REFRESH_RANK_MOVE;
     public boolean USE_ENFORCE_ADMIN_ACCOUNT;

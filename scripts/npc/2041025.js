@@ -36,12 +36,15 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (cm.reachedRewardLimit(MapleExpeditionType.PAPULATUS)) {
+            cm.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.PAPULATUS, cm.getPlayer().getId());
+			cm.getPlayer().dropMessage(6,"You have already reached your limit on GMLs for this boss");
             cm.warp(220080000);
             cm.dispose();
         } else if (!cm.getEventInstance().giveEventReward(cm.getPlayer())) {
             cm.sendNext("Please make room in your inventory first!");
             cm.dispose();
         } else {
+            cm.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.PAPULATUS, cm.getPlayer().getId());
             cm.warp(220080000);
             cm.dispose();
         }

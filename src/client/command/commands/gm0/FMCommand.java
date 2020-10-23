@@ -61,6 +61,11 @@ public class FMCommand extends Command {
             return;
         }
 
+        if (player.getEventInstance() != null) {
+            player.dropMessage(1, "This command cannot be used in expeditions or special instances");
+            return;
+        }
+
         MapleMap fm = c.getChannelServer().getMapFactory().getMap(GameConstants.GOTO_AREAS.get("fm"));
         if (player.getMap().getReturnMapId() != 910000000) { // if return map is fm, don't update save location
             if (player.getMap().getForcedReturnId() == 999999999) { // regular maps have this forced return value of 999999999

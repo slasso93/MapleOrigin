@@ -38,6 +38,7 @@ var hasRing;
 function start() {
     eim = cm.getEventInstance();
     if(eim == null) {
+		cm.getPlayer().dropMessage(6, "event null");
         cm.warp(680000000,0);
         cm.dispose();
         return;
@@ -92,12 +93,12 @@ function action(mode, type, selection) {
     }
     
     if (status == 0) {
-        var hasGoldenLeaf = cm.haveItem(4031217);
+        var hasGoldenKey = cm.haveItem(4031217);
         
-        if (hasGoldenLeaf && hasEngage) {
+        if (hasGoldenKey && hasEngage) {
             cm.sendOk("You can't leave yet! You need to click High Priest John and get married before I can let you leave.");
             cm.dispose();
-        } else if (hasGoldenLeaf && hasRing) {
+        } else if (hasGoldenKey && hasRing) {
             var choice = Array("Go to the Afterparty", "What should I be doing");
             var msg = "What can I help you with?#b";
             for (i = 0; i < choice.length; i++) {
@@ -105,7 +106,7 @@ function action(mode, type, selection) {
             }
             cm.sendSimple(msg);
         } else {
-            cm.sendNext("You don't seem to have a Gold Maple Leaf, engagement ring, or wedding ring. You must not belong here, so I will take you to Amoria.");
+            cm.sendNext("You don't seem to have a Golden Key, engagement ring, or wedding ring. You must not belong here, so I will take you to Amoria.");
             selection = 20; // Random.
         }
     } else if (status == 1) {
@@ -118,6 +119,7 @@ function action(mode, type, selection) {
         
         switch(selection) {
             case 0:
+				cm.getPlayer().dropMessage(6, "isPremium: " + eim.getIntProperty("isPremium"));
                 if(eim.getIntProperty("isPremium") == 1) {
                     eim.warpEventTeam(680000300);
                     cm.sendOk("Enjoy! Cherish your Photos Forever!");
@@ -125,7 +127,7 @@ function action(mode, type, selection) {
                 } else {    // skip the party-time (premium only)
                     eim.warpEventTeam(680000500);
                     cm.sendOk("Congratulations for the newly-wed! I will escort you to the exit.");
-                    if (cmPartner != null) cmPartner.npcTalk(cm.getNpc(), "Congratulations for the newly-wed! I will escort you to the exit.");
+                   if (cmPartner != null) cmPartner.npcTalk(cm.getNpc(), "Congratulations for the newly-wed! I will escort you to the exit.");
                 }
                 
                 cm.dispose();

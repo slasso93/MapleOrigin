@@ -40,6 +40,7 @@ import net.server.guild.MapleGuild;
 import net.server.world.MaplePartyCharacter;
 import net.server.world.PartyOperation;
 import net.server.world.World;
+import server.expeditions.MapleExpeditionType;
 import tools.DatabaseConnection;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
@@ -106,11 +107,12 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         final int cid = slea.readInt();
         final Server server = Server.getInstance();
         
+
         if (c.tryacquireClient()) { // thanks MedicOP for assisting on concurrency protection here
             try {
                 World wserv = server.getWorld(c.getWorld());
                 if(wserv == null) {
-                    c.disconnect(true, false);
+                    c.forceDisconnect();
                     return;
                 }
 
@@ -120,7 +122,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     cserv = wserv.getChannel(c.getChannel());
 
                     if(cserv == null) {
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 }
@@ -132,7 +134,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 if (player == null) {
                     remoteHwid = MapleSessionCoordinator.getInstance().pickLoginSessionHwid(session);
                     if (remoteHwid == null) {
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 } else {
@@ -145,7 +147,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 c.setHWID(remoteHwid);
                 
                 if (!server.validateCharacteridInTransition(c, cid)) {
-                    c.disconnect(true, false);
+                    c.forceDisconnect();
                     return;
                 }
                 
@@ -159,7 +161,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     }
                     
                     if (player == null) { //If you are still getting null here then please just uninstall the game >.>, we dont need you fucking with the logs
-                        c.disconnect(true, false);
+                        c.forceDisconnect();
                         return;
                     }
                 }
@@ -426,6 +428,8 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     if (eim != null) {
                         eim.registerPlayer(player);
                     }
+                    if (wserv.hasUnclaimedExpedition(cid))
+                        player.dropMessage(6, "You have unclaimed GML! Please use @claimgml to receive your GML.");
                 }
                 
                 if (YamlConfig.config.server.USE_NPCS_SCRIPTABLE) {
@@ -434,9 +438,12 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 
                 if (newcomer) {
                     player.setLoginTime(System.currentTimeMillis());
-                    if (player.getCreatedTime() == -1) // createdTime is the first logged in time.
+                    if (player.getCreatedTime() == -1) { // createdTime is the first logged in time.
                         player.setCreatedTime(player.getLoginTime());
+                        player.setNewcomer(true); // "newcomer" means first login
+                    }
                 }
+                player.updateLocalStats();
             } catch(Exception e) {
                 e.printStackTrace();
             } finally {

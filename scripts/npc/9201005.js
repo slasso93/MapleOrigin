@@ -224,7 +224,7 @@ function action(mode, type, selection) {
                                 if(cserv.isOngoingWeddingGuest(cathedralWedding, cm.getPlayer().getId())) {
                                     var eim = getMarriageInstance(wid);
                                     if(eim != null) {
-                                        cm.sendOk("Enjoy the wedding. Don't drop your Gold Maple Leaf or you won't be able to finish the whole wedding.");
+                                        cm.sendOk("Enjoy the wedding. Don't drop your Golden Key or you won't be able to finish the whole wedding.");
                                     } else {
                                         cm.sendOk("Please wait a moment while the couple get ready to enter the Cathedral.");
                                         cm.dispose();

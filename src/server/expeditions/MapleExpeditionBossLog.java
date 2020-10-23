@@ -26,7 +26,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
+import client.MapleClient;
 import config.YamlConfig;
+import net.server.Server;
 import tools.DatabaseConnection;
 import tools.Pair;
 
@@ -38,31 +40,37 @@ import tools.Pair;
 public class MapleExpeditionBossLog {
 
     public enum BossLogEntry {
-        ZAKUM(2, 1, false),
-        SHOWA(999, 1, false),
-        HORNTAIL(2, 1, false),
-        PINKBEAN(1, 1, false),
-        SCARGA(1, 1, false),
-        PAPULATUS(2, 1, false),
-        VONLEON(1, 1, false),
-        KREXEL(2, 1, false);
+        ZAKUM(2, 1, false, (short) 2),
+        SHOWA(999, 1, false, (short) 0),
+        HORNTAIL(2, 1, false, (short) 3),
+        PINKBEAN(1, 1, true, (short) 6),
+        SCARGA(1, 1, false, (short) 2),
+        PAPULATUS(2, 1, false, (short) 1),
+        VONLEON(1, 1, true, (short)  4),
+        KREXEL(2, 1, false, (short) 1);
         //EMPRESS(1, 1, false);
 
         private int entries;
         private int timeLength;
         private int minChannel, maxChannel;
         private boolean week;
+        private short gml;
 
-        private BossLogEntry(int entries, int timeLength, boolean week) {
-            this(entries, 0, Integer.MAX_VALUE, timeLength, week);
+        private BossLogEntry(int entries, int timeLength, boolean week, short gml) {
+            this(entries, 0, Integer.MAX_VALUE, timeLength, week, gml);
         }
 
-        private BossLogEntry(int entries, int minChannel, int maxChannel, int timeLength, boolean week) {
+        private BossLogEntry(int entries, int minChannel, int maxChannel, int timeLength, boolean week, short gml) {
             this.entries = entries;
             this.minChannel = minChannel;
             this.maxChannel = maxChannel;
             this.timeLength = timeLength;
             this.week = week;
+            this.gml = gml;
+        }
+
+        public short getGml() {
+            return gml;
         }
 
         private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(Calendar timeNow, boolean week) {
@@ -327,6 +335,15 @@ public class MapleExpeditionBossLog {
                 return null;
         }
         return dailyBossLog;
+    }
+
+    public static void setExpeditionCompleted(MapleClient c, MapleExpeditionType type) {
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+        if (boss != null) {
+            if (c.getWorldServer() != null)
+                c.getWorldServer().addUnclaimed(boss, c.getPlayer().getId());
+        }
+        setExpeditionCompleted(c.getPlayer().getId(), type);
     }
 
     public static void setExpeditionCompleted(int id, MapleExpeditionType type) {

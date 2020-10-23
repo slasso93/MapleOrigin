@@ -187,11 +187,14 @@ public class MapleInventory implements Iterable<Item> {
         return -1;
     }
 
-    public List<Item> listById(int itemId) {
+    public synchronized List<Item> listById(int itemId) {
         List<Item> ret = new ArrayList<>();
-        for (Item item : list()) {
-            if (item.getItemId() == itemId) {
-                ret.add(item);
+        Collection<Item> items = list();
+        for (Item item : items) {
+            if (item.getExpiration() == -1) {
+                if (item.getItemId() == itemId) {
+                    ret.add(item);
+                }
             }
         }
         
