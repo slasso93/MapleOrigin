@@ -904,7 +904,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                         } else if (monster.getStats().getEffectiveness(Element.LIGHTING) == ElementalEffectiveness.STRONG) {
                             monsterSpecificDmgMult *= 0.95 - wkChargeLevel * 0.015;
                         }
-                    } else if (wkChargeId == Paladin.BW_HOLY_CHARGE || wkChargeId == Paladin.SWORD_HOLY_CHARGE) {
+                    } else if (wkChargeId == Paladin.BW_HOLY_CHARGE || wkChargeId == Paladin.SWORD_HOLY_CHARGE || wkChargeId == DawnWarrior.SOUL_CHARGE) {
                         if (monster.getStats().getEffectiveness(Element.HOLY) == ElementalEffectiveness.WEAK) {
                             monsterSpecificDmgMult *= 1.20 + wkChargeLevel * 0.015;
                         } else if (monster.getStats().getEffectiveness(Element.HOLY) == ElementalEffectiveness.STRONG) {
@@ -926,7 +926,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
 
             if (ret.skill != 0) {
                 Skill skill = SkillFactory.getSkill(ret.skill);
-                if (skill.getElement() != Element.NEUTRAL && chr.getBuffedValue(MapleBuffStat.ELEMENTAL_RESET) == null && chr.getBuffEffect(MapleBuffStat.WK_CHARGE) == null) {
+                if (chr.getBuffedValue(MapleBuffStat.ELEMENTAL_RESET) == null) {
                     // The skill has an element effect, so we need to factor that in.
                     if (monster != null) {
                         ElementalEffectiveness eff = monster.getElementalEffectiveness(skill.getElement());
@@ -1010,14 +1010,14 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
 
                 boolean skipBan = false;
                 if (monster != null) {
-                    if (monster.isTempestFreeze()) {
-                        hitDmg = monster.getMaxHp();
-                    }
-
                     MonsterStatusEffect matkBuff = monster.getStati(MonsterStatus.MAGIC_ATTACK_UP);
                     if (matkBuff != null && matkBuff.getMobSkill() != null && matkBuff.getMobSkill().getSkillId() == 111) { // mob skill 111 buffs magic attack by x but increases damage taken from physical by 1.3x
                         hitDmg *= matkBuff.getMobSkill().getX() / 100.0;
-                        skipBan = true;
+                        skipBan = true; // TODO: this doesnt really work if the buff is still active on the client side but we removed it already
+                    }
+
+                    if (monster.isTempestFreeze()) {
+                        hitDmg = monster.getMaxHp();
                     }
 
                     if (monster.getStats().getFixedDamage() > 0) {
