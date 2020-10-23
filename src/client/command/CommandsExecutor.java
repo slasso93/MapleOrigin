@@ -295,6 +295,7 @@ public class CommandsExecutor {
         addCommand("loot", 2, LootCommand.class);
         addCommand("awardToMap", 2, AwardToMapCommand.class);
         addCommand("spreset", 2, SPReset.class);
+        addCommand("seducemap", 2, SeduceMapCommand.class);
         
         commandsNameDesc.add(levelCommandsCursor);
     }
