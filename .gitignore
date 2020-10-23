@@ -28,3 +28,6 @@ launch - Shortcut.lnk
 config.yaml
 *.yaml
 build.xml
+sql/databases.20201022-1908.sql
+build.xml
+config.yaml
