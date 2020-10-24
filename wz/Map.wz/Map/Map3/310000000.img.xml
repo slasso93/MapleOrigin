@@ -1254,6 +1254,7 @@
             <string name="pn" value="out00"/>
             <int name="hideTooltip" value="0"/>
             <int name="onlyOnce" value="0"/>
+			<string name="script" value="foxUnder170"/>
         </imgdir>
         <imgdir name="7">
             <int name="x" value="-1413"/>
