@@ -1011,9 +1011,10 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                 boolean skipBan = false;
                 if (monster != null) {
                     MonsterStatusEffect matkBuff = monster.getStati(MonsterStatus.MAGIC_ATTACK_UP);
-                    if (matkBuff != null && matkBuff.getMobSkill() != null && matkBuff.getMobSkill().getSkillId() == 111) { // mob skill 111 buffs magic attack by x but increases damage taken from physical by 1.3x
+                    if (matkBuff != null && matkBuff.getMobSkill() != null && (matkBuff.getMobSkill().getSkillId() == 111 ||
+                             matkBuff.getMobSkill().getSkillId() == 101 || matkBuff.getMobSkill().getSkillId() == 151)) { // mob skills for magic attack buffs magic attack by x but increases damage taken from neutral by x
                         hitDmg *= matkBuff.getMobSkill().getX() / 100.0;
-                        skipBan = true; // TODO: this doesnt really work if the buff is still active on the client side but we removed it already
+                        skipBan = true; // TODO: this doesnt really work atm.. if the buff is still active on the client side due to lag this flag stays false
                     }
 
                     if (monster.isTempestFreeze()) {
