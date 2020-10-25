@@ -1,9 +1,4 @@
 function start() {
-    status = -1;
-    action(1, 0, 0);
-}
-
-function action(mode, type, selection) {
-	cm.sendNext("Hello There");
-	cm.dispose();
+    cm.sendNext ("You want to hear a story? Okay. A long,long time ago...");
+    cm.dispose();
 }

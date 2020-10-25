@@ -11,7 +11,7 @@
         <int name="returnMap" value="310000100"/>
         <int name="town" value="0"/>
         <int name="version" value="10"/>
-        <int name="fieldLimit" value="0"/>
+        <int name="fieldLimit" value="64"/>
         <string name="onFirstUserEnter" value=""/>
         <string name="onUserEnter" value="enter_310000103"/>
         <int name="fly" value="0"/>

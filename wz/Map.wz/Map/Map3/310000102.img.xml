@@ -12,7 +12,7 @@
         <string name="mapMark" value="foxvillage"/>
         <int name="fly" value="0"/>
         <int name="hideMinimap" value="0"/>
-        <int name="fieldLimit" value="0"/>
+        <int name="fieldLimit" value="64"/>
         <int name="VRTop" value="-3261"/>
         <int name="VRLeft" value="-1127"/>
         <int name="VRBottom" value="-790"/>
