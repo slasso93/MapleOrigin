@@ -677,7 +677,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
             double tma = chr.getTotalMagic();
             double intStat = chr.getTotalInt();
             calcDmgMax = (((tma * tma / 1000.0) + tma) / 30.0 + intStat / 200.0) * elem;
-        } else if (ret.skill == 4001344 || ret.skill == NightWalker.LUCKY_SEVEN || ret.skill == NightLord.TRIPLE_THROW) {
+        } else if (ret.skill == 4001344 || ret.skill == NightWalker.LUCKY_SEVEN || ret.skill == NightLord.TRIPLE_THROW || ret.skill == NightWalker.TRIPLE_THROW) {
             calcDmgMax = chr.getTotalLuk() * 5.0 * chr.getTotalWatk() / 100.0;
         } else if (ret.skill == DragonKnight.DRAGON_ROAR) {
             calcDmgMax = (chr.getTotalStr() * 4.0 + chr.getTotalDex()) * chr.getTotalWatk() / 100.0;
