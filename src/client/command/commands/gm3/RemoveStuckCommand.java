@@ -21,29 +21,40 @@
 /*
    @Author: Arthur L - Refactored command content into modules
 */
-package client.command.commands.gm6;
+package client.command.commands.gm3;
 
-import client.command.Command;
-import client.MapleClient;
 import client.MapleCharacter;
+import client.MapleClient;
+import client.command.Command;
 import net.server.Server;
+import net.server.channel.Channel;
 import net.server.world.World;
 
-public class DCAllCommand extends Command {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RemoveStuckCommand extends Command {
     {
-        setDescription("Disconnect all players");
+        setDescription("Remove potential stuck clients");
     }
 
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
+        List<String> stuckChars = new ArrayList<>();
         for (World world : Server.getInstance().getWorlds()) {
             for (MapleCharacter chr : world.getPlayerStorage().getAllCharacters()) {
-                if (chr != null && chr.getClient() != null && !chr.isGM()) {
-                    chr.getClient().forceDisconnect();
+                if (chr != null && chr.getClient() == null) {
+                    stuckChars.add(chr.getName());
+                    world.removePlayer(chr);
                 }
             }
         }
-        player.message("All players successfully disconnected.");
+
+        if (stuckChars.size() > 0)
+            player.dropMessage(6, "Removed stuck players with null client: " + String.join(",", stuckChars));
+        else
+            player.dropMessage(6, "Nothing happened");
     }
+
 }
