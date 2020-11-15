@@ -1663,7 +1663,7 @@
         <string name="n1" value="Please hurry! There aren&apos;t many rooms left."/>
     </imgdir>
     <imgdir name="2001003">
-        <string name="name" value="Wen"/>
+        <string name="name" value="GM Wendy"/>
         <string name="n0" value="Come talk to me if you want NX items!"/>
         <string name="n1" value="You can try your luck at NX Gachapon here!"/>
         <string name="func" value="NX Gachapon (Armor)"/>
@@ -1674,7 +1674,7 @@
         <string name="n1" value="Everyone decorate your trees!"/>
     </imgdir>
     <imgdir name="2001006">
-        <string name="name" value="Kuma"/>
+        <string name="name" value="GM Kuma"/>
         <string name="n0" value="Come see what you can obtain with Event Trophies!"/>
         <string name="n1" value="Kill enough monsters and bring me the Event Trophies you find!"/>
         <string name="func" value="Trophy Exchange"/>
@@ -1693,7 +1693,7 @@
         <string name="h1" value="So what&apos;s my relationship with Roger? Hahaha...he&apos;s my older brother!"/>
     </imgdir>
     <imgdir name="2002000">
-        <string name="name" value="Nat"/>
+        <string name="name" value="GM Nat"/>
         <string name="n0" value="Come talk to me if you want NX items!"/>
         <string name="n1" value="You can try your luck at NX Gachapon here!"/>
         <string name="func" value="NX Gachapon (Weapon)"/>
@@ -3661,7 +3661,7 @@
         <string name="s1" value="These potions are made from the finest ingredients. These are perfect for restoring your health!"/>
     </imgdir>
     <imgdir name="2093003">
-        <string name="name" value="Mr. Gong"/>
+        <string name="name" value="GM Allen"/>
         <string name="func" value="Storage Keeper"/>
         <string name="n0" value="You need a place to store your items and mesos? This is just the place for you!"/>
         <string name="n1" value="My storage is safe and secure, so no worries!"/>
@@ -4967,7 +4967,7 @@
         <string name="n1" value="Hope you all have a wonderful day today"/>
     </imgdir>
     <imgdir name="9010002">
-        <string name="name" value="Mia"/>
+        <string name="name" value="GM Glasse"/>
         <string name="n0" value="Hey all!"/>
         <string name="n1" value="Hope you all have a wonderful day today"/>
         <string name="func" value="Misc. Shop"/>
@@ -5048,7 +5048,7 @@
         <string name="n1" value="Go inside, and you&apos;ll see plenty of delicious cheese inside!"/>
     </imgdir>
     <imgdir name="9010016">
-        <string name="name" value="Strider"/>
+        <string name="name" value="GM Strider"/>
         <string name="n0" value="Hey, come look at the rewards you can get from voting!"/>
         <string name="n1" value="Remember to vote for MapleOrigin on our website for points. Talk to me when you have voted!"/>
         <string name="func" value="Vote Shop"/>
@@ -5089,7 +5089,7 @@
         <string name="n1" value="You can always get out of here through me."/>
     </imgdir>
     <imgdir name="9030000">
-        <string name="name" value="Fredrick"/>
+        <string name="name" value="GM Miri"/>
         <string name="func" value="Store Banker"/>
         <string name="s0" value="For everyone that have their employee&apos;s contract expired, come reclaim your items and mesos here!"/>
     </imgdir>
@@ -8341,9 +8341,9 @@
         <string name="n1" value="Are you asking me if I can see in front of me? Of course I can!"/>
     </imgdir>
     <imgdir name="1200002">
-        <string name="name" value="Puri Puri"/>
+        <string name="name" value="GM Kris"/>
         <string name="func" value="Donor Shop"/>
-        <string name="n0" value="Potions that look good taste good as well."/>
+        <string name="n0" value="Exchange your Donor Points Here!"/>
         <string name="n1" value="I have EVERYTHING you need here. Just take a look around, and you&apos;ll know what I mean!"/>
     </imgdir>
     <imgdir name="1200003">
@@ -9415,7 +9415,7 @@
         <string name="n0" value="I am /name, who has reached Lv. 200."/>
     </imgdir>
     <imgdir name="9000069">
-        <string name="name" value="Inkwell"/>
+        <string name="name" value="GM Lilac"/>
         <string name="d0" value="Honestly, most people these days lack pure soul. It&apos;s so rare now."/>
         <string name="d1" value="Music is the echo of your soul! Your true self! Your spirit! That&apos;s what I need!"/>
         <string name="n0" value="Woohoo!!! The most important thing is your spirit!"/>
@@ -10029,5 +10029,17 @@
         <string name="name" value="Fox God"/>
         <string name="d0" value="The Fox God is in a very deep sleep."/>
         <string name="d1" value="The Fox God is deep in contemplation."/>
+    </imgdir>
+    <imgdir name="9000071">
+        <string name="func" value="Event NPC"/>
+        <string name="n0" value="Join in on the latest event!"/>
+        <string name="n1" value="Remember to participate in all our events! Don&apos;t miss out!"/>
+        <string name="name" value="GM Jake"/>
+    </imgdir>
+    <imgdir name="9000072">
+        <string name="func" value="Premium NX Exchange"/>
+        <string name="n0" value="You can try your luck at the Premium NX Exchange!"/>
+        <string name="n1" value="Talk to me if you feel lucky!"/>
+        <string name="name" value="GM Mato"/>
     </imgdir>
 </imgdir>
