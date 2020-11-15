@@ -25,7 +25,9 @@
  * @npc: Romeo & Juliet
  * @func: MagatiaPQ exit
 */
-
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
 var status;
  
 function start() {
@@ -56,6 +58,11 @@ function action(mode, type, selection) {
                         }
                 } else {
                         if (eim.giveEventReward(cm.getPlayer())) {
+								if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
+									cm.sendOk("Your inventory is full! Please make room and try again."); 
+								} else {
+									cm.gainItem(4001435, 30);
+								}
                                 cm.warp((eim.getIntProperty("isAlcadno") == 0) ? 261000011 : 261000021);
                         } else {
                                 cm.sendOk("Please free a slot on one of your inventories before receiving your reward.");

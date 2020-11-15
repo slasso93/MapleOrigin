@@ -24,8 +24,13 @@
  * Arturo
 	Abandoned Tower <Determine to Adventure> (922011100)
 	Gives LudiPQ Reward.
+	
+	Version 2 (Origin Fall Event)
+	@author Kris
  */
- 
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
 function start() {
     status = -1;
     action(1, 0, 0);
@@ -47,7 +52,12 @@ function action(mode, type, selection) {
                         if(!eim.giveEventReward(cm.getPlayer())) {
                                 cm.sendNext("It seems you don't have a free slot in either your #rEquip#k, #rUse#k or #rEtc#k inventories. Please make some room and try again.");
                         } else {
+								if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
+									cm.sendOk("Your inventory is full! Please make room and try again."); 
+								} else {
+								cm.gainItem(4001435, 25);
                                 cm.warp(221024500);
+								}
                         }
 
                         cm.dispose();

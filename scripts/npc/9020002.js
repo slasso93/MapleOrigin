@@ -28,7 +28,11 @@
 	1.0 - First Version by Xterminator
 ---------------------------------------------------------------------------------------------------
 **/
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
 
+var fallEvent = 0;
 var status;
 
 function start() {
@@ -56,11 +60,22 @@ function action(mode, type, selection){
             var outText = "Once you leave the map, you'll have to restart the whole quest if you want to try it again.  Do you still want to leave this map?";
             if (mapId == 103000805) {
                 outText = "Are you ready to leave this map?";
-            }
-            cm.sendYesNo(outText);
-        } else if (mode == 1) {
-            cm.warp(103000890, "st00"); // Warp player
+				fallEvent = 1;
+				cm.sendYesNo(outText);
+            } else {
+				cm.sendYesNo(outText);
+			}
+        } else if (mode == 1 && fallEvent ==1) {
+			if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
+				cm.sendOk("Your inventory is full! Please make room and try again."); 
+			} else {
+				cm.gainItem(4001435, 10);
+				cm.warp(103000890, "st00"); // Warp player
+				cm.dispose();
+			}
+        } else if (mode == 1){
+			cm.warp(103000890, "st00"); // Warp player
             cm.dispose();
-        }
+		}
     }
 }
