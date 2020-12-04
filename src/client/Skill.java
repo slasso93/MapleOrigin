@@ -33,6 +33,7 @@ public class Skill {
     private int animationTime;
     private int job;
     private boolean action;
+    private boolean invisible;
 
     public Skill(int id) {
         this.id = id;
@@ -107,5 +108,13 @@ public class Skill {
     
     public void addLevelEffect(MapleStatEffect effect) {
         effects.add(effect);
+    }
+
+    public boolean isInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(boolean invisible) {
+        this.invisible = invisible;
     }
 }

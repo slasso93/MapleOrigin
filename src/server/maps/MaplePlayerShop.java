@@ -529,7 +529,12 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
             chr.dropMessage(1, "You have been banned from this store.");
             return false;
         }
-        
+
+        if ((chr.hasGroup() && !this.owner.hasGroup()) || (!chr.hasGroup() && this.owner.hasGroup())) {
+            chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
+            return false;
+        }
+
         visitorLock.lock();
         try {
             if(!open.get()) {

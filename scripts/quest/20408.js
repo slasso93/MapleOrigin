@@ -18,6 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+importPackage(Packages.client);
+
 var status = -1;
 
 function start(mode, type, selection) { // missing script for questid found thanks to Lost(tm)
@@ -54,7 +56,10 @@ function start(mode, type, selection) { // missing script for questid found than
             
             qm.forceStartQuest();
             qm.forceCompleteQuest();
-            
+            if (qm.getJobId() == 1212) {
+                qm.getPlayer().changeSkillLevel(SkillFactory.getSkill(12111006), 0, 30, -1)
+            }
+
             qm.sendOk("#h0#. For courageously battling the Black Mage, I will appoint you as the new Chief Knight of Cygnus Knights from this moment onwards. Please use your power and authority wisely to help protect the citizens of Maple World.");
         } else if (status == 4) {
             qm.dispose();

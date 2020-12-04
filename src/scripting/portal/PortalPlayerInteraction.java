@@ -49,43 +49,6 @@ public class PortalPlayerInteraction extends AbstractPlayerInteraction {
         MapScriptManager msm = MapScriptManager.getInstance();
         msm.runMapScript(c, "onUserEnter/" + portal.getScriptName(), false);
     }
-
-    public boolean hasLevel30Character() {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection con = null;
-        try {
-            con = DatabaseConnection.getConnection();
-            ps = con.prepareStatement("SELECT `level` FROM `characters` WHERE accountid = ?");
-            ps.setInt(1, getPlayer().getAccountID());
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                if (rs.getInt("level") >= 30) {
-                    ps.close();
-                    rs.close();
-                    return true;
-                }
-            }
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        } finally {
-            try {
-                if (ps != null && !ps.isClosed()) {
-                    ps.close();
-                }
-                if (rs != null && !rs.isClosed()) {
-                    rs.close();
-                }
-                if (con != null && !con.isClosed()) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        
-        return getPlayer().getLevel() >= 30;
-    }
     
     public void blockPortal() {
         c.getPlayer().blockPortal(getPortal().getScriptName());

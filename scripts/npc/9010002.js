@@ -1,34 +1,35 @@
 /*
-Credits go to Travis of DeanMS ( xKillsAlotx on RaGEZONE)
-Item Exchanger for scrolls
-Modified by SharpAceX (Alan) for MapleSolaxia
+@author slasso
 Mia Trophy NPC
 */
 
 importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
 
 var status = 0;
-var trophy = 4000038;
-var chairs = new Array(3010000, 3010001, 3010002, 3010003, 3010004, 3010005, 3010006, 3010007, 3010008, 3010009, 3010010, 3010011, 3010012, 3010013, 3010015, 3010016, 3010017, 3010018, 3010019, 3010022, 3010023, 3010024, 3010025, 3010026, 3010028, 3010040, 3010041, 3010043, 3010045, 3010046, 3010047, 3010057, 3010058, 3010060, 3010061, 3010062, 3010063, 3010064, 3010065, 3010066, 3010067, 3010069, 3010071, 3010072, 3010073, 3010080, 3010081, 3010082, 3010083, 3010084, 3010085, 3010097, 3010098, 3010099, 3010101, 3010106, 3010116, 3011000, 3012005, 3012010, 3012011, 3010038, 3010161, 3010175, 3010177, 3010191, 3010225, 03010230, 3010299, 3010457, 3010459, 3010490, 3010491, 3010492, 3010529, 011000, 018001, 3018002, 3018004, 3018006, 3019095);
-var scrolls = new Array(2040603, 2044503, 2041024, 2041025, 2044703, 2044603, 2043303, 2040807, 2040806, 2040006, 2040007, 2043103, 2043203, 2043003, 2040506, 2044403, 2040903, 2040709, 2040710, 2040711, 2044303, 2043803, 2040403, 2044103, 2044203, 2044003, 2043703);
-var weapons = new Array(1302020, 1302030, 1302033, 1302058, 1302064, 1302080, 1312032, 1322054, 1332025, 1332055, 1332056, 1372034, 1382009, 1382012, 1382039, 1402039, 1412011, 1412027, 1422014, 1422029, 1432012, 1432040, 1432046, 1442024, 1442030, 1442051, 1452016, 1452022, 1452045, 1462014, 1462019, 1462040, 1472030, 1472032, 1472055, 1482020, 1482021, 1482022, 1492020, 1492021, 1492022, 1092030, 1092045, 1092046, 1092047);
+var selectedItem;
 
-var relaunchItemsExpire90 = {
-	1812000: 1, // Meso Magnet
-	1812001: 1, // Item Pouch
-	1812002: 1, // Auto HP Potion Pouch
-	1812003: 1, // Auto MP Potion Pouch
-	1812004: 1, // Wing Boots
-	1812005: 1, // Binoculars
-	5122000: 40, // Hearty Party Bear weather
-	5041000: 20, // VIP Teleport Rock
-	5130000: 20, // Safety Charm
-	5510000: 20, // Wheel of Destiny
-	5220020: 3 //NX gachapon tickets
-};
+var commonChairs = [3010085, 3010156, 3010049, 3010050, 3010054, 3010058, 3010099, 3012008, 3010130, 3010139, 3010219, 3010256, 3010299, 3010491, 3010490, 3010599, 3010615, 3010703, 3010798, 3012006, 3012016, 3013000];
+var uncommonChairs = [3015229, 3010766, 3015228, 3015314, 3015416, 3015423, 3018002, 3018004, 3018006, 3019095, 3015425, 3015500, 3015628, 3015639, 3015640, 3015641, 3015759, 3015818, 3015962, 3016405, 3016406]; 
+var rareChairs = [3016407, 3015035, 3015000, 3010754, 3018361, 3019207, 3019210, 3019223, 3019864, 3019890, 3019891, 3010752, 3010164, 3010574, 3010609, 3010634, 3010721, 3010726, 3010728, 3010743, 3010840, 3015089];
+var urareChairs = [3015091, 3015306, 3019905, 3019904, 3019903, 3019902, 3015305, 3015279, 3015264, 3015241, 3015175, 3015092, 3010661, 3019859, 3015228, 3013003, 3013004];
 
-var relaunchItemsPerm = [5450000, 1802040, 1802041, 1802069, 1022048, 3010670]; // miu miu, pets equips (tiny fright, sadness, envy), transparent eye, Crimson Queen's Throne
-var relaunchPets = [5000040, 5000043, 5000046]; // vile metus, dire mors, wild invidia,
+var relaunchItems = [
+    {id: 1142647 }, // origin medal
+    {id: 5450000, expiration: 1 } // 1 day miu miu
+
+];
+
+var downtimeEXP = [
+    {id: 5211048, expiration: 3 }, // 2x exp (3 hour)
+
+];
+
+var downtimeDROP = [
+    {id: 5360042, expiration: 3 } // 2x drop (3 hour)
+
+];
 
 function start() {
 	status = -1;
@@ -46,228 +47,277 @@ function action(mode, type, selection) {
 		else
 			status--;
 		if (status == 0) {
-			cm.sendSimple("Hello #b#e#h ##n#k, you currently have #r#c4000038##b #e#z4000038##n.#k \r\nWhat would you like to do?\r\n#k#L13# Buy #r1#k #b#e#z2049117##n#k for #r450mil#k #b#eMesos#n#k #l\r\n#L1# Buy #r5,000#k #b#eNX#n#k for #r5mil#k #b#eMesos#n#k #l\r\n#L2# Trade #r5#k #b#e#z4000038##n#k for #r1 random#k #b#echair#n#k #l\r\n#L3# Trade #r1#k #b#e#z4000038##n#k for #r2 random#k #e#bMaple Weapons#n#k #l\r\n#L4#Trade #r1#k #b#e#z4000038##n#k for a #e#b#z5030001##n#k#l\r\n#L5#Trade #r50#k #e#b#z4000038##n#k for #r1#k #e#b#z4001168##n#k #l#l\r\n#L7#Trade #r10#k #e#b#z4000038##n#k for #r1#k #b#e#z1472063##n#k for use in the Happyville raid! #l\r\n#L9#Trade #r10#k #b#e#z5072000##n#k for #r1#k #b#e#z5076000##n#k #l\r\n#L11# Buy #r1#k #b#eNX Gachapon Ticket#n#k for #r20,000#k #b#eNX#n#k \r\n#k#L12# Buy #r12#k #b#eNX Gachapon Ticket#n#k for #r200,000#k #b#eNX#n#k#l\r\n#n#k#l");
+			cm.sendSimple("Hello #b#e#h ##n#k!\r\nWhat would you like to do?\r\n" +
+			"#L1#Buy #r1 #b#e#z2049117##n#k for #r450mil #b#eMesos#n#k#l\r\n" +
+			"#L2#Buy #r5,000 #b#eNX#n#k for #r5mil #b#eMesos#n#k#l\r\n" +
+			"#L11#Buy #r100k #b#eNX#n#k for #r100mil #b#eMesos#n#k#l\r\n" +
+			"#L3#Buy a #b#erandom chair#n#k for #r10mil #b#eMesos#n#k#l\r\n" +
+			"#L4#Buy #r1 #b#e#z5072000##n#k for #r1mil #b#eMesos#n#k#l\r\n" +
+			"#L5#Trade #r10 #b#e#z5072000##n#k for #r1 #b#e#z5076000##n#k#l\r\n" +
+			"#L12#Trade #r100 #b#e#z5072000##n#k for #r10 #b#e#z5076000##n#k#l\r\n" +
+			"#L6#Buy #r1 #b#eNX Gachapon Ticket#n#k for #r20,000 #b#eNX#n#k#l\r\n" +
+			"#L7#Buy #r12 #b#eNX Gachapon Ticket#n#k for #r200,000 #b#eNX#n#k#l\r\n" +
+			"#L8#Redeem your #e#bwipe hype#n#k starter pack!#l\r\n"
+			//"#L9#Redeem your #e#bdowntime compensation 3h (EXP)#n#k#l\r\n" +
+			//"#L10#Redeem your #e#bdowntime compensation 3h (Drop)#n#k#l\r\n"
+			);
 		} else if (status == 1) {
+		    selectedItem = selection;
 			if (selection == 1) {
-				if (cm.getMeso() >= 5000000) {
-					cm.gainMeso(-5000000);
-					cm.getPlayer().getCashShop().gainCash(1, 5000);
-					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 5,000 NX"));
-
-					cm.sendOk("Here is your 5,000 NX!");
-					cm.logLeaf("5k NX");
-				} else {
-					cm.sendOk("Sorry, you don't have enough mesos!");
-				}
-				cm.dispose();
+			    cm.sendYesNo("Are you sure you want to buy #r1 #b#e#z2049117##n#k for #r450mil #b#eMesos#n#k?")
 			} else if (selection == 2) {
-				if (cm.haveItem(trophy, 5)) {
-					var chair1 = chairs[Math.floor(Math.random() * chairs.length)];
-					if (cm.canHold(chair1)) {
-						cm.gainItem(trophy, -5);
-						cm.gainItem(chair1);
-
-						cm.sendOk("Here is your random chair!");
-						cm.logLeaf("Chair ID: " + chair1);
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold this chair!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't enough Event Trophies!");
-				}
-				cm.dispose();
+			    cm.sendYesNo("Are you sure you want to buy #r5,000 #b#eNX#n#k for #r5mil #b#eMesos#n#k?")
+			} else if (selection == 11) {
+			    cm.sendYesNo("Are you sure you want to buy #r100,000 #b#eNX#n#k for #r100mil #b#eMesos#n#k?")
 			} else if (selection == 3) {
-				if (cm.haveItem(trophy, 1)) {
-					var weapon1 = weapons[Math.floor(Math.random() * weapons.length)];
-					var weapon2 = weapons[Math.floor(Math.random() * weapons.length)];
-					var weapon3 = weapons[Math.floor(Math.random() * weapons.length)];
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(1)) {
-						cm.gainItem(trophy, -1);
-						cm.gainItem(weapon1, 1, true, true);
-						cm.gainItem(weapon2, 1, true, true);
-						//cm.gainItem(weapon3, 1, true, true);
-
-						cm.sendOk("Here are your 2 random weapons!");
-						cm.logLeaf("Maple Weapons IDs: " + weapon1 + "," + weapon2 + "," + weapon3);
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold these weapons!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't have an Event Trophy!");
-				}
-				cm.dispose();
-
-			} else if (selection == 4) {
-				if (cm.haveItem(trophy, 1)) {
-					if (!cm.haveItem(5030000, 1)) {
-						if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(1)) {
-							cm.gainItem(trophy, -1);
-							cm.gainItem(5030000, 1, false, true, 1000 * 60 * 60 * 24 * 10);
-							//cm.gainItem(trophy, -1);
-							cm.sendOk("Here is your Hired Merchant!");
-							cm.logLeaf("10 day hired merchant");
-						} else {
-							cm.sendOk("Please make sure you have enough space to hold these items!");
-						}
-					} else {
-						cm.sendOk("I can't give you a merchant if you already have one!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't have an Event Trophy!");
-				}
-				cm.dispose();
-			} else if (selection == 8) {
-				if (cm.getPlayer().getRewardPoints() == 1) {
-					var expires = 1000 * 60 * 60 * 4; // 4 hours
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(0)) {
-						cm.getPlayer().setRewardPoints(0);
-						cm.gainItem(5360042, 1, false, true, expires);
-					
-					} else {
-						cm.sendOk("Please make sure you have enough space to receive your reward!");
-					}
-				}
-				/*if (cm.haveItem(4000492, 1) ||
-				    (cm.getPlayer().getRewardPoints() == 1 && !(cm.haveItem(5000040) || cm.haveItem(5000043) || cm.haveItem(5000046)))) {
-
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(13) &&
-						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(0) &&
-						!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(7)) {
-						var expires = 1000 * 24 * 60 * 60 * 90; // 90 days
-						if (cm.haveItem(4000492, 1))
-						    cm.gainItem(4000492, -1);
-						else
-							cm.getPlayer().setRewardPoints(0);
-
-						for (var key in relaunchItemsExpire90) {
-							cm.gainItem(parseInt(key), relaunchItemsExpire90[key], false, true, expires);
-						}
-						for (var i = 0; i < 4; i++)
-							cm.gainItem(1112908, 1, false, true, expires); // for some reason you cant do 4 equips in one (aura rings)
-
-						for (var i in relaunchItemsPerm)
-							cm.gainItem(relaunchItemsPerm[i], 1);
-						for (var i in relaunchPets)
-							cm.gainItem(relaunchPets[i], 1, false, true, 10 * 365 * 1000 * 24 * 60 * 60); // dry up in 10 year
-
-						cm.sendOk("WIPE HYPE! Here are your item! Thanks for staying with MapleOrigin through the wipe. Happy Mapling!");
-						cm.logLeaf("relaunch redemption");
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold these items!");
-					}
-				}*/ else {
-					//cm.sendOk("Sorry, you don't have a Certificate of Great Tester! Contact Light or slasso via discord to verify tester status.");
-					cm.sendOk("Sorry, you've already claimed this reward");
-				}
-				cm.dispose();
-			} else if (selection == 9) {
-				if (cm.haveItem(5072000, 10)) {
-					var itemsmega = 5076000;
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
-						//cm.gainItem(itemsmega, 1);
-						cm.gainItem(5072000, -10);
-						cm.gainItem(itemsmega, 1);
-						cm.sendOk("Here is your Item Smega! Enjoy!");
-						cm.logLeaf("1 Smega");
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold these items!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't have enough megaphones.");
-				}
-				cm.dispose();
-			} else if (selection == 7) {
-				if (cm.haveItem(trophy, 10)) {
-					var magicmitten = 1472063;
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
-						cm.gainItem(trophy, -10);
-						cm.gainItem(magicmitten, 1);
-						//cm.gainItem(trophy, -10);
-						cm.sendOk("Here is your magic mitten! Enjoy the Happyville Raid!!");
-						cm.logLeaf("1 Magic Mitten");
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold these items!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't have enough Event Trophies!");
-				}
-				cm.dispose();
+			    cm.sendYesNo("Are you sure you want to buy a #b#erandom chair#n#k for #r10mil #b#eMesos#n#k?")
+            } else if (selection == 4) {
+			    cm.sendYesNo("Are you sure you want to buy #r1 #b#e#z5072000##n#k for #r1mil #b#eMesos#n#k?")
+            } else if (selection == 5) {
+			    cm.sendYesNo("Are you sure you want to trade #r10 #b#e#z5072000##n#k for #r1 #b#e#z5076000##n#k?")
+			} else if (selection == 12) {
+			    cm.sendYesNo("Are you sure you want to trade #r100 #b#e#z5072000##n#k for #r10 #b#e#z5076000##n#k?")
 			} else if (selection == 6) {
-				if (cm.haveItem(trophy, 50)) {
-					var eyeoffire = 4001017;
-					if (!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
-						cm.gainItem(trophy, -50);
-						cm.gainItem(eyeoffire, 1);
-						//cm.gainItem(trophy, -50);
-						cm.sendOk("Here is your eye of fire!");
-						cm.logLeaf("1 Eye of Fire");
-					} else {
-						cm.sendOk("Please make sure you have enough space to hold these items!");
-					}
-				} else {
-					cm.sendOk("Sorry, you don't have enough Event Trophies!");
-				}
-				cm.dispose();
-			} else if (selection == 10) {
-				if (cm.getPlayer().usedFullSpReset()) {
-					cm.sendOk("You've already used your one time SP reset!");
-				} else if (cm.getMeso() < 10000000) {
-					cm.sendOk("Sorry, you don't enough mesos!");
-				} else if (cm.getPlayer().getLevel() < 120) {
-					cm.sendOk("You need to be at least level 120 to use my service!");
-				} else {
-					cm.getPlayer().resetSP();
-					cm.gainMeso(-10000000);
-					cm.sendOk("Enjoy your fresh start!");
-				}
-				cm.dispose();
-			} 
-			else if (selection == 11) {
-				if (cm.getPlayer().getCashShop().getCash(1) >= 20000) {
-					//cm.gainMeso(-5000000);
-					//cm.getPlayer().getCashShop().gainCash(1, 5000);
-					cm.getPlayer().getCashShop().gainCash(1, -20000);
-					cm.gainItem(5220020, 1);
-					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have paid 20,000 NX"));
-
-					cm.sendOk("Here is your NX Gachapon ticket!");
-					cm.logLeaf("1 NX Gachapon");
-				} else {
-					cm.sendOk("Sorry, you don't have enough NX!");
-				}
-				cm.dispose();
-			}
-			else if (selection == 12) {
-				if (cm.getPlayer().getCashShop().getCash(1) >= 200000) {
-					//cm.gainMeso(-5000000);
-					//cm.getPlayer().getCashShop().gainCash(1, 5000);
-					cm.getPlayer().getCashShop().gainCash(1, -200000);
-					cm.gainItem(5220020, 12);
-					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have paid 200,000 NX"));
-
-					cm.sendOk("Here is your NX Gachapon ticket bundle!!");
-					cm.logLeaf("12 NX Gachapon");
-				} else {
-					cm.sendOk("Sorry, you don't have enough NX!");
-				}
-				cm.dispose();
-			} else if (selection == 13) {
-				if (cm.getMeso() >= 450000000) {
+			    cm.sendYesNo("Are you sure you want to buy #r1 #b#eNX Gachapon Ticket#n#k for #r20,000 #b#eNX#n#k?")
+            } else if (selection == 7) {
+			    cm.sendYesNo("Are you sure you want to buy #r12 #b#eNX Gachapon Ticket#n#k for #r200,000 #b#eNX#n#k?")
+            } else if (selection == 8) {
+			    cm.sendYesNo("Are you sure you want to redeem your #e#bwipe hype#n#k starter pack?")
+            } else if (selection == 9) {
+			    cm.sendYesNo("#r#e**WARNING**\r\nTHIS COUPON WILL ACTIVATE IMMEDIATELY UPON REDEEMING!#n#k\r\nAre you sure you want to redeem #r1 #e#bdowntime compensation 3h (EXP)")
+            } else if (selection == 10) {
+			    cm.sendYesNo("#r#e**WARNING**\r\nTHIS COUPON WILL ACTIVATE IMMEDIATELY UPON REDEEMING!#n#k\r\nAre you sure you want to redeem #r1 #e#bdowntime compensation 3h (Drop)?")
+            }
+        } else if (status == 2) {
+			if (selectedItem == 1) {
+			    if (cm.getMeso() < 450000000) {
+                    cm.sendOk("Sorry, you do not have enough #b#eMesos#n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(2049117)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
 					cm.gainMeso(-450000000);
 					cm.gainItem(2049117, 1);
 					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 1 Innocence Scroll 90%"));
 
 					cm.sendOk("Here is your Innocence Scroll 90%!");
 					cm.logLeaf("Innocence Scroll 90%");
-				} else {
-					cm.sendOk("Sorry, you don't have enough mesos!");
-				}
-				cm.dispose();
-			}
-			else {
-				cm.sendOk("Come back later!");
-				cm.dispose();
-			}
-		}
-	}
+                }
+			} else if (selectedItem == 2) {
+			    if (cm.getMeso() < 5000000) {
+                    cm.sendOk("Sorry, you do not have enough #b#eMesos#n#k to make this purchase.");
+                } else {
+					cm.gainMeso(-5000000);
+					cm.getPlayer().getCashShop().gainCash(1, 5000);
+					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 5,000 NX"));
+
+					cm.sendOk("Here is your 5,000 NX!");
+					cm.logLeaf("5k NX");
+                }
+			}else if (selectedItem == 11) {
+			    if (cm.getMeso() < 100000000) {
+                    cm.sendOk("Sorry, you do not have enough #b#eMesos#n#k to make this purchase.");
+                } else {
+					cm.gainMeso(-100000000);
+					cm.getPlayer().getCashShop().gainCash(1, 100000);
+					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 100,000 NX"));
+
+					cm.sendOk("Here is your 100,000 NX!");
+					cm.logLeaf("100k NX");
+                }
+			} else if (selectedItem == 3) {
+			    if (cm.getMeso() < 10000000) {
+                    cm.sendOk("Sorry, you do not have enough #b#eMesos#n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(MapleInventoryType.SETUP).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {				
+					var rarity = "";
+					var roll = getRandom(0, 10); // random number from 0-10 to decide which array to choose from
+					var item = -1;
+					if (roll >= 0 && roll <= 4) {
+						rarity = "a #r#ecommon#n#k";
+						item = commonChairs[getRandom(0, commonChairs.length - 1)];
+					} else if (roll >= 5 && roll <= 7) {
+						rarity = "an #r#euncommon#n#k";
+						item = uncommonChairs[getRandom(0, uncommonChairs.length - 1)];
+					} else if (roll >= 8 && roll <= 9) {
+						rarity = "a #r#erare#n#k";
+						item = rareChairs[getRandom(0, rareChairs.length - 1)];
+					} else if (roll == 10) {
+						rarity = "an #r#eultra rare#n#k";
+						item = urareChairs[getRandom(0, urareChairs.length - 1)];
+					}
+					
+					if (item != -1) {	
+						cm.gainMeso(-10000000);
+						cm.gainItem(item, 1);
+						cm.sendOk("Congratulations!#n#k You have obtained " + rarity + " chair!\r\n#e#b#v" + item + "# #z" + item + "#");
+						cm.logLeaf("Chair ID: " + item);
+					}
+                }
+			} else if (selectedItem == 4) {
+			    if (cm.getMeso() < 1000000) {
+                    cm.sendOk("Sorry, you do not have enough #b#eMesos#n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(5072000)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
+					cm.gainMeso(-1000000);
+					cm.gainItem(5072000, 1);
+					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 1 Super Megaphone"));
+
+					cm.sendOk("Here is your Super Megaphone!");
+					cm.logLeaf("Super Megaphone");
+                }
+            } else if (selectedItem == 5) {
+			    if (!cm.haveItem(5072000, 10)) {
+                    cm.sendOk("Sorry, you do not have enough #b#e#z5072000##n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(5076000)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
+					cm.gainItem(5072000, -10);
+					cm.gainItem(5076000, 1);
+					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 10 Item Megaphone"));
+
+					cm.sendOk("Here is your 1 Item Megaphone!");
+					cm.logLeaf("1 Item Megaphone");
+                }
+			} else if (selectedItem == 12) {
+			    if (!cm.haveItem(5072000, 100)) {
+                    cm.sendOk("Sorry, you do not have enough #b#e#z5072000##n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(5076000)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
+					cm.gainItem(5072000, -100);
+					cm.gainItem(5076000, 10);
+					cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 10 Item Megaphone"));
+
+					cm.sendOk("Here is your 10 Item Megaphone!");
+					cm.logLeaf("10 Item Megaphone");
+                }
+			} else if (selectedItem == 6) {
+			    if (cm.getPlayer().getCashShop().getCash(1) < 20000) {
+                    cm.sendOk("Sorry, you do not have enough #b#e#zMesos##n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(5220020)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
+					cm.getPlayer().getCashShop().gainCash(1, -20000);
+                    cm.gainItem(5220020, 1);
+                    cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have paid 20,000 NX"));
+
+                    cm.sendOk("Here is your NX Gachapon ticket!!");
+                    cm.logLeaf("1 NX Gachapon");
+                }
+            } else if (selectedItem == 7) {
+			    if (cm.getPlayer().getCashShop().getCash(1) < 200000) {
+                    cm.sendOk("Sorry, you do not have enough #b#e#zMesos##n#k to make this purchase.");
+                } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(5220020)).isFull(0)) {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                } else {
+					cm.getPlayer().getCashShop().gainCash(1, -200000);
+                    cm.gainItem(5220020, 12);
+                    cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have paid 200,000 NX"));
+
+                    cm.sendOk("Here is your NX Gachapon ticket bundle!!");
+                    cm.logLeaf("12 NX Gachapon");
+                }
+            } else if (selectedItem == 8) {
+                if (cm.getPlayer().getRewardPoints() != 1 && cm.getPlayer().getRewardPoints() != 3 && cm.getPlayer().getRewardPoints() != 5) {
+                    cm.sendOk("You are not eligible to receive this reward!");
+                } else {
+                    var canHoldAll = true;
+                    for (var i = 0; i < relaunchItems.length; i++) {
+                        if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(relaunchItems[i].id)).isFull(0)) {
+                            cm.sendOk("Your inventory is full! Please make room and try again.");
+                            canHoldAll = false;
+                            break;
+                        }
+                    }
+                    if (canHoldAll) {
+                        var itemStr = "";
+                        cm.getPlayer().setRewardPoints(cm.getPlayer().getRewardPoints() - 1);
+                        for (var i = 0; i < relaunchItems.length; i++) {
+                            cm.gainItem(relaunchItems[i].id, selectedItem.quantity || 1, false, true, (relaunchItems[i].expiration * 1000 * 60 * 60 * 24) || -1);
+                            itemStr += "#v" + relaunchItems[i].id + "##e#b#z" + relaunchItems[i].id + "##n#k\r\n";
+                        }
+
+                        cm.sendOk("Here is your #e#bwipe hype#n#k reward package! Enjoy your time here at MapleOrigin!\r\n" + itemStr);
+                    }
+                }
+            } else if (selectedItem == 9) { // exp
+                if (cm.getPlayer().getRewardPoints() != 2 && cm.getPlayer().getRewardPoints() != 3 && cm.getPlayer().getRewardPoints() != 4 && cm.getPlayer().getRewardPoints() != 5) {
+                    cm.sendOk("You are not eligible to receive this reward!");
+                } else {
+                    var canHoldAll = true;
+                    for (var i = 0; i < downtimeEXP.length; i++) {
+                        if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(downtimeEXP[i].id)).isFull(0)) {
+                            cm.sendOk("Your inventory is full! Please make room and try again.");
+                            canHoldAll = false;
+                            break;
+                        }
+                    }
+                    if (canHoldAll) {
+                        var itemStr = "";
+						if (cm.getPlayer().getRewardPoints() == 5)
+							cm.getPlayer().setRewardPoints(3);
+						if (cm.getPlayer().getRewardPoints() == 3)
+							cm.getPlayer().setRewardPoints(1);
+						if (cm.getPlayer().getRewardPoints() == 4)
+							cm.getPlayer().setRewardPoints(2);
+						else
+							cm.getPlayer().setRewardPoints(0);
+							
+                        for (var i = 0; i < downtimeEXP.length; i++) {
+                            cm.gainItem(downtimeEXP[i].id, selectedItem.quantity || 1, false, true, (downtimeEXP[i].expiration * 1000 * 60 * 60) || -1);
+                            itemStr += "#v" + downtimeEXP[i].id + "##e#b#z" + downtimeEXP[i].id + "##n#k\r\n";
+                        }
+
+                        cm.sendOk("Here is your #e#bdowntime compensation#n#k! We are sorry for the inconveniences!\r\n" + itemStr);
+                    }
+                }
+            } else if (selectedItem == 10) { // exp
+                if (cm.getPlayer().getRewardPoints() != 2 && cm.getPlayer().getRewardPoints() != 3 && cm.getPlayer().getRewardPoints() != 4 && cm.getPlayer().getRewardPoints() != 5) {
+                    cm.sendOk("You are not eligible to receive this reward!");
+                } else {
+                    var canHoldAll = true;
+                    for (var i = 0; i < downtimeDROP.length; i++) {
+                        if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(downtimeDROP[i].id)).isFull(0)) {
+                            cm.sendOk("Your inventory is full! Please make room and try again.");
+                            canHoldAll = false;
+                            break;
+                        }
+                    }
+                    if (canHoldAll) {
+                        var itemStr = "";
+						if (cm.getPlayer().getRewardPoints() == 5)
+							cm.getPlayer().setRewardPoints(3);
+						if (cm.getPlayer().getRewardPoints() == 3)
+							cm.getPlayer().setRewardPoints(1);
+						if (cm.getPlayer().getRewardPoints() == 4)
+							cm.getPlayer().setRewardPoints(2);
+						else
+							cm.getPlayer().setRewardPoints(0);
+							
+                        for (var i = 0; i < downtimeDROP.length; i++) {
+                            cm.gainItem(downtimeDROP[i].id, selectedItem.quantity || 1, false, true, (downtimeDROP[i].expiration * 1000 * 60 * 60) || -1);
+                            itemStr += "#v" + downtimeDROP[i].id + "##e#b#z" + downtimeDROP[i].id + "##n#k\r\n";
+                        }
+
+                        cm.sendOk("Here is your #e#bdowntime compensation#n#k! We are sorry for the inconveniences!\r\n" + itemStr);
+                    }
+                }
+            }
+			cm.dispose();
+        }
+    }
+}
+
+function getRandom(min, max) {
+    if (min > max) {
+        return(-1);
+    }
+
+    if (min == max) {
+        return(min);
+    }
+
+    return(min + parseInt(Math.random() * (max - min + 1)));
 }

@@ -31,13 +31,13 @@ var clearMap = 680000500;
 var minMapId = 680000100;
 var maxMapId = 680000401;
 
-var startMsgTime = 4;
-var blessMsgTime = 5;
+var startMsgTime = 1;
+var blessMsgTime = 2;
 
-var eventTime = 10;    // 10 minutes gathering
-var ceremonyTime = 20; // 20 minutes ceremony
-var blessingsTime = 15;// blessings are held until the 15th minute from the ceremony start
-var partyTime = 45;    // 45 minutes party
+var eventTime = 4;    // 4 minutes gathering
+var ceremonyTime = 8; // 8 minutes ceremony
+var blessingsTime = 5;// blessings are held until the 5th minute from the ceremony start
+var partyTime = 5;    // 5 minutes party
 
 var forceHideMsgTime = 10;  // unfortunately, EIM weddings don't send wedding talk packets to the server... this will need to suffice
 
@@ -81,7 +81,7 @@ function setup(level, lobbyid) {
         eim.setProperty("weddingId", "0");
         eim.setProperty("weddingStage", "0");   // 0: gathering time, 1: wedding time, 2: ready to fulfill the wedding, 3: just married
         eim.setProperty("guestBlessings", "0");
-        eim.setProperty("isPremium", "1");
+        eim.setIntProperty("isPremium", 0);
         eim.setProperty("canJoin", "1");
         eim.setProperty("groomId", "0");
         eim.setProperty("brideId", "0");

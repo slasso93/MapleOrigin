@@ -143,7 +143,7 @@ public class MapleStatEffect {
     private int x, y, mobCount, moneyCon, cooldown, morphId = 0, ghost, fatigue, berserk, booster;
     private double prop;
     private int itemCon, itemConNo;
-    private int damage, attackCount, fixdamage;
+    private int damage, attackCount, fixdamage, criticalDamage;
     private Point lt, rb;
     private short bulletCount, bulletConsume;
     private byte mapProtection;
@@ -481,6 +481,7 @@ public class MapleStatEffect {
         ret.y = MapleDataTool.getInt("y", source, 0);
 
         ret.damage = MapleDataTool.getIntConvert("damage", source, 100);
+        ret.criticalDamage = MapleDataTool.getIntConvert("criticalDamage", source, 100);
         ret.fixdamage = MapleDataTool.getIntConvert("fixdamage", source, -1);
         ret.attackCount = MapleDataTool.getIntConvert("attackCount", source, 1);
         ret.bulletCount = (short) MapleDataTool.getIntConvert("bulletCount", source, 1);
@@ -1352,6 +1353,7 @@ public class MapleStatEffect {
                 buff = MaplePacketCreator.givePirateBuff(localstatups, sourceid, seconds);
                 mbuff = MaplePacketCreator.giveForeignPirateBuff(applyto.getId(), sourceid, seconds, localstatups);
             } else if (isDs()) {
+                applyto.setLastDarkSightTime(System.currentTimeMillis());
                 List<Pair<MapleBuffStat, Integer>> dsstat = Collections.singletonList(new Pair<>(MapleBuffStat.DARKSIGHT, 0));
                 mbuff = MaplePacketCreator.giveForeignBuff(applyto.getId(), dsstat);
             } else if (isWw()) {
@@ -1963,6 +1965,10 @@ public class MapleStatEffect {
 
     public int getFixDamage() {
         return fixdamage;
+    }
+
+    public int getCriticalDamage() {
+        return criticalDamage;
     }
 
     public short getBulletCount() {

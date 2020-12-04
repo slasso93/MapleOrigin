@@ -222,7 +222,7 @@ public class MapleItemInformationProvider {
         } else if (itemId >= 1000000 && itemId < 1010000) {
             theData = eqpStringData;
             cat = "Eqp/Cap";
-        } else if (itemId >= 1102000 && itemId < 1103000) {
+        } else if (itemId >= 1102000 && itemId < 1104000) {
             theData = eqpStringData;
             cat = "Eqp/Cape";
         } else if (itemId >= 1040000 && itemId < 1050000) {
@@ -351,9 +351,17 @@ public class MapleItemInformationProvider {
         // thanks GMChuck for detecting player sensitive data being cached into getSlotMax
         if (ItemConstants.isThrowingStar(itemId)) {
             if(c.getPlayer().getJob().isA(MapleJob.NIGHTWALKER1)) {
-                ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(NightWalker.CLAW_MASTERY)) * 10;
+                Skill mastery = SkillFactory.getSkill(NightWalker.CLAW_MASTERY);
+                if (mastery != null && c.getPlayer().getSkillLevel(mastery) > 0) {
+                    MapleStatEffect eff = mastery.getEffect(c.getPlayer().getSkillLevel(mastery));
+                    ret += eff.getY();
+                }
             } else {
-                ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(Assassin.CLAW_MASTERY)) * 10;
+                Skill mastery = SkillFactory.getSkill(Assassin.CLAW_MASTERY);
+                if (mastery != null && c.getPlayer().getSkillLevel(mastery) > 0) {
+                    MapleStatEffect eff = mastery.getEffect(c.getPlayer().getSkillLevel(mastery));
+                    ret += eff.getY();
+                }
             }
         } else if (ItemConstants.isBullet(itemId)) {
             ret += c.getPlayer().getSkillLevel(SkillFactory.getSkill(Gunslinger.GUN_MASTERY)) * 10;
@@ -491,7 +499,7 @@ public class MapleItemInformationProvider {
         int pEntry = -1;
         MapleData pData = item.getChildByPath("info/price");
         if (pData != null) {
-            pEntry = MapleDataTool.getInt(pData);
+            pEntry = MapleDataTool.getIntConvert(pData);
         }
 
         double fEntry = 0.0f;
@@ -602,6 +610,7 @@ public class MapleItemInformationProvider {
              ret.put(data.getName(), MapleDataTool.getInt(data.getName(), info, 0));*/
         }
         ret.put("reqJob", MapleDataTool.getInt("reqJob", info, 0));
+        ret.put("elemDefault", MapleDataTool.getInt("elemDefault", info, 100));
         ret.put("reqLevel", MapleDataTool.getInt("reqLevel", info, 0));
         ret.put("reqDEX", MapleDataTool.getInt("reqDEX", info, 0));
         ret.put("reqSTR", MapleDataTool.getInt("reqSTR", info, 0));
@@ -777,7 +786,7 @@ public class MapleItemInformationProvider {
         nEquip.setSpeed((short) (curSpeed - nEquip.getLvlSpeed()));
         nEquip.setJump((short) (curJump - nEquip.getLvlJump()));
         nEquip.setHp((short) (curHp - nEquip.getLvlHp()));
-        nEquip.setMp((short) (curMp - nEquip.getLvlMdef()));
+        nEquip.setMp((short) (curMp - nEquip.getLvlMp()));
 
         nEquip.setLvlStr((short) 0);
         nEquip.setLvlDex((short) 0);
@@ -843,7 +852,7 @@ public class MapleItemInformationProvider {
                     chaosStr += newGain;
                 } else {
                     temp = nEquip.getStr() + newGain;
-                    chaosStr = (short) newGain;
+                    chaosStr = (short) Math.max(newGain, -nEquip.getStr());
                 }
 
                 curStr = getMaximumShortMaxIfOverflow(temp, curStr);
@@ -856,7 +865,7 @@ public class MapleItemInformationProvider {
                     chaosDex += newGain;
                 } else {
                     temp = nEquip.getDex() + newGain;
-                    chaosDex = (short) newGain;
+                    chaosDex = (short) Math.max(newGain, -nEquip.getDex());
                 }
 
                 curDex = getMaximumShortMaxIfOverflow(temp, curDex);
@@ -869,7 +878,7 @@ public class MapleItemInformationProvider {
                     chaosInt += newGain;
                 } else {
                     temp = nEquip.getInt() + newGain;
-                    chaosInt = (short) newGain;
+                    chaosInt = (short) Math.max(newGain, -nEquip.getInt());
                 }
 
                 curInt = getMaximumShortMaxIfOverflow(temp, curInt);
@@ -882,7 +891,7 @@ public class MapleItemInformationProvider {
                     chaosLuk += newGain;
                 } else {
                     temp = nEquip.getLuk() + newGain;
-                    chaosLuk = (short) newGain;
+                    chaosLuk = (short) Math.max(newGain, -nEquip.getLuk());
                 }
 
                 curLuk = getMaximumShortMaxIfOverflow(temp, curLuk);
@@ -895,7 +904,7 @@ public class MapleItemInformationProvider {
                     chaosWatk += newGain;
                 } else {
                     temp = nEquip.getWatk() + newGain;
-                    chaosWatk = (short) newGain;
+                    chaosWatk = (short) Math.max(newGain, -nEquip.getWatk());
                 }
 
                 curWatk = getMaximumShortMaxIfOverflow(temp, curWatk);
@@ -908,7 +917,7 @@ public class MapleItemInformationProvider {
                     chaosWdef += newGain;
                 } else {
                     temp = nEquip.getWdef() + newGain;
-                    chaosWdef = (short) newGain;
+                    chaosWdef = (short) Math.max(newGain, -nEquip.getWdef());
                 }
 
                 curWdef = getMaximumShortMaxIfOverflow(temp, curWdef);
@@ -921,7 +930,7 @@ public class MapleItemInformationProvider {
                     chaosMatk += newGain;
                 } else {
                     temp = nEquip.getMatk() + newGain;
-                    chaosMatk = (short) newGain;
+                    chaosMatk = (short) Math.max(newGain, -nEquip.getMatk());
                 }
 
                 curMatk = getMaximumShortMaxIfOverflow(temp, curMatk);
@@ -934,7 +943,7 @@ public class MapleItemInformationProvider {
                     chaosMdef += newGain;
                 } else {
                     temp = nEquip.getMdef() + newGain;
-                    chaosMdef = (short) newGain;
+                    chaosMdef = (short) Math.max(newGain, -nEquip.getMdef());
                 }
 
                 curMdef = getMaximumShortMaxIfOverflow(temp, curMdef);
@@ -947,7 +956,7 @@ public class MapleItemInformationProvider {
                     chaosAcc += newGain;
                 } else {
                     temp = nEquip.getAcc() + newGain;
-                    chaosAcc = (short) newGain;
+                    chaosAcc = (short) Math.max(newGain, -nEquip.getAcc());
                 }
 
                 curAcc = getMaximumShortMaxIfOverflow(temp, curAcc);
@@ -960,7 +969,7 @@ public class MapleItemInformationProvider {
                     chaosAvoid += newGain;
                 } else {
                     temp = nEquip.getAvoid() + newGain;
-                    chaosAvoid = (short) newGain;
+                    chaosAvoid = (short) Math.max(newGain, -nEquip.getAvoid());
                 }
 
                 curAvoid = getMaximumShortMaxIfOverflow(temp, curAvoid);
@@ -973,7 +982,7 @@ public class MapleItemInformationProvider {
                     chaosSpeed += newGain;
                 } else {
                     temp = nEquip.getSpeed() + newGain;
-                    chaosSpeed = (short) newGain;
+                    chaosSpeed = (short) Math.max(newGain, -nEquip.getSpeed());
                 }
 
                 curSpeed = getMaximumShortMaxIfOverflow(temp, curSpeed);
@@ -986,7 +995,7 @@ public class MapleItemInformationProvider {
                     chaosJump += newGain;
                 } else {
                     temp = nEquip.getJump() + newGain;
-                    chaosJump = (short) newGain;
+                    chaosJump = (short) Math.max(newGain, -nEquip.getJump());
                 }
 
                 curJump = getMaximumShortMaxIfOverflow(temp, curJump);
@@ -999,7 +1008,7 @@ public class MapleItemInformationProvider {
                     chaosHp += newGain;
                 } else {
                     temp = nEquip.getHp() + newGain;
-                    chaosHp = (short) newGain;
+                    chaosHp = (short) Math.max(newGain, -nEquip.getHp());
                 }
 
                 curHp = getMaximumShortMaxIfOverflow(temp, curHp);
@@ -1012,7 +1021,7 @@ public class MapleItemInformationProvider {
                     chaosMp += newGain;
                 } else {
                     temp = nEquip.getMp() + newGain;
-                    chaosMp = (short) newGain;
+                    chaosMp = (short) Math.max(newGain, -nEquip.getMp());
                 }
 
                 curMp = getMaximumShortMaxIfOverflow(temp, curMp);
@@ -1107,6 +1116,7 @@ public class MapleItemInformationProvider {
                         case 2049100:
                         case 2049101:
                         case 2049102:
+                        case 2049114:
                             scrollEquipWithChaos(nEquip, YamlConfig.config.server.CHSCROLL_STAT_RANGE);
                             break;
                         case 2049115:

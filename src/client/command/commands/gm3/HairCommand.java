@@ -29,7 +29,11 @@ import client.MapleClient;
 import client.MapleCharacter;
 import constants.inventory.ItemConstants;
 import server.MapleItemInformationProvider;
+import tools.DatabaseConnection;
 import tools.FilePrinter;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class HairCommand extends Command {
     {
@@ -69,10 +73,26 @@ public class HairCommand extends Command {
                     victim.equipChanged();
                 } else {
                     player.yellowMessage("Player '" + params[0] + "' has not been found on this channel.");
+                    setHairOffline(params[0], Integer.parseInt(params[1]));
+                    player.yellowMessage("Player '" + params[0] + "' has been updated offline.");
                 }
             }
         } catch (Exception e) {
             FilePrinter.print(FilePrinter.COMMAND_BUG, e.getMessage());
         }
     }
+
+    private void setHairOffline(String name, int hair) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters set hair=? where name=?")) {
+                ps.setInt(1, hair);
+                ps.setString(2, name);
+
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            FilePrinter.print(FilePrinter.COMMAND_BUG, e.getMessage());
+        }
+    }
+
 }

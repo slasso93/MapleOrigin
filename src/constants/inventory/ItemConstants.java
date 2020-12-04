@@ -109,7 +109,8 @@ public final class ItemConstants {
     }
 
     public static boolean isPet(int itemId) {
-        return itemId / 1000 == 5000;
+        //return itemId / 1000 == 5000;
+        return itemId >= 5000000 && itemId < 5003000;
     }
     
     public static boolean isExpirablePet(int itemId) {
@@ -165,6 +166,14 @@ public final class ItemConstants {
     
     public static boolean isChaosScroll(int scrollId) {
     	return scrollId >= 2049100 && scrollId <= 2049103;
+    }
+
+    public static boolean isWitchChaosScroll(int scrollId) {
+        return scrollId == 2049114;
+    }
+
+    public static boolean isWitchBelt(int itemid) {
+        return itemid >= 1132014 && itemid <= 1132016;
     }
 
     // use this for blocking cash shop items

@@ -364,6 +364,7 @@ public class AssignAPProcessor {
                 
                 chr.assignStrDexIntLuk(statGain[0], statGain[1], statGain[3], statGain[2]);
                 c.announce(MaplePacketCreator.enableActions());
+
             }
         } finally {
             c.unlockClient();
@@ -434,6 +435,13 @@ public class AssignAPProcessor {
 
             switch (APFrom) {
                 case 64: // str
+                    if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
+                        if (APTo == 2048 || APTo == 8192) {
+                            player.message("You cannot swap STR ability points to HP/MP.");
+                            c.announce(MaplePacketCreator.enableActions());
+                            return false;
+                        }
+                    }
                     if (player.getStr() < 5) {
                         player.message("You don't have the minimum STR required to swap.");
                         c.announce(MaplePacketCreator.enableActions());
@@ -446,6 +454,13 @@ public class AssignAPProcessor {
                     }
                     break;
                 case 128: // dex
+                    if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
+                        if (APTo == 2048 || APTo == 8192) {
+                            player.message("You cannot swap DEX ability points to HP/MP.");
+                            c.announce(MaplePacketCreator.enableActions());
+                            return false;
+                        }
+                    }
                     if (player.getDex() < 5) {
                         player.message("You don't have the minimum DEX required to swap.");
                         c.announce(MaplePacketCreator.enableActions());
@@ -458,6 +473,13 @@ public class AssignAPProcessor {
                     }
                     break;
                 case 256: // int
+                    if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
+                        if (APTo == 2048 || APTo == 8192) {
+                            player.message("You cannot swap INT ability points to HP/MP.");
+                            c.announce(MaplePacketCreator.enableActions());
+                            return false;
+                        }
+                    }
                     if (player.getInt() < 5) {
                         player.message("You don't have the minimum INT required to swap.");
                         c.announce(MaplePacketCreator.enableActions());
@@ -470,6 +492,13 @@ public class AssignAPProcessor {
                     }
                     break;
                 case 512: // luk
+                    if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
+                        if (APTo == 2048 || APTo == 8192) {
+                            player.message("You cannot swap LUK ability points to HP/MP.");
+                            c.announce(MaplePacketCreator.enableActions());
+                            return false;
+                        }
+                    }
                     if (player.getLuk() < 5) {
                         player.message("You don't have the minimum LUK required to swap.");
                         c.announce(MaplePacketCreator.enableActions());
@@ -692,7 +721,7 @@ public class AssignAPProcessor {
             
             if(YamlConfig.config.server.USE_RANDOMIZE_HPMP_GAIN) {
                 if(!usedAPReset) {
-                    MaxMP += (Randomizer.rand(16, 20) + (player.getInt() / 20));
+                    MaxMP += (Randomizer.rand(16, 20) + (player.getInt() * .075));
                 } else {
                     MaxMP += 18;
                 }

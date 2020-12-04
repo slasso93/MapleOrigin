@@ -149,7 +149,10 @@ public final class RangedAttackHandler extends AbstractDealDamageHandler {
                                 break;
                             }
                         } else if ((type == MapleWeaponType.GUN && ItemConstants.isBullet(id))) {
-                            if (id == 2331000 && id == 2332000) {
+                            if (id == 2330008 && chr.getLevel() > 129) {
+                                projectile = id;
+                                break;
+                            } else if (id == 2331000 || id == 2332000) {
                                 if (chr.getLevel() > 69) {
                                     projectile = id;
                                     break;
@@ -224,10 +227,10 @@ public final class RangedAttackHandler extends AbstractDealDamageHandler {
                     }
                 }
                 
-                if (chr.getSkillLevel(SkillFactory.getSkill(NightWalker.VANISH)) > 0 && chr.getBuffedValue(MapleBuffStat.DARKSIGHT) != null && attack.numAttacked > 0 && chr.getBuffSource(MapleBuffStat.DARKSIGHT) != 9101004) {
+                if (chr.getSkillLevel(SkillFactory.getSkill(NightWalker.VANISH)) > 0 && chr.getBuffedValue(MapleBuffStat.DARKSIGHT) != null && chr.getBuffSource(MapleBuffStat.DARKSIGHT) != 9101004) {
                     chr.cancelEffectFromBuffStat(MapleBuffStat.DARKSIGHT);
                     chr.cancelBuffStats(MapleBuffStat.DARKSIGHT);
-                } else if(chr.getSkillLevel(SkillFactory.getSkill(WindArcher.WIND_WALK)) > 0 && chr.getBuffedValue(MapleBuffStat.WIND_WALK) != null && attack.numAttacked > 0) {
+                } else if(chr.getSkillLevel(SkillFactory.getSkill(WindArcher.WIND_WALK)) > 0 && chr.getBuffedValue(MapleBuffStat.WIND_WALK) != null) {
                     chr.cancelEffectFromBuffStat(MapleBuffStat.WIND_WALK);
                     chr.cancelBuffStats(MapleBuffStat.WIND_WALK);
                 }

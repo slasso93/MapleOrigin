@@ -1,34 +1,68 @@
-/*vote point exchange npc
-Exchanges votepoints for white scrolls dragon weapons and reverse weapons.
-@@author shadowzzz*/
+/*
+  Donor Shop NPC
+  @author slasso
+*/
 
-var status = 0;
-var points = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-var items = [1022082,
-/*Starts at 1, all the ITCG Equips */          1112135, 1115124, 1112196, 1112195, 1112161, 1112198, 1112165, 1112171, 1115108, 1112238, 1115035, 1115009, 1115008, 1112273, 1115011, 1112277,
-/*Starts at 17, all the dragon weapons */      1112283, 1115019, 1322061, 1332075, 1332076, 1372045, 1382059, 1402047, 1412034, 1422038, 1432049, 1442067, 1452059, 1462051, 1472071, 1482024, 1492025,
-/*Starts at 34, all the scrolls */             2049100, 2340000, 2049003,
-/*Starts at 37, Warrior Empress Weapon*/       1102758, 1102378, 1102376, 1102624, 1102487, 2290023,2290060, 2290061, 2290032, 2290033,
-/*Starts at 47, Bowman Empress Weapon*/        2290030, 2290031,
-/*Starts at 49, Theif Empress Weapon*/         2290050, 2290051,
-/*Starts at 51, Mage Empress Weapon */         2290090, 2290091,
-/*Starts at 53, Pirate Empress Weaoon */       2290074, 2290075,
-/*Starts at 55, Warrior Empress Gear */        2290136, 2290137, 2290012, 2290013, 2290096,
-/*Starts at 60, Bowman Empress Gear*/          2290125, 1102277, 1052316, 1072487, 1082297,
-/*Starts at 65, Thief Empress Gear */          1003175, 1102278, 1052317, 1072488, 1082298,
-/*Starts at 70, Pirate Empress Gear*/          1003176, 1102279, 1052318, 1072489, 1082299,
-/*Starts at 75, Mage Empress Gear*/            1003173, 1102276, 1052315,
-/*Starts at 78, VIP Weapoons */                5000060, 5000111, 5000146, 5000176, 5000200, 5000243, 5000261, 5000270, 5000271, 5000272, 5000273, 5000293, 5000294, 5000295, 5000317, 5000621, 5000275,
-/*Starts at 95, 60% Scrolls */                 1112135, 1115124, 1115035, 1115124, 2044501, 2044601, 2044701, 2044801, 2044901, 2044201, 2044101, 2044001, 2043001, 2043101, 2043201, 2043801, 2043701, 2043301];
-var leaf = [4000492];
-var fhair = Array(37450, 38940, 38680, 38860, 39190, 39410, 39230, 39040);
-var mhair = Array(38340, 40650, 40060, 40300, 37160, 40390, 40400, 40510);
-var mface = new Array(20000, 20001, 20002, 20003, 20004, 20005, 20006, 20007, 20008, 20009, 20010, 20011, 20012, 20013, 20014, 20015, 20016, 20017, 20018, 20019, 20020, 20021, 20022, 20023, 20024, 20025, 20026, 20027, 20028, 20029, 20030, 20031, 20032, 20033, 20035, 20036, 20037, 20038, 20040, 20043, 20044, 20045, 20046, 20047, 20048, 20049, 20050, 20051, 20052, 20053, 20055, 20056, 20057);
-var fface = new Array(21000, 21001, 21002, 21003, 21004, 21005, 21006, 21007, 21008, 21009, 21010, 21011, 21012, 21013, 21014, 21015, 21016, 21017, 21018, 21019, 21020, 21021, 21022, 21023, 21024, 21025, 21026, 21027, 21028, 21029, 21030, 21031, 21033, 21034, 21035, 21036, 21038, 21041, 21042, 21043, 21044, 21045, 21046, 21047, 21048, 21049, 21050, 21052, 21053, 21054, 21055);
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
+
+var status;
+
+var rings = [1112150, 1112262, 1112194, 1115007, 1112196, 1115009, 1112172, 1112284, 1115301, 1115200, 1115154, 1115065, 1115170, 1115081, 1115175, 1115086, 1112155, 1112267, 1112197, 1115010, 1112165, 1112277, 1112195, 1115008, 1115108, 1115019, 1115109, 1115020, 1112135, 1112238, 1112143, 1112254, 1115144, 1115055, 1112149, 1112261, 1115177, 1115088, 1112156, 1112268, 1115171, 1115082, 1112161, 1112273, 1112198, 1115011, 1112170, 1112282, 1115124, 1115035, 1112151, 1112263, 1115117, 1115028, 1112171, 1112283];
+var wings = [1102758, 1102378, 1102376, 1102624, 1102487, 1102184, 1102252, 1102253, 1102318, 1102338, 1102349, 1102532, 1102546, 1102547, 1102548, 1102554, 1102604, 
+				1102630, 1102642, 1102668, 1102697, 1102698, 1102699, 1102729, 1102779, 1102798, 1102806, 1102823, 1102824, 1102874, 1102377, 
+				1102385, 1102386, 1102450, 1102451, 1102452, 1102453];
+var pets = [5000060, 5000111, 5000146, 5000176, 5000200, 5000243, 5000261, 5000270, 5000271, 5000272, 5000273, 5000293, 5000294, 5000295, 5000317, 5000621]; // 5000275 broken
+
+var mhair = Array(35430, 35440, 35650, 35710, 35720, 35730, 35750, 35760, 35800, 36810, 40060, 40270, 40390, 40500, 40510, 40570, 
+40650, 40720, 40780, 40820, 40930, 42160, 43000, 43010, 43020, 43120, 43130, 43140, 43290, 43300, 43320, 43330, 43430, 43580, 43620, 
+43660, 43670, 43680, 43690, 43700, 43740, 43750, 43790, 43810, 43890, 43910, 44160);
+var mhair2 = Array(35220,44170, 44880, 44890, 45000, 45010, 45020, 45030, 45050, 45060, 45070,45080, 45090, 45110, 45120, 45130, 
+45140, 45150, 45160, 45220, 45230, 46000, 46010, 46020, 46050, 46060, 46070, 46110, 46160, 46170, 46190, 46310, 46320, 46340, 46350, 
+46360, 46370, 46390, 46420, 46430, 46440, 46450, 46460, 46480, 46490, 46500, 46510, 46520, 46530, 46560, 46570, 46590, 46600, 46620, 
+46630, 46640,46030,43800,43780,43760,40640,40660,40580,46910,46750,46730);
+
+var fhair = Array(37520, 38090, 38160, 38310, 38330, 38350, 38420, 38490, 38560, 38570, 38610, 38800, 41090, 41160, 
+41400, 41520, 41590, 41600, 41740, 41750, 41860, 41870, 41890, 41900, 41930, 43980, 44000, 44010, 44020, 44120, 44300, 44310, 
+44330, 44400, 44470, 44480, 44490, 44500, 44510, 44520, 44590, 44610, 44770, 44820, 44830, 44850, 44900, 44910, 44920, 44930, 44940,
+44950, 44990, 47010, 47020, 47030, 47040,41340,41700,41960,48550,48220,47350,47300,47080,47070,48900,38680);
+var fhair2 = Array(38810, 47050, 47090, 47100, 47110, 47260, 47270, 47280, 47290, 47380, 47390, 47420, 47450, 47460, 47530, 47540, 
+48000, 48010, 48020, 48040, 48050, 48060, 48070, 48080, 48100, 48170, 48180, 48320, 48330, 48340, 48350, 48360, 48370, 48380, 48390, 
+48410, 48440, 48470, 48480, 48500, 48510, 48520, 48530, 48540, 48560, 48570, 48590, 48600, 48610, 48620, 48630, 48640, 48650, 48660, 
+48700, 48710, 48730, 48740, 48760, 48800, 48820,44290,44200,43210,41850,41720,41700,41490,41370,41920);
+
+var mface = new Array(23033, 23040, 23055, 23069, 23072, 23079, 23084, 23086, 25000, 25006, 25011, 25014, 25019, 25021, 25025, 25030, 
+25044, 25045, 25046, 25048, 25050, 25056, 25071, 25089, 25090, 25095, 27011, 25099, 26047, 27006, 27007, 27014, 27022, 27038, 27044, 
+27053, 27079, 27081, 27088, 28000);
+var fface = new Array(24001, 24008, 24010, 24012, 24013, 24020, 24022, 24027, 24029, 24037, 24058, 24064, 24077, 24079, 24087, 24091, 
+26003, 26014, 26019, 26025, 26027, 26031, 26035, 26054, 26060, 26095, 26096, 28008, 28009, 28010, 28017, 28020, 28027, 28044, 28058, 
+28088, 28098, 28000);
 var beauty = -1;
 
+var item;
+var type;
+var costs = {
+	rings: 1,
+	pets: 5,
+	name: 10,
+	wings: 10,
+	hair: 5,
+	face: 5
+};
+
 function start() {
-    cm.sendSimple("Hi! I can exchange #v4000492# for various donor items! What would u like to buy? (More to come!)#b\r\n#L1# Buy Chat & Label Rings for 2 CoGT  #b\r\n#L2# Buy Pets for 5 CoGT#b\r\n#L3# Name Change for 10 CoGT#b\r\n#L5# Buy Wings for 10 CoGT\r\n#L6# Haircut for 5 CoGT \r\n#L7# Plastic Surgery for 5 CoGT ");
+	status=-1;
+    cm.sendSimple("Hi! I can exchange #v4000492# for various donor items! What would u like to buy? (More to come!)#b\r\n" + 
+			"#e#rHair/Eye Color will be reverted back to black\r\n#b" +
+			"#L1# Buy Chat & Label Rings for 1 CoGT  #b\r\n" + 
+			"#L2# Buy Pets for 5 CoGT#b\r\n" + 
+			"#L3# Name Change for 10 CoGT#b\r\n" + 
+			"#L4# Buy Wings for 10 CoGT\r\n" + 
+			"#L5# Haircut[1] for 5 CoGT \r\n" +
+			"#L6# Haircut[2] for 5 CoGT \r\n" +
+			"#L7# Plastic Surgery for 5 CoGT"
+	);
 }
 
 function action (m,t,s) {
@@ -38,204 +72,123 @@ function action (m,t,s) {
     } else {
         status++;
     }
-    if (status == 1) {
-        sel = s;
-        if (s == 0) {
-            var selStr = "#e#kScroll shop:#n #r1#b #e#z4000492##n#k\r\nFun Fact: Mitochondria is not actually the powerhouse of the cell #b";
-            var scrolls = items.slice(95, 113);
-            for (var i = 0; i < scrolls.length; i++) {
-                if (scrolls[i] != 2340000)
-                    selStr += "\r\n#L" + (i < 3 ? i + 34 : i + 92) + "##v" + scrolls[i] + "##e#z" + scrolls[i] + (i > 2 ?"# x3#n" : "##n");
-            }
-            cm.sendSimple(selStr);
-        } else if (s == 1) {
-            var selStr = "#e#kRing Shop:#n #r2#b #e#z4000492##n#k\r\nFun Fact: Andy forgot to patch chat rings so we only have label atm LOL.\r\n#bRings are +1 all stats#b";
-            var pageItems = items.slice(1, 19);
-            for (var i = 0; i < pageItems.length; i++) {
-                if (pageItems[i] != 1115011)
-                    selStr += "\r\n#L" + (i + 1) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
-            }
+    if (status == 0) {
+        if (s == 1) {
+			type = 'rings';
+            var selStr = "#e#kRing Shop:#n #r1#b #e#z4000492##n#k\r\n#bRings are +1 all stats#b";
+            for (var i = 0; i < rings.length; i++)
+				selStr += "\r\n#L" + i + "##v" + rings[i] + "##e#z" + rings[i] + "##n";
+			
             cm.sendSimple(selStr);
         } else if (s == 2) {
+			type = 'pets';
             var selStr = "#e#kPet Shop:#n #r5#b #e#z4000492##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
-            var pageItems = items.slice(78, 94);
-            for (var i = 0; i < pageItems.length; i++)
-                selStr += "\r\n#L" + (i + 78) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
+            for (var i = 0; i < pets.length; i++)
+                selStr += "\r\n#L" + i + "##v" + pets[i] + "##e#z" + pets[i] + "##n";
+			
             cm.sendSimple(selStr);
         } else if (s == 3) {
             var selStr = "#e#kName Change Shop:#n #r10#b #e#z4000492##n#k\r\nPlease enter your new name below.";
             cm.sendGetText(selStr);
         } else if (s == 4) {
-            var selStr = "Fun Fact: The original MapleOrigin used to be called ProjectNanp because Jay has fat fingers #b";
-            var pageItems = items.slice(131, 145); // TODO: add to items array and adjust slice range
-            for (var i = 0; i < pageItems.length; i++)
-                selStr += "\r\n#L" + (i + 53) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
-            cm.sendSimple(selStr);
-            // cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE  #b\r\n#L37# #v1302152#Lionheart Cuttlas #b\r\n#L38# #v1312065#LionHeart Champion Axe #b\r\n#L39# #v1322096#Lionheart Battle Hammer #b\r\n#L40# #v1402095#Lionheart Battle Scimitar #b\r\n#L41# #v1412065#Lionheart Battle Axe #b\r\n#L42# #v1422066#Lionheart Blast Maul #b\r\n#L43# #v1432086#Lionheart Fuscina #b\r\n#L44##v1442116# Lionheart Partisan #b\r\n#L45# #v1452111#Falcon Wing Composite Bow #b\r\n#L46# #v1462099#Falcon Wing Heavy Cross Bow #b\r\n#L47##v1332130# Raven Horn Baselard #b\r\n#L48# #v1472122#Raven Horn Metal Fist #b\r\n#L49# #v1372084#Dragon Tail Arc Wand #b\r\n#L50# #v1382104#Dragon Tail War Staff #b\r\n#L51# #v1482084#Shark Tooth Wild Talon #b\r\n#L52# #v1492085#Shark Tooth Sharpshooter #b\r\n");
-        }
-		else if (s == 5) {
+			type = 'wings';
 		    var selStr = "#e#kWing Shop:#n #r10#b #e#z4000492##n#k\r\nFun Fact: For 1m free nx #bCLICK HERE #b";
-            var pageItems = items.slice(37, 42);
-            for (var i = 0; i < pageItems.length; i++) {
-                if (pageItems[i] != 2290096 && pageItems[i] != 2290125)
-                    selStr += "\r\n#L" + (i + 37) + "##v" + pageItems[i] + "##e#z" + pageItems[i] + "##n";
-            }
+            for (var i = 0; i < wings.length; i++)
+				selStr += "\r\n#L" + i + "##v" + wings[i] + "##e#z" + wings[i] + "##n";
+			
             cm.sendSimple(selStr);
-            // cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE  #b\r\n#L37# #v1102758#Triple Throw 20 #b\r\n#L38# #v1102378#Triple Throw 30 #b\r\n#L39# #v1102376#Brandish 20 #b\r\n#L40# #v1102624#Brandish 30 #b\r\n#L41# #v1102487#Berserk 20 #b\r\n#L42# #v2290023#Berserk 30 #b\r\n#L43# #v2290060#Hurricane 20 #b\r\n#L44##v2290061#Hurricane 30 #b\r\n#L45# #v2290032#Chain Lightning 20 #b\r\n#L46# #v2290033#Chain Lightning 30 #b\r\n#L47##v2290030#Paralyze 20 #b\r\n#L48# #v2290031#Paralyze 30 #b\r\n#L49# #v2290050#Angel Ray 20 #b\r\n#L50# #v2290051#Angel Ray 30 #b\r\n#L51# #v2290090#Boomerang Step 20 #b\r\n#L52# #v2290091#Boomerang Step 30 #b\r\n#L53# #v2290074#Snipe 20 #b\r\n#L54# #v2290074# Snipe 30 #b\r\n#L55# #v2290136#Combo Tempest 20 #b\r\n#L56# #v2290137#Combo Tempest 30 #b\r\n#L57# #v2290012#Blast 20 #b\r\n#L58# #v2290013#Blast 30 #b\r\n#L59# #v2290096#Maple Warrior 20 #b\r\n#L60# #v2290125#Maple Warrior 30 #b\r\n");
-        } else if (s == 6) { //Hair selection
+        } else if (s == 5) { //Hair selection
             beauty = 1;
             hairnew = Array();
             if (cm.getPlayer().getGender() == 0)
                 for(var i = 0; i < mhair.length; i++)
-                    hairnew.push(mhair[i] + parseInt(cm.getPlayer().getHair()% 10));
+					//hairnew.push(mhair[i] + parseInt(cm.getPlayer().getHair()% 10));
+					hairnew.push(mhair[i]);
             if (cm.getPlayer().getGender() == 1)
                 for(var i = 0; i < fhair.length; i++)
-                    hairnew.push(fhair[i] + parseInt(cm.getPlayer().getHair() % 10));
+                    //hairnew.push(fhair[i] + parseInt(cm.getPlayer().getHair() % 10));
+					hairnew.push(fhair[i]);
+            cm.sendStyle("#eWant a new Hairstyle? If you have 5 #b#t4000492##k I'll change it for you!", hairnew);
+        } else if (s == 6) { //Hair selection
+            beauty = 1;
+            hairnew = Array();
+            if (cm.getPlayer().getGender() == 0)
+                for(var i = 0; i < mhair2.length; i++)
+                    //hairnew.push(mhair2[i] + parseInt(cm.getPlayer().getHair()% 10));
+					hairnew.push(mhair2[i]);
+            if (cm.getPlayer().getGender() == 1)
+                for(var i = 0; i < fhair2.length; i++)
+                    hairnew.push(fhair2[i]);
             cm.sendStyle("#eWant a new Hairstyle? If you have 5 #b#t4000492##k I'll change it for you!", hairnew);
         } else if (s == 7) { //Face Selection
            beauty = 2;
             facenew = Array();
             if (cm.getPlayer().getGender() == 0) {
                 for(var i = 0; i < mface.length; i++)
-                    facenew.push(mface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					//facenew.push(mface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					facenew.push(mface[i]);
             }
             if (cm.getPlayer().getGender() == 1) {
                 for(var i = 0; i < fface.length; i++)
-                    facenew.push(fface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					facenew.push(fface[i]);
+                    //facenew.push(fface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
             }
             cm.sendStyle("#eWant Plastic Surgery? If you have a #b#t4000492##k I'll change it for you!", facenew);
         }
-    } else if (status == 2) {
+		if (!type) status++; // skip confirmation dialogue for non item purchase
+    } else if(status == 1) {
+		if (type) {
+			if (type == 'rings') item = rings[s];
+			if (type == 'pets') item = pets[s];
+			if (type == 'wings') item = wings[s];
+			
+			cm.sendYesNo("Are you sure you want to buy #e#b#z" + item + "##n#k for #r" + costs[type] + " #b#e#z4000492##n#k?");
+		}
+	} else if (status == 2) {
         var text = cm.getText();
 
-        if (beauty == 1) {
-            if (cm.haveItem(4000492, 5)) {
-                cm.gainItem(4000492, -5);
+        if (beauty == 1) { // hair
+            if (cm.haveItem(4000492, costs.hair)) {
+                cm.gainItem(4000492, -costs.hair);
                 cm.setHair(hairnew[s]);
                 cm.sendOk("#eEnjoy your new and improved Haircut!");
             } else
-                cm.sendOk("#e#rYou'll need 5 #b#t4000492##k");
-        } else if (beauty == 2) {
-            if (cm.haveItem(4000492, 5)) {
-               cm.gainItem(4000492, -5);
+                cm.sendOk("#e#rYou'll need " + costs.hair + " #b#t4000492##k");
+        } else if (beauty == 2) { // face
+            if (cm.haveItem(4000492, costs.face)) {
+               cm.gainItem(4000492, -costs.face);
                cm.setFace(facenew[s]);
                cm.sendOk("#eEnjoy your new and improved Face!");
             } else
-                cm.sendOk("#e#rYou'll need 5 #b#t4000492##k");
-        } else if (text != null && cm.haveItem(leaf, 10)) {
-            var canCreate = Packages.client.MapleCharacter.canCreateChar(text);
-            if (canCreate) {
-                cm.getPlayer().setName(text);
-                cm.getPlayer().changeName(text);
-                cm.sendOk("Your name has been changed to #b" + text + "#k. You will have to login again for this to take effect.", 1);
-                cm.gainItem(leaf, -10);
+                cm.sendOk("#e#rYou'll need " + costs.face + " #b#t4000492##k");
+        } else if (text != null) { // name change
+			if (cm.haveItem(4000492, costs.name)) {
+				var canCreate = Packages.client.MapleCharacter.canCreateChar(text);
+				if (canCreate && text.length() > 3) {
+					cm.gainItem(4000492, -costs.name);
+					cm.getPlayer().setName(text);
+					cm.getPlayer().changeName(text);
+					cm.sendOk("Your name has been changed to #b" + text + "#k. You will have to login again for this to take effect.", 1);
+				} else {
+					cm.sendNext("I'm afraid you can't use the name #b" + text + "#k or it is already taken.", 1);
+				}
+			} else {
+                cm.sendOk("#e#rYou'll need " + costs.name + " #b#t4000492##k");
+			}
+        } else { // item purchase
+			if (!cm.haveItem(4000492, costs[type])) {
+                cm.sendOk("#e#rYou'll need " + costs[type] + " #b#t4000492##k");
+            } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(item)).isFull(0)) {
+                cm.sendOk("Your inventory is full! Please make room and try again.");
             } else {
-                cm.sendNext("I'm afraid you can't use the name #b" + text + "#k or it is already taken.", 1);
-            }
-        } else if (text == null && cm.haveItem(4000492)) {
-           if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(0)) {
-               // var currentRewardPoints = cm.getPlayer().getRewardPoints();
-               // cm.getPlayer().setRewardPoints(currentRewardPoints - points[s]);
-               //cm.gainItem(leaf, - points[s]);
-                if (items[s] == 2049100 || items[s] == 2340000 || items[s] == 2049003) {
-                    if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)) {
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 1);
-                        } else {
-                            cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                        }
-                    } else {
-                        cm.sendOk("Please make sure you have at least 1 slots empty in your inventory");
-                    }
-                }
-                else if(items[s] == 2044301 || items[s] == 2044401 || items[s] == 2044501 || items[s] == 2044601 || items[s] == 2044701 || items[s] == 2044801 || items[s] == 2044901 || items[s] == 2044201 || items[s] == 2044101 || items[s] == 2044001 || items[s] == 2043001 || items[s] == 2043101 || items[s] == 2043201 || items[s] == 2043801 || items[s] == 2043701 || items[s] == 2043301 || items[s] == 2040914 || items[s] == 2040919){
-                    if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)) {
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 3);
-                        } else {
-                            cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                        }
-                    } else {
-                        cm.sendOk("Please make sure you have at least 1 slots empty in your inventory");
-                    }
-                }
-                else if(items[s] == 1102758 || items[s] == 1102378 || items[s] == 1102376 || items[s] == 1102624 || items[s] == 1102487 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
-                    if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)) {
-                        if(cm.haveItem(leaf, 10)) {
-                            cm.gainItem(leaf, -10);
-                            cm.gainItem(items[s], 1);
-                        } else {
-                            cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                        }
-                    } else {
-                        cm.sendOk("Please make sure you have at least 1 slots empty in your inventory");
-                    }
-                }
-                else if(items[s] == 5000060 || items[s] == 5000111 || items[s] == 5000146 || items[s] == 5000176 || items[s] == 5000200 || items[s] == 5000243 || items[s] == 5000261 || items[s] == 5000270 || items[s] == 5000271 || items[s] == 5000272 || items[s] == 5000273 || items[s] == 5000293 || items[s] == 5000294 || items[s] == 5000295 || items[s] == 5000317 || items[s] == 5000621 || items[s] == 5000275){
-                    if(cm.haveItem(leaf, 5)) {
-                        cm.gainItem(leaf, -5);
-                        cm.gainItem(items[s], 1, false, true, 10 * 365 * 1000 * 24 * 60 * 60); // dry up in 10 year);
-                   } else {
-                        cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                    }
-                }
-                else if(items[s] == 1112135 || items[s] == 1115124 || items[s] == 1112196 || items[s] == 1112195 || items[s] == 1112161 || items[s] == 1112198 || items[s] == 1112165 || items[s] == 1112171 || items[s] == 1115108 || items[s] == 1112238 || items[s] == 1115035 || items[s] == 1115009 || items[s] == 1115008 || items[s] == 1112273 || items[s] == 1115011 || items[s] == 1002553 || items[s] == 1112277 || items[s] == 1112283 || items[s] == 1115019){
-                    if (items[s] == 1112277 && cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(0)) {
-                        cm.sendOk("Please make sure you have at least 1 empty use slots.");
-                    } else {
-                        if(cm.haveItem(leaf, 2)) {
-                            cm.gainItem(leaf, -2);
-                            cm.gainItem(items[s], 1);
-                        } else{
-                            cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                        }
-                    }
-                }
-                else if (s == 5610000 || s == 5610001) {
-                    if (items[s] == 1112277 && cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.CASH).isFull(0)) {
-                        cm.sendOk("Please make sure you have at least 1 empty cash slots.");
-                    } else {
-                        if (s == 5610000) {
-                            if(cm.haveItem(leaf, 3)) {
-                                cm.gainItem(leaf, -3);
-                                cm.gainItem(s, 1);
-                            } else {
-                                cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                            }
-                        } else if (s == 5610001) {
-                            if(cm.haveItem(leaf, 2)) {
-                              cm.gainItem(leaf, -2);
-                              cm.gainItem(s, 1);
-                          } else {
-                              cm.sendOk("Sorry, you don't have enough #b#z" + leaf + "##n!");
-                          }
-                        }
-                    }
-                }
-
-                /*else if(items[s] == 1102758 || items[s] == 1102378 || items[s] == 1102376 || items[s] == 1102624 || items[s] == 1102487 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
-                    cm.gainItem(leaf, -15);
-                    cm.gainItem(items[s], 1);
-                }*/
-
-            } else {
-                cm.sendOk("Please make sure you have at least 1 empty slots in both equip and etc.");
-            }
-        } else {
-            var pts = points[s];
-            if (!pts) {
-                if (s == 5610000)
-                    pts = 3;
-                if (s == 5610001)
-                    pts = 2;
-                if (text != null)
-                    pts = 10;
-            }
-
-            cm.sendOk(" You don't have " + pts + " #b#z" + leaf + "##n!");
-        }
-        cm.dispose();
-    }
+				cm.gainItem(4000492, -costs[type]);
+				if (type == 'pets') cm.gainItem(item, 1, false, true, 10 * 365 * 1000 * 60 * 60 * 24); // 10 years before it dries up
+				else cm.gainItem(item, 1);
+				
+			}
+		}
+		cm.dispose();
+	}
+	
 }
+

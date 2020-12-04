@@ -152,7 +152,7 @@ function action(mode, type, selection) {
                 }
                 var eli = em.getEligibleParty(cm.getParty());
                 if (eli.size() == 0) {
-                    cm.sendOk("Someone in your expedition is not eligible, check if they have a GML before entering");
+                    cm.sendOk("Someone in your expedition is not eligible, @checkboss before entering");
                     cm.dispose();
                     return;
                 }

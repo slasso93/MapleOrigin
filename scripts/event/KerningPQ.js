@@ -24,7 +24,7 @@
 */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 4;
+var minPlayers = 3, maxPlayers = 6;
 var minLevel = 21, maxLevel = 250;
 var entryMap = 103000800;
 var exitMap = 103000890;
@@ -72,10 +72,9 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [4310000, 4310000, 4310000, 4310000];
-    itemQty = [2, 3, 4, 5];
+    itemSet = [4310000, 4310000, 4310000, 4310000, 4310000, 4310000];
+    itemQty = [10, 11, 12, 13, 14, 15];
     eim.setEventRewards(evLevel, itemSet, itemQty);
-        
     expStages = [2 * 100, 2 * 200, 2 * 400, 2 * 800, 2 * 1500];    //bonus exp given on CLEAR stage signal
 
     eim.setEventClearStageExp(expStages);

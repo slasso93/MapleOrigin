@@ -45,8 +45,7 @@ function start(mode, type, selection) {
         } else if (status == 1) {
             qm.sendYesNo("As a token of her appreciation for your effort in preventing potentially serious matter, the Empress has decided to present you with a new title. Are you ready to accept it?");
         } else if (status == 2) {
-            nPSP = (qm.getPlayer().getLevel() - 70) * 3;
-            if (qm.getPlayer().getRemainingSp() > nPSP) {
+            if (qm.getPlayer().getRemainingSp() > 0) {
                 qm.sendNext("You still have way too much #bSP#k with you. You can't earn a new title like that, I strongly urge you to use more SP on your 1st and 2nd level skills.");
             } else {
                 if (!qm.canHold(1142068)) {

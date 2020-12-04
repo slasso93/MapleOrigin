@@ -29,6 +29,11 @@ import client.MapleClient;
 import client.MapleCharacter;
 import constants.inventory.ItemConstants;
 import server.MapleItemInformationProvider;
+import tools.DatabaseConnection;
+import tools.FilePrinter;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class FaceCommand extends Command {
     {
@@ -61,16 +66,32 @@ public class FaceCommand extends Command {
                 }
 
                 MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(params[0]);
-                if (victim == null) {
+                if (victim != null) {
                     victim.setFace(itemId);
                     victim.updateSingleStat(MapleStat.FACE, itemId);
                     victim.equipChanged();
                 } else {
                     player.yellowMessage("Player '" + params[0] + "' has not been found on this channel.");
+                    setFaceOffline(params[0], Integer.parseInt(params[1]));
+                    player.yellowMessage("Player '" + params[0] + "' has been updated offline.");
                 }
             }
         } catch (Exception e) {
         }
 
     }
+
+    private void setFaceOffline(String name, int face) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters set face=? where name=?")) {
+                ps.setInt(1, face);
+                ps.setString(2, name);
+
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            FilePrinter.print(FilePrinter.COMMAND_BUG, e.getMessage());
+        }
+    }
+
 }

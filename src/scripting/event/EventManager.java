@@ -823,6 +823,7 @@ public class EventManager {
                         lmpc = new ArrayList<>((List<MaplePartyCharacter>) p);
                     }
                     if (!lmpc.stream()
+                            .filter(mpc -> mpc.getPlayer().gmLevel() < 2) // only compare HWID on non GMs (useful for testing)
                             .map(mpc -> mpc.getPlayer().getClient().getHWID())
                             .allMatch(new HashSet<>()::add)
                     ) {
@@ -1107,7 +1108,7 @@ public class EventManager {
     }
 
     public boolean checkBossEntries(MapleExpeditionType type, MapleParty party) {
-        for (MaplePartyCharacter mpc : party.getMembers()) {
+        for (MaplePartyCharacter mpc : party.getPartyMembersOnline()) {
             int channel = mpc.getPlayer().getMap().getChannelServer().getId();
             boolean pass = MapleExpeditionBossLog.attemptBoss(mpc.getPlayer().getId(), channel, type, false);
             if (!pass) {

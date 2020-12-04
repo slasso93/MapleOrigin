@@ -44,6 +44,7 @@ public class GiveVpCommand extends Command {
         if (victim != null) {
             victim.getClient().addVotePoints(Integer.parseInt(params[1]));
             player.message("VP given.");
+            victim.message("Received " + Integer.parseInt(params[1]) + " vote points.");
         } else {
             player.message("Player '" + params[0] + "' could not be found.");
         }

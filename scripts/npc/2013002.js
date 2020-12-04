@@ -23,6 +23,9 @@
  *2013002.js - Minerva the Goddess
  *@author Ronan
  */
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
 var status = 0;
 
 function start() {
@@ -57,6 +60,11 @@ function action(mode, type, selection) {
                 cm.sendNext("Thank you for not only restoring the statue, but rescuing me, Minerva, from the entrapment. May the blessing of the goddess be with you till the end... As a token of gratitude, please accept this memento for your bravery.");
             else if (status == 1) {
                 if(cm.getEventInstance().giveEventReward(cm.getPlayer())) {
+					if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
+						cm.sendOk("Your inventory is full! Please make room and try again."); 
+					} else {
+						cm.gainItem(4001435, 40);
+					}
                     cm.warp(200080101, 0);
                     cm.dispose();
                 }

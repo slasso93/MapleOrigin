@@ -26,6 +26,7 @@
 
 package client.command.commands.gm0;
 
+import client.MapleCharacter;
 import client.MapleClient;
 import client.command.Command;
 
@@ -36,6 +37,12 @@ public class MirrorCommand extends Command {
 
     @Override
     public void execute(MapleClient client, String[] params) {
+        MapleCharacter player = client.getPlayer();
+        if (player.getEventInstance() != null) {
+            player.dropMessage(1, "This command cannot be used in expeditions or special instances");
+            return;
+        }
+
         client.getAbstractPlayerInteraction().openNpc(9010022);
     }
 
