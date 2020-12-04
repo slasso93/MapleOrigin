@@ -54,6 +54,7 @@ var costs = {
 function start() {
 	status=-1;
     cm.sendSimple("Hi! I can exchange #v4000492# for various donor items! What would u like to buy? (More to come!)#b\r\n" + 
+			"#e#rHair/Eye Color will be reverted back to black\r\n#b" +
 			"#L1# Buy Chat & Label Rings for 1 CoGT  #b\r\n" + 
 			"#L2# Buy Pets for 5 CoGT#b\r\n" + 
 			"#L3# Name Change for 10 CoGT#b\r\n" + 
@@ -101,31 +102,36 @@ function action (m,t,s) {
             hairnew = Array();
             if (cm.getPlayer().getGender() == 0)
                 for(var i = 0; i < mhair.length; i++)
-                    hairnew.push(mhair[i] + parseInt(cm.getPlayer().getHair()% 10));
+					//hairnew.push(mhair[i] + parseInt(cm.getPlayer().getHair()% 10));
+					hairnew.push(mhair[i]);
             if (cm.getPlayer().getGender() == 1)
                 for(var i = 0; i < fhair.length; i++)
-                    hairnew.push(fhair[i] + parseInt(cm.getPlayer().getHair() % 10));
+                    //hairnew.push(fhair[i] + parseInt(cm.getPlayer().getHair() % 10));
+					hairnew.push(fhair[i]);
             cm.sendStyle("#eWant a new Hairstyle? If you have 5 #b#t4000492##k I'll change it for you!", hairnew);
         } else if (s == 6) { //Hair selection
             beauty = 1;
             hairnew = Array();
             if (cm.getPlayer().getGender() == 0)
                 for(var i = 0; i < mhair2.length; i++)
-                    hairnew.push(mhair2[i] + parseInt(cm.getPlayer().getHair()% 10));
+                    //hairnew.push(mhair2[i] + parseInt(cm.getPlayer().getHair()% 10));
+					hairnew.push(mhair2[i]);
             if (cm.getPlayer().getGender() == 1)
                 for(var i = 0; i < fhair2.length; i++)
-                    hairnew.push(fhair2[i] + parseInt(cm.getPlayer().getHair() % 10));
+                    hairnew.push(fhair2[i]);
             cm.sendStyle("#eWant a new Hairstyle? If you have 5 #b#t4000492##k I'll change it for you!", hairnew);
         } else if (s == 7) { //Face Selection
            beauty = 2;
             facenew = Array();
             if (cm.getPlayer().getGender() == 0) {
                 for(var i = 0; i < mface.length; i++)
-                    facenew.push(mface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					//facenew.push(mface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					facenew.push(mface[i]);
             }
             if (cm.getPlayer().getGender() == 1) {
                 for(var i = 0; i < fface.length; i++)
-                    facenew.push(fface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
+					facenew.push(fface[i]);
+                    //facenew.push(fface[i] + parseInt(cm.getPlayer().getFace()% 1000 - (cm.getPlayer().getFace()% 100)));
             }
             cm.sendStyle("#eWant Plastic Surgery? If you have a #b#t4000492##k I'll change it for you!", facenew);
         }

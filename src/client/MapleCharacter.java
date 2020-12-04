@@ -11130,10 +11130,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     map = null;
                     setListener(null);
                     // thanks Shavit for noticing a memory leak with inventories holding owner object
-                    for (int i = 0; i < inventory.length; i++) {
-                        inventory[i].dispose();
-                    }
-                    inventory = null;
+					if (inventory != null){
+						for (int i = 0; i < inventory.length; i++) {
+							inventory[i].dispose();
+						}
+						inventory = null;
+					} else {
+						FilePrinter.printError(FilePrinter.ACCOUNT_STUCK,"Inventory is already NULL");
+					}
                 }
             }, 5 * 60 * 1000);
         }

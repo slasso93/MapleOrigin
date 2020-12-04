@@ -34,6 +34,7 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
 import client.MapleClient;
+import client.MapleCharacter;
 import constants.net.ServerConstants;
 import java.net.InetSocketAddress;
 
@@ -206,10 +207,12 @@ public class MapleServerHandler extends IoHandlerAdapter {
             }
             client.updateLastPacket();
         }
-        if (client == null) {
+        MapleCharacter victim = client.getWorldServer().getPlayerStorage().getCharacterByName(client.getPlayer()+ "\r\n" + slea.toString());
+        /*if (victim.getClient() == null) {
             FilePrinter.printError(FilePrinter.ACCOUNT_STUCK, "Packet sent from unknown client. ip: " + session.getRemoteAddress());
-            closeMapleSession(session);
-        }
+           // closeMapleSession(session);
+           victim.setClient(client); 
+        }*/
     }
     
     @Override

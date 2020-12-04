@@ -9,6 +9,7 @@
                 <vector name="origin" x="-1" y="24"/>
             </canvas>
             <int name="price" value="210"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="200"/>
@@ -23,6 +24,7 @@
                 <vector name="origin" x="-4" y="25"/>
             </canvas>
             <int name="price" value="110"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="200"/>
@@ -37,6 +39,7 @@
                 <vector name="origin" x="-6" y="26"/>
             </canvas>
             <int name="price" value="160"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="100"/>
@@ -52,6 +55,7 @@
                 <vector name="origin" x="-4" y="23"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="400"/>
@@ -66,6 +70,7 @@
                 <vector name="origin" x="-4" y="26"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="400"/>
@@ -80,6 +85,7 @@
                 <vector name="origin" x="-6" y="26"/>
             </canvas>
             <int name="price" value="160"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="300"/>
@@ -94,6 +100,7 @@
                 <vector name="origin" x="-2" y="24"/>
             </canvas>
             <int name="price" value="265"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -108,6 +115,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="310"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="600"/>
@@ -122,6 +130,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="630"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1200"/>
@@ -136,6 +145,7 @@
                 <vector name="origin" x="-9" y="32"/>
             </canvas>
             <int name="price" value="460"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="450"/>
@@ -150,6 +160,7 @@
                 <vector name="origin" x="-9" y="32"/>
             </canvas>
             <int name="price" value="930"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="900"/>
@@ -164,6 +175,7 @@
                 <vector name="origin" x="-1" y="32"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="40"/>
@@ -179,6 +191,7 @@
                 <vector name="origin" x="-6" y="23"/>
             </canvas>
             <int name="price" value="2250"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="4000"/>
@@ -193,6 +206,7 @@
                 <vector name="origin" x="-2" y="28"/>
             </canvas>
             <int name="price" value="2750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="5000"/>
@@ -207,6 +221,7 @@
                 <vector name="origin" x="-3" y="31"/>
             </canvas>
             <int name="price" value="4050"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="4050"/>
@@ -221,6 +236,7 @@
                 <vector name="origin" x="0" y="33"/>
             </canvas>
             <int name="price" value="5100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="5000"/>
@@ -235,6 +251,7 @@
                 <vector name="origin" x="-1" y="24"/>
             </canvas>
             <int name="price" value="1650"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1200"/>
@@ -250,6 +267,7 @@
                 <vector name="origin" x="-1" y="27"/>
             </canvas>
             <int name="price" value="1950"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1400"/>
@@ -265,6 +283,7 @@
                 <vector name="origin" x="-1" y="27"/>
             </canvas>
             <int name="price" value="2250"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1600"/>
@@ -280,6 +299,7 @@
                 <vector name="origin" x="-1" y="25"/>
             </canvas>
             <int name="price" value="2550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1800"/>
@@ -295,6 +315,7 @@
                 <vector name="origin" x="-1" y="26"/>
             </canvas>
             <int name="price" value="2850"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2000"/>
@@ -310,6 +331,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -324,8 +346,8 @@
             <canvas name="iconRaw" width="32" height="29">
                 <vector name="origin" x="0" y="31"/>
             </canvas>
-            <int name="slotMax" value="1000"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="timeLimited" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -447,6 +469,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="100"/>
@@ -461,6 +484,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="100"/>
@@ -475,6 +499,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -508,6 +533,7 @@
                 <vector name="origin" x="-9" y="32"/>
             </canvas>
             <int name="price" value="825"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="800"/>
@@ -522,6 +548,7 @@
                 <vector name="origin" x="-7" y="22"/>
             </canvas>
             <int name="price" value="200"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="thaw" value="10"/>
@@ -537,6 +564,7 @@
                 <vector name="origin" x="-10" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="acc" value="-5"/>
@@ -553,6 +581,7 @@
                 <vector name="origin" x="-1" y="22"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -567,6 +596,7 @@
                 <vector name="origin" x="-3" y="27"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1500"/>
@@ -581,6 +611,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="1500"/>
@@ -595,6 +626,7 @@
                 <vector name="origin" x="-2" y="26"/>
             </canvas>
             <int name="price" value="820"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -610,6 +642,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="20"/>
@@ -625,6 +658,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="30"/>
@@ -640,6 +674,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="40"/>
@@ -655,6 +690,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="50"/>
@@ -670,6 +706,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="60"/>
@@ -685,6 +722,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -699,6 +737,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="250"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -713,6 +752,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="325"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="200"/>
@@ -728,6 +768,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="3000"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="80"/>
@@ -743,6 +784,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -758,6 +800,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -772,6 +815,7 @@
                 <vector name="origin" x="0" y="33"/>
             </canvas>
             <int name="price" value="800"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1500"/>
@@ -786,6 +830,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="425"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="800"/>
@@ -800,6 +845,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -814,6 +860,7 @@
                 <vector name="origin" x="-7" y="31"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="250"/>
@@ -828,6 +875,7 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="price" value="650"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="500"/>
@@ -842,6 +890,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="675"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="400"/>
@@ -857,6 +906,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -873,6 +923,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="2100"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -889,6 +940,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="900"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -905,6 +957,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1900"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -921,6 +974,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="50"/>
@@ -936,6 +990,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="100"/>
@@ -951,6 +1006,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="acc" value="10"/>
@@ -966,6 +1022,7 @@
                 <vector name="origin" x="-2" y="33"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="80"/>
@@ -981,6 +1038,7 @@
                 <vector name="origin" x="-2" y="33"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mad" value="30"/>
@@ -996,6 +1054,7 @@
                 <vector name="origin" x="-2" y="33"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -1011,6 +1070,7 @@
                 <vector name="origin" x="-6" y="31"/>
             </canvas>
             <int name="price" value="200"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="100"/>
@@ -1026,6 +1086,7 @@
                 <vector name="origin" x="-2" y="28"/>
             </canvas>
             <int name="price" value="500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -1041,6 +1102,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="1500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1500"/>
@@ -1056,6 +1118,7 @@
                 <vector name="origin" x="-4" y="27"/>
             </canvas>
             <int name="price" value="1300"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -1071,6 +1134,7 @@
                 <vector name="origin" x="-5" y="29"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="thaw" value="-6"/>
@@ -1086,6 +1150,7 @@
                 <vector name="origin" x="-4" y="29"/>
             </canvas>
             <int name="price" value="800"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -1101,6 +1166,7 @@
                 <vector name="origin" x="-2" y="33"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -1119,6 +1185,7 @@
                 <vector name="origin" x="-2" y="33"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -1136,6 +1203,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -1151,6 +1219,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2000"/>
@@ -1166,6 +1235,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -1181,6 +1251,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -1196,6 +1267,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -1211,6 +1283,7 @@
                 <vector name="origin" x="0" y="29"/>
             </canvas>
             <int name="price" value="425"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="800"/>
@@ -1225,6 +1298,7 @@
                 <vector name="origin" x="0" y="29"/>
             </canvas>
             <int name="price" value="800"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="800"/>
@@ -1239,6 +1313,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="640"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="400"/>
@@ -1254,6 +1329,7 @@
                 <vector name="origin" x="-6" y="25"/>
             </canvas>
             <int name="price" value="15"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1269,6 +1345,7 @@
                 <vector name="origin" x="-5" y="31"/>
             </canvas>
             <int name="price" value="15"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1284,6 +1361,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="15"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1299,6 +1377,7 @@
                 <vector name="origin" x="-2" y="27"/>
             </canvas>
             <int name="price" value="15"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1314,6 +1393,7 @@
                 <vector name="origin" x="-1" y="24"/>
             </canvas>
             <int name="price" value="25"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1329,6 +1409,7 @@
                 <vector name="origin" x="-1" y="28"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1500"/>
@@ -1343,6 +1424,7 @@
                 <vector name="origin" x="-4" y="31"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -1362,6 +1444,7 @@
                 <vector name="origin" x="-4" y="31"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -1381,6 +1464,7 @@
                 <vector name="origin" x="-4" y="31"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -1400,6 +1484,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="340"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1415,6 +1500,7 @@
                 <vector name="origin" x="0" y="33"/>
             </canvas>
             <int name="price" value="340"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1462,6 +1548,7 @@
                 <vector name="origin" x="-10" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -1477,6 +1564,7 @@
                 <vector name="origin" x="-10" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="34"/>
@@ -1558,6 +1646,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -1573,6 +1662,7 @@
                 <vector name="origin" x="-5" y="29"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="8"/>
@@ -1589,6 +1679,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="300"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="10"/>
@@ -1606,6 +1697,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="12"/>
@@ -1623,6 +1715,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="15"/>
@@ -1655,6 +1748,7 @@
                 <vector name="origin" x="-3" y="34"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="8"/>
@@ -1671,6 +1765,7 @@
                 <vector name="origin" x="-3" y="34"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pdd" value="15"/>
@@ -1687,6 +1782,7 @@
                 <vector name="origin" x="-3" y="34"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mad" value="10"/>
@@ -1703,6 +1799,7 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="price" value="1700"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="7"/>
@@ -1793,6 +1890,7 @@
                 <vector name="origin" x="-4" y="31"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1808,6 +1906,7 @@
                 <vector name="origin" x="1" y="32"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1823,6 +1922,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="500"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -1884,6 +1984,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="8"/>
@@ -1899,6 +2000,7 @@
                 <vector name="origin" x="-1" y="28"/>
             </canvas>
             <int name="price" value="80"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="150"/>
@@ -2027,6 +2129,7 @@
                 <vector name="origin" x="-5" y="28"/>
             </canvas>
             <int name="price" value="200"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="120"/>
@@ -2042,6 +2145,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -2102,6 +2206,7 @@
                 <vector name="origin" x="-4" y="28"/>
             </canvas>
             <int name="price" value="1500"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2118,6 +2223,7 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="price" value="8000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2141,6 +2247,7 @@
                 <vector name="origin" x="-5" y="24"/>
             </canvas>
             <int name="price" value="5000"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2249,6 +2356,7 @@
                 <vector name="origin" x="-7" y="32"/>
             </canvas>
             <int name="price" value="0"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
@@ -2268,6 +2376,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="400"/>
@@ -2283,6 +2392,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="200"/>
@@ -2298,6 +2408,7 @@
                 <vector name="origin" x="-1" y="31"/>
             </canvas>
             <int name="price" value="700"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2314,6 +2425,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="2900"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2330,6 +2442,7 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="price" value="3200"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2346,6 +2459,7 @@
                 <vector name="origin" x="-7" y="29"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -2360,6 +2474,7 @@
                 <vector name="origin" x="-8" y="32"/>
             </canvas>
             <int name="price" value="550"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="500"/>
@@ -2374,6 +2489,7 @@
                 <vector name="origin" x="-2" y="27"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="6"/>
@@ -2389,6 +2505,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <string name="acc" value="12"/>
@@ -2404,6 +2521,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mad" value="10"/>
@@ -2419,6 +2537,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="eva" value="12"/>
@@ -2506,6 +2625,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="200"/>
@@ -2520,6 +2640,7 @@
                 <vector name="origin" x="-1" y="26"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2537,6 +2658,7 @@
                 <vector name="origin" x="21" y="47"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="0"/>
         </imgdir>
         <imgdir name="spec">
@@ -2553,6 +2675,7 @@
                 <vector name="origin" x="20" y="48"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="0"/>
         </imgdir>
         <imgdir name="spec">
@@ -2569,6 +2692,7 @@
                 <vector name="origin" x="20" y="43"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="mcType" value="0"/>
         </imgdir>
@@ -2586,6 +2710,7 @@
                 <vector name="origin" x="19" y="42"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2603,6 +2728,7 @@
                 <vector name="origin" x="19" y="42"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2621,6 +2747,7 @@
                 <vector name="origin" x="20" y="43"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="mcType" value="3"/>
         </imgdir>
@@ -2640,6 +2767,7 @@
                 <vector name="origin" x="18" y="46"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2661,6 +2789,7 @@
                 <vector name="origin" x="19" y="38"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="mcType" value="2"/>
         </imgdir>
@@ -2678,6 +2807,7 @@
                 <vector name="origin" x="25" y="50"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="2"/>
         </imgdir>
         <imgdir name="spec">
@@ -2694,6 +2824,7 @@
                 <vector name="origin" x="22" y="41"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="2"/>
         </imgdir>
         <imgdir name="spec">
@@ -2710,6 +2841,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="160"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2726,6 +2858,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1000"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2743,6 +2876,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="2500"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2760,6 +2894,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="310"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2776,6 +2911,7 @@
                 <vector name="origin" x="-6" y="32"/>
             </canvas>
             <int name="price" value="200"/>
+            <int name="slotMax" value="1000"/>
             <int name="mcType" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -2796,6 +2932,7 @@
                 <vector name="origin" x="-6" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="90"/>
@@ -2815,6 +2952,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="1500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="3000"/>
@@ -2848,6 +2986,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="20"/>
@@ -2878,6 +3017,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="13"/>
@@ -2894,7 +3034,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect2"/>
-            <int name="slotMax" value="1000"/>
             <int name="only" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -2912,6 +3051,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="1200"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="thaw" value="10"/>
@@ -2927,6 +3067,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="thaw" value="-6"/>
@@ -2942,6 +3083,7 @@
                 <vector name="origin" x="-6" y="23"/>
             </canvas>
             <int name="price" value="250"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="500"/>
@@ -2959,6 +3101,7 @@
                 <vector name="origin" x="-2" y="27"/>
             </canvas>
             <int name="price" value="1500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="480000"/>
@@ -2976,6 +3119,7 @@
                 <vector name="origin" x="-4" y="23"/>
             </canvas>
             <int name="price" value="500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="900"/>
@@ -2991,6 +3135,7 @@
                 <vector name="origin" x="-1" y="24"/>
             </canvas>
             <int name="price" value="300"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="300"/>
@@ -3006,8 +3151,8 @@
                 <vector name="origin" x="-1" y="24"/>
             </canvas>
             <int name="price" value="1"/>
-            <int name="timeLimited" value="1"/>
             <int name="slotMax" value="1000"/>
+            <int name="timeLimited" value="1"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mad" value="40"/>
@@ -3065,6 +3210,7 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1800000"/>
@@ -3082,6 +3228,7 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1800000"/>
@@ -3099,6 +3246,7 @@
             </canvas>
             <int name="tradBlock" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="only" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3118,6 +3266,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="100"/>
@@ -3134,6 +3283,7 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1800000"/>
@@ -3150,6 +3300,7 @@
                 <vector name="origin" x="0" y="22"/>
             </canvas>
             <int name="price" value="400"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="800"/>
@@ -3164,6 +3315,7 @@
                 <vector name="origin" x="0" y="25"/>
             </canvas>
             <int name="price" value="600"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1200"/>
@@ -3178,6 +3330,7 @@
                 <vector name="origin" x="0" y="24"/>
             </canvas>
             <int name="price" value="900"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1800"/>
@@ -3192,6 +3345,7 @@
                 <vector name="origin" x="0" y="25"/>
             </canvas>
             <int name="price" value="1100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2200"/>
@@ -3206,6 +3360,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="1300"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2600"/>
@@ -3220,6 +3375,7 @@
                 <vector name="origin" x="0" y="29"/>
             </canvas>
             <int name="price" value="500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="500"/>
@@ -3234,6 +3390,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="800"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="800"/>
@@ -3248,6 +3405,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="1600"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="1600"/>
@@ -3262,6 +3420,7 @@
                 <vector name="origin" x="0" y="35"/>
             </canvas>
             <int name="price" value="3200"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="3200"/>
@@ -3276,6 +3435,7 @@
                 <vector name="origin" x="0" y="26"/>
             </canvas>
             <int name="price" value="1600"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3292,6 +3452,7 @@
                 <vector name="origin" x="0" y="25"/>
             </canvas>
             <int name="price" value="3400"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3308,6 +3469,7 @@
                 <vector name="origin" x="0" y="27"/>
             </canvas>
             <int name="price" value="1600"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3324,6 +3486,7 @@
                 <vector name="origin" x="0" y="24"/>
             </canvas>
             <int name="price" value="3400"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3340,6 +3503,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="50"/>
@@ -3355,6 +3519,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="0"/>
@@ -3376,6 +3541,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="0"/>
@@ -3397,6 +3563,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="0"/>
@@ -3418,6 +3585,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="-40"/>
@@ -3704,6 +3872,7 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="50"/>
@@ -3719,6 +3888,7 @@
                 <vector name="origin" x="-10" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="20"/>
@@ -3734,6 +3904,7 @@
                 <vector name="origin" x="1" y="34"/>
             </canvas>
             <int name="price" value="150"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="5"/>
@@ -3750,6 +3921,7 @@
                 <vector name="origin" x="-2" y="32"/>
             </canvas>
             <int name="price" value="50"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="100"/>
@@ -3764,6 +3936,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="105"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="100"/>
@@ -3780,6 +3953,7 @@
                 <vector name="origin" x="0" y="33"/>
             </canvas>
             <int name="price" value="105"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="100"/>
@@ -3873,6 +4047,7 @@
                 <vector name="origin" x="-3" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3891,6 +4066,7 @@
                 <vector name="origin" x="-3" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3909,6 +4085,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -3931,6 +4108,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4112,7 +4290,6 @@
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect3"/>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4124,7 +4301,7 @@
     <imgdir name="02022282">
         <imgdir name="info">
             <canvas name="icon" width="35" height="33">
-                <vector name="origin" x="-2" y="30"/>
+                <vector name="origin" x="0" y="32"/>
             </canvas>
             <canvas name="iconRaw" width="35" height="33">
                 <vector name="origin" x="-2" y="30"/>
@@ -4141,7 +4318,7 @@
     <imgdir name="02022283">
         <imgdir name="info">
             <canvas name="icon" width="34" height="32">
-                <vector name="origin" x="-1" y="31"/>
+                <vector name="origin" x="0" y="32"/>
             </canvas>
             <canvas name="iconRaw" width="34" height="31">
                 <vector name="origin" x="-1" y="31"/>
@@ -4159,7 +4336,7 @@
     <imgdir name="02022284">
         <imgdir name="info">
             <canvas name="icon" width="32" height="30">
-                <vector name="origin" x="-2" y="28"/>
+                <vector name="origin" x="0" y="32"/>
             </canvas>
             <canvas name="iconRaw" width="32" height="28">
                 <vector name="origin" x="-2" y="28"/>
@@ -4244,6 +4421,7 @@
                 <vector name="origin" x="0" y="30"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="eva" value="100"/>
@@ -4253,12 +4431,13 @@
     <imgdir name="02022306">
         <imgdir name="info">
             <canvas name="icon" width="32" height="32">
-                <vector name="origin" x="-1" y="30"/>
+                <vector name="origin" x="0" y="32"/>
             </canvas>
             <canvas name="iconRaw" width="32" height="32">
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="acc" value="10"/>
@@ -4269,12 +4448,13 @@
     <imgdir name="02022307">
         <imgdir name="info">
             <canvas name="icon" width="34" height="33">
-                <vector name="origin" x="-1" y="30"/>
+                <vector name="origin" x="0" y="32"/>
             </canvas>
             <canvas name="iconRaw" width="34" height="32">
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1200000"/>
@@ -4290,6 +4470,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -4307,6 +4488,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -4370,6 +4552,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
@@ -4391,6 +4574,7 @@
                 <vector name="origin" x="-1" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
@@ -4410,6 +4594,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -4451,6 +4636,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -4570,6 +4756,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="50"/>
@@ -4585,6 +4772,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="jump" value="20"/>
@@ -4600,6 +4788,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="speed" value="40"/>
@@ -4616,6 +4805,7 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="1000"/>
@@ -4632,6 +4822,7 @@
             </canvas>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -4647,6 +4838,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -4665,6 +4857,7 @@
                 <vector name="origin" x="1" y="32"/>
             </canvas>
             <int name="price" value="110"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="900000"/>
@@ -4680,6 +4873,7 @@
                 <vector name="origin" x="-1" y="32"/>
             </canvas>
             <int name="price" value="160"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -4695,6 +4889,7 @@
                 <vector name="origin" x="0" y="31"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="60000"/>
@@ -4710,6 +4905,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="225"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -4725,6 +4921,7 @@
                 <vector name="origin" x="-4" y="30"/>
             </canvas>
             <int name="price" value="160"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="30000"/>
@@ -4740,6 +4937,7 @@
                 <vector name="origin" x="-4" y="30"/>
             </canvas>
             <int name="price" value="265"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="10000"/>
@@ -4755,6 +4953,7 @@
                 <vector name="origin" x="-4" y="30"/>
             </canvas>
             <int name="price" value="310"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="5000"/>
@@ -4770,6 +4969,7 @@
                 <vector name="origin" x="-9" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="25"/>
@@ -4787,6 +4987,7 @@
                 <vector name="origin" x="-3" y="28"/>
             </canvas>
             <int name="price" value="1500"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1500"/>
@@ -4802,6 +5003,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4836,6 +5038,7 @@
                 <vector name="origin" x="-5" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="quest" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4870,6 +5073,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4886,6 +5090,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -4903,6 +5108,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6117,6 +6323,7 @@
                 <vector name="origin" x="-1" y="25"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="notSale" value="1"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
@@ -6190,6 +6397,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="dojangshield" value="3"/>
@@ -6264,6 +6472,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mad" value="200"/>
@@ -6280,6 +6489,7 @@
                 <vector name="origin" x="-2" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pdd" value="120"/>
@@ -6295,6 +6505,7 @@
                 <vector name="origin" x="-3" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="40"/>
@@ -6314,6 +6525,7 @@
             <int name="pquest" value="1"/>
             <int name="tragetBlock" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="expinc" value="10000"/>
@@ -6329,6 +6541,7 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1200000"/>
@@ -6346,7 +6559,6 @@
                 <vector name="origin" x="-4" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="10"/>
@@ -6363,7 +6575,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pdd" value="30"/>
@@ -6380,7 +6591,6 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="speed" value="10"/>
@@ -6397,7 +6607,6 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="noCancelMouse" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6414,7 +6623,6 @@
                 <vector name="origin" x="-3" y="31"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="eva" value="20"/>
@@ -6447,7 +6655,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6465,7 +6672,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6483,7 +6689,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6501,7 +6706,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect2"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6519,7 +6723,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -6554,6 +6757,7 @@
             </canvas>
             <int name="scanTradeBlock" value="1"/>
             <int name="price" value="0"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6571,6 +6775,7 @@
             </canvas>
             <int name="scanTradeBlock" value="1"/>
             <int name="price" value="0"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -6682,6 +6887,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -7149,6 +7355,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -7562,6 +7769,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -7927,6 +8135,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -8260,6 +8469,7 @@
                 <vector name="origin" x="-1" y="27"/>
             </canvas>
             <int name="price" value="2100"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="4000"/>
@@ -8274,6 +8484,7 @@
                 <vector name="origin" x="-1" y="27"/>
             </canvas>
             <int name="price" value="4600"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="4000"/>
@@ -8288,6 +8499,7 @@
                 <vector name="origin" x="-1" y="29"/>
             </canvas>
             <int name="price" value="1600"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="1000"/>
@@ -8303,6 +8515,7 @@
                 <vector name="origin" x="-1" y="28"/>
             </canvas>
             <int name="price" value="1900"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -8319,6 +8532,7 @@
                 <vector name="origin" x="-1" y="32"/>
             </canvas>
             <int name="price" value="6000"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="1800000"/>
@@ -8334,6 +8548,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="300000"/>
@@ -8350,6 +8565,7 @@
                 <vector name="origin" x="-2" y="28"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="20000"/>
@@ -8365,6 +8581,7 @@
                 <vector name="origin" x="-2" y="30"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="900000"/>
@@ -8381,6 +8598,7 @@
                 <vector name="origin" x="-2" y="26"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="consumeOnPickup" value="1"/>
@@ -8396,6 +8614,7 @@
                 <vector name="origin" x="-2" y="26"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="30000"/>
@@ -8442,6 +8661,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -8728,6 +8948,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -9026,6 +9247,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -9324,6 +9546,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -9622,6 +9845,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -9920,6 +10144,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -10218,6 +10443,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -10516,6 +10742,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -10814,6 +11041,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -11112,6 +11340,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -11410,6 +11639,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -11708,6 +11938,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -11994,6 +12225,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -12292,6 +12524,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -12590,6 +12823,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -12888,6 +13122,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -13186,6 +13421,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -13484,6 +13720,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -13782,6 +14019,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -14080,6 +14318,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -14378,6 +14617,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -14676,6 +14916,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -14972,6 +15213,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2000"/>
@@ -14986,6 +15228,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2000"/>
@@ -15000,6 +15243,7 @@
                 <vector name="origin" x="-2" y="29"/>
             </canvas>
             <int name="price" value="750"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hp" value="2000"/>
@@ -15107,7 +15351,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="5"/>
         </imgdir>
         <imgdir name="spec">
@@ -15124,7 +15367,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="5"/>
         </imgdir>
         <imgdir name="spec">
@@ -15142,7 +15384,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="3"/>
         </imgdir>
         <imgdir name="spec">
@@ -15160,7 +15401,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15177,7 +15417,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="5"/>
         </imgdir>
         <imgdir name="spec">
@@ -15194,7 +15433,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15211,7 +15449,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15228,7 +15465,6 @@
             </canvas>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="max" value="5"/>
         </imgdir>
         <imgdir name="spec">
@@ -15246,8 +15482,8 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
-            <int name="timeLimited" value="1"/>
             <int name="slotMax" value="1000"/>
+            <int name="timeLimited" value="1"/>
             <int name="max" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15547,6 +15783,7 @@
             <int name="tradeBlock" value="0"/>
             <int name="notSale" value="0"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -15614,7 +15851,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect4"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15632,7 +15868,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect4"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15650,7 +15885,6 @@
                 <vector name="origin" x="-3" y="30"/>
             </canvas>
             <string name="effect" value="Effect/BasicEff/Flame/SquibEffect4"/>
-            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -15704,6 +15938,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="0"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -17069,6 +17304,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -17216,6 +17452,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -17683,6 +17920,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -17839,6 +18077,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -18110,6 +18349,7 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="50"/>
@@ -18130,6 +18370,7 @@
                 <vector name="origin" x="-9" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="pad" value="25"/>
@@ -18148,6 +18389,7 @@
                 <vector name="origin" x="-4" y="31"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="time" value="600000"/>
@@ -18166,6 +18408,7 @@
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
         </imgdir>
@@ -18373,6 +18616,7 @@
                 <vector name="origin" x="4" y="39"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="mp" value="300"/>
@@ -18389,6 +18633,7 @@
                 <vector name="origin" x="4" y="39"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="hpR" value="50"/>
@@ -18406,6 +18651,7 @@
                 <vector name="origin" x="4" y="39"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -18424,6 +18670,7 @@
                 <vector name="origin" x="2" y="42"/>
             </canvas>
             <int name="price" value="1"/>
+            <int name="slotMax" value="1000"/>
         </imgdir>
         <imgdir name="spec">
             <int name="poison" value="1"/>
@@ -18444,6 +18691,7 @@
                 <vector name="origin" x="-3" y="24"/>
             </canvas>
             <int name="price" value="50"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -18460,6 +18708,7 @@
                 <vector name="origin" x="-8" y="30"/>
             </canvas>
             <int name="price" value="50"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -18476,6 +18725,7 @@
                 <vector name="origin" x="-7" y="30"/>
             </canvas>
             <int name="price" value="50"/>
+            <int name="slotMax" value="1000"/>
             <int name="tradeBlock" value="1"/>
             <int name="notSale" value="1"/>
         </imgdir>
@@ -18492,7 +18742,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="noCancelMouse" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -18509,7 +18758,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="noCancelMouse" value="1"/>
         </imgdir>
         <imgdir name="spec">
@@ -18526,7 +18774,6 @@
                 <vector name="origin" x="0" y="32"/>
             </canvas>
             <int name="timeLimited" value="1"/>
-            <int name="slotMax" value="1000"/>
             <int name="noCancelMouse" value="1"/>
         </imgdir>
         <imgdir name="spec">
