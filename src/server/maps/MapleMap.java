@@ -4361,6 +4361,52 @@ private void broadcastMessage(MapleCharacter source, final byte[] packet, double
             spawnMonsterOnGroundBelow(m, targetPoint);
         }
     }
+
+    public void spawnCHorntailOnGroundBelow(final Point targetPoint) {   // ayy lmao
+        MapleMonster chtIntro = MapleLifeFactory.getMonster(8810130);
+        spawnMonsterOnGroundBelow(chtIntro, targetPoint);    // chtintro spawn animation converting into horntail detected thanks to Arnah
+
+        final MapleMonster cht = MapleLifeFactory.getMonster(8810118);
+        cht.setParentMobOid(chtIntro.getObjectId());
+        cht.addListener(new MonsterListener() {
+            @Override
+            public void monsterKilled(int aniTime) {}
+
+            @Override
+            public void monsterDamaged(MapleCharacter from, long trueDmg) {
+                cht.addHp(trueDmg);
+            }
+
+            @Override
+            public void monsterHealed(long trueHeal) {
+                cht.addHp(-trueHeal);
+            }
+        });
+        spawnMonsterOnGroundBelow(cht, targetPoint);
+
+        for (int x = 8810002; x <= 8810009; x++) {
+            MapleMonster m = MapleLifeFactory.getMonster(x);
+            m.setParentMobOid(chtIntro.getObjectId());
+
+            m.addListener(new MonsterListener() {
+                @Override
+                public void monsterKilled(int aniTime) {}
+
+                @Override
+                public void monsterDamaged(MapleCharacter from, long trueDmg) {
+                    // thanks Halcyon for noticing HT not dropping loots due to propagated damage not registering attacker
+                    cht.applyFakeDamage(from, trueDmg, true);
+                }
+
+                @Override
+                public void monsterHealed(long trueHeal) {
+                    cht.addHp(trueHeal);
+                }
+            });
+
+            spawnMonsterOnGroundBelow(m, targetPoint);
+        }
+    }
     
     public boolean claimOwnership(MapleCharacter chr) {
         if (mapOwner == null) {
