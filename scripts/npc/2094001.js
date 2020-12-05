@@ -19,9 +19,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-importPackage(Packages.tools);
-importPackage(Packages.constants.inventory);
-importPackage(Packages.client.inventory);
+
 var status = -1;
 
 function start() {
@@ -68,12 +66,6 @@ function action(mode, type, selection) {
                                                 cm.dispose();
                                                 return;
                                         }
-										if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
-											cm.sendOk("Your inventory is full! Please make room and try again."); 
-										} else {
-											cm.gainItem(4001435, 10);
-											cm.gainItem(4310000,12);
-										}
                                         cm.gainItem(4001158, 1);
                                         cm.warp(251010404,0);
                                 } else {

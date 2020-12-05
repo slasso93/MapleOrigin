@@ -4,9 +4,7 @@
  * @map: Ellin PQ
  * @func: Ellin PQ Coordinator
 */
-importPackage(Packages.tools);
-importPackage(Packages.constants.inventory);
-importPackage(Packages.client.inventory);
+
 var status = 0;
 var mapid;
 
@@ -112,11 +110,6 @@ function action(mode, type, selection) {
                                 cm.sendNext("Please make room on your inventory first!");
                             } else {
                                 cm.getEventInstance().giveEventReward(cm.getPlayer());
-								if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(4001435)).isFull(0)){
-									cm.sendOk("Your inventory is full! Please make room and try again."); 
-								} else {
-									cm.gainItem(4001435, 10);
-								}
                                 cm.gainItem(4001198, 1);
                                 cm.warp(930000800, 0);
                             }
