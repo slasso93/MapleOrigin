@@ -506,7 +506,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                         List<Pair<Integer, Integer>> mobSkills = monster.getSkills();
 
                         for (Pair<Integer, Integer> ms : mobSkills) {
-                            if (ms.left == 145) {
+                            if (ms.left == 145 && theSkill.getId() != Marauder.ENERGY_CHARGE) {
                                 MobSkill toUse = MobSkillFactory.getMobSkill(ms.left, ms.right);
                                 player.addHP(-toUse.getX());
                                 map.broadcastMessage(player, MaplePacketCreator.damagePlayer(0, monster.getId(), player.getId(), toUse.getX(), 0, 0, false, 0, true, monster.getObjectId(), 0, 0), true);
