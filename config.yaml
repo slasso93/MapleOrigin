@@ -296,7 +296,8 @@ server:
     BLOCK_GENERATE_CASH_ITEM: false     #Prevents creation of cash items with the item/drop command.
     USE_WHOLE_SERVER_RANKING: false     #Enables a ranking pool made from every character registered on the server for the "ranks" command, instead of separated by worlds.
 
-    EQUIP_EXP_RATE: 0.25                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
+    EQUIP_EXP_MODIFIER: 0.25                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
+    EQUIP_EXP_RATE: 6                  # equip exp rate independent of player exp rate (set to -1 to use player exp)
     PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
     EXP_SPLIT_MOB_INTERVAL: 10            #Non-contributing players must be within N level between the mob to receive EXP.
