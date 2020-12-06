@@ -2145,10 +2145,10 @@
             <int name="x" value="500"/>
             <int name="y" value="-1046"/>
             <int name="pt" value="2"/>
-            <int name="tm" value="273010000"/>
+            <int name="tm" value="1000000000"/>
             <string name="tn" value="west00"/>
             <string name="pn" value="goPerion"/>
-            <string name="script" value=""/>
+            <string name="script" value="block"/>
             <int name="horizontalImpact" value="0"/>
             <int name="delay" value="0"/>
             <int name="hideTooltip" value="0"/>

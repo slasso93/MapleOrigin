@@ -2831,6 +2831,7 @@
             <int name="tm" value="100000000"/>
             <string name="tn" value=""/>
             <string name="pn" value="out00"/>
+            <string name="script" value="fmexit"/>
             <int name="hideTooltip" value="0"/>
             <int name="onlyOnce" value="0"/>
         </imgdir>
