@@ -279,22 +279,33 @@ public final class ItemConstants {
 
     public static boolean isTimelessWeapon(int itemid) {
         return itemid == 1302081 ||
-            itemid == 1312037 ||
-            itemid == 1322060 ||
-            itemid == 1402046 ||
-            itemid == 1412033 ||
-            itemid == 1422037 ||
-            itemid == 1442063 ||
-            itemid == 1482023 ||
-            itemid == 1332073 ||
-            itemid == 1332074 ||
-            itemid == 1372044 ||
-            itemid == 1382057 ||
-            itemid == 1432047 ||
-            itemid == 1452057 ||
-            itemid == 1462050 ||
-            itemid == 1472068 ||
-            itemid == 1492023;
+                itemid == 1312037 ||
+                itemid == 1322060 ||
+                itemid == 1402046 ||
+                itemid == 1412033 ||
+                itemid == 1422037 ||
+                itemid == 1442063 ||
+                itemid == 1482023 ||
+                itemid == 1332073 ||
+                itemid == 1332074 ||
+                itemid == 1372044 ||
+                itemid == 1382057 ||
+                itemid == 1432047 ||
+                itemid == 1452057 ||
+                itemid == 1462050 ||
+                itemid == 1472068 ||
+                itemid == 1304011 || /*Timeless Grim Seeker*/
+                itemid == 1305011 || /*Timeless Hefty Head*/
+                itemid == 1333011 || /*Timeless Chain*/
+                itemid == 1335011 || /*Reverse Ritual Fan*/
+                itemid == 1335012 || /*Timeless Ritual Fan*/
+                itemid == 1373011 || /*Timeless Kitty Pride Scepter*/
+                itemid == 1376013 || /*Timeless Fan of Altruism*/
+                itemid == 1384011 || /*Timeless Lucent Gauntlet*/
+                itemid == 1383011 || /*Timeless Dead End*/
+                itemid == 1454012 || /*Timeless Ancient Bow*/
+                itemid == 1483010 || /*Timeless Jager*/
+                itemid == 1492023;
     }
 
     public static boolean isReverseWeapon(int itemid) {
@@ -314,6 +325,15 @@ public final class ItemConstants {
                 itemid == 1462051 ||
                 itemid == 1472071 ||
                 itemid == 1482024 ||
+                itemid == 1383012 || /*Reverse Dead End*/
+                itemid == 1454011 || /*Reverse Ancient Bow*/
+                itemid == 1376012 || /*Reverse Fan of Altruism*/
+                itemid == 1384010 || /*Reverse Lucent Gauntlet*/
+                itemid == 1304012 || /*Reverse Grim Seeker*/
+                itemid == 1305012 || /*Reverse Hefty Head*/
+                itemid == 1333010 || /*Reverse Chain*/
+                itemid == 1373012 || /*Reverse Kitty Pride Scepter*/
+                itemid == 1483009 || /*Reverse Surtr*/
                 itemid == 1492025;
     }
 
