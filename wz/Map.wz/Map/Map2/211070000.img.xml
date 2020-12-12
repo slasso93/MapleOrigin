@@ -842,10 +842,8 @@
             <int name="pt" value="7"/>
             <int name="x" value="1833"/>
             <int name="y" value="-137"/>
-            <int name="tm" value="999999999"/>
-            <string name="tn" value=""/>
-            <int name="horizontalImpact" value="0"/>
-            <string name="script" value="portalNPC"/>
+            <int name="tm" value="82100"/>
+            <string name="tn" value="von01"/>
             <int name="hideTooltip" value="0"/>
             <int name="onlyOnce" value="0"/>
             <int name="delay" value="0"/>

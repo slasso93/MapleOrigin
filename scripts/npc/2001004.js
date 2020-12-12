@@ -27,22 +27,24 @@
 var status = -1;
 
 function start() { 
-    action(1,0,0);
+    cm.sendSimple("So, are you ready to head out of here?\r\n" +
+			"#L1#Take me back to #bFree Market#k\r\n" +
+			"#L2#Take me back to to #bHappyVille")
 } 
 function action(mode, type, selection) {
-    if (mode < 0)
+    if (mode < 1) {
         cm.dispose();
-    else {
-        if (mode == 1)
-            status++;
-        else
-            status--;
-        
-        if (status == 0) {
-            cm.sendYesNo("So, are you ready to head out of here?");
-        } else if(status == 1) {
-            cm.warp(209000000, 3);
-            cm.dispose();
-        }
+        return;
+    } else {
+        status++;
     }
-} 
+    if (status == 0) {
+        if (selection == 1){
+            cm.warp(910000000);
+        } else if (selection == 2){
+            cm.warp(209000000);
+        } 
+    }
+    cm.dispose();           
+    }
+    

@@ -1,3 +1,9 @@
+/*
+@author Version 1.0 Kris
+@Version 1.0
+Mount Exchange NPC
+*/
+
 var status = -1;
 
 function start() {

@@ -1,7 +1,12 @@
-/* @author RonanLana */
-var level = 160;
+function enter(pi) {
+    pi.openNpc(2144017, "Arkarium");
+    return false;
+}
+
+/* @author RonanLana 
+var level = 220;
 var minparty = 1;
-var maxparty = 6;
+var maxparty = 12;
 var minraid = 1;
 var maxraid = 40;
 
@@ -42,3 +47,4 @@ function enter(pi) {
     }
     return false;
 }
+*/

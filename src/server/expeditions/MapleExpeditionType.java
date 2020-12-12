@@ -46,8 +46,9 @@ public enum MapleExpeditionType {
     CWKPQ(1, 30, 90, 255, 5),   // CWKPQ min-level 90, found thanks to Cato
     PAPULATUS(1, 6, 115, 255, 5),
     KREXEL(1, 6, 120, 255, 5),
-    VONLEON(6, 12, 200, 255, 5);
-  //EMPRESS(1, 6, 200, 255, 5);
+    VONLEON(6, 12, 200, 255, 5),
+    ARKARIUM(6, 12, 220, 255, 5),
+    EMPRESS(6, 24, 230, 255, 5);
     
     private int minSize;
     private int maxSize;

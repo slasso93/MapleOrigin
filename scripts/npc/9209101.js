@@ -1,5 +1,7 @@
 /*
-@author slasso
+@author Version 1.0 slasso
+@author Version 1.1 Kris
+@Version 1.1
 Light GML Exchange NPC
 */
 
@@ -143,6 +145,16 @@ function action(mode, type, selection) {
                 }
             }
             cm.sendSimple(shopStr);
+        } else if (status == 2 && selectedType =="vegas"){
+            if (selection == 1){
+                selectedItem = 5610000;
+                flag = 1;
+                cm.sendGetNumber("You have selected #i"+selectedItem+"##e#b #z"+selectedItem+"#\r\n#rPlease input the amount you require", 0, 1, 1000);
+            } else if (selection == 2){
+                selectedItem = 5610001;
+                flag = 2;
+                cm.sendGetNumber("You have selected #i"+selectedItem+"##e#b #z"+selectedItem+"#\r\n#rPlease input the amount you require", 0, 1, 1000);
+            }
         } else if (status == 2) { // confirm selection with yes/no
 			var item = selectedType == "itcg" ? itcg[selection - 1] : (selectedType == "vip" ? vip[selection - 1] : vegas[selection - 1]);
 			var shopStr = "";
@@ -167,6 +179,32 @@ function action(mode, type, selection) {
                 cm.sendOk("Sorry, you do not have all the required materials for #b#e#z" + selectedItem.id + "##n#k.");
             } else if (!cm.haveItem(gml, selectedItem.cost)) {
                 cm.sendOk("Sorry, you do not have enough #b#e#z" + gml + "##n#k to make this purchase.");
+            } else if (selectedType == "vegas"){
+                var amount = selection;
+                var totalcost;
+                if (!cm.getPlayer().getInventory(ItemConstants.getInventoryType(selectedItem)).isFull(0)){
+                    if (selectedItem == 5610001){
+                        totalcost = amount * 4;
+                        if (cm.haveItem(gml,totalcost)){
+                        cm.gainItem(gml, -totalcost);
+                        cm.gainItem(selectedItem,amount);
+                        cm.dispose();
+                        } else {
+                            cm.sendOk("Sorry, you do not have enough #b#e#z" + gml + "##n#k to make this purchase.");
+                        }
+                    } else if (selectedItem == 5610000){
+                        totalcost = amount * 8;
+                        if (cm.haveItem(gml,totalcost)){
+                        cm.gainItem(gml, -totalcost);
+                        cm.gainItem(selectedItem,amount);
+                        cm.dispose();
+                        } else {
+                            cm.sendOk("Sorry, you do not have enough #b#e#z" + gml + "##n#k to make this purchase.");
+                        }
+                    }
+                } else {
+                    cm.sendOk("Your inventory is full! Please make room and try again.");
+                }
             } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(selectedItem.id)).isFull(0)) {
                 cm.sendOk("Your inventory is full! Please make room and try again.");
             } else if (selectedType != "vip") {

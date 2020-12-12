@@ -1,129 +1,95 @@
-var status = -1;
+/*
+	This file is part of the OdinMS Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+		       Matthias Butz <matze@odinms.de>
+		       Jan Christian Meyer <vimes@odinms.de>
 
-var item = 
-[[1012315,1115041,1115130,1012644,1004136,1102682,1102684,1052749,1012631, 1000079,1050215,1051262,1702328,1702359,1052750, 1022027, 4031866, 1102767, 1102549, 1102813] /*Nx Items*/
-,[3010140, 1022048, 1092067, 1702585] /*Chairs,trans eye, trans shield, universal tranpsarent wep*/
-,[2022179,2022273, 5220000, 2049003, 3010575, 3010576, 3010577] /*ATK and MATK Pots and Gacha and css 20*/
-,[2048010, 2048011, 2048012, 2048013, 2048001, 2048004,2048010, 2048011,2048010, 2048011, 2049001, 4031866] /*Scrolls, CSS3%, */
-,[1012684, 5220020]]; /*Mask, NX Gacha*/
-var rand = Math.floor(Math.random()*100);
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation version 3 as published by
+    the Free Software Foundation. You may not use, modify or distribute
+    this program under any other version of the GNU Affero General Public
+    License.
 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* Mar the Fairy
+	Handles Water of Life
+ */
+
+importPackage(Packages.client.inventory);
+importPackage(Packages.server);
+
+var status;
+var dList;
+ 
 function start() {
-    action(1, 0, 0);
+        status = -1;
+        dList = cm.getDriedPets();
+        if(dList.size() == 0) {
+                cm.playerMessage(5, "You currently do not own a pet that needs to be treated with Water of Life.");
+                cm.dispose();
+                return;
+        }
+        
+        action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1) {
-	status++;
-    } else {
-	cm.dispose();
-	return;
-    }
-    if (status == 0) {
-        cm.sendSimple("Oh no! It appears the #rCoronavirus #khas spread to MapleOrigin. But have no fear your grinding will still go on! For the rest of September monsters will drop:\r\n\r\n #v4001332# - #z4001332#\r\n\r\nFwind us swome toiwet pwaper and we'll reward uwu with swome interwesting itwems uwu\r\n#b#L0# Exchange 5 Toilet Rolls fwor an interwesting itwem!#l\r\n");
-    } else if (status == 1) {
-		if (selection == 0) {
-            if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
-                if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(2)) {
-                    if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
-                        if(cm.haveItem(4001332 , 5)) {
-                            (cm.gainItem(4001332 , -5));
-                            var rand2;
-                            if ((rand >= 1) && (rand <= 60)) {
-                                rand2 = Math.floor(Math.random() * item[0].length);
-                            } else if ((rand >= 61) && (rand <= 70 )) {
-                                rand2 = Math.floor(Math.random() * item[1].length);
-                            }else if ((rand >= 71) && (rand <= 80)) {
-                                rand2 = Math.floor(Math.random() * item[2].length);
-                            }else if ((rand >= 81) && (rand <= 95)) {
-                                rand2 = Math.floor(Math.random() * item[3].length);
-                            }else{
-                                rand2 = Math.floor(Math.random() * item[4].length);
-                                }
-                            cm.gainItem([rand >= 1 && rand <= 60 ? item[0][rand2] : rand >= 61 && rand <= 70 ? item[1][rand2] : rand >= 71 && rand <= 80 ? item[2][rand2] :  rand >= 81 && rand <= 95 ? item[3][rand2] : item[4][rand2]]);
-                            cm.dispose();
-                        } else {
-                            cm.sendOk("You do not have enough #r#z4001332#!");
-                        }
-                    } else {
-                        cm.sendOk("Please have atleast 3 spaces in your USE tab");
-                    }
-                } else {
-                    cm.sendOk("Please have atleast 3 spaces in your SETUP tab");
+        if (mode == -1) {
+                cm.dispose();
+        } else {
+                if (mode == 0 && type > 0) {
+                        cm.dispose();
+                        return;
                 }
-            } else {
-                cm.sendOk("Please have atleast 3 spaces in your EQUIP tab");
-            }
-		} else {
-            cm.sendOk("You do not have enough #r#z4001332#!");
-            cm.dispose();
-        }
-    } else {
-        cm.dispose();
-    }
-}
-
-/*var status = -1;  Summerdays event
-
-var item = 
-[[1004981, 1004200, 1004989, 1002310,1102857, 1042329, 1062211, 1052503, 1042170, 1053203, 1051594, 1050524, 1053197, 1053198,1092065, 1702682, 1702705, 1702890, 1112160, 1112272, 1492026, 1482025, 1472058, 1462043, 1442053, 1432042, 1422033, 1412029, 1402041, 1302071, 1312034, 1322056, 1332059, 1382042, 1442186,1442187,1442188,1442189,1442190] Nx Items
-,[3015234, 3015235, 3010065, 3010034, 3010273,3010142, 3011000, 3015394] Chairs
-,[2022179,2022273] ATK and MATK Pots
-,[2048010, 2048011, 2048012, 2048013, 2048001, 2048004,2048010, 2048011,2048010, 2048011, 2049001] Scrolls
-,[1142551, 1022237]]; Medal
-var rand = Math.floor(Math.random()*100);
-
-function start() {
-    action(1, 0, 0);
-}
-
-function action(mode, type, selection) {
-    if (mode == 1) {
-	status++;
-    } else {
-	cm.dispose();
-	return;
-    }
-    if (status == 0) {
-        cm.sendSimple("The lazy, hazy days of summer! We look forward to it all year long when school is over and we take your summer holidays. Summer sun and days on Maple with all your friends together. Somehow summer never seems to last long enough. Starting from this moment it’s time for you to get some:\r\n\r\n #v4001165# - #z4001165#\r\n\r\nBring me them and I shall reward you with the Summer fun surprises!\r\n#b#L0# Exchange 2 Sunshine for a Summer Surprise!#l\r\n");
-    } else if (status == 1) {
-		if (selection == 0) {
-            if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)) {
-                if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.SETUP).isFull(2)) {
-                    if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
-                        if(cm.haveItem(4001165 , 2)) {
-                            (cm.gainItem(4001165 , -2));
-                            var rand2;
-                            if ((rand >= 1) && (rand <= 60)) {
-                                rand2 = Math.floor(Math.random() * item[0].length);
-                            } else if ((rand >= 61) && (rand <= 70 )) {
-                                rand2 = Math.floor(Math.random() * item[1].length);
-                            }else if ((rand >= 71) && (rand <= 80)) {
-                                rand2 = Math.floor(Math.random() * item[2].length);
-                            }else if ((rand >= 81) && (rand <= 95)) {
-                                rand2 = Math.floor(Math.random() * item[3].length);
-                            }else{
-                                rand2 = Math.floor(Math.random() * item[4].length);
-                                }
-                            cm.gainItem([rand >= 1 && rand <= 60 ? item[0][rand2] : rand >= 61 && rand <= 70 ? item[1][rand2] : rand >= 71 && rand <= 80 ? item[2][rand2] :  rand >= 81 && rand <= 95 ? item[3][rand2] : item[4][rand2]]);
-                            cm.dispose();
-                        } else {
-                            cm.sendOk("You do not have enough #r#z4001165#!");
+                if (mode == 1)
+                        status++;
+                else
+                        status--;
+    
+                if (status == 0) {
+                        cm.sendYesNo("I am Mar the Fairy. You have the #bWater of Life#k... With this, I can bring a doll back to life with my magic. What do you think? Do you want to use this item and reawaken your pet ...?");
+                        
+                } else if (status == 1) {
+                        var talkStr = "So which pet you want to reawaken? Please choose the pet you'd most like to reawaken...\r\n\r\n";
+                        
+                        var listStr = "";
+                        var i = 0;
+                        
+                        var dIter = dList.iterator();
+                        while (dIter.hasNext()){
+                            var dPet = dIter.next();
+                            
+                            listStr += "#b#L" + i + "# " + dPet.getName() + " #k - Lv " + dPet.getLevel() + " Closeness " + dPet.getCloseness();
+                            listStr += "#l\r\n";
+                            
+                            i++;
                         }
-                    } else {
-                        cm.sendOk("Please have atleast 3 spaces in your USE tab");
-                    }
-                } else {
-                    cm.sendOk("Please have atleast 3 spaces in your SETUP tab");
+                        
+                        cm.sendSimple(talkStr + listStr);
+                } else if (status == 2) {
+                        var sPet = dList.get(selection);
+                        
+                        if(sPet != null) {
+                            cm.sendNext("Your doll has now reawaken as your pet! However, my magic isn't perfect, so I can't promise an eternal life for your pet... Please take care of that pet before the Water of Life dries. Well then, good bye...");
+                            
+                            var it = cm.getPlayer().getInventory(MapleInventoryType.CASH).getItem(sPet.getPosition());
+                            it.setExpiration(Date.now() + (1000 * 60 * 60 * 24 * 90));
+                            cm.getPlayer().forceUpdateItem(it);
+                            
+                            cm.gainItem(5180000, -1);
+                        } else {
+                            cm.sendNext("Oh, well then. Good bye...");
+                        }
+                    
+                        cm.dispose();
                 }
-            } else {
-                cm.sendOk("Please have atleast 3 spaces in your EQUIP tab");
-            }
-		} else {
-            cm.sendOk("You do not have enough #r#z4001165#!");
-            cm.dispose();
         }
-    } else {
-        cm.dispose();
-    }
-}*/
+}

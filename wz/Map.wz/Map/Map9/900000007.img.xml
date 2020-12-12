@@ -8878,61 +8878,6 @@
             <int name="onlyOnce" value="0"/>
         </imgdir>
         <imgdir name="27">
-            <int name="x" value="8850"/>
-            <int name="y" value="738"/>
-            <int name="pt" value="12"/>
-            <int name="tm" value="999999999"/>
-            <string name="tn" value=""/>
-            <string name="pn" value="jump6"/>
-            <int name="delay" value="0"/>
-            <int name="hideTooltip" value="0"/>
-            <int name="onlyOnce" value="0"/>
-        </imgdir>
-        <imgdir name="28">
-            <int name="x" value="8659"/>
-            <int name="y" value="738"/>
-            <int name="pt" value="12"/>
-            <int name="tm" value="999999999"/>
-            <string name="tn" value=""/>
-            <string name="pn" value="jump6"/>
-            <int name="delay" value="0"/>
-            <int name="hideTooltip" value="0"/>
-            <int name="onlyOnce" value="0"/>
-        </imgdir>
-        <imgdir name="29">
-            <int name="x" value="8942"/>
-            <int name="y" value="643"/>
-            <int name="pt" value="10"/>
-            <int name="tm" value="100000001"/>
-            <string name="tn" value=""/>
-            <string name="pn" value="portal"/>
-            <string name="image" value="default"/>
-            <int name="hideTooltip" value="0"/>
-            <int name="onlyOnce" value="0"/>
-        </imgdir>
-        <imgdir name="30">
-            <int name="x" value="8753"/>
-            <int name="y" value="643"/>
-            <int name="pt" value="10"/>
-            <int name="tm" value="100000001"/>
-            <string name="tn" value=""/>
-            <string name="pn" value="portal"/>
-            <string name="image" value="default"/>
-            <int name="hideTooltip" value="0"/>
-            <int name="onlyOnce" value="0"/>
-        </imgdir>
-        <imgdir name="31">
-            <int name="x" value="8560"/>
-            <int name="y" value="643"/>
-            <int name="pt" value="10"/>
-            <int name="tm" value="100000001"/>
-            <string name="tn" value=""/>
-            <string name="pn" value="portal"/>
-            <string name="image" value="default"/>
-            <int name="hideTooltip" value="0"/>
-            <int name="onlyOnce" value="0"/>
-        </imgdir>
-        <imgdir name="32">
             <int name="x" value="1378"/>
             <int name="y" value="736"/>
             <int name="pt" value="3"/>
@@ -8940,6 +8885,28 @@
             <string name="tn" value="death"/>
             <string name="pn" value="jump6"/>
             <int name="delay" value="0"/>
+            <int name="hideTooltip" value="0"/>
+            <int name="onlyOnce" value="0"/>
+        </imgdir>
+        <imgdir name="28">
+            <int name="x" value="8755"/>
+            <int name="y" value="781"/>
+            <int name="pt" value="1"/>
+            <int name="tm" value="900000007"/>
+            <string name="tn" value=""/>
+            <string name="pn" value="top1"/>
+            <int name="hideTooltip" value="0"/>
+            <int name="onlyOnce" value="0"/>
+        </imgdir>
+        <imgdir name="29">
+            <int name="x" value="9191"/>
+            <int name="y" value="868"/>
+            <int name="pt" value="3"/>
+            <int name="tm" value="900000007"/>
+            <string name="tn" value="top1"/>
+            <string name="pn" value="drop99"/>
+            <int name="hRange" value="200"/>
+            <int name="vRange" value="10"/>
             <int name="hideTooltip" value="0"/>
             <int name="onlyOnce" value="0"/>
         </imgdir>
@@ -9842,7 +9809,7 @@
                 <imgdir name="112">
                     <int name="x1" value="8420"/>
                     <int name="y1" value="785"/>
-                    <int name="x2" value="9121"/>
+                    <int name="x2" value="9120"/>
                     <int name="y2" value="784"/>
                     <int name="prev" value="111"/>
                     <int name="next" value="117"/>
@@ -9881,11 +9848,11 @@
                 </imgdir>
                 <imgdir name="117">
                     <int name="x1" value="9120"/>
-                    <int name="y1" value="134"/>
-                    <int name="x2" value="9121"/>
-                    <int name="y2" value="784"/>
-                    <int name="prev" value="118"/>
-                    <int name="next" value="112"/>
+                    <int name="y1" value="784"/>
+                    <int name="x2" value="9120"/>
+                    <int name="y2" value="134"/>
+                    <int name="prev" value="112"/>
+                    <int name="next" value="118"/>
                 </imgdir>
                 <imgdir name="118">
                     <int name="x1" value="9120"/>

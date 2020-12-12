@@ -93,8 +93,7 @@ function action(mode, type, selection) {
                         if(!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
                             cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
                         }
-                    }
-                    else {
+                    } else {
                         cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
                     }
 

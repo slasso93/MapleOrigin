@@ -85,8 +85,33 @@ public class MapleExpedition {
 			9420542,// - Targa
 			9420543,// - Angry Targa
 			9420544,// - Furious Targa
-		      //8150011,// - Cygnus
+		        8150011,// - Cygnus
                         8840000, //Von Leon
+                        8860000, //Arkarium
+                        8800011, // Czak body 1
+                        8800012, // czak body 2
+                        8800013, // czak body 3
+                        8800014, // - c arm 1
+                        8800015, // - c arm 2
+                        8800016, // - c arm 3
+                        8800017, // - c arm 4
+                        8800018, // - c arm 5
+                        8800019, // - c arm 6
+                        8800020, // - c arm 7
+                        8800021, // - c arm 8
+                        8810100, // - cht left head 1
+                        8810101, // - cht right head 1
+                        8810102, // - cht head A
+                        8810103, // - cht head B
+                        8810104, // - cht head C
+                        8810105, // - cht left hand
+                        8810106, // - cht right hand
+                        8810107, // - cht wings
+                        8810108, // - cht legs
+                        8810109, // - cht tail
+                        8810118, // - chaos horntail
+                        8810119, // - spawn chaos horntail
+
 	};
 	
 	private MapleCharacter leader;

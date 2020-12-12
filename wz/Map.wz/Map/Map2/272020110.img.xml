@@ -302,7 +302,7 @@
             <int name="tm" value="999999999"/>
             <string name="tn" value=""/>
             <string name="pn" value="AkayrumEnter"/>
-            <string name="script" value="portalNPC1"/>
+            <string name="script" value="AkayrumEnter"/>
             <int name="horizontalImpact" value="0"/>
         </imgdir>
     </imgdir>

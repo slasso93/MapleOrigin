@@ -8,6 +8,7 @@ importPackage(Packages.constants.inventory);
 importPackage(Packages.client.inventory);
 
 var status;
+var flag;
 var nxGach = 5220020;
 var pashima = [1102423, 1102424, 1102425, 1102426, 1102427, 1102428, 1102429];
 var cardigan = [1053518, 1053519, 1053520, 1053521, 1053522, 1053523];
@@ -29,7 +30,7 @@ var luna = [1005419,1005420,1050534,1051605,1073390,1702956];
 var cursedhunter = [1005325,1103176,1053404,1073341]
 var exorcist = [1005418,1053493,1073363,1702955];
 var umbral = [1004720,1032262,1053022,1053023,1102912,1073132,1073133];
-
+var pets = [5002018, 5002019, 5002020, 5000990, 5000991, 5000992, 5000964, 5000963, 5000965, 5000696, 5000971, 5000969, 5000939, 5000940, 5002085, 5000736, 5000737, 5000738, 5000751, 5000752, 5000753, 5000793, 5000794, 5000795, 5002180, 5002181, 5002182, 5002161, 5002162, 5002163, 5002137, 5002138, 5002139, 5002130, 5002131, 5002132, 5002096, 5002097, 5002098, 5000946, 5000947, 5000948, 5000912, 5000913, 5000914, 5000903, 5000904, 5000905, 5000829, 5000830, 5000831, 5000591, 5000592, 5000514, 5000515, 5000516, 5002036, 5002037, 5002038]
 
 var item;
 var type;
@@ -38,6 +39,7 @@ var costs = {
 	cardigan: 175,
 	ribbon: 30,
 	beret: 70,
+	pets:50,
 	fifteen:15,
 	twenty:20,
 	thirty:30,
@@ -57,6 +59,20 @@ var costs = {
 function start() {
 	status=-1;
 	cm.sendSimple("You currently have #r#c" + nxGach + "# #b#e#z" + nxGach + "##k#n\r\nWhat would you like to do?\r\n" +
+	"#L1# #bPremium NX Equipment Store\r\n" +
+	"#L2# #bPremium Pet Store");
+}
+
+function action (m,t,s) {
+    if (m < 1) {
+        cm.dispose();
+        return;
+    } else {
+        status++;
+    }
+    if (status == 0) {
+		if (s == 1){
+			cm.sendSimple("You currently have #r#c" + nxGach + "# #b#e#z" + nxGach + "##k#n\r\nWhat would you like to do?\r\n" +
 			"#L1# #b[1] Pashima for #r200 #b#e#z" + nxGach + "##k#n\r\n" +
 			"#L2# #b[2] Baggy Cardigan for #r175 #b#e#z" + nxGach + "##k#n\r\n" +
 			"#L3# #b[3] Butterfly Ribbon for #r30 #b#e#z" + nxGach + "##k#n\r\n" +
@@ -76,18 +92,23 @@ function start() {
 			"#L17# #b[17] Luna Set #k#n\r\n" +
 			"#L18# #b[18] Cursed Hunter Set #k#n\r\n" +
 			"#L19# #b[19] Exorcist Set #k#n\r\n" +
-			"#L20# #b[20] Umbral Set #k#n\r\n" 
-	);
-}
-
-function action (m,t,s) {
-    if (m < 1) {
-        cm.dispose();
-        return;
-    } else {
-        status++;
-    }
-    if (status == 0) {
+			"#L20# #b[20] Umbral Set #k#n\r\n");
+		} else if (s == 2){
+			type ='pets';
+			var petString ="";
+			petString+= "#ePremium Pet Shop#r50 #bNX Gachapon Each#k\r\nYou currently have #r#c" + nxGach + "# #b#e#z" + nxGach + "##k#n\r\n"
+			for (var i = 0 ; i < pets.length; i++){
+				petString += "\r\n#L" + i + "##v" + pets[i] + "##e#z" + pets[i] +"\r\n\r\n";
+			}
+			cm.sendSimple(petString);
+		}
+    } else if (status == 1 && type =="pets"){
+		if (type) {
+			flag = 1;
+			if (type == 'pets') item = pets[s];
+			cm.sendYesNo("Are you sure you want to buy #i" + item + "##e#b#z" + item +"?");
+		}
+	} else if (status == 1) {
         if (s == 1) {
 			type = 'pashima';
             var selStr = "#ePashima Shop #r200 #bNX Gachapon Each#k\n\r\nYou currently have #r#c" + nxGach + "# #b#e#z" + nxGach + "##k#n\r\n";
@@ -244,7 +265,20 @@ function action (m,t,s) {
 			
             cm.sendSimple(selStr);
 		}
-    } else if(status == 1) {
+	} else if (status == 2 && flag == 1){
+		if (flag == 1){
+			type ="fifty";
+			if (!cm.haveItem(5220020, costs[type])) {
+                cm.sendOk("#e#rYou'll need " + costs[type] + "#b#e #z " + nxGach + "##k#n");
+            } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(item)).isFull(0)) {
+                cm.sendOk("Your inventory is full! Please make room and try again.");
+            } else {
+				cm.gainItem(5220020, -costs[type]);
+				cm.gainItem(item, 1, false, true, 10 * 365 * 1000 * 60 * 60 * 24)
+				cm.dispose();	
+			}
+		}
+	} else if (status == 2) {
 		if (type) {
 			if (type == 'pashima') item = pashima[s];
 			if (type == 'cardigan') item = cardigan[s];
@@ -269,8 +303,11 @@ function action (m,t,s) {
 			
 			cm.sendYesNo("Are you sure you want to buy #i" + item + "##e#b#z" + item +"?");
 		}
-	} else if (status == 2) {
-        var text = cm.getText();
+
+
+	} else if (status == 3 && flag == 1) {
+		cm.dispose();
+	} else if (status == 3){
 			if (item == jesterSpirit[4]  || item == forestWitch[2] || item == shimerring[2] || item == shimerring[5] || item == checkmate[4] || item == luna[4] || item == cursedhunter[3] || item == exorcist[2] || item == umbral[5] || item == umbral[6]){//COST = 15
 				type ="fifteen";
 			} else if (item == starryLight[4] || item == starryLight[5]){ // COST =20
@@ -300,7 +337,7 @@ function action (m,t,s) {
 			}
 			
 			if (!cm.haveItem(5220020, costs[type])) {
-                cm.sendOk("#e#rYou'll need " + costs[type] + "#b#e#z " + nxGach + "##k#n");
+                cm.sendOk("#e#rYou'll need " + costs[type] + "#b#e #z " + nxGach + "##k#n");
             } else if (cm.getPlayer().getInventory(ItemConstants.getInventoryType(item)).isFull(0)) {
                 cm.sendOk("Your inventory is full! Please make room and try again.");
             } else {
