@@ -351,8 +351,10 @@
 			<int name="y" value="-652"/>
 			<int name="pt" value="2"/>
 			<int name="tm" value="272020110"/>
-			<string name="tn" value="next00"/>
 			<string name="pn" value="prev00"/>
+			<int name="tm" value="999999999"/>
+			<string name="tn" value=""/>
+			<string name="script" value="Arkclear"/>
 			<int name="hideTooltip" value="0"/>
 			<int name="onlyOnce" value="0"/>
 		</imgdir>

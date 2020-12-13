@@ -47,6 +47,7 @@ public class MapleExpeditionBossLog {
         SCARGA(1, 1, false, (short) 2),
         PAPULATUS(2, 1, false, (short) 1),
         VONLEON(1, 1, true, (short)  4),
+        ARKARIUM(1, 1, true, (short)  4),
         KREXEL(2, 1, false, (short) 1);
         //EMPRESS(1, 1, false);
 

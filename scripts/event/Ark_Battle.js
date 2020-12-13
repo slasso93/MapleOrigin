@@ -28,12 +28,12 @@ importPackage(Packages.tools);
 importPackage(Packages.server.life);
 
 var isPq = true;
-var minPlayers = 2, maxPlayers = 6;
-var minLevel = 150, maxLevel = 255;
+var minPlayers = 1, maxPlayers = 12;
+var minLevel = 220, maxLevel = 255;
 
 var entryMap = 98007;
-var exitMap = 98006;
-var recruitMap = 98006;
+var exitMap = 272020110;
+var recruitMap = 272020110;
 var clearMap = 98006;
 
 var eventMapId = 98007;
@@ -44,8 +44,10 @@ var eventTime = 60;     // 10 minutes
 
 var lobbyRange = [0, 0];
 
-function init() {
+var mob;
 
+function init() {
+    setEventRequirements();
 }
 
 function setLobbyRange() {
@@ -53,32 +55,69 @@ function setLobbyRange() {
 }
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
+    var eligible = [];
+    var hasLeader = false;
+
+    if(party.size() > 0) {
+        var partyList = party.toArray();
+
+        for(var i = 0; i < party.size(); i++) {
+            var ch = partyList[i];
+            if(ch.getMapId() == exitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+                if(ch.isLeader()) hasLeader = true;
+                eligible.push(ch);
+            }
+        }
+    }
+
+    if(!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers)) eligible = [];
+    return eligible;
 }
 
-function setup(player, lobbyid) {
-    var eim = em.newInstance("Ark_Battle" + player.getName());
+function setup(channel) {
+    var eim = em.newInstance("Vonleon" + channel);
     map = eim.getMapInstance(eventMapId);
+    eim.setProperty("defeatedBoss", 0);
+	eim.setProperty("fallenPlayers", 0);
     eim.schedule("start", 10 * 1000);
     eim.createEventTimer(10 * 1000);
-    eim.setIntProperty("finish", 0);
+    eim.setIntProperty("finished", 0);
+    eim.setIntProperty("firstWave", 1);
+    eim.startEventTimer(eventTime * 60000);
+    setEventRewards(eim);
+
     return eim;
 }
 
-function start(eim) {
-    for (var i = 1; i <= 5; i++) {
-        map.spawnMonsterWithEffect(MapleLifeFactory.getMonster(8860002), 15, new java.awt.Point(-380, -590));
-    }
-    for (var i = 1; i <= 5; i++) {
-        map.spawnMonsterWithEffect(MapleLifeFactory.getMonster(8860002), 15, new java.awt.Point(650, -700));
-    }
-    map.spawnMonsterWithEffect(MapleLifeFactory.getMonster(8860000), 15, new java.awt.Point(130, -700));
-    eim.startEventTimer(eventTime * 60000);
-    eim.schedule("waves", 30 * 1000);
+function setEventRewards(eim) {
+        var itemSet, itemQty, evLevel, expStages, mesoStages;
+
+        evLevel = 1;    //Rewards at clear PQ
+        itemSet = [4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313, 4000313];
+        itemQty = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
+        eim.setEventRewards(evLevel, itemSet, itemQty);
+
+        expStages = [];    //bonus exp given on CLEAR stage signal
+        eim.setEventClearStageExp(expStages);
+
+        mesoStages = [];    //bonus meso given on CLEAR stage signal
+        eim.setEventClearStageMeso(mesoStages);
 }
+
+function start(eim) {
+    mob = MapleLifeFactory.getMonster(8860000);
+    map.spawnMonsterWithEffect(mob, 15, new java.awt.Point(130, -588));
+    eim.startEventTimer(eventTime * 60000);
+    eim.schedule("waves", 2 * 60 * 1000);
+}
+
+// first wave no heal
+// healing stacks with all mobs that are alive
+// healing happens 0, 20, 40, ... (every 20) seconds in (2% each time)
 
 function waves(eim) {
     var count = eim.getMapInstance(eventMapId).getSpawnedMonstersOnMap();
-    if (eim.getIntProperty("finish") < 1) {
+    if (eim.getIntProperty("finished") < 1) {
         if (count < 40) {
             for (var i = 1; i <= 5; i++) {
                 map.spawnMonsterWithEffect(MapleLifeFactory.getMonster(8860002), 15, new java.awt.Point(-380, -590));
@@ -87,7 +126,21 @@ function waves(eim) {
                 map.spawnMonsterWithEffect(MapleLifeFactory.getMonster(8860002), 15, new java.awt.Point(650, -700));
             }
         }
-        eim.schedule("waves", 30 * 1000);
+        if (eim.getIntProperty("firstWave") == 0) // after first wave then heal
+            eim.schedule("heal", 0);
+        else
+            eim.setIntProperty("firstWave", 0); // 1 means it's first wave, no healing (0 means its after 1st)
+
+        eim.schedule("waves", 5 * 60 * 1000);
+    }
+}
+
+function heal(eim) {
+    var mobCount = eim.getMapInstance(eventMapId).getSpawnedMonstersOnMap() - 1; // mob count
+
+    if (mobCount > 0) {
+        mob.heal(mob.getMaxHp() * .002 * mobCount, 0);
+        eim.schedule("heal", 20 * 1000);
     }
 }
 
@@ -119,6 +172,23 @@ function changedMap(eim, player, mapid) {
 		eim.stopEventTimer();
         eim.setEventCleared();
     }
+}
+
+function setEventRequirements() {
+        var reqStr = "";
+
+        reqStr += "\r\n    Number of players: ";
+        if(maxPlayers - minPlayers >= 1) reqStr += minPlayers + " ~ " + maxPlayers;
+        else reqStr += minPlayers;
+
+        reqStr += "\r\n    Level range: ";
+        if(maxLevel - minLevel >= 1) reqStr += minLevel + " ~ " + maxLevel;
+        else reqStr += minLevel;
+
+        reqStr += "\r\n    Time limit: ";
+        reqStr += eventTime + " minutes";
+
+        em.setProperty("party", reqStr);
 }
 
 function changedLeader(eim, leader) {
@@ -159,10 +229,11 @@ function isArk(mob) {
 function monsterKilled(mob, eim) {
     if(isArk(mob)) {
         eim.setIntProperty("defeatedBoss", 1);
+        eim.setIntProperty("finished", 1);
         eim.showClearEffect(mob.getMap().getId());
         eim.clearPQ();
         map.killAllMonsters();
-        mob.getMap().broadcastPinkBeanVictory();
+        //mob.getMap().broadcastPinkBeanVictory();
     }
 }
 function clearPQ(eim) {

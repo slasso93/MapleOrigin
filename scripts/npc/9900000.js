@@ -37,7 +37,7 @@ function start() {
                 cm.dispose();
                 return;
         }
-        
+
         action(1, 0, 0);
 }
 
