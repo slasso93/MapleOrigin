@@ -32,10 +32,10 @@ var expedition;
 var expedMembers;
 var player;
 var em;
-var exped = MapleExpeditionType.Arkarium;
+var exped = MapleExpeditionType.ARKARIUM;
 var expedName = "Arkarium";
 var expedBoss = "Arkarium";
-var expedMap = "VonsChamber";
+var expedMap = "Ark map";
 //var expedItem = 4001017;
 
 var list = "What would you like to do?#b\r\n\r\n#L1#View current Expedition members#l\r\n#L2#Start the fight!#l\r\n#L3#Stop the expedition.#l";
@@ -45,7 +45,6 @@ function start() {
 }
 
 function action(mode, type, selection) {
-
     player = cm.getPlayer();
     expedition = cm.getExpedition(exped);
     em = cm.getEventManager("Ark_Battle");

@@ -24,6 +24,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import client.MapleClient;
@@ -47,6 +49,7 @@ public class MapleExpeditionBossLog {
         SCARGA(1, 1, false, (short) 2),
         PAPULATUS(2, 1, false, (short) 1),
         VONLEON(1, 1, true, (short)  4),
+        ARKARIUM(1, 1, true, (short)  4),
         KREXEL(2, 1, false, (short) 1);
         //EMPRESS(1, 1, false);
 
@@ -73,10 +76,10 @@ public class MapleExpeditionBossLog {
             return gml;
         }
 
-        private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(Calendar timeNow, boolean week) {
+        private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(LocalDateTime timeNow, boolean week) {
             List<Pair<Timestamp, BossLogEntry>> resetTimestamps = new LinkedList<>();
 
-            Timestamp ts = new Timestamp(timeNow.getTime().getTime());  // reset all table entries actually, thanks Conrad
+            Timestamp ts = Timestamp.valueOf(timeNow);  // reset all table entries actually, thanks Conrad
             for (BossLogEntry b : BossLogEntry.values()) {
                 if (b.week == week) {
                     resetTimestamps.add(new Pair<>(ts, b));
@@ -103,31 +106,17 @@ public class MapleExpeditionBossLog {
         Boss logs resets 12am, weekly thursday 12AM - thanks Smitty Werbenjagermanjensen (superadlez) - https://www.reddit.com/r/Maplestory/comments/61tiup/about_reset_time/
         */
 
-        Calendar thursday = Calendar.getInstance();
-        thursday.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-        thursday.set(Calendar.HOUR, 0);
-        thursday.set(Calendar.MINUTE, 0);
-        thursday.set(Calendar.SECOND, 0);
+        LocalDateTime now = LocalDateTime.now();
 
-        Calendar now = Calendar.getInstance();
-
-        long weekLength = 7 * 24 * 60 * 60 * 1000;
-        long halfDayLength = 12 * 60 * 60 * 1000;
-
-        long deltaTime = now.getTime().getTime() - thursday.getTime().getTime();    // 2x time: get Date into millis
-        deltaTime += halfDayLength;
-        deltaTime %= weekLength;
-        deltaTime -= halfDayLength;
-
-        if (deltaTime < halfDayLength) {
-            MapleExpeditionBossLog.resetBossLogTable(true, thursday);
+        if (now.getDayOfWeek() == DayOfWeek.THURSDAY) {
+            MapleExpeditionBossLog.resetBossLogTable(true, now);
         }
 
         MapleExpeditionBossLog.resetBossLogTable(false, now);
     }
 
-    private static void resetBossLogTable(boolean week, Calendar c) {
-        List<Pair<Timestamp, BossLogEntry>> resetTimestamps = BossLogEntry.getBossLogResetTimestamps(c, week);
+    private static void resetBossLogTable(boolean week, LocalDateTime t) {
+        List<Pair<Timestamp, BossLogEntry>> resetTimestamps = BossLogEntry.getBossLogResetTimestamps(t, week);
 
         try {
             Connection con = DatabaseConnection.getConnection();
