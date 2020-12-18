@@ -319,7 +319,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     public boolean raidLeader = false;
     public boolean invite = false;
     private boolean pendingNameChange; //only used to change name on logout, not to be relied upon elsewhere
-    private long loginTime;
+    private long loginTime = 0;
     private long playTime;
     private long createdTime; // keep track of when they first logged in to the character
     private boolean usedFullSpReset;
@@ -11165,8 +11165,16 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         return loginTime;
     }
 
+    /**
+     * total logged in time. There is a bug where loginTime somehow isn't set and logged in time becomes current millis. Until that's fixed,
+     * return 0 if loginTime is not set
+     * @return
+     */
     public long getLoggedInTime() {
-        return System.currentTimeMillis() - loginTime;
+        if (loginTime > 0)
+            return System.currentTimeMillis() - loginTime;
+        else
+            return 0;
     }
 
     public boolean isLoggedin() {
