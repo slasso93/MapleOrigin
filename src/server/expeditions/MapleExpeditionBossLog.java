@@ -42,38 +42,44 @@ import tools.Pair;
 public class MapleExpeditionBossLog {
 
     public enum BossLogEntry {
-        ZAKUM(2, 1, false, (short) 2),
-        SHOWA(999, 1, false, (short) 0),
-        HORNTAIL(2, 1, false, (short) 3),
-        PINKBEAN(1, 1, true, (short) 6),
-        SCARGA(1, 1, false, (short) 2),
-        PAPULATUS(2, 1, false, (short) 1),
-        VONLEON(1, 1, true, (short)  4),
-        ARKARIUM(1, 1, true, (short)  4),
-        KREXEL(2, 1, false, (short) 1);
+        ZAKUM(2, 1, false, (short) 2, (short) 2),
+        SHOWA(999, 1, false, (short) 0, (short) 0),
+        HORNTAIL(2, 1, false, (short) 3, (short) 3),
+        PINKBEAN(1, 1, true, (short) 20, (short) 35),
+        SCARGA(1, 1, false, (short) 2, (short) 2),
+        PAPULATUS(2, 1, false, (short) 1, (short) 1),
+        VONLEON(1, 1, true, (short)  20, (short) 35),
+        ARKARIUM(1, 1, true, (short)  30, (short) 45),
+        KREXEL(2, 1, false, (short) 1, (short) 1);
         //EMPRESS(1, 1, false);
 
         private int entries;
         private int timeLength;
         private int minChannel, maxChannel;
         private boolean week;
-        private short gml;
+        private short gmlMin;
+        private short gmlMax;
 
-        private BossLogEntry(int entries, int timeLength, boolean week, short gml) {
-            this(entries, 0, Integer.MAX_VALUE, timeLength, week, gml);
+        BossLogEntry(int entries, int timeLength, boolean week, short gmlMin, short gmlMax) {
+            this(entries, 0, Integer.MAX_VALUE, timeLength, week, gmlMin, gmlMax);
         }
 
-        private BossLogEntry(int entries, int minChannel, int maxChannel, int timeLength, boolean week, short gml) {
+        BossLogEntry(int entries, int minChannel, int maxChannel, int timeLength, boolean week, short gmlMin, short gmlMax) {
             this.entries = entries;
             this.minChannel = minChannel;
             this.maxChannel = maxChannel;
             this.timeLength = timeLength;
             this.week = week;
-            this.gml = gml;
+            this.gmlMin = gmlMin;
+            this.gmlMax = gmlMax;
         }
 
-        public short getGml() {
-            return gml;
+        public short getGmlMin() {
+            return gmlMin;
+        }
+
+        public short getGmlMax() {
+            return gmlMax;
         }
 
         private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(LocalDateTime timeNow, boolean week) {
@@ -339,7 +345,7 @@ public class MapleExpeditionBossLog {
     public static void setExpeditionCompleted(MapleClient c, MapleExpeditionType type) {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         if (boss != null) {
-            if (c.getWorldServer() != null)
+            if (c.getWorldServer() != null && boss.getGmlMax() > 0)
                 c.getWorldServer().addUnclaimed(boss, c.getPlayer().getId());
         }
         setExpeditionCompleted(c.getPlayer().getId(), type);
