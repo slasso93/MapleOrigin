@@ -2246,4 +2246,23 @@ public class World {
         unclaimedRewards.put(cid, chrUnclaimed);
     }
 
+    public void removeUnclaimed(MapleExpeditionBossLog.BossLogEntry boss, int cid) {
+        Map<MapleExpeditionBossLog.BossLogEntry, Short> chrUnclaimed = unclaimedRewards.get(cid);
+        if (chrUnclaimed != null) {
+            Short unclaimedAmount = chrUnclaimed.get(boss);
+            if (unclaimedAmount != null) {
+                if (unclaimedAmount >= boss.getGmlMin())
+                    unclaimedAmount = (short) (unclaimedAmount - Randomizer.rand(boss.getGmlMin(), boss.getGmlMax()));
+
+                if (unclaimedAmount < boss.getGmlMin() || unclaimedAmount <= 0) {
+                    chrUnclaimed.remove(boss);
+                    if (chrUnclaimed.size() == 0)
+                        unclaimedRewards.remove(cid);
+                } else
+                    chrUnclaimed.put(boss, unclaimedAmount);
+            }
+        }
+
+    }
+
 }
