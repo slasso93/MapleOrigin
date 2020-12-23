@@ -7,6 +7,8 @@ importPackage(Packages.server.expeditions);
 
     if (eim && eim.isEventCleared()) {
         if (pi.reachedRewardLimit(MapleExpeditionType.VONLEON)) {
+            pi.getClient().getWorldServer().removeUnclaimed(MapleExpeditionBossLog.BossLogEntry.VONLEON, pi.getPlayer().getId());
+            pi.getPlayer().dropMessage(6,"You have already reached your limit on GMLs for this boss");
             pi.getPlayer().changeMap(82100, "von02");
         } else if (!eim.giveEventReward(pi.getPlayer())) {
             pi.playerMessage(5, "Please make room in your inventory before leaving this place!");
