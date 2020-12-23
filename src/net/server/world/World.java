@@ -93,10 +93,7 @@ import net.server.guild.MapleGuildSummary;
 import net.server.services.BaseService;
 import net.server.services.ServicesManager;
 import net.server.services.type.WorldServices;
-import tools.DatabaseConnection;
-import tools.FilePrinter;
-import tools.MaplePacketCreator;
-import tools.Pair;
+import tools.*;
 import tools.packets.Fishing;
 
 /**
@@ -1910,22 +1907,26 @@ public class World {
         }
     }
 
-    public List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> getAvailableItemBundles(int itemid) {
+    public List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> getAvailableItemBundles(MapleCharacter chr, int itemid) {
         List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> hmsAvailable = new ArrayList<>();
 
         for (MapleHiredMerchant hm : getActiveMerchants()) {
-            List<MaplePlayerShopItem> itemBundles = hm.sendAvailableBundles(itemid);
+            if (hm.sameLeague(chr)) {
+                List<MaplePlayerShopItem> itemBundles = hm.sendAvailableBundles(itemid);
 
-            for(MaplePlayerShopItem mpsi : itemBundles) {
-                hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) hm));
+                for (MaplePlayerShopItem mpsi : itemBundles) {
+                    hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) hm));
+                }
             }
         }
 
         for (MaplePlayerShop ps : getActivePlayerShops()) {
-            List<MaplePlayerShopItem> itemBundles = ps.sendAvailableBundles(itemid);
+            if (ps.sameLeague(chr)) {
+                List<MaplePlayerShopItem> itemBundles = ps.sendAvailableBundles(itemid);
 
-            for(MaplePlayerShopItem mpsi : itemBundles) {
-                hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) ps));
+                for (MaplePlayerShopItem mpsi : itemBundles) {
+                    hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) ps));
+                }
             }
         }
 
@@ -2235,37 +2236,14 @@ public class World {
 
     public void addUnclaimed(MapleExpeditionBossLog.BossLogEntry boss, int cid) {
         Map<MapleExpeditionBossLog.BossLogEntry, Short> chrUnclaimed = unclaimedRewards.get(cid);
+        int gml = Randomizer.rand(boss.getGmlMin(), boss.getGmlMax());
         if (chrUnclaimed != null) {
-            chrUnclaimed.merge(boss, boss.getGml(), (a, b) -> (short) (a + b));
+            chrUnclaimed.merge(boss, (short) gml, (a, b) -> (short) (a + b));
         } else { // first unclaimed for this char
             chrUnclaimed = new HashMap<>();
-            chrUnclaimed.put(boss, boss.getGml());
+            chrUnclaimed.put(boss, (short) gml);
         }
         unclaimedRewards.put(cid, chrUnclaimed);
-    }
-
-    /**
-     * Subtract unclaimed GML from a specific boss and characters
-     * @param boss
-     * @param cid
-     */
-    public void removeUnclaimed(MapleExpeditionBossLog.BossLogEntry boss, int cid) {
-        Map<MapleExpeditionBossLog.BossLogEntry, Short> chrUnclaimed = unclaimedRewards.get(cid);
-        if (chrUnclaimed != null) {
-            Short unclaimedAmount = chrUnclaimed.get(boss);
-            if (unclaimedAmount != null) {
-                if (unclaimedAmount >= boss.getGml())
-                    unclaimedAmount = (short) (unclaimedAmount - boss.getGml());
-
-                if (unclaimedAmount == 0) {
-                    chrUnclaimed.remove(boss);
-                    if (chrUnclaimed.size() == 0)
-                        unclaimedRewards.remove(cid);
-                } else
-                    chrUnclaimed.put(boss, unclaimedAmount);
-            }
-        }
-
     }
 
 }

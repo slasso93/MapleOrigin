@@ -443,6 +443,10 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                         player.setNewcomer(true); // "newcomer" means first login
                     }
                 }
+                // somehow they aren't a newcomer but login time is still not set?
+                if (player.getLoginTime() == 0)
+                    player.setLoginTime(System.currentTimeMillis());
+
                 player.updateLocalStats();
             } catch(Exception e) {
                 e.printStackTrace();

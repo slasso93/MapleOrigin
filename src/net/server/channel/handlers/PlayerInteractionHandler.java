@@ -375,13 +375,13 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                         } catch(RuntimeException re) {} // fella does not have a player shop permit...
                     }
 
-                    chr.getMap().broadcastMessage(MaplePacketCreator.updatePlayerShopBox(shop));
+                    chr.getMap().broadcastLeagueMessage(chr, MaplePacketCreator.updatePlayerShopBox(shop));
                     shop.setOpen(true);
                 } else if (merchant != null && merchant.isOwner(chr)) {
                     chr.setHasMerchant(true);
                     merchant.setOpen(true);
                     chr.getMap().addMapObject(merchant);
-                    chr.getMap().broadcastMessage(MaplePacketCreator.spawnHiredMerchantBox(merchant));
+                    chr.getMap().broadcastLeagueMessage(chr, MaplePacketCreator.spawnHiredMerchantBox(merchant));
                 }
             } else if (mode == Action.READY.getCode()) {
                 MapleMiniGame game = chr.getMiniGame();
@@ -797,13 +797,16 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     MapleCharacter mc = (MapleCharacter) mmo;
                     MaplePlayerShop shop = mc.getPlayerShop();
 
-                    if (shop != null && shop.isOwner(mc)) {
+                    if (shop != null && shop.isOwner(mc) && shop.sameLeague(chr)) {
                         chr.announce(MaplePacketCreator.getMiniRoomError(13));
                         return false;
                     }
                 } else {
-                    chr.announce(MaplePacketCreator.getMiniRoomError(13));
-                    return false;
+                    MapleHiredMerchant merch = (MapleHiredMerchant) mmo;
+                    if (merch.sameLeague(chr)) {
+                        chr.announce(MaplePacketCreator.getMiniRoomError(13));
+                        return false;
+                    }
                 }
             }
 

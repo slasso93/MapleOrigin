@@ -136,6 +136,28 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
         }
     }
 
+    public boolean sameLeague(MapleCharacter chr) {
+        MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterById(ownerId);
+        boolean ownerHasGroup = !chr.hasGroup(); // default to not in same league
+        if (owner == null) {
+            try (Connection c = DatabaseConnection.getConnection()) {
+                try (PreparedStatement ps = c.prepareStatement("SELECT group_id from characters where id=?")) {
+                    ps.setInt(1, this.getOwnerId());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next())
+                            ownerHasGroup = rs.getString("group_id") != null && !rs.getString("group_id").isEmpty();
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+        } else {
+            ownerHasGroup = owner.hasGroup();
+        }
+
+        return chr.hasGroup() == ownerHasGroup;
+    }
+
     public void removeVisitor(MapleCharacter visitor) {
         visitorLock.lock();
         try {
@@ -475,45 +497,14 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
             } else if (!this.isOpen()) {
                 chr.announce(MaplePacketCreator.getMiniRoomError(18));
                 return;
+            } else if (!this.sameLeague(chr)) {
+                chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
+                chr.announce(MaplePacketCreator.enableActions());
+                removeVisitor(chr);
+                return;
             } else if (!this.addVisitor(chr)) {
                 chr.announce(MaplePacketCreator.getMiniRoomError(2));
                 return;
-            } else {
-                MapleCharacter owner = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterById(ownerId);
-                boolean ownerHasGroup;
-                if (owner == null) {
-                    try (Connection c = DatabaseConnection.getConnection()) {
-                        try (PreparedStatement ps = c.prepareStatement("SELECT group_id from characters where id=?")) {
-                            ps.setInt(1, this.getOwnerId());
-                            try (ResultSet rs = ps.executeQuery()) {
-                                if (rs.next())
-                                    ownerHasGroup = rs.getString("group_id") != null && !rs.getString("group_id").isEmpty();
-                                else {
-                                    chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
-                                    chr.announce(MaplePacketCreator.enableActions());
-                                    removeVisitor(chr);
-                                    return;
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
-                        chr.announce(MaplePacketCreator.enableActions());
-                        removeVisitor(chr);
-                        return;
-                    }
-                } else {
-                    ownerHasGroup = owner.hasGroup();
-                }
-
-                if ((chr.hasGroup() && !ownerHasGroup) || (!chr.hasGroup() && ownerHasGroup)) {
-                    chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
-                    chr.announce(MaplePacketCreator.enableActions());
-                    removeVisitor(chr);
-                    return;
-                } else {
-                    chr.announce(MaplePacketCreator.getHiredMerchant(chr, this, false));
-                }
             }
             chr.setHiredMerchant(this);
         } finally {
@@ -790,7 +781,8 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
     
     @Override
     public void sendSpawnData(MapleClient client) {
-        client.announce(MaplePacketCreator.spawnHiredMerchantBox(this));
+        if (sameLeague(client.getPlayer()))
+            client.announce(MaplePacketCreator.spawnHiredMerchantBox(this));
     }
 
     public class SoldItem {
