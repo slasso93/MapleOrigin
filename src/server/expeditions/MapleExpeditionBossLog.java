@@ -331,7 +331,7 @@ public class MapleExpeditionBossLog {
                     zeroCount++;
             }
             if (zeroCount == dailyBossLog.size())
-                return null;
+                return new HashMap<>();
         }
         return dailyBossLog;
     }

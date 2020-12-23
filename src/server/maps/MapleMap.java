@@ -268,6 +268,23 @@ public class MapleMap {
         }
     }
 
+    public void broadcastLeagueMessage(MapleCharacter source, final byte[] packet) {
+        chrRLock.lock();
+        try {
+            for (MapleCharacter chr : characters) {
+                if (source != null && source.getClient() != null && chr != null && chr.getClient() != null) {
+                    if (chr.hasGroup() == source.hasGroup()) {
+                        chr.getClient().announce(packet);
+                    }
+                } else {
+                    removeStuckPlayer(chr == null || chr.getClient() == null ? chr : source);
+                }
+            }
+        } finally {
+            chrRLock.unlock();
+        }
+    }
+
     public void broadcastMessage(MapleCharacter source, final byte[] packet) {
         chrRLock.lock();
         try {
@@ -2955,7 +2972,7 @@ public void pickItemDrop(byte[] pickupPacket, MapleMapItem mdrop) { // mdrop mus
     public void broadcastMessage(final byte[] packet) {
         broadcastMessage(null, packet, Double.POSITIVE_INFINITY, null);
     }
-    
+
     public void broadcastGMMessage(final byte[] packet) {
         broadcastGMMessage(null, packet, Double.POSITIVE_INFINITY, null);
     }

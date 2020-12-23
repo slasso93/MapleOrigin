@@ -103,7 +103,7 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                                     return;
                                 }
                             }
-                            if ((invited.hasGroup() && !player.hasGroup()) || (!invited.hasGroup() && player.hasGroup())) { // one in group and not the other
+                            if (player.hasGroup() != invited.hasGroup()) { // one in group and not the other
                                 player.dropMessage(1, "You cannot party between standard and league!");
                                 c.announce(MaplePacketCreator.enableActions());return;
                             }

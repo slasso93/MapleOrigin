@@ -29,10 +29,7 @@ import client.MapleClient;
 import constants.game.GameConstants;
 import java.awt.Point;
 import net.AbstractMaplePacketHandler;
-import server.maps.MaplePortal;
-import server.maps.MapleMapObject;
-import server.maps.MapleMapObjectType;
-import server.maps.MaplePlayerShop;
+import server.maps.*;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
@@ -51,13 +48,16 @@ public final class HiredMerchantRequest extends AbstractMaplePacketHandler {
                     MapleCharacter mc = (MapleCharacter) mmo;
 
                     MaplePlayerShop shop = mc.getPlayerShop();
-                    if (shop != null && shop.isOwner(mc)) {
+                    if (shop != null && shop.isOwner(mc) && shop.sameLeague(chr)) {
                         chr.announce(MaplePacketCreator.getMiniRoomError(13));
                         return;
                     }
                 } else {
-                    chr.announce(MaplePacketCreator.getMiniRoomError(13));
-                    return;
+                    MapleHiredMerchant merch = (MapleHiredMerchant) mmo;
+                    if (merch.sameLeague(chr)) {
+                        chr.announce(MaplePacketCreator.getMiniRoomError(13));
+                        return;
+                    }
                 }
             }
 

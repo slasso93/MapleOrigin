@@ -482,7 +482,7 @@ public class MapleTrade {
         }
 
         if (MapleInviteCoordinator.createInvite(InviteType.TRADE, c1, c1.getId(), c2.getId())) {
-            if ((c1.hasGroup() && !c2.hasGroup()) || (!c1.hasGroup() && c2.hasGroup())) {
+            if (c1.hasGroup() != c2.hasGroup()) {
                 c1.message("A standard character and league player cannot trade.");
                 cancelTrade(c1, TradeResult.NO_RESPONSE);
                 MapleInviteCoordinator.answerInvite(InviteType.TRADE, c2.getId(), c1.getId(), false);

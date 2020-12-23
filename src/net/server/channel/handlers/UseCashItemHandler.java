@@ -416,7 +416,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
             
             if(!YamlConfig.config.server.USE_ENFORCE_ITEM_SUGGESTION) c.getWorldServer().addOwlItemSearch(itemid);
             player.setOwlSearch(itemid);
-            List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> hmsAvailable = c.getWorldServer().getAvailableItemBundles(itemid);
+            List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> hmsAvailable = c.getWorldServer().getAvailableItemBundles(c.getPlayer(), itemid);
             if(!hmsAvailable.isEmpty()) remove(c, position, itemId);
             
             c.announce(MaplePacketCreator.owlOfMinerva(c, itemid, hmsAvailable));

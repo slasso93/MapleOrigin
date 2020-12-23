@@ -300,7 +300,7 @@ public class MaplePartySearchCoordinator {
             if (!chr.getGroupId().equals(leader.getGroupId()))
                 return false;
         }
-        if ((chr.hasGroup() && !leader.hasGroup()) || (!chr.hasGroup() && leader.hasGroup())) // one in group and not the other
+        if (chr.hasGroup() != leader.hasGroup()) // one in group and not the other
             return false;
 
         if (MapleInviteCoordinator.createInvite(InviteType.PARTY, leader, partyid, chr.getId())) {

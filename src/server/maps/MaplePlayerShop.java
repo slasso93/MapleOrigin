@@ -523,14 +523,18 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
     public boolean isBanned(String name) {
         return bannedList.contains(name);
     }
-    
+
+    public boolean sameLeague(MapleCharacter visitor) {
+        return visitor.hasGroup() == owner.hasGroup();
+    }
+
     public synchronized boolean visitShop(MapleCharacter chr) {
         if (this.isBanned(chr.getName())) {
             chr.dropMessage(1, "You have been banned from this store.");
             return false;
         }
 
-        if ((chr.hasGroup() && !this.owner.hasGroup()) || (!chr.hasGroup() && this.owner.hasGroup())) {
+        if (!sameLeague(chr)) {
             chr.dropMessage(1, "You cannot visit a " + (chr.hasGroup() ? "standard" : "league") + " store on a " + (chr.hasGroup() ? "league" : "standard") + " character.");
             return false;
         }

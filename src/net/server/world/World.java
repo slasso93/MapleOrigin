@@ -1910,22 +1910,26 @@ public class World {
         }
     }
 
-    public List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> getAvailableItemBundles(int itemid) {
+    public List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> getAvailableItemBundles(MapleCharacter chr, int itemid) {
         List<Pair<MaplePlayerShopItem, AbstractMapleMapObject>> hmsAvailable = new ArrayList<>();
 
         for (MapleHiredMerchant hm : getActiveMerchants()) {
-            List<MaplePlayerShopItem> itemBundles = hm.sendAvailableBundles(itemid);
+            if (hm.sameLeague(chr)) {
+                List<MaplePlayerShopItem> itemBundles = hm.sendAvailableBundles(itemid);
 
-            for(MaplePlayerShopItem mpsi : itemBundles) {
-                hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) hm));
+                for (MaplePlayerShopItem mpsi : itemBundles) {
+                    hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) hm));
+                }
             }
         }
 
         for (MaplePlayerShop ps : getActivePlayerShops()) {
-            List<MaplePlayerShopItem> itemBundles = ps.sendAvailableBundles(itemid);
+            if (ps.sameLeague(chr)) {
+                List<MaplePlayerShopItem> itemBundles = ps.sendAvailableBundles(itemid);
 
-            for(MaplePlayerShopItem mpsi : itemBundles) {
-                hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) ps));
+                for (MaplePlayerShopItem mpsi : itemBundles) {
+                    hmsAvailable.add(new Pair<>(mpsi, (AbstractMapleMapObject) ps));
+                }
             }
         }
 
