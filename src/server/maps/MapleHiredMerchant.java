@@ -506,6 +506,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                 chr.announce(MaplePacketCreator.getMiniRoomError(2));
                 return;
             }
+            chr.announce(MaplePacketCreator.getHiredMerchant(chr, this, false));
             chr.setHiredMerchant(this);
         } finally {
             visitorLock.unlock();
