@@ -82,6 +82,10 @@ public class MapleExpeditionBossLog {
             return gmlMax;
         }
 
+        public int getEntries() {
+            return entries;
+        }
+
         private static List<Pair<Timestamp, BossLogEntry>> getBossLogResetTimestamps(LocalDateTime timeNow, boolean week) {
             List<Pair<Timestamp, BossLogEntry>> resetTimestamps = new LinkedList<>();
 
