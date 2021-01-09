@@ -50,7 +50,8 @@ public class MapleExpeditionBossLog {
         PAPULATUS(2, 1, false, (short) 1, (short) 1),
         VONLEON(1, 1, true, (short)  20, (short) 35),
         ARKARIUM(1, 1, true, (short)  30, (short) 45),
-        KREXEL(2, 1, false, (short) 1, (short) 1);
+        KREXEL(2, 1, false, (short) 1, (short) 1),
+        CHAOS_HORNTAIL(1, 1, false, (short) 3, (short) 3),;
         //EMPRESS(1, 1, false);
 
         private int entries;

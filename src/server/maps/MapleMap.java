@@ -4332,6 +4332,15 @@ private void broadcastMessage(MapleCharacter source, final byte[] packet, double
         
         return true;
     }
+    public boolean isCHorntailDefeated() {   // all parts of dead Chaos horntail can be found here? Wrong ID's
+        for(int i = 8810110; i <= 8810117; i++) {
+            if (getMonsterById(i) == null) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
     
     public void spawnHorntailOnGroundBelow(final Point targetPoint) {   // ayy lmao
         MapleMonster htIntro = MapleLifeFactory.getMonster(8810026);
@@ -4401,7 +4410,7 @@ private void broadcastMessage(MapleCharacter source, final byte[] packet, double
         });
         spawnMonsterOnGroundBelow(cht, targetPoint);
 
-        for (int x = 8810002; x <= 8810009; x++) {
+        for (int x = 8810102; x <= 8810109; x++) {
             MapleMonster m = MapleLifeFactory.getMonster(x);
             m.setParentMobOid(chtIntro.getObjectId());
 

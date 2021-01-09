@@ -858,6 +858,8 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                             if (mob.getId() >= 8810010 && mob.getId() <= 8810017 && reviveMap.isHorntailDefeated()) {
                                 boolean htKilled = false;
                                 MapleMonster ht = reviveMap.getMonsterById(8810018);
+                                if (ht == null) // if HT is null, check CHT
+                                    ht = reviveMap.getMonsterById(8810118);
                                 
                                 if(ht != null) {
                                     ht.lockMonster();
