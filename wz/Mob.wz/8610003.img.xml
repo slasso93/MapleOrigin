@@ -550,16 +550,16 @@
         </canvas>
     </imgdir>
     <imgdir name="info">
-        <int name="level" value="175"/>
+        <int name="level" value="220"/>
         <int name="bodyAttack" value="1"/>
-        <int name="maxHP" value="29424000"/>
+        <int name="maxHP" value="294240"/>
         <int name="maxMP" value="20000"/>
         <int name="speed" value="-30"/>
         <int name="PDRate" value="10"/>
         <int name="MDRate" value="10"/>
         <int name="pushed" value="6000"/>
         <float name="fs" value="10.0"/>
-        <int name="exp" value="65261"/>
+        <int name="exp" value="6526"/>
         <int name="summonType" value="1"/>
         <int name="category" value="8"/>
         <string name="mobType" value="4H"/>

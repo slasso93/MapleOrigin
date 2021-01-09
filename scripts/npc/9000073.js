@@ -55,6 +55,7 @@ function action (m,t,s) {
 				item = shop[s]
 				cm.sendYesNo("Are you sure you want to buy #i" + item + "##e#b#z" + item +"?");
 			} else if (s == 6) {
+				type = 'NX';
 				cm.gainItem(exchangeItem, -costs[type]);
 				cm.getPlayer().getCashShop().gainCash(1, 10000);
 				cm.getPlayer().announce(MaplePacketCreator.earnTitleMessage("You have earned 10,000 NX"));

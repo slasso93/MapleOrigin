@@ -11240,7 +11240,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="168"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000650">
@@ -11255,7 +11255,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="170"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000651">
@@ -11270,7 +11270,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="172"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000652">
@@ -11285,7 +11285,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="174"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000653">
@@ -11300,7 +11300,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="176"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000654">
@@ -11315,7 +11315,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="177"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000655">
@@ -11330,7 +11330,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="179"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000656">
@@ -11345,7 +11345,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="180"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000657">
@@ -11360,7 +11360,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="182"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000658">
@@ -11375,7 +11375,7 @@
 			</canvas>
 			<int name="slotMax" value="400"/>
 			<int name="lv" value="184"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000659">
@@ -11390,7 +11390,7 @@
 			</canvas>
 			<int name="slotMax" value="200"/>
 			<int name="lv" value="190"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000660">
@@ -11405,7 +11405,7 @@
 			</canvas>
 			<int name="slotMax" value="200"/>
 			<int name="lv" value="169"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000661">
@@ -11420,7 +11420,7 @@
 			</canvas>
 			<int name="slotMax" value="200"/>
 			<int name="lv" value="171"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000662">
@@ -11435,7 +11435,7 @@
 			</canvas>
 			<int name="slotMax" value="200"/>
 			<int name="lv" value="173"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 	<imgdir name="04000663">
@@ -11450,7 +11450,7 @@
 			</canvas>
 			<int name="slotMax" value="200"/>
 			<int name="lv" value="175"/>
-			<int name="autoPrice" value="1"/>
+            <int name="price" value="300"/>
 		</imgdir>
 	</imgdir>
 </imgdir>

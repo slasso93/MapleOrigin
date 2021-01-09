@@ -1,6 +1,6 @@
 /*
 	NLC Taxi
-*/
+
 
 var status = 0;
 var goToMansion = false;
@@ -91,4 +91,4 @@ function action(mode, type, selection) {
 						
 		}
     }
-}
+}*/

@@ -46,28 +46,7 @@ function action(mode, type, selection) {
 				cm.warp (map, 0);
 				cm.dispose();
 		}
-    } else if (cm.getMapId() == 630010004) {
-		if (status == 0) {
-			cm.sendSimple ("Where to, boss? \r\n#b#L0#New Leaf City#l\r\n#L1#Haunted Mansion#k");
-		} else if (status == 1) {
-			if (selection == 0) {
-				goToMansion = false;
-				cm.sendYesNo ("You want to go to #bNew Leaf City#k?");
-			} else if (selection == 1) {
-				goToMansion = true;
-				cm.sendYesNo ("You're sure you want to enter the #bMansion#k?");
-			}
-		} else if (status == 2) {
-			var map;
-			if (goToMansion){
-				map = 682000000;
-			} else {
-				map = 600000000;
-			}
-				cm.warp (map, 0);
-				cm.dispose();
-		}
-    } else {
+    }  else {
 		if (status == 0){
 			cm.sendSimple ("Be warned adventurers, time is being distorted up ahead making travel dangerous! However, I can teleport you to either of these distortions, where would you like to go?\r\n#b#L0#Leafre in Flames\r\n#L1#Distorted Temple of Time#k");
 		} else if (status == 1){

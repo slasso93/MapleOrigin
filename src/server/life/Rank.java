@@ -135,9 +135,9 @@ public class Rank {
         if (id >= 9302040 && id <= 9302043) { //skele troopers
             return 1;
         }
-        if (id >= 8610005 && id <= 8610014) { //empress knights
+        /*if (id >= 8610005 && id <= 8610014) { //empress knights
             return 1;
-        }
+        }*/
         if (id >= 8850000 && id <= 8850004) { //empress boss knights
             return 1;
         }

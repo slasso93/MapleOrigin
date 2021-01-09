@@ -1102,7 +1102,7 @@
             <int name="tm" value="999999999"/>
             <string name="tn" value=""/>
             <string name="pn" value="mob00"/>
-            <string name="script" value="hontale_boss2"/>
+            <string name="script" value="horntail_CH"/>
             <int name="delay" value="400"/>
             <int name="hideTooltip" value="0"/>
         </imgdir>

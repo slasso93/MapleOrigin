@@ -718,16 +718,16 @@
         </canvas>
     </imgdir>
     <imgdir name="info">
-        <int name="level" value="169"/>
+        <int name="level" value="220"/>
         <int name="bodyAttack" value="1"/>
-        <int name="maxHP" value="23982000"/>
+        <int name="maxHP" value="239820"/>
         <int name="maxMP" value="18000"/>
         <int name="speed" value="-30"/>
         <int name="PDRate" value="10"/>
         <int name="MDRate" value="10"/>
         <int name="pushed" value="5500"/>
         <float name="fs" value="10.0"/>
-        <int name="exp" value="54756"/>
+        <int name="exp" value="5475"/>
         <int name="summonType" value="1"/>
         <int name="category" value="8"/>
         <string name="mobType" value="4H"/>

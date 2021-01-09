@@ -1,5 +1,6 @@
 function enter(pi) {
-    pi.openNpc(2144017, "Arkarium");
+	if (pi.getPlayer().isGM())
+		pi.openNpc(2144017, "Arkarium");
     return false;
 }
 

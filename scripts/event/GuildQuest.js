@@ -36,7 +36,7 @@ var maxMapId = 990001101;
 
 var waitTime = 3;       //  3 minutes
 var eventTime = 90;     // 90 minutes
-var bonusTime = 3;    // 30 seconds
+var bonusTime = 2;    // 30 seconds
 
 var lobbyRange = [0, 0];
 
@@ -68,7 +68,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-        var itemSet = [1032033, 4001024, 4001025, 4001026, 4001027, 4001028, 4001029, 4001030, 4001031, 4001032, 4001033, 4001034, 4001035, 4001037];
+        var itemSet = [1032033, 4001024, 4001025, 4001026, 4001027, 4001028, 4001029, 4001030, 4001031, 4001032, 4001033, 4001034, 4001035, 4001037, 1112292, 1112260];
         eim.setExclusiveItems(itemSet);
 }
 
@@ -76,8 +76,8 @@ function setEventRewards(eim) {
         var itemSet, itemQty, evLevel, expStages;
 
         evLevel = 1;    //Rewards at clear PQ
-        itemSet = [];
-        itemQty = [];
+        itemSet = [1112292, 1112260];
+        itemQty = [1, 1];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
         expStages = [];    //bonus exp given on CLEAR stage signal
@@ -246,7 +246,7 @@ function changedLeader(eim, leader) {}
 function playerDead(eim, player) {
         if(player.getMapId() == 990000900) {
                 if(player.getMap().countAlivePlayers() == 0 && player.getMap().countMonsters() > 0) {
-                        end(eim);
+                       // end(eim);
                 }
         }
 }
@@ -255,7 +255,7 @@ function playerRevive(eim, player) { // player presses ok on the death pop up.
         if(eim.getIntProperty("canRevive") == 0) {
                 if (eim.isEventTeamLackingNow(true, minPlayers, player) && eim.getIntProperty("canJoin") == 0) {
                         player.respawn(eim, exitMap);
-                        end(eim);
+                       // end(eim);
                 }
                 else {
                         player.respawn(eim, entrymap);
@@ -270,7 +270,7 @@ function playerRevive(eim, player) { // player presses ok on the death pop up.
 function playerDisconnected(eim, player) {
         if (eim.isEventTeamLackingNow(true, minPlayers, player) && eim.getIntProperty("canJoin") == 0) {
                 eim.unregisterPlayer(player);
-                end(eim);
+               // end(eim);
         }
         else
                 eim.unregisterPlayer(player);
@@ -299,7 +299,7 @@ function giveRandomEventReward(eim, player) {
 function clearPQ(eim) {
         eim.stopEventTimer();
         eim.setEventCleared();
-        
+        eim.giveEvenReward(player);
         eim.warpEventTeam(clearMap);
         eim.startEventTimer(bonusTime * 60000);
 }

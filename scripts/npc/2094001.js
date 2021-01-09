@@ -20,6 +20,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+importPackage(Packages.tools);
+importPackage(Packages.constants.inventory);
+importPackage(Packages.client.inventory);
+
 var status = -1;
 
 function start() {
@@ -61,11 +65,12 @@ function action(mode, type, selection) {
                                 cm.sendSimple("Thank you for saving me! How can I help you?\r\n#b#L0#Get me out of here.\r\n#L1#Give me Pirate Hat.");
                         } else if (status == 1) {
                                 if (selection == 0) {
-                                        if (!cm.canHold(4001158, 1)) {
+                                        if (!cm.canHold(4001158, 1) && !cm.canHold(4310000, 12)) {
                                                 cm.sendOk("Please make room in ETC.");
                                                 cm.dispose();
                                                 return;
                                         }
+										cm.gainItem(4310000,12);
                                         cm.gainItem(4001158, 1);
                                         cm.warp(251010404,0);
                                 } else {
